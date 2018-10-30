@@ -24,5 +24,4 @@ export class Globals {
     }
     return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
   }
-  
 }
