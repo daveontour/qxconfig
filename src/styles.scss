@@ -1,1 +1,355 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* You can add global styles to this file, and also import other style files */
+/* @import "./assets/css/SITAUI.css";  */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+
+body,
+html {
+  height: 100%;
+}
+
+.attribute-label {
+  font-size: 10pt;
+  color: black;
+}
+
+.form-control-sm{
+  height:initial !important;
+}
+
+.oddDepth{
+  background-color:wheat;
+}
+.evenDepth{
+  background-color: #e3f5f8;
+}
+
+.choice{
+  background-color:#cfd5dc
+}
+
+span.form-check-input:disabled{
+  color:black;
+}
+
+[type = checkbox]{
+  left:initial;
+} 
+
+.simple-label{
+  /*To overwrite a BS style*/
+  margin-block-start: initial;
+}
+[type=checkbox]+label::before {
+  background: #ffffff;
+  border-radius: initial;
+  box-shadow: initial;
+  content: initial;
+  display: inline-block;
+  height: initial;
+  line-height: initial;
+  margin-right: initial;
+  text-indent: initial;
+  vertical-align:initial;
+  width: 1rem;
+}
+
+.inputNotRequired {
+  margin: 0 .25rem;
+  min-width: 125px;
+  border: 1px solid #eee;
+  border-left: 3px solid;
+  border-radius: 5px;
+  transition: border-color .5s ease-out;
+  border-left-color: lightgray;
+}
+
+.inputError {
+  margin: 0 .25rem;
+  min-width: 125px;
+  border: 1px solid #eee;
+  border-left: 3px solid;
+  border-radius: 5px;
+  transition: border-color .5s ease-out;
+  border-left-color: salmon;
+}
+
+.inputOK {
+  margin: 0 .25rem;
+  min-width: 125px;
+  border: 1px solid #eee;
+  border-left: 3px solid;
+  border-radius: 5px;
+  transition: border-color .5s ease-out;
+  border-left-color: palegreen;
+}
+
+.down-arrow-required::after {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: .2em;
+  vertical-align: .255em;
+  content: "";
+  border-top: .5em solid #930F80;
+  border-right: .5em solid transparent;
+  border-bottom: 0;
+  border-left: .5em solid transparent;
+  cursor: pointer;
+}
+
+.right-arrow-required::after {
+  display: inline-block;
+  margin-left: .260em;
+  width: 0;
+  height: 0;
+  content:"";
+  border-top: .5em solid transparent;
+  border-bottom: .5em solid transparent;
+  border-left: .5em solid #930F80;
+  cursor: pointer;
+}
+
+.down-arrow::after {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: .1em;
+  vertical-align: .255em;
+  content: "";
+  border-top: 0.5em solid #930F80;
+  border-right: .5em solid transparent;
+  border-bottom: 0;
+  border-left: .5em solid transparent;
+  cursor: pointer;
+}
+
+.right-arrow::after {
+  display: inline-block;
+  margin-left: .160em;
+  width: 0;
+  height: 0;
+  border-top: .5em solid transparent;
+  border-bottom: .5em solid transparent;
+  content: "";
+  border-left: 0.5em solid #930F80;
+  cursor: pointer;
+}
+
+a.AdditionalAction2:before {
+  /* display: initial;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  padding: 0px 0px;
+  border-radius: 20px;
+  font-size: 20pt;
+  font-weight: 600;
+  line-height: 50%;
+  text-align: center;
+  content: '+'; */
+    content: '+';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    color:#930F80;
+    font-weight: 800;
+    padding-left:4px;
+    padding-top:1px;
+    border-radius: 10px;
+    background-color: initial;
+
+}
+
+a.AdditionalAction2:hover:before {
+  /* background-color: #00A2FF; */
+  /* color: red;
+  content: '+';
+  text-decoration: none; */
+  content: '+';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  color: white;
+  font-weight: 800;
+  padding-left:4px;
+  padding-top:1px;
+  border-radius: 10px;
+  background-color: #930F80;
+}
+
+a.AdditionalAction2 {
+  align-content: center;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+a.AdditionalAction2 span {
+  margin-left: .5rem;
+}
+
+a.AdditionalAction2:hover span {
+  text-decoration: underline;
+}
+
+
+
+span.DeleteAction:before {
+    content: 'x';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    color:#FF0000;
+    font-weight: 800;
+    padding-left:6px;
+    padding-top:1px;
+    border-radius: 10px;
+    background-color: initial;
+}
+
+span.DeleteAction:hover:before {
+  content: 'x';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  color: white;
+  font-weight: 800;
+  padding-left:6px;
+  padding-top:1px;
+  border-radius: 10px;
+  background-color: #FF0000;
+}
+
+span.DeleteAction {
+  align-content: center;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+
+
+span.occurs {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 12px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.page-container {
+  margin: 20px;
+}
+
+
+/* horizontal panel*/
+
+.panel-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid silver;
+  overflow: hidden;
+}
+
+.panel-left {
+  flex: 0 0 auto;
+  /* only manually resize */
+  padding: 10px;
+  width: 300px;
+  min-height: 200px;
+  min-width: 150px;
+  white-space: nowrap;
+  background: #838383;
+  color: white;
+}
+
+.splitter {
+  flex: 0 0 auto;
+  width: 18px;  
+  background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
+  min-height: 200px;
+  cursor: col-resize;  
+}
+
+.panel-right {
+  flex: 1 1 auto;
+  /* resizable */
+  padding: 10px;
+  width: 100%;
+  min-height: 200px;
+  min-width: 200px;
+  background: #eee;
+}
+
+
+/* vertical panel */
+
+.panel-container-vertical {
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  border: 1px solid silver;
+  overflow: hidden;
+}
+
+.panel-top {
+  flex: 0 0 auto;
+  /* only manually resize */
+  padding: 10px;
+  height: 150px;
+  width: 100%;
+  white-space: nowrap;
+  background: #838383;
+  color: white;
+}
+
+.splitter-horizontal {
+  flex: 0 0 auto;
+  height: 18px;
+  background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/hsizegrip.png) center center no-repeat #535353;
+  cursor: row-resize;
+}
+
+.panel-bottom {
+  flex: 1 1 auto;
+  /* resizable */
+  padding: 10px;
+  min-height: 200px;
+  background: #eee;
+}
+
+label {
+  font-size: 1.2em;
+  display: block;
+  font-weight: bold;
+  margin: 30px 0 10px;
+}
+
+pre {
+  margin: 20px;
+  padding: 10px;
+  background: #eee;
+  border: 1px solid silver;
+  border-radius: 4px;
+  overflow: auto;
+}
+
+

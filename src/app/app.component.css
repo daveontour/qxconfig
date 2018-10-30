@@ -1,0 +1,35 @@
+.left-box {
+    position: absolute;
+    left: 0;
+    width: 40px;
+    height: 100%;
+    background-color: red;
+}
+.right-box {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 100%;
+    background-color: blue;
+}
+
+.top-box {
+    position: absolute;
+    top: 0;
+    left: 40px;
+    /*same as the width of .left-box*/
+    width: calc(100% - 80px);
+    /*40+40 = 80*/
+    height: 60px;
+    background-color: green;
+}
+.buttom-box {
+    position: absolute;
+    bottom: 0;
+    left: 40px;
+    /*same as the width of .left-box*/
+    width: calc(100% - 80px);
+    height: 60px;
+    background-color: yellow;
+}
