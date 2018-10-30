@@ -27,7 +27,7 @@
 </div>
 
 
-<div *ngIf="this.bobNumber == 0" class="addSibling">
+<div *ngIf="this.bobNumber == 0  && ((this.bobNumberChild - 1) != config.maxOccurs)" class="addSibling">
   <a class="AdditionalAction2 align-items-center noselect" (click)="this.addSibling()">
     <span style="color:#930F80; cursor: pointer;">Add {{config.name}} Sequence</span>
   </a>
