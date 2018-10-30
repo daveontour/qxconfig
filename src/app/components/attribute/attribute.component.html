@@ -1,0 +1,21 @@
+<div [ngClass]="{'d-none':false}">
+  <!--The label-->
+  <div class="row mt-1 ml-4">
+    <div class="col-md-7 pl-4 att_row">
+      <input type="checkbox" [ngClass]="{'form-check-input':true}" [disabled]="config.required" [attr.id]="this.getID()"
+        [(ngModel)]="config.enabled" (change)="change()">
+
+      <div class="att_label" placement="right" ngbPopover="{{config.description}}" triggers="mouseenter:mouseleave"
+        popoverTitle="{{config.name}}">
+        <span *ngIf="config.required">*</span> {{config.name}}
+       
+      </div>
+    </div>
+
+    <!-- The control -->
+    <div class="col-md-5">
+      <template #control></template>
+    </div>
+    <!-- End of control -->
+  </div>
+</div>

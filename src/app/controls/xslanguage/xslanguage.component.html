@@ -1,0 +1,8 @@
+<!-- The control -->
+  <input 
+  type="text" [(ngModel)]="config.value"  #name="ngModel"
+  [attr.disabled]="(this.isEnabled() || (!this.isEnabled() && this.isRequired()))?null:''" 
+  [ngClass]="{'form-control-sm':true, 'pt-0':true, 'pb-0':true,'inputNotRequired':(!this.isEnabled()),'inputRequired':false,'inputRequired':(this.isEnabled()),'inputError':(this.isEnabled() && (this.isInvalid() || ( name.invalid))), 'inputOK':(this.isEnabled() && ( name.valid && !this.isInvalid()))}"
+  placement="right" ngbPopover="{{config.modelDescription}}" triggers="mouseenter:mouseleave" popoverTitle="Value Format"
+  placeholder="Pattern:  [a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"  pattern="[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"  
+  />

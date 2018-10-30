@@ -1,0 +1,24 @@
+<!-- The control -->
+  <!-- <input 
+  type="text" [(ngModel)]="config.value"  #name="ngModel"
+  [attr.disabled]="(this.isEnabled() || (!this.isEnabled() && this.isRequired()))?null:''" 
+  [ngClass]="{'form-control-sm':true, 'pt-0':true, 'pb-0':true,'inputRequired':false, 'inputError':(( name.invalid && (name.dirty || name.touched)) || (!name.touched && this.isRequired()) || (this.isRequired() && name.value=='')) }"
+  placement="right" ngbPopover="{{config.modelDescription}}" triggers="mouseenter:mouseleave" popoverTitle="Value Format"
+  placeholder="Pattern: {{config.pattern}}"  pattern="{{config.pattern}}"  
+  /> -->
+  <!-- <input 
+  type="text" [(ngModel)]="this.config.value"  #name="ngModel"
+  [attr.disabled]="(this.isEnabled() || (!this.isEnabled() && this.isRequired()))?null:''" 
+  [ngClass]="{'form-control-sm':true, 'pt-0':true, 'pb-0':true,'inputRequired':(this.isEnabled() && ( !name.invalid && name.value!='')), 'inputError':(this.isEnabled() && ( name.invalid || name.value=='' || !name.touched ))}"
+  placement="right" ngbPopover="{{config.modelDescription}}" triggers="mouseenter:mouseleave" popoverTitle="Value Format"
+  placeholder="Pattern: {{config.pattern}}"  pattern="{{config.pattern}}"  
+  /> -->
+
+  <input 
+  type="text" [(ngModel)]="this.config.value"  #name="ngModel"
+  (change)="this.change()" 
+  [attr.disabled]="(this.isEnabled() || (!this.isEnabled() && this.isRequired()))?null:''" 
+  [ngClass]="{'form-control-sm':true, 'pt-0':true, 'pb-0':true, 'inputRequired':(this.isEnabled()),'inputNotRequired':(!this.isEnabled()),'inputError':(this.isEnabled() && (this.isInvalid() || ( name.invalid))), 'inputOK':(this.isEnabled() && ( name.valid && !this.isInvalid()))}"
+  placement="right" ngbPopover="{{config.modelDescription}}" triggers="mouseenter:mouseleave" popoverTitle="Value Format"
+  placeholder="Pattern: {{config.pattern}}"  pattern="{{config.pattern}}"  
+  />

@@ -1,0 +1,27 @@
+<!-- The control -->
+  <div class="input-group input-group-sm number-spinner" style="width: 200px">
+    <span class="input-group-btn data-dwn">
+      <button class="btn btn-info btn-sm selectorBtn" style="margin-right:1px" data-dir="dwn" (click)='clickNum(-10)'>--
+        <span class="glyphicon glyphicon-minus"></span>
+      </button>
+      <button class="btn btn-info btn-sm selectorBtn" data-dir="dwn" (click)='clickNum(-1)'>-
+        <span class="glyphicon glyphicon-minus"></span>
+      </button>
+    </span>
+
+    <input type="text" 
+    #name="ngModel"
+    [ngClass]="{'form-control-sm':true, 'text-center':true, 'form-control':true }"
+    class="form-control text-center form-control-sm" 
+    [(ngModel)]="this.num" style="width:60px"
+    ngbPopover="{{config.modelDescription}}" triggers="mouseenter:mouseleave" popoverTitle="Value Format">
+
+    <span class="input-group-btn data-up">
+      <button class="btn  btn-info btn-sm selectorBtn" style="margin-right:1px" (click)='clickNum(1)' data-dir="up">+
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
+      <button class="btn btn-info btn-sm  selectorBtn" (click)='clickNum(10)' data-dir="up">++
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
+    </span>
+  </div>

@@ -1,0 +1,20 @@
+<div [ngClass]="{'d-none':!this.showElement}">
+  <div [ngClass]="{'card':true,'px-2':true, 'pb-2':true, 'd-none':!config.enabled && !config.required, 'choice':true}">
+    <div class='card-header' style="padding-top:5px;padding-bottom:5px">
+        <label class="form-check-label h6 mr-1" style="float:left;color:#930F80; margin-bottom: 4px; margin-top: 5px">Select Option:</label>
+        <select
+        [(ngModel)]="selectedChoice"
+        [ngClass]="{'form-control-sm':true}"
+        (change)="this.checkChoice();this.change()" 
+        [ngModelOptions]="{standalone: true}">
+          <option  *ngFor="let choice of config.choiceElementIdentifiers">{{choice}}</option>
+        </select>
+
+        <div *ngIf="(this.config.minOccurs != 1)" (click) = "this.remove()" style="float: right">
+          <span class="DeleteAction"> </span>
+        </div>
+
+    </div>
+    <template #sub></template>
+  </div>
+</div>

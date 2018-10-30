@@ -1,0 +1,8 @@
+<!-- The control -->
+  <input 
+  type="text" [(ngModel)]="config.value"  #name="ngModel"
+  [attr.disabled]="(this.isEnabled() || (!this.isEnabled() && this.isRequired()))?null:''" 
+  [ngClass]="{'form-control-sm':true, 'pt-0':true, 'pb-0':true,'inputRequired':false, 'inputError':((this.isEnabled() && name.invalid && (name.dirty || name.touched))) }"
+  placement="right" ngbPopover="{{config.modelDescription}}" triggers="mouseenter:mouseleave" popoverTitle="Value Format"
+  placeholder="{{config.model}}"
+  />
