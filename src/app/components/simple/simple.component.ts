@@ -151,9 +151,9 @@ export class SimpleComponent extends ElementComponent {
     }
 
     // If there is only one occurance, it's bobNumber is set to 1 so it will display a single element 
-    if (this.config.maxOccurs == 1) {
-      this.bobNumber = 1;
-    }
+    // if (this.config.maxOccurs == 1) {
+    //   this.bobNumber = 1;
+    // }
 
     // Create the editable component
     // getFactory() is in tbe DisplaywidgetComponent

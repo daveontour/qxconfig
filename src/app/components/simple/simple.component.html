@@ -2,9 +2,9 @@
   <div class="row mt-1 ml-2" style="background-color:khakin">
     <div class="col-md-7" style="background-color: white">
       <div class="form-check">
-        <input [ngClass]="{'form-check-input':true}" [disabled]="config.required"
+        <!-- <input [ngClass]="{'form-check-input':true}" [disabled]="config.required"
           [attr.id]="this.getID()" type="checkbox" [(ngModel)]="config.enabled"
-          (change) = "change()">
+          (change) = "change()"> -->
 
         <!-- <span *ngIf="this.controlRef.instance.requireStar()">
           <em style="color:red">* </em>
@@ -20,9 +20,8 @@
         (click)="isCollapsed = !isCollapsed" 
         [ngClass]="{'right-arrow':isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'down-arrow':!isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'right-arrow-required':isCollapsed  && hasRequiredAttributes(), 'down-arrow-required':!isCollapsed && hasRequiredAttributes()}" >
         </span>
-
        
-        <div *ngIf="(!config.required  && config.maxOccurs > 1 && !this.isRoot && !this.isChoiceChild && (this.parent.siblings.length > this.config.minOccurs)) || (this.isChoiceChild && this.config.minOccurs == 0)" (click) = "this.remove()" style="float: right">
+        <div *ngIf="(!config.required  && !this.isRoot && !this.isChoiceChild && (this.parent.siblings.length > this.config.minOccurs)) || (this.isChoiceChild && this.config.minOccurs == 0)" (click) = "this.remove()" style="float: right">
         <span class="DeleteAction"> </span>
         </div>
 
@@ -43,7 +42,7 @@
 </div>
 
 <!-- The Top Level Heading to add more copies if maxOccurs > 0 -->
-<div *ngIf="this.bobNumber == 0" class="addSibling">
+<div *ngIf="this.bobNumber == 0 && this.config.minOccurs != 1" class="addSibling">
   <a class="AdditionalAction2 align-items-center noselect" (click)="this.addSibling()" role="button">
     <span style="color:#930F80; cursor:pointer">Add {{config.name}}</span>
   </a>

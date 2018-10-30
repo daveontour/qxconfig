@@ -25,6 +25,9 @@ import { MinMaxInclusiveComponent } from './controls/minmaxinclusive/minmaxinclu
 import { XSStringComponent } from './controls/xsstring/xsstring.component';
 import { XSDateComponent } from './controls/xsdate/xsdate.component';
 import { jqxSplitterComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxsplitter';
+import { ControlComponent } from './controls/control/control.component';
+import { DisplaywidgetComponent } from './components/displaywidget/displaywidget.component';
+import { ElementComponent } from './components/element/element.component';
 
 
 @NgModule({
