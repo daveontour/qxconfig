@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+// import { ChoiceComponent } from './components/choice/choice.component';
+import { Injectable, ComponentFactoryResolver } from '@angular/core';
+
+
 
 @Injectable()
 export class Globals {
@@ -24,4 +27,8 @@ export class Globals {
     }
     return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
   }
+
+  // public createChoice( resolver:ComponentFactoryResolver){
+  //   return resolver.resolveComponentFactory(ChoiceComponent);
+  // }
 }

@@ -14,20 +14,20 @@ import * as $ from "jquery";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   @ViewChild("container", { read: ViewContainerRef }) container;
   componentRef: any;
   elements: any[] = [];
   title = "AIDX Flight Messages";
   elementID: number = 100;
   idx: number = 4;
-  
+
 
   constructor(
-    private resolver: ComponentFactoryResolver, 
-    private http: HttpClient, 
-     public global: Globals
-  ) { 
+    private resolver: ComponentFactoryResolver,
+    private http: HttpClient,
+    public global: Globals
+  ) {
 
   }
 
@@ -41,7 +41,6 @@ export class AppComponent implements OnInit{
     // Need to cater for Choice as a root element
 
     this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=aidx').subscribe(data => {
-      console.log(data);
       data.elementPath = data.name;
       if (data.type == "simple") {
         const factory = this.resolver.resolveComponentFactory(SimpleComponent);
@@ -58,7 +57,7 @@ export class AppComponent implements OnInit{
         this.componentRef.instance.setConfig(data);
         this.global.root = this.componentRef.instance;
       }
-
+      this.walkStructure(data, this.componentRef.instance);
       this.global.getString();
     },
       (err: HttpErrorResponse) => {
@@ -69,4 +68,29 @@ export class AppComponent implements OnInit{
         }
       });
   }
+
+  walkStructure(data, compRef, ) {
+    var x = this;
+    if (data.type == "sequence") {
+      this.walkSequence(data, compRef);
+    } else if (data.type == "choice") {
+      this.walkChoice(data, compRef);
+    } else {
+      this.createSimple(data, compRef);
+    }
+  }
+  walkSequence(data,parentRef) {
+    //Create the sequence Element
+    //Assign it as a child of the parent
+    //For all it's children walkStructure()
+  }
+
+  walkChoice(data, compRef) {
+
+  }
+
+  createSimple(data, compRef){
+
+  }
+
 }

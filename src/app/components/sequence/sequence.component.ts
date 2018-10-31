@@ -1,3 +1,4 @@
+import { Injector } from '@angular/core';
 import { AttributeComponent } from '../attribute/attribute.component';
 import { ChoiceComponent } from '../choice/choice.component';
 import { ItemConfig } from '../../interfaces/interfaces';
@@ -22,7 +23,7 @@ export class SequenceComponent extends ElementComponent {
   public childID = 1000;
 
 
-  constructor(resolver: ComponentFactoryResolver, public global: Globals) {
+  constructor(resolver: ComponentFactoryResolver, public global: Globals, private injector: Injector) {
     super(resolver);
   }
 
