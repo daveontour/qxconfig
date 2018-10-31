@@ -152,8 +152,6 @@ export class SequenceComponent extends ElementComponent {
     return e;
   }
   createElement(el: ItemConfig, type: string) {
-    console.log("Creating " + el.name + "  type = " + type);
-
  
     let factory: any;
 

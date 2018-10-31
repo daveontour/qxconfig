@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
         this.componentRef.instance.setConfig(data);
         this.global.root = this.componentRef.instance;
       }
-      this.walkStructure(data, this.componentRef.instance);
+      this.walkStructure(data, data);
       this.global.getString();
     },
       (err: HttpErrorResponse) => {
@@ -71,6 +71,8 @@ export class AppComponent implements OnInit {
 
   walkStructure(data, compRef, ) {
     var x = this;
+
+    //Dispatch the item to the selected type handler
     if (data.type == "sequence") {
       this.walkSequence(data, compRef);
     } else if (data.type == "choice") {
@@ -79,18 +81,39 @@ export class AppComponent implements OnInit {
       this.createSimple(data, compRef);
     }
   }
+
   walkSequence(data,parentRef) {
+
+    console.log("Start of --- Sequence ----" + data.name);
+
+    /*
+    Create the item
+    */
+
+    // Cycle through the child items to call the same,
+    for (var i = 0; i < data.allOf.length; i++){
+      let child = data.allOf[i];
+      this.walkStructure(child,data);
+    }
+
+    console.log("End of --- Sequence ----" + data.name);
     //Create the sequence Element
     //Assign it as a child of the parent
     //For all it's children walkStructure()
   }
 
-  walkChoice(data, compRef) {
-
+  walkChoice(data,parentRef) {
+      console.log("Start of --- Choice ----");
+      for (var i = 0; i < data.oneOf.length; i++){
+        let child = data.oneOf[i];
+        console.log(child.name + "  "+parentRef.name);
+        this.walkStructure(child,data);
+      }
+      console.log("End of --- Choice ----" + data.name);
   }
 
   createSimple(data, compRef){
-
+      console.log("--- Simple ---"  + data.name);
   }
 
 }
