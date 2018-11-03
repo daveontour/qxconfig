@@ -48,11 +48,6 @@ export class SequenceComponent extends ElementComponent {
 
     this.addAttributes(conf);
 
-    if (conf.isRoot) {
-      this.bobNumber = 1;
-      return;
-    }
-
     //Add the minimum nuber of occurances, if this is the top level
     for (var i = 0; i < conf.minOccurs; i++) {
       this.creator.walkSequenceSibling(this);
@@ -111,7 +106,6 @@ export class SequenceComponent extends ElementComponent {
       return;
     }
 
-    debugger;
     for (var i = 0; i < this.siblings.length; i++) {
       var id = this.siblings[i].config.uuid
       if (id == childIDToRemove) {

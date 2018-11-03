@@ -13,6 +13,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular
 })
 export class AppComponent implements OnInit {
   @ViewChild("container", { read: ViewContainerRef }) container;
+  @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
   componentRef: any;
   elements: any[] = [];
   title = "AIDX Flight Messages";
@@ -28,6 +29,10 @@ export class AppComponent implements OnInit {
 
   public getContainer(){
     return this.container;
+  }
+
+  public getSiblingsContainer(){
+    return this.siblingsPt;
   }
 
   ngOnInit(): void {
@@ -60,30 +65,16 @@ export class AppComponent implements OnInit {
 
   walkSequence(data,parentObject) {
 
-    console.log("Start of --- Sequence ----" + data.name);
-
     // Create the new Sequence Object (newObjRef)
     let factory = this.resolver.resolveComponentFactory(SequenceComponent);
     let newObjRef = parentObject.getContainer().createComponent(factory).instance;
-    
-    // Initialise the object with it's configuration data
-    let topLevel : boolean = true;
-    if (data.isSibling){
-      topLevel = false;
-    }
-    newObjRef.setConfig(data, this, parentObject, topLevel);
-    
-    // Assign the new object as a child of the parent object
+    newObjRef.setConfig(data, this, parentObject);
     parentObject.children.push(newObjRef);
-   
-    // Go through the same process with all the configured child objects recursively.
-    for (var i = 0; i < data.allOf.length; i++){
-      this.walkStructure(data.allOf[i], newObjRef);
-    }
 
-    console.log("End of --- Sequence ----" + data.name);
-
-  }
+    // All the children of the object are created when the created objects calls walkSiblingSequence
+    // The "headline" object is created and it takes care of creating the 
+    // required number of "real" objects (siblings)
+   }
 
   walkChoice(data,parentObject) {
 
@@ -129,7 +120,6 @@ export class AppComponent implements OnInit {
   walkSequenceSibling(parentObject) {
 
     let conf = JSON.parse(JSON.stringify(parentObject.config));
-    console.log("Start of --- Sequence Sibling ----" +conf.name);
     conf.isSibling = true;
 
     // Create the new Sequence Object (newObjRef)
@@ -145,8 +135,5 @@ export class AppComponent implements OnInit {
     for (var i = 0; i < conf.allOf.length; i++){
       this.walkStructure(conf.allOf[i], newObjRef);
     }
-
-    console.log("End of --- Sequence Sibling ----" + conf.name);
-
   }
 }
