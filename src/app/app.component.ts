@@ -16,9 +16,6 @@ export class AppComponent implements OnInit {
   @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
   componentRef: any;
   elements: any[] = [];
-  title = "AIDX Flight Messages";
-  elementID: number = 100;
-  idx: number = 4;
   public depth = 0;
   children : any[] = [];
 
@@ -37,7 +34,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=test').subscribe(data => {
+    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=aidx').subscribe(data => {
       data.elementPath = data.name;
       data.isRoot = true;
       this.walkStructure(data, this);
@@ -140,7 +137,7 @@ export class AppComponent implements OnInit {
     
     // Assign the new object as a child of the parent object
     parentObject.children.push(newObjRef);
-   
+    parentObject.siblings.push(newObjRef);
   }
 
   createChoiceElement(data, parentObj){

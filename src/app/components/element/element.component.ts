@@ -31,6 +31,7 @@ export abstract class ElementComponent extends DisplaywidgetComponent {
   creator: any;
   public depth = 1;
   public bobNumberChild = 0;
+  public siblingCounter = 0;
 
   constructor(public resolver: ComponentFactoryResolver) {
     super();

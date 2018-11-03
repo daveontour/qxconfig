@@ -1,6 +1,4 @@
 import { Globals } from './../../globals';
-import { SequenceComponent } from '../sequence/sequence.component';
-import { SimpleComponent } from '../simple/simple.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
 import { ElementComponent } from '../element/element.component';
@@ -18,7 +16,7 @@ export class ChoiceComponent extends ElementComponent {
   creator: any;
   public childID: number = 1000;
   public topLevel : boolean;
-  public siblingCounter = 0;
+  
 
   constructor(resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver);
@@ -42,21 +40,39 @@ export class ChoiceComponent extends ElementComponent {
 
 
   remove() {
+
+    // let size = this.container.length;
+
+    // for (var i = 0; i < size; i++){
+    //   this.container.remove();
+    // }
+    // this.children = [];
     this.parent.removeChild(this.config.uuid);
   }
 
   removeChild(childIDToRemove: string) {
 
+    debugger;
+
+    if (this.siblingCounter <= this.config.minOccurs) {
+      alert("Cannot Remove. At least " + this.config.minOccurs + " instance required");
+      return false;
+    }
     for (var i = 0; i < this.siblings.length; i++) {
       var id = this.siblings[i].config.uuid
       if (id == childIDToRemove) {
-        this.container.remove(i);
+        this.siblingsPt.remove(i);
         this.siblings.splice(i, 1);
         this.siblingCounter--;
 
         break;
       }
     }
+  }
+
+  showDeleteAction(){
+    debugger;
+    return this.parent.siblingCounter > this.config.minOccurs;
   }
 
   checkChoice() {
@@ -114,6 +130,7 @@ export class ChoiceComponent extends ElementComponent {
     let x = this;
     let choiceIDs = [];
     this.topLevel = true;
+    this.parent = parentObj;
 
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.uuid = this.global.guid();
@@ -129,14 +146,16 @@ export class ChoiceComponent extends ElementComponent {
 
     this.selectedChoice = choiceIDs[0];
     this.config.choiceElementIdentifiers = choiceIDs;
-    // this.checkChoice();
+   
+    for (var i = 0; i < conf.minOccurs; i++) {
+      this.addSibling();
+    }
   }
 
-  setSiblingConfig(conf: ItemConfig, root: any) {
-
-    //Use the root object as the creator of any new items
+  setSiblingConfig(conf: ItemConfig, root: any, parentObj) {
 
     this.creator = root;
+    this.parent = parentObj;
     let x = this;
     let choiceIDs = [];
     this.topLevel = false;
