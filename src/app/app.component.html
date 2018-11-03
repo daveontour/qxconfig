@@ -3,6 +3,7 @@
   <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 100, collapsible: true },{ size:150, min: 100, collapsible: true }]">
     <div id='first' style="overflow-y:scroll">
       <template #container></template>
+      <template #siblings></template>
     </div>
     <div id='second'  style="overflow-y:scroll">
       <ace-editor #sampleEditor [(text)]="this.global.sampleXMLMessage" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
