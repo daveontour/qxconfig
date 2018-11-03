@@ -11,15 +11,35 @@ import { ElementComponent } from '../element/element.component';
   styleUrls: ['./choice.component.css']
 })
 export class ChoiceComponent extends ElementComponent {
+  @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
   controlRef: any
   selectedChoice: string;
   opts: any[] = [];
-  creator : any;
-  public childID :number = 1000;
+  creator: any;
+  public childID: number = 1000;
+  public topLevel : boolean;
+  public siblingCounter = 0;
 
   constructor(resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver);
   }
+
+  getSiblingsContainer(){
+    return this.siblingsPt;
+  }
+
+  addSibling() {
+
+    if (this.siblings.length == this.config.maxOccurs) {
+      alert("Maximum Number of Occurances Already Reached");
+      return;
+    }
+    if (this.topLevel) {
+      this.creator.createChoiceSibling(this);
+      this.siblingCounter++;
+    }
+  }
+
 
   remove() {
     this.parent.removeChild(this.config.uuid);
@@ -31,8 +51,9 @@ export class ChoiceComponent extends ElementComponent {
       var id = this.siblings[i].config.uuid
       if (id == childIDToRemove) {
         this.container.remove(i);
-        this.siblings.splice(i,1);
-      
+        this.siblings.splice(i, 1);
+        this.siblingCounter--;
+
         break;
       }
     }
@@ -40,14 +61,18 @@ export class ChoiceComponent extends ElementComponent {
 
   checkChoice() {
 
-   this.container.detach();
+    let size = this.container.length;
+
+    for (var i = 0; i < size; i++){
+      this.container.remove();
+    }
+    this.children = [];
 
     let x = this;
     let choice = this.selectedChoice;
     this.opts.forEach(function (c) {
       if (c.name == choice) {
-        // x.createElement(c, c.type);
-        this.creator.createChoiceElement(c, this);
+         x.creator.createChoiceElement(c, x);
       }
     })
   }
@@ -80,57 +105,49 @@ export class ChoiceComponent extends ElementComponent {
   getSiblingString() {
     return "";
   }
-  createElement(el: ItemConfig, type: string) {
- 
-    let factory: any;
 
-    el.uuid = el.uuid+this.childID;
-    this.childID++;
+  setConfig(conf: ItemConfig, creator, parentObj) {
 
-    switch (type) {
-      case "simple":
-        factory = this.resolver.resolveComponentFactory(SimpleComponent);
-        this.componentRef = this.container.createComponent(factory);
-        break;
-      case "sequence":
-        factory = this.resolver.resolveComponentFactory(SequenceComponent);
-        this.componentRef = this.container.createComponent(factory);
- //       this.componentRef.instance.depth = this.depth + 1;
-        break;
-      case "choice":
-        factory = this.resolver.resolveComponentFactory(ChoiceComponent);
-        this.componentRef = this.container.createComponent(factory);
-        //Keep the Choice object unique 
-        this.componentRef.instance.setBobNumber(this.bobNumber);
-        break;
-    }
+    //Use the root object as the creator of any new items
 
-    this.children.push(this.componentRef.instance);
-    this.componentRef.instance.setParentID(this.id + "/" + el.name);
-    this.componentRef.instance.setParent(this);
-    this.componentRef.instance.isChoiceChild = true;
-    this.componentRef.instance.setConfig(el);
-    if (type == "sequence") {
-      this.componentRef.instance.config.enabled = true;
-    }
-  }
-
-  setConfig(conf: ItemConfig, root: any) {
-
-//Use the root object as the creator of any new items
-
-    this.creator = root;
+    this.creator = creator;
     let x = this;
     let choiceIDs = [];
+    this.topLevel = true;
 
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.uuid = this.global.guid();
     this.hasChildren = conf.hasChildren;
-    this.id = this.bobNumber + this.config.elementPath.replace("{", "").replace("}", "");
+
 
     if (conf.oneOf.length > 0) {
       this.config.oneOf.forEach(function (v) {
-        v.elementPath = x.config.elementPath;
+        choiceIDs.push(v.name);
+        x.opts.push(v);
+      });
+    }
+
+    this.selectedChoice = choiceIDs[0];
+    this.config.choiceElementIdentifiers = choiceIDs;
+    // this.checkChoice();
+  }
+
+  setSiblingConfig(conf: ItemConfig, root: any) {
+
+    //Use the root object as the creator of any new items
+
+    this.creator = root;
+    let x = this;
+    let choiceIDs = [];
+    this.topLevel = false;
+
+    this.config = JSON.parse(JSON.stringify(conf));
+    this.config.uuid = this.global.guid();
+    this.hasChildren = conf.hasChildren;
+
+
+    if (conf.oneOf.length > 0) {
+      this.config.oneOf.forEach(function (v) {
         choiceIDs.push(v.name);
         x.opts.push(v);
       });

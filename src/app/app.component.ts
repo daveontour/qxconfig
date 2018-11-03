@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=aidx').subscribe(data => {
+    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=test').subscribe(data => {
       data.elementPath = data.name;
       data.isRoot = true;
       this.walkStructure(data, this);
@@ -78,25 +78,15 @@ export class AppComponent implements OnInit {
 
   walkChoice(data,parentObject) {
 
-    return;
-    console.log("Start of ---Choice ----" + data.name);
-
     // Create the new Sequence Object (newObjRef)
     let factory = this.resolver.resolveComponentFactory(ChoiceComponent);
     let newObjRef = parentObject.getContainer().createComponent(factory).instance;
-    
-    // Initialise the object with it's configuration data
-    newObjRef.setConfig(data, this);
-    
     // Assign the new object as a child of the parent object
     parentObject.children.push(newObjRef);
-   
-    // Go through the same process with all the configured child objects recursively.
-    for (var i = 0; i < data.allOf.length; i++){
-      this.walkStructure(data.allOf[i], newObjRef);
-    }
 
-    console.log("End of --- Choice ----" + data.name);
+    // Initialise the object with it's configuration data
+    newObjRef.setConfig(data, this,parentObject);
+    
   }
 
   createSimple(data, parentObject){
@@ -135,5 +125,25 @@ export class AppComponent implements OnInit {
     for (var i = 0; i < conf.allOf.length; i++){
       this.walkStructure(conf.allOf[i], newObjRef);
     }
+  }
+
+  createChoiceSibling(parentObject) {
+
+    let conf = JSON.parse(JSON.stringify(parentObject.config));
+    conf.isSibling = true;
+
+    // Create the new Sequence Object (newObjRef)
+    let factory = this.resolver.resolveComponentFactory(ChoiceComponent);
+    let newObjRef = parentObject.getSiblingsContainer().createComponent(factory).instance;
+    
+    newObjRef.setSiblingConfig(conf, this, parentObject);
+    
+    // Assign the new object as a child of the parent object
+    parentObject.children.push(newObjRef);
+   
+  }
+
+  createChoiceElement(data, parentObj){
+    this.walkStructure(data,parentObj);
   }
 }

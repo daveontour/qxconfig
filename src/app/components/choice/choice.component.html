@@ -1,20 +1,35 @@
-<div [ngClass]="{'d-none':!this.showElement}">
-  <div [ngClass]="{'card':true,'px-2':true, 'pb-2':true, 'd-none':!config.enabled && !config.required, 'choice':true}">
+<div [ngClass]="{'d-none':this.topLevel}">
+  <div [ngClass]="{'card':true,'px-2':true, 'pb-2':true, 'choice':true}">
     <div class='card-header' style="padding-top:5px;padding-bottom:5px">
-        <label class="form-check-label h6 mr-1" style="float:left;color:#930F80; margin-bottom: 4px; margin-top: 5px">Select Option:</label>
-        <select
-        [(ngModel)]="selectedChoice"
-        [ngClass]="{'form-control-sm':true}"
-        (change)="this.checkChoice();this.change()" 
+      <label class="form-check-label h6 mr-1" style="float:left;color:#930F80; margin-bottom: 4px; margin-top: 5px">Select
+        Option:</label>
+      <select [(ngModel)]="selectedChoice" [ngClass]="{'form-control-sm':true}" (change)="this.checkChoice();this.change()"
         [ngModelOptions]="{standalone: true}">
-          <option  *ngFor="let choice of config.choiceElementIdentifiers">{{choice}}</option>
-        </select>
+        <option *ngFor="let choice of config.choiceElementIdentifiers">{{choice}}</option>
+      </select>
 
-        <div *ngIf="(this.config.minOccurs != 1)" (click) = "this.remove()" style="float: right">
-          <span class="DeleteAction"> </span>
-        </div>
+      <div *ngIf="(this.config.minOccurs != 1)" (click)="this.remove()" style="float: right">
+        <span class="DeleteAction"> </span>
+      </div>
 
     </div>
-    <template #sub></template>
+    <div class="col-12">
+      <template #container></template>
+    </div>
   </div>
 </div>
+
+<!-- The Top Level Heading to add more copies if maxOccurs > 0 -->
+<div *ngIf="this.topLevel && this.config.minOccurs != 1 && ((this.siblingCounter) != config.maxOccurs)" class="addSibling">
+  <a class="AdditionalAction2 align-items-center noselect" (click)="this.addSibling()" role="button">
+    <span style="color:#930F80; cursor:pointer">Add {{config.name}}</span>
+  </a>
+  <span class="occurs noselect" *ngIf="config.maxOccurs > 100000"> ( Current: {{this.siblingCounter}} instances<span
+      class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
+      Minimum:{{config.minOccurs}}</span>)</span>
+  <span class="occurs noselect" *ngIf="config.maxOccurs < 100000"> ( {{this.siblingCounter}} of {{config.maxOccurs}}<span
+      class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
+      Minimum:{{config.minOccurs}}</span>)</span>
+</div>
+
+<template #siblings></template>
