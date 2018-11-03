@@ -10,9 +10,8 @@ import { DisplaywidgetComponent } from '../displaywidget/displaywidget.component
   styleUrls: ['./element.component.css']
 })
 export abstract class ElementComponent extends DisplaywidgetComponent {
-  @ViewChild("sub", { read: ViewContainerRef }) container;
+  @ViewChild("container", { read: ViewContainerRef }) container;
   @ViewChild("attributes", { read: ViewContainerRef }) attributes;
-  @ViewChild("sub1", { read: ViewContainerRef }) container1;
   @Input() id: any;
   componentRef: any;
   config: ItemConfig;
@@ -23,25 +22,36 @@ export abstract class ElementComponent extends DisplaywidgetComponent {
   showElement: boolean = true;
   parentID: string;
   mfactory: any;
-  siblings: ElementComponent[] = [];
+  public siblings: ElementComponent[] = [];
   bobNumber: number = 0;
   attributesRequired: boolean = false;
   in:string = "  ";
   isRoot : boolean  = false;
   isChoiceChild = false;
+  creator: any;
+  public depth = 1;
+  public bobNumberChild = 0;
 
   constructor(public resolver: ComponentFactoryResolver) {
     super();
     // this.elementID = this.elementID.concat(this.id);
   }
 
-  abstract createElement(el: ItemConfig, type: string): void;
+  //abstract createElement(el: ItemConfig, type: string): void;
   abstract getElementString(indent?:string): string;
   abstract getSiblingString(indent?:string): string;
-  abstract setConfig(conf: ItemConfig, inChoice:boolean): void;
+  abstract setConfig(conf: ItemConfig, parentObject: any, topLevel:boolean): void;
   abstract remove(): void;
   abstract removeChild(childIDtoRemove : string): void;
 
+
+ public getContainer(){
+    return this.container;
+  }
+
+  public getSiblingContainer(){
+    return this.container;
+  }
 
   setParent(parent : ElementComponent){
     this.parent = parent;
@@ -120,4 +130,12 @@ export abstract class ElementComponent extends DisplaywidgetComponent {
     }
   }
 
+  
+  isOddDepth() {
+
+    return this.depth % 2 == 1;
+ }
+ isEvenDepth() {
+   return this.depth % 2 != 1;
+ }
 }

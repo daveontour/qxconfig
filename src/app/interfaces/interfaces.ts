@@ -4,6 +4,7 @@ export interface ValidationResult{
 }
 
 export interface ItemConfig{
+    isRoot : boolean,
     name : string,
     annotation : string,
     value : any,

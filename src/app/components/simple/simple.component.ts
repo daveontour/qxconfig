@@ -29,6 +29,15 @@ export class SimpleComponent extends ElementComponent {
     super(resolver);
   }
 
+  showDeleteAction(){
+// "(!config.required  && !this.isRoot && !this.isChoiceChild && (this.parent.siblings.length > this.config.minOccurs)) || (this.isChoiceChild && this.config.minOccurs == 0) "
+    if (this.parent.siblings.length > this.config.minOccurs){
+      return true;
+    }
+
+    return false;
+  }
+
   change() {
     this.global.getString();
   }
@@ -149,15 +158,6 @@ export class SimpleComponent extends ElementComponent {
     if (this.config.typeAnnotation == null) {
       this.config.typeAnnotation = this.config.annotation;
     }
-
-    // If there is only one occurance, it's bobNumber is set to 1 so it will display a single element 
-    // if (this.config.maxOccurs == 1) {
-    //   this.bobNumber = 1;
-    // }
-
-    // Create the editable component
-    // getFactory() is in tbe DisplaywidgetComponent
-
 
     if (this.config.model != null) {
       this.mfactory = this.getFactory(this.config.model, this.resolver);

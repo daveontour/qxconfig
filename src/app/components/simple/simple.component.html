@@ -12,12 +12,12 @@
         [ngClass]="{'right-arrow':isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'down-arrow':!isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'right-arrow-required':isCollapsed  && hasRequiredAttributes(), 'down-arrow-required':!isCollapsed && hasRequiredAttributes()}" >
         </span>
        
-        <div *ngIf="(!config.required  && !this.isRoot && !this.isChoiceChild && (this.parent.siblings.length > this.config.minOccurs)) || (this.isChoiceChild && this.config.minOccurs == 0) " (click) = "this.remove()" style="float: right">
+        <div *ngIf="showDeleteAction()" (click) = "this.remove()" style="float: right">
         <span class="DeleteAction"> </span>
         </div>
     </div>
 
-    <!--  Start oof the input element -->
+    <!--  Start of the input element -->
     <div class="col-md-5">
       <template #control></template>
     </div>
@@ -35,8 +35,9 @@
   <a class="AdditionalAction2 align-items-center noselect" (click)="this.addSibling()" role="button">
     <span style="color:#930F80; cursor:pointer">Add {{config.name}}</span>
   </a>
-  <span class="occurs noselect" *ngIf="config.maxOccurs > 100000"> ( Current: {{this.bobNumberChild - 1}} instances )</span>
-  <span class="occurs noselect" *ngIf="config.maxOccurs < 100000"> ( {{this.bobNumberChild - 1}} of {{config.maxOccurs}})</span>
+  <span class="occurs noselect" *ngIf="config.maxOccurs > 100000"> ( Current: {{this.bobNumberChild - 1}} instances<span class="occurs noselect" *ngIf="this.bobNumberChild-1 == config.minOccurs">, Minimum:{{config.minOccurs}}</span>)</span>
+  <span class="occurs noselect" *ngIf="config.maxOccurs < 100000"> ( {{this.bobNumberChild - 1}} of {{config.maxOccurs}}<span class="occurs noselect" *ngIf="this.bobNumberChild-1 == config.minOccurs">, Minimum:{{config.minOccurs}}</span>)</span>
+
 </div>
 
 <template #siblings></template>

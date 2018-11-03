@@ -14,6 +14,7 @@ export class ChoiceComponent extends ElementComponent {
   controlRef: any
   selectedChoice: string;
   opts: any[] = [];
+  creator : any;
   public childID :number = 1000;
 
   constructor(resolver: ComponentFactoryResolver, public global: Globals) {
@@ -45,7 +46,8 @@ export class ChoiceComponent extends ElementComponent {
     let choice = this.selectedChoice;
     this.opts.forEach(function (c) {
       if (c.name == choice) {
-        x.createElement(c, c.type);
+        // x.createElement(c, c.type);
+        this.creator.createChoiceElement(c, this);
       }
     })
   }
@@ -113,8 +115,11 @@ export class ChoiceComponent extends ElementComponent {
     }
   }
 
-  setConfig(conf: ItemConfig) {
+  setConfig(conf: ItemConfig, root: any) {
 
+//Use the root object as the creator of any new items
+
+    this.creator = root;
     let x = this;
     let choiceIDs = [];
 

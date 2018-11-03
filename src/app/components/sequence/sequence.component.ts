@@ -1,12 +1,8 @@
-import { Injector } from '@angular/core';
 import { AttributeComponent } from '../attribute/attribute.component';
-import { ChoiceComponent } from '../choice/choice.component';
 import { ItemConfig } from '../../interfaces/interfaces';
-import { SimpleComponent } from '../simple/simple.component';
 import { ElementComponent } from '../element/element.component';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
-import { Globals } from './../../globals';
-import { compileFactoryFunction } from '@angular/compiler/src/render3/r3_factory';
+import { Globals } from '../../globals';
 
 @Component({
   selector: 'app-sequence',
@@ -18,15 +14,91 @@ export class SequenceComponent extends ElementComponent {
   @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
   controlRef: any;
   isCollapsed = true;
-  public bobNumberChild = 1;
-  public depth = 1;
-  public childID = 1000;
+  topLevel: boolean = false;
+  siblingCounter = 0;
 
 
-  constructor(resolver: ComponentFactoryResolver, public global: Globals, private injector: Injector) {
+
+  constructor(resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver);
   }
 
+  addSibling() {
+
+    if (this.siblings.length == this.config.maxOccurs) {
+      alert("Maximum Number of Occurances Already Reached");
+      return;
+    }
+    if (this.topLevel) {
+      this.creator.walkSequenceSibling(this);
+      this.siblingCounter++;
+    }
+  }
+
+  setConfig(conf: ItemConfig, creator, parentObj) {
+
+    this.config = JSON.parse(JSON.stringify(conf));
+    this.creator = creator;
+    this.config.uuid = this.global.guid();
+    this.topLevel = true;
+    this.depth = parentObj.depth + 1;
+    this.parent = parentObj;
+    this.bobNumber = 0;
+    this.bobNumberChild = 0;
+
+    this.addAttributes(conf);
+
+    if (conf.isRoot) {
+      this.bobNumber = 1;
+      return;
+    }
+
+    //Add the minimum nuber of occurances, if this is the top level
+    for (var i = 0; i < conf.minOccurs; i++) {
+      this.creator.walkSequenceSibling(this);
+      this.siblingCounter++;
+    }
+  }
+
+  setSiblingConfig(conf: ItemConfig, creator, parentObj) {
+
+    this.config = JSON.parse(JSON.stringify(conf));
+    this.creator = creator;
+    this.config.uuid = this.global.guid();
+    this.topLevel = false;
+    this.depth = parentObj.depth;
+    this.parent = parentObj;
+    this.bobNumber = this.parent.bobNumberChild + 1;
+    this.parent.bobNumberChild++;
+
+    this.addAttributes(conf);
+
+    this.parent.siblings.push(this);
+ 
+  }
+
+  addAttributes(conf) {
+
+    let x = this;
+    if (conf.hasAttributes) {
+      this.sortAttributes("DESC");
+      this.config.attributes.forEach(function (att) {
+        if (att.required) {
+          x.attributesRequired = true;
+          x.isCollapsed = false;
+        }
+        let factory = x.resolver.resolveComponentFactory(AttributeComponent);
+        let ref = x.attributes.createComponent(factory);
+        ref.instance.setID(x.id + "@" + att.name);
+        ref.instance.setAttribute(att);
+        x.attchildren.push(ref.instance);
+      });
+    }
+  }
+
+  getSiblingsContainer(){
+    return this.siblingsPt;
+  }
 
   remove() {
     this.parent.removeChild(this.config.uuid);
@@ -34,72 +106,24 @@ export class SequenceComponent extends ElementComponent {
 
   removeChild(childIDToRemove: string) {
 
-   if (this.siblings.length <= this.config.minOccurs ){
-      alert("Cannot Remove. At least "+this.config.minOccurs+" instance required");
+    if (this.siblings.length <= this.config.minOccurs) {
+      alert("Cannot Remove. At least " + this.config.minOccurs + " instance required");
       return;
-   }
+    }
 
+    debugger;
     for (var i = 0; i < this.siblings.length; i++) {
       var id = this.siblings[i].config.uuid
       if (id == childIDToRemove) {
         this.siblingsPt.remove(i);
-        this.siblings.splice(i,1);
+        this.siblings.splice(i, 1);
         this.bobNumberChild--;
+        this.siblingCounter--;
         break;
       }
     }
   }
-  hideElement() {
 
-    if (!this.showElement) {
-      return true;
-    }
-    if (this.bobNumber == 0) {
-      return true;
-    }
-
-    return false;
-
-  }
-
-  isOddDepth() {
-    if (this.depth % 2 == 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  isEvenDepth() {
-    if (this.depth % 2 == 1) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-  
-  addSibling() {
-    if (this.siblings.length == this.config.maxOccurs) {
-      alert("Maximum Number of Occurances Already Reached");
-      return;
-    }
-    if (this.bobNumber != 0) {
-      return;
-    }
-
-    let conf = JSON.parse(JSON.stringify(this.config));
-    conf.uuid = this.config.uuid+this.childID;
-    this.childID++;
-
-    let ref = this.siblingsPt.createComponent(this.resolver.resolveComponentFactory(SequenceComponent));
-    ref.instance.setBobNumber(this.bobNumberChild);
-    this.bobNumberChild++;
-    ref.instance.depth = this.depth;
-    ref.instance.setConfig(conf);
-    ref.instance.setParent(this);
-    ref.instance.config.enabled = true;
-    this.siblings.push(ref.instance);
-    this.global.getString();
-  }
   getElementString(indent?: string) {
 
 
@@ -150,86 +174,5 @@ export class SequenceComponent extends ElementComponent {
 
     e = e.concat(indent + '</' + this.config.name + '>\n');
     return e;
-  }
-  createElement(el: ItemConfig, type: string) {
- 
-    let factory: any;
-
-    switch (type) {
-      case "simple":
-        factory = this.resolver.resolveComponentFactory(SimpleComponent);
-        this.componentRef = this.container.createComponent(factory);
-        break;
-      case "sequence":
-        factory = this.resolver.resolveComponentFactory(SequenceComponent);
-        this.componentRef = this.container.createComponent(factory);
-        this.componentRef.instance.depth = this.depth + 1;
-        break;
-      case "choice":
-        factory = this.resolver.resolveComponentFactory(ChoiceComponent);
-        this.componentRef = this.container.createComponent(factory);
-        //Keep the Choice object unique 
-        this.componentRef.instance.setBobNumber(this.bobNumber);
-        break;
-    }
-
-    this.children.push(this.componentRef.instance);
-    this.componentRef.instance.setParentID(this.id + "/" + el.name);
-    this.componentRef.instance.setParent(this);
-    this.componentRef.instance.setConfig(el);
-    if (type == "sequence") {
-      this.componentRef.instance.config.enabled = true;
-    }
-  }
-
-  addAttChild(x) {
-    this.attchildren.push(x);
-  }
-
-  isElement() {
-    return true;
-  }
-
-  setConfig(conf: ItemConfig) {
-    let x = this;
-    this.config = JSON.parse(JSON.stringify(conf));
-    this.config.uuid = this.global.guid();
-    this.id = this.parentID + "/" + this.config.name;
-
-    if (this.config.minOccurs == 1 && this.config.maxOccurs == 1) {
-      this.bobNumber = 1;
-    }
-
-    this.hasChildren = conf.hasChildren;
-    if (conf.hasChildren) {
-      this.config.allOf.forEach(function (v) {
-        if (v.type != "choice"){
-          v.elementPath = x.config.elementPath + "/" + v.name;
-        } else {
-          v.elementPath = x.config.elementPath;
-        }
-        x.createElement(v, v.type);
-      });
-    }
-
-    if (conf.hasAttributes) {
-      this.sortAttributes("DESC");
-      this.config.attributes.forEach(function (att) {
-        if (att.required) {
-          x.attributesRequired = true;
-          x.isCollapsed = false;
-        }
-        let factory = x.resolver.resolveComponentFactory(AttributeComponent);
-        x.componentRef = x.attributes.createComponent(factory);
-        x.componentRef.instance.setID(x.id + "@" + att.name);
-        x.componentRef.instance.setAttribute(att);
-        x.addAttChild(x.componentRef.instance);
-      });
-    }
-
-    //Add the minimum nuber of occurances
-    for (var i = 0; i < x.config.minOccurs; i++){
-      this.addSibling();
-    }
   }
 }
