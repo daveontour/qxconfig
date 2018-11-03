@@ -1,12 +1,8 @@
 import { Globals } from './../../globals';
 import { AttributeComponent } from '../attribute/attribute.component';
-import { ChoiceComponent } from '../choice/choice.component';
 import { ItemConfig } from '../../interfaces/interfaces';
-import { SequenceComponent } from '../sequence/sequence.component';
 import { ElementComponent } from '../element/element.component';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
-
-
 @Component({
   selector: 'app-simple',
   templateUrl: './simple.component.html',
@@ -17,21 +13,19 @@ export class SimpleComponent extends ElementComponent {
   @ViewChild("control", { read: ViewContainerRef }) control;
   @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
   controlRef: any;
-  mfactory: any;
   public isCollapsed = true;
-  public bobNumberChild = 1;
   public enabled: boolean = true;
   public uuid;
-
-
+  public siblingCounter = 0;
+  public topLevel : boolean;
 
   constructor(resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver);
   }
 
-  showDeleteAction(){
-// "(!config.required  && !this.isRoot && !this.isChoiceChild && (this.parent.siblings.length > this.config.minOccurs)) || (this.isChoiceChild && this.config.minOccurs == 0) "
-    if (this.parent.siblings.length > this.config.minOccurs){
+  showDeleteAction() {
+    // "(!config.required  && !this.isRoot && !this.isChoiceChild && (this.parent.siblings.length > this.config.minOccurs)) || (this.isChoiceChild && this.config.minOccurs == 0) "
+    if (this.parent.siblings.length > this.config.minOccurs) {
       return true;
     }
 
@@ -41,31 +35,22 @@ export class SimpleComponent extends ElementComponent {
   change() {
     this.global.getString();
   }
-  setBobNumber(bobNum: number) {
-    this.bobNumber = bobNum;
-    if (this.bobNumber == 0 && this.config.minOccurs > 0) {
-      for (let index = 0; index < this.config.minOccurs; index++) {
-        this.addSibling()
-      }
-    }
-  }
+
 
   addSibling() {
+
     if (this.siblings.length == this.config.maxOccurs) {
       alert("Maximum Number of Occurances Already Reached");
       return;
     }
-    if (this.bobNumber != 0) {
-      alert("Only Add Siblings from First Element");
-      return;
-    }
 
     let ref = this.siblingsPt.createComponent(this.resolver.resolveComponentFactory(SimpleComponent));
-    ref.instance.setBobNumber(this.bobNumberChild++);
-    ref.instance.setConfig(this.config);
+
+    ref.instance.setSiblingConfig(this.config);
     ref.instance.setParent(this);
     ref.instance.config.enabled = true;
     this.siblings.push(ref.instance);
+    this.siblingCounter++;
   }
 
   remove() {
@@ -78,20 +63,13 @@ export class SimpleComponent extends ElementComponent {
       var id = this.siblings[i].config.uuid
       if (id == childIDToRemove) {
         this.siblingsPt.remove(i);
-        this.siblings.splice(i,1);
-        this.bobNumberChild--;
+        this.siblings.splice(i, 1);
+        this.siblingCounter--;
         break;
       }
     }
   }
 
-  createElement(el: ItemConfig, type: string) {
-    alert("simple.component.ts createElement called!");
-  }
-
-  isElement() {
-    return true;
-  }
   getElementString(indent?: string) {
 
     if (indent) {
@@ -103,15 +81,15 @@ export class SimpleComponent extends ElementComponent {
       return "";
     }
 
-    // In the case that there is only a single element
-    if (this.bobNumber == 1 && this.siblings.length == 0) {
-      return this.getSiblingString(indent);
-    }
+    // // In the case that there is only a single element
+    // if (this.bobNumber == 1 && this.siblings.length == 0) {
+    //   return this.getSiblingString(indent);
+    // }
 
-    // Should not get here with a non zero bob
-    if (this.bobNumber != 0) {
-      return "";
-    }
+    // // Should not get here with a non zero bob
+    // if (this.bobNumber != 0) {
+    //   return "";
+    // }
 
     let x = "";
     this.siblings.forEach(function (v) {
@@ -143,17 +121,41 @@ export class SimpleComponent extends ElementComponent {
     }
   }
 
-  addAttChild(x) {
-    this.attchildren.push(x);
-  }
-
   setConfig(conf: ItemConfig) {
     let x = this;
+    this.topLevel = true;
     this.config = JSON.parse(JSON.stringify(conf));
-    this.id = this.parentID + "/" + this.config.name + "bobNum=" + this.bobNumber;
+    this.config.enabled = this.config.required;
+    this.config.uuid = this.global.guid();
+ 
+
+    if (this.config.typeAnnotation == null) {
+      this.config.typeAnnotation = this.config.annotation;
+    }
+
+    if (this.config.model != null) {
+      let mfactory = this.getFactory(this.config.model, this.resolver);
+      this.controlRef = this.control.createComponent(mfactory);
+
+      // Set the config of the control
+      this.controlRef.instance.setElementParent(this);
+    }
+
+    this.addAttributes();
+
+    for (var i = 0; i < conf.minOccurs; i++) {
+      this.addSibling();
+    }
+  }
+
+  setSiblingConfig(conf: ItemConfig) {
+    let x = this;
+    this.topLevel = false;
+    this.config = JSON.parse(JSON.stringify(conf));
     this.config.enabled = this.config.required;
     this.config.elementPath = x.config.elementPath + "/" + this.config.name;
     this.config.uuid = this.global.guid();
+ 
 
     if (this.config.typeAnnotation == null) {
       this.config.typeAnnotation = this.config.annotation;
@@ -162,11 +164,15 @@ export class SimpleComponent extends ElementComponent {
     if (this.config.model != null) {
       this.mfactory = this.getFactory(this.config.model, this.resolver);
       this.controlRef = this.control.createComponent(this.mfactory);
-
-      // Set the config of the control
       this.controlRef.instance.setElementParent(this);
     }
 
+    this.addAttributes();
+  }
+
+  addAttributes() {
+
+    let x = this;
     if (this.config.attributes != null) {
       this.sortAttributes("DESC");
       this.config.attributes.forEach(function (att) {
@@ -180,19 +186,6 @@ export class SimpleComponent extends ElementComponent {
         x.componentRef.instance.setAttribute(att);
         x.attchildren.push(x.componentRef.instance);
       });
-    }
-
-    // Allow for condition where there is no content but only attributes
-    if (x.config.model == null) {
-      x.isCollapsed = false;
-    }
-
-    // This will trigger the creation of the minimum number of occurances
-    if (this.bobNumber == 0) {
-      this.setBobNumber(0);
-
-      //Set it enabled so it passes through the getString
-      this.config.enabled = true;
     }
   }
 }
