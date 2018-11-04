@@ -1,4 +1,5 @@
   <input
   [(ngModel)]="config.value"
   type="checkbox"
+  (change) = "this.change()"
   [attr.disabled]="(this.isEnabled() || (!this.isEnabled() && this.isRequired()))?null:''" />

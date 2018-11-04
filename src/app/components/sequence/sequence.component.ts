@@ -90,12 +90,6 @@ export class SequenceComponent extends ElementComponent {
 
   getElementString(indent?: string) {
 
-debugger;
-    //If it's not required AND and not enabled, just return nothing
-    if (!this.config.enabled && !this.config.required) {
-      return "";
-    }
-
     let e: string = "";
     this.siblings.forEach((s) => {
        e = e.concat(s.getSiblingString(indent));
@@ -106,7 +100,6 @@ debugger;
 
   getSiblingString(indent: string) {
 
-    debugger;
     let c: string = this.getChildString(indent + this.in);
     let e: string = indent + '<' + this.config.name;
     e = e.concat(this.getAttributeString());

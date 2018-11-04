@@ -8,7 +8,7 @@ export class Globals {
   root:any;
 
   getString(){
-    debugger;
+ 
     this.sampleXMLMessage =this.root.getElementString("");
   }
 

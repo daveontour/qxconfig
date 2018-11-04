@@ -3,13 +3,6 @@ import { ItemConfig } from '../../interfaces/interfaces';
 import { AttributeComponent } from '../../components/attribute/attribute.component';
 import { Component, ComponentFactoryResolver } from '@angular/core';
 
-
-
-// @Component({
-//   selector: 'app-control',
-//   templateUrl: './control.component.html',
-//   styleUrls: ['./control.component.css']
-// })
 export abstract class ControlComponent {
 
   parent: any;

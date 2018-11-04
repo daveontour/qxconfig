@@ -74,16 +74,10 @@ export class SimpleComponent extends ElementComponent {
 
   getElementString(indent?: string) {
 
-    if (indent) {
-      this.in = this.in.concat('s');
-    } else {
-      indent = "  ";
-    }
-    if (!this.config.enabled && !this.config.required) {
-      return "";
+    if (!indent) {
+       indent = "  ";
     }
 
- 
     let x = "";
     this.siblings.forEach(function (v) {
       x = x.concat(v.getSiblingString(indent))
@@ -94,6 +88,8 @@ export class SimpleComponent extends ElementComponent {
   }
 
   getSiblingString(indent?: string) {
+
+    debugger;
 
     if (!this.config.enabled && !this.config.required) {
       return "";

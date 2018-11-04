@@ -48,7 +48,6 @@ export class AppComponent implements OnInit {
 
  walkStructure(data, parentObject ) {
 
-  debugger;
     //Dispatch the item to the selected type handler
     if (data.type == "sequence") {
       this.walkSequence(data, parentObject);
@@ -148,7 +147,7 @@ export class AppComponent implements OnInit {
     newObjRef.setSiblingConfig(conf, this, parentObject);
     
     // Assign the new object as a child of the parent object
-    parentObject.children.push(newObjRef);
+    parentObject.parent.children.push(newObjRef);
     parentObject.siblings.push(newObjRef);
   }
 
