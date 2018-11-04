@@ -25,7 +25,6 @@ export class SimpleComponent extends ElementComponent {
   }
 
   showDeleteAction() {
-    // "(!config.required  && !this.isRoot && !this.isChoiceChild && (this.parent.siblings.length > this.config.minOccurs)) || (this.isChoiceChild && this.config.minOccurs == 0) "
     if (this.parent.siblings.length > this.config.minOccurs) {
       return true;
     }
@@ -52,6 +51,7 @@ export class SimpleComponent extends ElementComponent {
     ref.instance.config.enabled = true;
     this.siblings.push(ref.instance);
     this.siblingCounter++;
+    this.change();
   }
 
   remove() {
@@ -66,6 +66,7 @@ export class SimpleComponent extends ElementComponent {
         this.siblingsPt.remove(i);
         this.siblings.splice(i, 1);
         this.siblingCounter--;
+        this.change();
         break;
       }
     }

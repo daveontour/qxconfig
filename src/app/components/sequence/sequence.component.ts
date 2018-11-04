@@ -27,6 +27,7 @@ export class SequenceComponent extends ElementComponent {
     if (this.topLevel) {
       this.creator.walkSequenceSibling(this);
       this.siblingCounter++;
+      this.global.getString();
     }
   }
 
@@ -81,6 +82,7 @@ export class SequenceComponent extends ElementComponent {
         this.siblingsPt.remove(i);
         this.siblings.splice(i, 1);
         this.siblingCounter--;
+        this.global.getString();
         break;
       }
     }
@@ -88,32 +90,23 @@ export class SequenceComponent extends ElementComponent {
 
   getElementString(indent?: string) {
 
-
+debugger;
     //If it's not required AND and not enabled, just return nothing
     if (!this.config.enabled && !this.config.required) {
       return "";
     }
 
-    //If there is only a single instance, return the data, which we can get from the sibling string function
-    // if (this.bobNumber == 1 && this.siblings.length == 0) {
-    //   let x = this.getSiblingString(indent);
-    //   return x;
-    // }
+    let e: string = "";
+    this.siblings.forEach((s) => {
+       e = e.concat(s.getSiblingString(indent));
+    });
+    return e;
 
-    // if (this.bobNumber == 0 && this.siblings.length > 0) {
-    //   let e: string = "";
-    //   this.siblings.forEach(function (s) {
-    //     let x = s.getSiblingString(indent);
-    //     e = e.concat(x);
-    //   });
-    //   return e;
-    // }
-
-    return "";
   }
 
   getSiblingString(indent: string) {
 
+    debugger;
     let c: string = this.getChildString(indent + this.in);
     let e: string = indent + '<' + this.config.name;
     e = e.concat(this.getAttributeString());

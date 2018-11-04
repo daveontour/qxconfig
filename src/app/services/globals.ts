@@ -8,11 +8,8 @@ export class Globals {
   root:any;
 
   getString(){
-//    try {
-    // this.sampleXMLMessage =this.root.getElementString("");
-    // } catch {
-    //   console.log("globals.ts, line 13 error");
-    // }
+    debugger;
+    this.sampleXMLMessage =this.root.getElementString("");
   }
 
  public guid() {

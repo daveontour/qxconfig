@@ -17,14 +17,13 @@ export abstract class ElementComponent  {
   parent : ElementComponent;
   attchildren: any[] = [];
   hasChildren: boolean = false;
-  showElement: boolean = true;
+
   parentID: string;
   mfactory: any;
   public siblings: ElementComponent[] = [];
   attributesRequired: boolean = false;
   in:string = "  ";
   isRoot : boolean  = false;
-  isChoiceChild = false;
   creator: any;
   public depth = 1;
   public siblingCounter = 0;
@@ -52,9 +51,6 @@ export abstract class ElementComponent  {
     this.parent = parent;
   }
 
-  setShowElement(show: boolean) {
-    this.showElement = show;
-  }
   getAttributeString() {
     let s: string = "";
     this.attchildren.forEach(function (a) {
@@ -72,19 +68,18 @@ export abstract class ElementComponent  {
 
   addAttributes(conf) {
 
-    let x = this;
     if (conf.hasAttributes) {
       this.sortAttributes("DESC");
-      this.config.attributes.forEach(function (att) {
+      this.config.attributes.forEach( (att)=> {
         if (att.required) {
-          x.attributesRequired = true;
-          x.isCollapsed = false;
+          this.attributesRequired = true;
+          this.isCollapsed = false;
         }
-        let factory = x.resolver.resolveComponentFactory(AttributeComponent);
-        let ref = x.attributes.createComponent(factory);
-        ref.instance.setID(x.id + "@" + att.name);
+        let factory = this.resolver.resolveComponentFactory(AttributeComponent);
+        let ref = this.attributes.createComponent(factory);
+        ref.instance.setID(this.id + "@" + att.name);
         ref.instance.setAttribute(att);
-        x.attchildren.push(ref.instance);
+        this.attchildren.push(ref.instance);
       });
     }
   }

@@ -10,13 +10,8 @@ import { ElementComponent } from '../element/element.component';
 })
 export class ChoiceComponent extends ElementComponent {
   @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
-  controlRef: any
   selectedChoice: string;
   opts: any[] = [];
-  creator: any;
-  public childID: number = 1000;
-  public topLevel : boolean;
-  
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver);
@@ -27,7 +22,6 @@ export class ChoiceComponent extends ElementComponent {
   }
 
   addSibling() {
-
     if (this.siblings.length == this.config.maxOccurs) {
       alert("Maximum Number of Occurances Already Reached");
       return;
@@ -38,15 +32,7 @@ export class ChoiceComponent extends ElementComponent {
     }
   }
 
-
   remove() {
-
-    // let size = this.container.length;
-
-    // for (var i = 0; i < size; i++){
-    //   this.container.remove();
-    // }
-    // this.children = [];
     this.parent.removeChild(this.config.uuid);
   }
 
@@ -62,14 +48,12 @@ export class ChoiceComponent extends ElementComponent {
         this.siblingsPt.remove(i);
         this.siblings.splice(i, 1);
         this.siblingCounter--;
-
         break;
       }
     }
   }
 
   showDeleteAction(){
-    debugger;
     return this.parent.siblingCounter > this.config.minOccurs;
   }
 
@@ -106,11 +90,6 @@ export class ChoiceComponent extends ElementComponent {
     }
     return e;
   }
-
-  isElement() {
-    return false;
-  }
-
   getElementString(indent: string) {
     return this.getChildString(indent);
   }
@@ -121,8 +100,6 @@ export class ChoiceComponent extends ElementComponent {
 
   setConfig(conf: ItemConfig, creator, parentObj) {
 
-    //Use the root object as the creator of any new items
-
     this.creator = creator;
     let choiceIDs = [];
     this.topLevel = true;
@@ -131,7 +108,6 @@ export class ChoiceComponent extends ElementComponent {
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.uuid = this.global.guid();
     this.hasChildren = conf.hasChildren;
-
 
     if (conf.oneOf.length > 0) {
       this.config.oneOf.forEach((v) => {

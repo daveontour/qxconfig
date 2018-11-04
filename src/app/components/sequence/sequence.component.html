@@ -10,8 +10,7 @@
       </span>
       <!-- <div *ngIf="!config.required  && config.maxOccurs >= 1" (click) = "this.remove()" style="float: right"> -->
     
-        <!-- <div *ngIf="(!this.isRoot && !this.isChoiceChild && (this.parent.siblings.length > this.parent.config.minOccurs)) || (this.isChoiceChild && this.config.minOccurs == 0)" (click) = "this.remove()" style="float: right"> -->
-          <div *ngIf="(!this.isRoot && !this.isChoiceChild && this.parent.siblingCounter != config.minOccurs)" (click) = "this.remove()" style="float: right">
+          <div *ngIf="(!this.isRoot && this.parent.siblingCounter != config.minOccurs)" (click) = "this.remove()" style="float: right">
             <span class="DeleteAction"> </span>
       </div>
 
