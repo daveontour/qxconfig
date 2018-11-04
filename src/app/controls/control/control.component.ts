@@ -1,16 +1,15 @@
 import { Globals } from '../../services/globals';
-import { SimpleComponent } from '../../components/simple/simple.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { AttributeComponent } from '../../components/attribute/attribute.component';
 import { Component, ComponentFactoryResolver } from '@angular/core';
 
 
 
-@Component({
-  selector: 'app-control',
-  templateUrl: './control.component.html',
-  styleUrls: ['./control.component.css']
-})
+// @Component({
+//   selector: 'app-control',
+//   templateUrl: './control.component.html',
+//   styleUrls: ['./control.component.css']
+// })
 export abstract class ControlComponent {
 
   parent: any;
@@ -19,7 +18,7 @@ export abstract class ControlComponent {
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) { }
 
-  setElementParent(parent: SimpleComponent) {
+  setElementParent(parent) {
     this.parent = parent;
     this.config = parent.config;
     this.bElement = true;

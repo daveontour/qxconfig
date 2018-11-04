@@ -2,11 +2,6 @@ import { AttributeComponent } from './../attribute/attribute.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 
-@Component({
-  selector: 'app-element',
-  templateUrl: './element.component.html',
-  styleUrls: ['./element.component.css']
-})
 export abstract class ElementComponent  {
   @ViewChild("container", { read: ViewContainerRef }) container;
   @ViewChild("attributes", { read: ViewContainerRef }) attributes;

@@ -33,5 +33,9 @@ export interface ItemConfig{
     type : string,
     hasChildren : boolean,
     hasAttributes : boolean,
-    uuid : string
+    uuid : string, 
+    minLength : number,
+    maxLength : number,
+    description : string,
+    enumList : string[]
 }
