@@ -1,7 +1,6 @@
+import { AttributeComponent } from './../attribute/attribute.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
-
-
 
 @Component({
   selector: 'app-element',
@@ -22,15 +21,15 @@ export abstract class ElementComponent  {
   parentID: string;
   mfactory: any;
   public siblings: ElementComponent[] = [];
-  bobNumber: number = 0;
   attributesRequired: boolean = false;
   in:string = "  ";
   isRoot : boolean  = false;
   isChoiceChild = false;
   creator: any;
   public depth = 1;
-  public bobNumberChild = 0;
   public siblingCounter = 0;
+  public topLevel : boolean = false;
+  public isCollapsed : boolean = true;
 
   constructor(public resolver: ComponentFactoryResolver) { }
 
@@ -53,9 +52,6 @@ export abstract class ElementComponent  {
     this.parent = parent;
   }
 
-  setBobNumber(bobNum: number) {
-    this.bobNumber = bobNum;
-  }
   setShowElement(show: boolean) {
     this.showElement = show;
   }
@@ -72,6 +68,25 @@ export abstract class ElementComponent  {
     });
 
     return s;
+  }
+
+  addAttributes(conf) {
+
+    let x = this;
+    if (conf.hasAttributes) {
+      this.sortAttributes("DESC");
+      this.config.attributes.forEach(function (att) {
+        if (att.required) {
+          x.attributesRequired = true;
+          x.isCollapsed = false;
+        }
+        let factory = x.resolver.resolveComponentFactory(AttributeComponent);
+        let ref = x.attributes.createComponent(factory);
+        ref.instance.setID(x.id + "@" + att.name);
+        ref.instance.setAttribute(att);
+        x.attchildren.push(ref.instance);
+      });
+    }
   }
 
   getValueString() {

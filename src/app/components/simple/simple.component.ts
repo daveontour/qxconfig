@@ -20,7 +20,7 @@ export class SimpleComponent extends ElementComponent {
   public siblingCounter = 0;
   public topLevel : boolean;
 
-  constructor(resolver: ComponentFactoryResolver, public global: Globals, public widgetFactory: WidgetFactory) {
+  constructor(public resolver: ComponentFactoryResolver, public global: Globals, public widgetFactory: WidgetFactory) {
     super(resolver);
   }
 
@@ -82,16 +82,7 @@ export class SimpleComponent extends ElementComponent {
       return "";
     }
 
-    // // In the case that there is only a single element
-    // if (this.bobNumber == 1 && this.siblings.length == 0) {
-    //   return this.getSiblingString(indent);
-    // }
-
-    // // Should not get here with a non zero bob
-    // if (this.bobNumber != 0) {
-    //   return "";
-    // }
-
+ 
     let x = "";
     this.siblings.forEach(function (v) {
       x = x.concat(v.getSiblingString(indent))
@@ -123,7 +114,7 @@ export class SimpleComponent extends ElementComponent {
   }
 
   setConfig(conf: ItemConfig) {
-    let x = this;
+
     this.topLevel = true;
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.enabled = this.config.required;
@@ -142,7 +133,7 @@ export class SimpleComponent extends ElementComponent {
       this.controlRef.instance.setElementParent(this);
     }
 
-    this.addAttributes();
+    this.addAttributes(conf);
 
     for (var i = 0; i < conf.minOccurs; i++) {
       this.addSibling();
@@ -150,11 +141,11 @@ export class SimpleComponent extends ElementComponent {
   }
 
   setSiblingConfig(conf: ItemConfig) {
-    let x = this;
+
     this.topLevel = false;
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.enabled = this.config.required;
-    this.config.elementPath = x.config.elementPath + "/" + this.config.name;
+    this.config.elementPath = this.config.elementPath + "/" + this.config.name;
     this.config.uuid = this.global.guid();
  
 
@@ -168,25 +159,6 @@ export class SimpleComponent extends ElementComponent {
       this.controlRef.instance.setElementParent(this);
     }
 
-    this.addAttributes();
-  }
-
-  addAttributes() {
-
-    let x = this;
-    if (this.config.attributes != null) {
-      this.sortAttributes("DESC");
-      this.config.attributes.forEach(function (att) {
-        if (att.required) {
-          x.attributesRequired = true;
-          x.isCollapsed = false;
-        }
-        let factory = x.resolver.resolveComponentFactory(AttributeComponent);
-        x.componentRef = x.attributes.createComponent(factory);
-        x.componentRef.instance.setID(x.id + "@" + att.name);
-        x.componentRef.instance.setAttribute(att);
-        x.attchildren.push(x.componentRef.instance);
-      });
-    }
+    this.addAttributes(conf);
   }
 }

@@ -12,14 +12,9 @@ import { Globals } from '../../services/globals';
 export class SequenceComponent extends ElementComponent {
   @ViewChild("control", { read: ViewContainerRef }) control;
   @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
-  controlRef: any;
   isCollapsed = true;
-  topLevel: boolean = false;
-  siblingCounter = 0;
 
-
-
-  constructor(resolver: ComponentFactoryResolver, public global: Globals) {
+  constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver);
   }
 
@@ -43,8 +38,6 @@ export class SequenceComponent extends ElementComponent {
     this.topLevel = true;
     this.depth = parentObj.depth + 1;
     this.parent = parentObj;
-    this.bobNumber = 0;
-    this.bobNumberChild = 0;
 
     this.addAttributes(conf);
 
@@ -63,32 +56,8 @@ export class SequenceComponent extends ElementComponent {
     this.topLevel = false;
     this.depth = parentObj.depth;
     this.parent = parentObj;
-    this.bobNumber = this.parent.bobNumberChild + 1;
-    this.parent.bobNumberChild++;
-
     this.addAttributes(conf);
-
-    this.parent.siblings.push(this);
- 
-  }
-
-  addAttributes(conf) {
-
-    let x = this;
-    if (conf.hasAttributes) {
-      this.sortAttributes("DESC");
-      this.config.attributes.forEach(function (att) {
-        if (att.required) {
-          x.attributesRequired = true;
-          x.isCollapsed = false;
-        }
-        let factory = x.resolver.resolveComponentFactory(AttributeComponent);
-        let ref = x.attributes.createComponent(factory);
-        ref.instance.setID(x.id + "@" + att.name);
-        ref.instance.setAttribute(att);
-        x.attchildren.push(ref.instance);
-      });
-    }
+    this.parent.siblings.push(this); 
   }
 
   getSiblingsContainer(){
@@ -111,7 +80,6 @@ export class SequenceComponent extends ElementComponent {
       if (id == childIDToRemove) {
         this.siblingsPt.remove(i);
         this.siblings.splice(i, 1);
-        this.bobNumberChild--;
         this.siblingCounter--;
         break;
       }
@@ -127,19 +95,19 @@ export class SequenceComponent extends ElementComponent {
     }
 
     //If there is only a single instance, return the data, which we can get from the sibling string function
-    if (this.bobNumber == 1 && this.siblings.length == 0) {
-      let x = this.getSiblingString(indent);
-      return x;
-    }
+    // if (this.bobNumber == 1 && this.siblings.length == 0) {
+    //   let x = this.getSiblingString(indent);
+    //   return x;
+    // }
 
-    if (this.bobNumber == 0 && this.siblings.length > 0) {
-      let e: string = "";
-      this.siblings.forEach(function (s) {
-        let x = s.getSiblingString(indent);
-        e = e.concat(x);
-      });
-      return e;
-    }
+    // if (this.bobNumber == 0 && this.siblings.length > 0) {
+    //   let e: string = "";
+    //   this.siblings.forEach(function (s) {
+    //     let x = s.getSiblingString(indent);
+    //     e = e.concat(x);
+    //   });
+    //   return e;
+    // }
 
     return "";
   }

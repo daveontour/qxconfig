@@ -18,7 +18,7 @@ export class ChoiceComponent extends ElementComponent {
   public topLevel : boolean;
   
 
-  constructor(resolver: ComponentFactoryResolver, public global: Globals) {
+  constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver);
   }
 
@@ -52,8 +52,6 @@ export class ChoiceComponent extends ElementComponent {
 
   removeChild(childIDToRemove: string) {
 
-    debugger;
-
     if (this.siblingCounter <= this.config.minOccurs) {
       alert("Cannot Remove. At least " + this.config.minOccurs + " instance required");
       return false;
@@ -84,11 +82,10 @@ export class ChoiceComponent extends ElementComponent {
     }
     this.children = [];
 
-    let x = this;
     let choice = this.selectedChoice;
-    this.opts.forEach(function (c) {
+    this.opts.forEach( (c) => {
       if (c.name == choice) {
-         x.creator.createChoiceElement(c, x);
+         this.creator.createChoiceElement(c, this);
       }
     })
   }
@@ -127,7 +124,6 @@ export class ChoiceComponent extends ElementComponent {
     //Use the root object as the creator of any new items
 
     this.creator = creator;
-    let x = this;
     let choiceIDs = [];
     this.topLevel = true;
     this.parent = parentObj;
@@ -138,9 +134,9 @@ export class ChoiceComponent extends ElementComponent {
 
 
     if (conf.oneOf.length > 0) {
-      this.config.oneOf.forEach(function (v) {
+      this.config.oneOf.forEach((v) => {
         choiceIDs.push(v.name);
-        x.opts.push(v);
+        this.opts.push(v);
       });
     }
 
@@ -156,7 +152,6 @@ export class ChoiceComponent extends ElementComponent {
 
     this.creator = root;
     this.parent = parentObj;
-    let x = this;
     let choiceIDs = [];
     this.topLevel = false;
 
@@ -166,9 +161,9 @@ export class ChoiceComponent extends ElementComponent {
 
 
     if (conf.oneOf.length > 0) {
-      this.config.oneOf.forEach(function (v) {
+      this.config.oneOf.forEach((v) => {
         choiceIDs.push(v.name);
-        x.opts.push(v);
+        this.opts.push(v);
       });
     }
 
