@@ -1,4 +1,4 @@
-import { Globals } from './../../globals';
+import { Globals } from '../../services/globals';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
 import { ElementComponent } from '../element/element.component';

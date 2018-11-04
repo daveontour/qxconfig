@@ -1,5 +1,5 @@
 
-import { Globals } from './../../globals';
+import { Globals } from '../../services/globals';
 import { AttributeComponent } from '../../components/attribute/attribute.component';
 import { SimpleComponent } from '../../components/simple/simple.component';
 import { Component, ComponentFactoryResolver } from '@angular/core';

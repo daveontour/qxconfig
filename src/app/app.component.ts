@@ -1,5 +1,5 @@
 import { ChoiceComponent } from './components/choice/choice.component';
-import { Globals } from './globals';
+import { Globals } from './services/globals';
 import { ItemConfig } from './interfaces/interfaces';
 import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';

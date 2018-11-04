@@ -1,30 +1,20 @@
-import { XSDateComponent } from './../../controls/xsdate/xsdate.component';
-import { BaseNullComponent } from '../../controls/basenull/basenull.component';
-import { XSDecimalComponent } from '../../controls/xsdecimal/xsdecimal.component';
-import { XSLanguageComponent } from '../../controls/xslanguage/xslanguage.component';
-import { XSIntegerComponent } from '../../controls/xsinteger/xsinteger.component';
-import { XSStringComponent } from '../../controls/xsstring/xsstring.component';
-import { BaseComponent } from '../../controls/base/base.component';
-import { EnumListComponent } from '../../controls/enumlist/enumlist.component';
-import { PatternComponent } from '../../controls/pattern/pattern.component';
-import { XSBooleanComponent } from '../../controls/xsboolean/xsboolean.component';
-import { MinMaxLengthPatternComponent } from '../../controls/minmaxlengthpattern/minmaxlengthpattern.component';
-import { MinMaxLengthComponent } from '../../controls/minmaxlength/minmaxlength.component';
-import { MinMaxInclusiveComponent } from '../../controls/minmaxinclusive/minmaxinclusive.component';
-import { Component } from '@angular/core';
-
-
-
-@Component({
-  selector: 'app-displaywidget',
-  templateUrl: './displaywidget.component.html',
-  styleUrls: ['./displaywidget.component.css']
-})
-export abstract class DisplaywidgetComponent {
-
-
-  constructor() { }
-
+import { Injectable } from '@angular/core';
+import { XSDateComponent } from './../controls/xsdate/xsdate.component';
+import { BaseNullComponent } from './../controls/basenull/basenull.component';
+import { XSDecimalComponent } from './../controls/xsdecimal/xsdecimal.component';
+import { XSLanguageComponent } from './../controls/xslanguage/xslanguage.component';
+import { XSIntegerComponent } from './../controls/xsinteger/xsinteger.component';
+import { XSStringComponent } from './../controls/xsstring/xsstring.component';
+import { BaseComponent } from './../controls/base/base.component';
+import { EnumListComponent } from './../controls/enumlist/enumlist.component';
+import { PatternComponent } from './../controls/pattern/pattern.component';
+import { XSBooleanComponent } from './../controls/xsboolean/xsboolean.component';
+import { MinMaxLengthPatternComponent } from './../controls/minmaxlengthpattern/minmaxlengthpattern.component';
+import { MinMaxLengthComponent } from './../controls/minmaxlength/minmaxlength.component';
+import { MinMaxInclusiveComponent } from './../controls/minmaxinclusive/minmaxinclusive.component';
+@Injectable()
+export class WidgetFactory {
+ 
   getFactory(model: string, resolver: any) {
 
     if (model == null) {
@@ -75,5 +65,6 @@ export abstract class DisplaywidgetComponent {
 
     return factory;
   }
+
 
 }

@@ -1,4 +1,5 @@
-import { Globals } from './../../globals';
+import { WidgetFactory } from './../../services/widgetfactory';
+import { Globals } from '../../services/globals';
 import { AttributeComponent } from '../attribute/attribute.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
@@ -19,7 +20,7 @@ export class SimpleComponent extends ElementComponent {
   public siblingCounter = 0;
   public topLevel : boolean;
 
-  constructor(resolver: ComponentFactoryResolver, public global: Globals) {
+  constructor(resolver: ComponentFactoryResolver, public global: Globals, public widgetFactory: WidgetFactory) {
     super(resolver);
   }
 
@@ -134,7 +135,7 @@ export class SimpleComponent extends ElementComponent {
     }
 
     if (this.config.model != null) {
-      let mfactory = this.getFactory(this.config.model, this.resolver);
+      let mfactory = this.widgetFactory.getFactory(this.config.model, this.resolver);
       this.controlRef = this.control.createComponent(mfactory);
 
       // Set the config of the control
@@ -162,7 +163,7 @@ export class SimpleComponent extends ElementComponent {
     }
 
     if (this.config.model != null) {
-      this.mfactory = this.getFactory(this.config.model, this.resolver);
+      this.mfactory = this.widgetFactory.getFactory(this.config.model, this.resolver);
       this.controlRef = this.control.createComponent(this.mfactory);
       this.controlRef.instance.setElementParent(this);
     }

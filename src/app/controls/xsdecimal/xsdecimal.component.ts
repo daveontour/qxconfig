@@ -1,4 +1,4 @@
-import { Globals } from './../../globals';
+import { Globals } from '../../services/globals';
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ControlComponent } from '../control/control.component';
 

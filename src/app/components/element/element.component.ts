@@ -1,6 +1,5 @@
 import { ItemConfig } from '../../interfaces/interfaces';
 import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
-import { DisplaywidgetComponent } from '../displaywidget/displaywidget.component';
 
 
 
@@ -9,7 +8,7 @@ import { DisplaywidgetComponent } from '../displaywidget/displaywidget.component
   templateUrl: './element.component.html',
   styleUrls: ['./element.component.css']
 })
-export abstract class ElementComponent extends DisplaywidgetComponent {
+export abstract class ElementComponent  {
   @ViewChild("container", { read: ViewContainerRef }) container;
   @ViewChild("attributes", { read: ViewContainerRef }) attributes;
   @Input() id: any;
@@ -33,12 +32,8 @@ export abstract class ElementComponent extends DisplaywidgetComponent {
   public bobNumberChild = 0;
   public siblingCounter = 0;
 
-  constructor(public resolver: ComponentFactoryResolver) {
-    super();
-    // this.elementID = this.elementID.concat(this.id);
-  }
+  constructor(public resolver: ComponentFactoryResolver) { }
 
-  //abstract createElement(el: ItemConfig, type: string): void;
   abstract getElementString(indent?:string): string;
   abstract getSiblingString(indent?:string): string;
   abstract setConfig(conf: ItemConfig, parentObject: any, topLevel:boolean): void;
@@ -112,6 +107,8 @@ export abstract class ElementComponent extends DisplaywidgetComponent {
   }
 
   sortAttributes(order: String): void {
+
+    // Sort the order of the attributes so that the required ones are listed first 
     this.config.attributes.sort((a, b) => {
       if ((a.required && b.required) || (!a.required && !b.required)) {
         return 0;
@@ -133,7 +130,6 @@ export abstract class ElementComponent extends DisplaywidgetComponent {
 
   
   isOddDepth() {
-
     return this.depth % 2 == 1;
  }
  isEvenDepth() {

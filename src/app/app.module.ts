@@ -13,7 +13,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http'; 
 import { FormsModule, FormBuilder, FormGroup }   from '@angular/forms';
-import { Globals } from './globals';
+import { Globals } from './services/globals';
+import { WidgetFactory } from './services/widgetfactory';
 import { AceEditorModule } from 'ng2-ace-editor';
 import { SequenceComponent } from './components/sequence/sequence.component';
 import { SimpleComponent } from './components/simple/simple.component';
@@ -25,9 +26,7 @@ import { MinMaxInclusiveComponent } from './controls/minmaxinclusive/minmaxinclu
 import { XSStringComponent } from './controls/xsstring/xsstring.component';
 import { XSDateComponent } from './controls/xsdate/xsdate.component';
 import { jqxSplitterComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxsplitter';
-import { ControlComponent } from './controls/control/control.component';
-import { DisplaywidgetComponent } from './components/displaywidget/displaywidget.component';
-import { ElementComponent } from './components/element/element.component';
+
 
 
 @NgModule({
@@ -60,7 +59,8 @@ import { ElementComponent } from './components/element/element.component';
     AceEditorModule
   ],
   providers: [
-    Globals
+    Globals,
+    WidgetFactory
   ],
   bootstrap: [AppComponent],
   entryComponents: [

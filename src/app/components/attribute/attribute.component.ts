@@ -1,16 +1,15 @@
-import { Globals } from './../../globals';
+import { WidgetFactory } from './../../services/widgetfactory';
+import { Globals } from '../../services/globals';
 import { Component} from '@angular/core';
 import { ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core'
-import { ItemConfig } from '../../interfaces/interfaces';
-import { DisplaywidgetComponent} from '../displaywidget/displaywidget.component';
-
+import { ItemConfig } from '../../interfaces/interfaces'
 
 @Component({
   selector: 'app-attribute',
   templateUrl: './attribute.component.html',
   styleUrls: ['./attribute.component.css']
 })
-export class AttributeComponent extends DisplaywidgetComponent{
+export class AttributeComponent {
   // Reference to the place in the DOM to place the control
   @ViewChild("control", { read: ViewContainerRef }) control;
   controlRef: any;
@@ -18,8 +17,8 @@ export class AttributeComponent extends DisplaywidgetComponent{
   id: string;
   factory: any;
 
-  constructor(public resolver: ComponentFactoryResolver, public global:Globals) {
-    super ();
+  constructor(public resolver: ComponentFactoryResolver, public global:Globals, public widgetFactory: WidgetFactory) {
+  
    }
 
    change(){
@@ -38,8 +37,7 @@ export class AttributeComponent extends DisplaywidgetComponent{
     }
 
     // Create the editable control 
-    // getFactory() is in tbe DisplaywidgetComponent
-    this.factory = this.getFactory(this.config.model, this.resolver);
+    this.factory = this.widgetFactory.getFactory(this.config.model, this.resolver);
     this.controlRef = this.control.createComponent(this.factory);
 
     // Set the config of the control

@@ -2,7 +2,7 @@ import { AttributeComponent } from '../attribute/attribute.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
-import { Globals } from '../../globals';
+import { Globals } from '../../services/globals';
 
 @Component({
   selector: 'app-sequence',
