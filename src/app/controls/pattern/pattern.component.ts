@@ -17,4 +17,8 @@ export class PatternComponent extends ControlComponent {
     super(resolver,global);
   }
 
+  getPopOver(){
+    return "Dave was Here";
+  }
+
 }

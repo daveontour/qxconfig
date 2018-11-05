@@ -8,8 +8,14 @@ import { ControlComponent } from '../control/control.component';
 })
 
 export class XSStringComponent extends ControlComponent {
+  popover : string;
 
   constructor(public resolver: ComponentFactoryResolver, public global:Globals) {
     super(resolver,global);
+    this.popover = "Fix Popover";
+  }
+
+  getPopOver(){
+    return "Dave was Here";
   }
 }

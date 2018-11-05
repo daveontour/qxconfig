@@ -61,9 +61,13 @@ span.form-check-input:disabled{
   min-width: 125px;
   border: 1px solid #eee;
   border-left: 3px solid;
+  border-right: 3px solid;
   border-radius: 5px;
   transition: border-color .5s ease-out;
   border-left-color: lightgray;
+  border-right-color: lightgray;
+  font-size: 9pt;
+  padding-left: 5px;
 }
 
 .inputError {
@@ -71,9 +75,13 @@ span.form-check-input:disabled{
   min-width: 125px;
   border: 1px solid #eee;
   border-left: 3px solid;
+  border-right: 3px solid;
   border-radius: 5px;
   transition: border-color .5s ease-out;
   border-left-color: salmon;
+ border-right-color: salmon;
+ font-size: 9pt;
+ padding-left: 5px;
 }
 
 .inputOK {
@@ -81,9 +89,13 @@ span.form-check-input:disabled{
   min-width: 125px;
   border: 1px solid #eee;
   border-left: 3px solid;
+  border-right: 3px solid;
   border-radius: 5px;
   transition: border-color .5s ease-out;
   border-left-color: palegreen;
+  border-right-color: palegreen;
+  font-size: 9pt;
+  padding-left: 5px;
 }
 
 .down-arrow-required::after {

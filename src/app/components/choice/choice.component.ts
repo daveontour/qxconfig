@@ -17,7 +17,7 @@ export class ChoiceComponent extends ElementComponent {
     super(resolver);
   }
 
-  getSiblingsContainer(){
+  getSiblingsContainer() {
     return this.siblingsPt;
   }
 
@@ -53,7 +53,7 @@ export class ChoiceComponent extends ElementComponent {
     }
   }
 
-  showDeleteAction(){
+  showDeleteAction() {
     return this.parent.siblingCounter > this.config.minOccurs;
   }
 
@@ -61,15 +61,15 @@ export class ChoiceComponent extends ElementComponent {
 
     let size = this.container.length;
 
-    for (var i = 0; i < size; i++){
+    for (var i = 0; i < size; i++) {
       this.container.remove();
     }
     this.children = [];
 
     let choice = this.selectedChoice;
-    this.opts.forEach( (c) => {
+    this.opts.forEach((c) => {
       if (c.name == choice) {
-         this.creator.createChoiceElement(c, this);
+        this.creator.createChoiceElement(c, this);
       }
     })
   }
@@ -82,9 +82,13 @@ export class ChoiceComponent extends ElementComponent {
     let e: string = "";
     let choice = this.selectedChoice;
     if (this.children != null) {
-      this.children.forEach(function (value) {
+      this.children.forEach((value) => {
         if (value.config.name == choice) {
           e = e.concat(value.getElementString(indent));
+          if (choice == "-Sequence Holder-") {
+            e = e.replace("<-Sequence Holder->\n", "");
+            e = e.replace("</-Sequence Holder->\n", "");
+          }
         }
       });
     }
@@ -118,7 +122,7 @@ export class ChoiceComponent extends ElementComponent {
 
     this.selectedChoice = choiceIDs[0];
     this.config.choiceElementIdentifiers = choiceIDs;
-   
+
     for (var i = 0; i < conf.minOccurs; i++) {
       this.addSibling();
     }
