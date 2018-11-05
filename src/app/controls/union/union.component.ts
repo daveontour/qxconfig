@@ -1,16 +1,19 @@
-
 import { Globals } from '../../services/globals';
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ControlComponent } from '../control/control.component';
 
 @Component({
-  selector: 'app-minmaxlength',
-  templateUrl: './minmaxlength.component.html'
+  selector: 'app-union',
+  templateUrl: './union.component.html'
 })
 
-export class MinMaxLengthComponent extends ControlComponent {
 
+export class UnionComponent extends ControlComponent {
+
+   i : number = 0;
+   value: any;
   constructor(public resolver: ComponentFactoryResolver, public global:Globals) {
-    super(resolver, global);
+    super(resolver,global);
   }
+
 }

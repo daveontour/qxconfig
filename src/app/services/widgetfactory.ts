@@ -1,3 +1,4 @@
+import { UnionComponent } from './../controls/union/union.component';
 import { Injectable } from '@angular/core';
 import { XSDateComponent } from './../controls/xsdate/xsdate.component';
 import { BaseNullComponent } from './../controls/basenull/basenull.component';
@@ -24,7 +25,7 @@ export class WidgetFactory {
     var factory: any;
 
     switch (model) {
-      case "minmaxlength":
+      case "minMaxLength":
         factory = resolver.resolveComponentFactory(MinMaxLengthComponent);
         break;
       case "enum":
@@ -55,8 +56,11 @@ export class WidgetFactory {
         case "xs:date":
         factory = resolver.resolveComponentFactory(XSDateComponent);
         break;
-      case "pattern":
+        case "pattern":
         factory = resolver.resolveComponentFactory(PatternComponent);
+        break;
+        case "union":
+        factory = resolver.resolveComponentFactory(UnionComponent);
         break;
       default:
         factory = resolver.resolveComponentFactory(BaseComponent);

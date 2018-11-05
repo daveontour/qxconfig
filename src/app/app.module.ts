@@ -26,6 +26,7 @@ import { MinMaxInclusiveComponent } from './controls/minmaxinclusive/minmaxinclu
 import { XSStringComponent } from './controls/xsstring/xsstring.component';
 import { XSDateComponent } from './controls/xsdate/xsdate.component';
 import { jqxSplitterComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxsplitter';
+import { UnionComponent } from './controls/union/union.component';
 
 @NgModule({
   declarations: [
@@ -43,11 +44,13 @@ import { jqxSplitterComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqx
     XSLanguageComponent,
     XSDecimalComponent,
     EnumListComponent,
+    UnionComponent,
     BaseComponent,
     BaseNullComponent,
     XSDateComponent,
     AttributeComponent,
-    jqxSplitterComponent
+    jqxSplitterComponent,
+    UnionComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +69,7 @@ import { jqxSplitterComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqx
     SimpleComponent, 
     ChoiceComponent, 
     PatternComponent,
+    UnionComponent,
     MinMaxLengthComponent,
     MinMaxLengthPatternComponent,
     MinMaxInclusiveComponent,
