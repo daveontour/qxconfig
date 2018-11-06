@@ -8,15 +8,26 @@ export abstract class ControlComponent {
   parent: any;
   bElement: boolean = false;
   config: ItemConfig;
+  popOverContent : string = ""
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) { }
 
-  setElementParent(parent) {
+  abstract setUpCommon() :void;
+
+  public setElementParent(parent) {
     this.parent = parent;
     this.config = parent.config;
     this.bElement = true;
-
+    this.setUpCommon();
   }
+
+  setAttribParent(parent: AttributeComponent) {
+    this.parent = parent;
+    this.config = parent.config;
+    this.bElement = false;
+    this.setUpCommon();
+  }
+
 
   change(){
     this.global.getString();
@@ -25,12 +36,7 @@ export abstract class ControlComponent {
   requireStar(){
     return (this.config.enabled || this.config.required);
   }
-  setAttribParent(parent: AttributeComponent) {
-    this.parent = parent;
-    this.config = parent.config;
-    this.bElement = false;
-  }
-  setValue(value: any) {
+    setValue(value: any) {
     this.config.value = value;
   }
 

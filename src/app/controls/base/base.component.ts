@@ -14,4 +14,11 @@ export class BaseComponent extends ControlComponent {
   constructor(public resolver: ComponentFactoryResolver, public global:Globals) {
     super(resolver, global);
   }
+
+  setUpCommon(){
+    this.popOverContent = "Length: min("+this.config.minLength+"), max("+this.config.maxLength+"), Pattern: "+this.config.pattern;
+    
+    if (typeof this.config.modelDescription != 'undefined')
+    this.popOverContent = this.config.modelDescription+"\n"+this.popOverContent;
+}
 }
