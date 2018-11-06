@@ -89,8 +89,6 @@ export class SimpleComponent extends ElementComponent {
 
   getSiblingString(indent?: string) {
 
-    debugger;
-
     if (!this.config.enabled && !this.config.required) {
       return "";
     }
@@ -101,6 +99,11 @@ export class SimpleComponent extends ElementComponent {
 
     if (this.config.value == null) {
       e = e.concat("/>\n");
+
+      //If it's not a element that only has attributes, then raise an alarm
+      if (typeof this.config.model !="undefined"){
+        this.global.alerts = this.global.alerts+"Element "+this.config.name+" Undefined\n";
+      }
       return e;
     } else {
       e = e.concat('>')

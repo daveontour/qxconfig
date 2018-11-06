@@ -7,7 +7,7 @@ export abstract class ControlComponent {
 
   parent: any;
   bElement: boolean = false;
-  config: ItemConfig;
+  public config: ItemConfig;
   popOverContent : string = ""
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) { }
@@ -41,6 +41,13 @@ export abstract class ControlComponent {
   }
 
   getValue() {
+    if (typeof this.config.value == "undefined"){
+      if (this.bElement){
+      this.global.alerts = this.global.alerts+"Element "+this.config.name+" Undefined\n";
+      } else {
+        this.global.alerts = this.global.alerts+"Attribute "+this.config.name+" Undefined\n";       
+      }
+    }
     return this.config.value;
   }
 

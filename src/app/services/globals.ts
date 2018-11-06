@@ -6,11 +6,16 @@ export class Globals {
   baseURL: string = 'http://localhost:8080/XSD_Forms/json';
   xmlMessage: string = "";
   sampleXMLMessage: string = "";
+  public alerts : string = "No alerts";
   root: any;
 
   getString() {
 
+    this.alerts = "";
     this.sampleXMLMessage = this.formatXML(this.root.getElementString(""));
+    if (this.alerts == ""){
+      this.alerts = "No alerts";
+    }
   }
 
   public guid() {

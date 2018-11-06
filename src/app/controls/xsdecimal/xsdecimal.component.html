@@ -1,5 +1,7 @@
 <!-- The control -->
-  <input 
+  <input
+  (change) = "this.change()"
+  (onfocusout) = "this.change()" 
   type="text" [(ngModel)]="config.value"  #name="ngModel"
   [attr.disabled]="(this.isEnabled() || (!this.isEnabled() && this.isRequired()))?null:''" 
   [ngClass]="{'form-control-sm':true, 'pt-0':true, 'pb-0':true,  'inputRequired':(this.isEnabled()),'inputError':(this.isEnabled() && (this.isInvalid() || ( name.invalid))), 'inputOK':(this.isEnabled() && ( name.valid && !this.isInvalid()))}"
