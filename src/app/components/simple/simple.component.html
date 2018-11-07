@@ -2,7 +2,7 @@
   <div class="row mt-1 ml-2" style="background-color:khakin">
     <div class="col-md-7 pl-1" style="background-color: white">
         <label [ngClass]="{'form-check-label':true, 'simple-label':true, 'noselect':true}" (click)="isCollapsed = !isCollapsed" style="color:#930F80;margin-bottom:initial; display: initial !important;font-weight: 100"
-          placement="right" ngbPopover="{{config.annotation}}" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">{{config.name}}
+          placement="right" ngbPopover="{{config.annotation+'  '+this.elementPath}}" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">{{config.name}}
         </label>
 
         <!-- The little arrow at the end of the name -->
@@ -11,7 +11,8 @@
         (click)="isCollapsed = !isCollapsed" 
         [ngClass]="{'right-arrow':isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'down-arrow':!isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'right-arrow-required':isCollapsed  && hasRequiredAttributes(), 'down-arrow-required':!isCollapsed && hasRequiredAttributes()}" >
         </span>
-       
+
+
         <div *ngIf="showDeleteAction()" (click) = "this.remove()" style="float: right">
         <span class="DeleteAction"> </span>
         </div>

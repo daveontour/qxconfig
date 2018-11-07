@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   elements: any[] = [];
   public depth = 0;
   children : any[] = [];
+  public elementPath :string = "";
 
   constructor( private resolver: ComponentFactoryResolver, private http: HttpClient,  public global: Globals ) {}
 
@@ -31,7 +32,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=aidx').subscribe(data => {
+    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=test').subscribe(data => {
       data.elementPath = data.name;
       data.isRoot = true;
       this.walkStructure(data, this);
@@ -106,7 +107,7 @@ export class AppComponent implements OnInit {
      // Initialise the object with it's configuration data
      newObjRef.setParentID(parentObject.id + "/" + data.name);
      newObjRef.setParent(parentObject);
-     newObjRef.setConfig(data);
+     newObjRef.setConfig(data, parentObject);
      
      // Assign the new object as a child of the parent object
      parentObject.children.push(newObjRef);     

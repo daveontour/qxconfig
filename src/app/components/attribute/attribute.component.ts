@@ -16,6 +16,7 @@ export class AttributeComponent {
   config: ItemConfig;
   id: string;
   factory: any;
+  elementPath: string;
 
   constructor(public resolver: ComponentFactoryResolver, public global:Globals, public widgetFactory: WidgetFactory) {
   
@@ -28,13 +29,17 @@ export class AttributeComponent {
      return this.config.enabled;
    }
 
-  setAttribute(attribute: ItemConfig) {
+  setAttribute(attribute: ItemConfig, ePath: string) {
+
+    debugger;
     //Attribute config
     this.config = attribute;
 
     if (this.config.required){
       this.config.enabled = true;
     }
+
+    this.elementPath = ePath;
 
     // Create the editable control 
     this.factory = this.widgetFactory.getFactory(this.config.model, this.resolver);

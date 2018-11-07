@@ -39,6 +39,7 @@ export class SequenceComponent extends ElementComponent {
     this.topLevel = true;
     this.depth = parentObj.depth + 1;
     this.parent = parentObj;
+    this.elementPath = parentObj.elementPath+"/"+this.config.name;
 
     this.addAttributes(conf);
 
@@ -57,7 +58,14 @@ export class SequenceComponent extends ElementComponent {
     this.topLevel = false;
     this.depth = parentObj.depth;
     this.parent = parentObj;
+    this.elementPath = parentObj.elementPath;
     this.addAttributes(conf);
+ 
+    if (typeof this.config.annotation == 'undefined'){
+      this.config.annotation = "";
+    }
+
+    
     this.parent.siblings.push(this); 
   }
 

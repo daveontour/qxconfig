@@ -24,6 +24,7 @@ export abstract class ElementComponent  {
   public siblingCounter = 0;
   public topLevel : boolean = false;
   public isCollapsed : boolean = true;
+  public elementPath: string = "DAVE";
 
   constructor(public resolver: ComponentFactoryResolver) { }
 
@@ -70,10 +71,11 @@ export abstract class ElementComponent  {
           this.attributesRequired = true;
           this.isCollapsed = false;
         }
+
         let factory = this.resolver.resolveComponentFactory(AttributeComponent);
         let ref = this.attributes.createComponent(factory);
-        ref.instance.setID(this.id + "@" + att.name);
-        ref.instance.setAttribute(att);
+        debugger;
+        ref.instance.setAttribute(att,this.elementPath+ "@" + att.name );
         this.attchildren.push(ref.instance);
       });
     }

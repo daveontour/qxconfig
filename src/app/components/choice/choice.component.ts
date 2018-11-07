@@ -108,6 +108,7 @@ export class ChoiceComponent extends ElementComponent {
     let choiceIDs = [];
     this.topLevel = true;
     this.parent = parentObj;
+    this.elementPath = this.parent.elementPath;
 
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.uuid = this.global.guid();
@@ -134,6 +135,7 @@ export class ChoiceComponent extends ElementComponent {
     this.parent = parentObj;
     let choiceIDs = [];
     this.topLevel = false;
+    this.elementPath = this.parent.elementPath;
 
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.uuid = this.global.guid();

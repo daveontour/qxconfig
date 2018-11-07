@@ -46,9 +46,10 @@ export class SimpleComponent extends ElementComponent {
 
     let ref = this.siblingsPt.createComponent(this.resolver.resolveComponentFactory(SimpleComponent));
 
-    ref.instance.setSiblingConfig(this.config);
+    ref.instance.setSiblingConfig(this.config, this);
     ref.instance.setParent(this);
     ref.instance.config.enabled = true;
+    ref.instance.elementPath = this.elementPath;
     this.siblings.push(ref.instance);
     this.siblingCounter++;
     this.change();
@@ -102,7 +103,7 @@ export class SimpleComponent extends ElementComponent {
 
       //If it's not a element that only has attributes, then raise an alarm
       if (typeof this.config.model !="undefined"){
-        this.global.alerts = this.global.alerts+"Element "+this.config.name+" Undefined\n";
+        this.global.alerts = this.global.alerts+this.elementPath+" Undefined\n";
       }
       return e;
     } else {
@@ -113,12 +114,13 @@ export class SimpleComponent extends ElementComponent {
     }
   }
 
-  setConfig(conf: ItemConfig) {
+  setConfig(conf: ItemConfig, parentObject) {
 
     this.topLevel = true;
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.enabled = this.config.required;
     this.config.uuid = this.global.guid();
+    this.elementPath = this.parent.elementPath+"/"+conf.name;
  
 
     if (this.config.typeAnnotation == null) {
@@ -140,13 +142,17 @@ export class SimpleComponent extends ElementComponent {
     }
   }
 
-  setSiblingConfig(conf: ItemConfig) {
+  setSiblingConfig(conf: ItemConfig, parentObj) {
 
     this.topLevel = false;
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.enabled = this.config.required;
-    this.config.elementPath = this.config.elementPath + "/" + this.config.name;
+    this.elementPath = parentObj.elementPath + "/" + this.config.name;
     this.config.uuid = this.global.guid();
+
+    if (typeof this.config.annotation == 'undefined'){
+      this.config.annotation = "";
+    }
  
 
     if (this.config.typeAnnotation == null) {
