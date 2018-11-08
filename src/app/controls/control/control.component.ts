@@ -45,7 +45,8 @@ export abstract class ControlComponent {
       if (this.bElement){
       this.global.alerts = this.global.alerts+"Element "+this.parent.elementPath+" Undefined\n";
       } else {
-        this.global.alerts = this.global.alerts+this.parent.elementPath+ " Undefined\n";       
+        this.global.alerts = this.global.alerts+this.parent.elementPath+ " Undefined\n"; 
+        this.global.attributesUndefined.push(this.parent.elementPath);      
       }
     }
     return this.config.value;

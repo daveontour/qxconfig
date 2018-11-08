@@ -104,6 +104,7 @@ export class SimpleComponent extends ElementComponent {
       //If it's not a element that only has attributes, then raise an alarm
       if (typeof this.config.model !="undefined"){
         this.global.alerts = this.global.alerts+this.elementPath+" Undefined\n";
+        this.global.elementsUndefined.push(this.elementPath);
       }
       return e;
     } else {

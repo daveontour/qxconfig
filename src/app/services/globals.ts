@@ -7,11 +7,15 @@ export class Globals {
   xmlMessage: string = "";
   sampleXMLMessage: string = "";
   public alerts : string = "No alerts";
+  public elementsUndefined :string[] = [];
+  public attributesUndefined :string[] = [];
   root: any;
 
   getString() {
 
     this.alerts = "";
+    this.elementsUndefined = [];
+    this.attributesUndefined = [];
     this.sampleXMLMessage = this.formatXML(this.root.getElementString(""));
     if (this.alerts == ""){
       this.alerts = "No alerts";

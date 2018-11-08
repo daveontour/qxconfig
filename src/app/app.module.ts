@@ -27,6 +27,7 @@ import { XSStringComponent } from './controls/xsstring/xsstring.component';
 import { XSDateComponent } from './controls/xsdate/xsdate.component';
 import { jqxSplitterComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxsplitter';
 import { UnionComponent } from './controls/union/union.component';
+import { AlertswindowComponent } from './alertswindow/alertswindow.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { UnionComponent } from './controls/union/union.component';
     XSDateComponent,
     AttributeComponent,
     jqxSplitterComponent,
-    UnionComponent
+    UnionComponent,
+    AlertswindowComponent
   ],
   imports: [
     BrowserModule,
