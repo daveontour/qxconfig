@@ -1,8 +1,10 @@
 <div [ngClass]="{'d-none':this.topLevel}">
   <div class="row mt-1 ml-2" style="background-color:khakin">
     <div class="col-md-7 pl-1" style="background-color: white">
+      <ng-template #popContent>{{config.description}}<br/><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
         <label [ngClass]="{'form-check-label':true, 'simple-label':true, 'noselect':true}" (click)="isCollapsed = !isCollapsed" style="color:#930F80;margin-bottom:initial; display: initial !important;font-weight: 100"
-          placement="right" ngbPopover="{{config.annotation+'  '+this.elementPath}}" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">{{config.name}}
+          placement="right" 
+          [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">{{config.name}}
         </label>
 
         <!-- The little arrow at the end of the name -->

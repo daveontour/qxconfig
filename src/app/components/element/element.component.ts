@@ -74,7 +74,6 @@ export abstract class ElementComponent  {
 
         let factory = this.resolver.resolveComponentFactory(AttributeComponent);
         let ref = this.attributes.createComponent(factory);
-        debugger;
         ref.instance.setAttribute(att,this.elementPath+ "@" + att.name );
         this.attchildren.push(ref.instance);
       });

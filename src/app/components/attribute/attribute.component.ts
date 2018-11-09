@@ -31,7 +31,7 @@ export class AttributeComponent {
 
   setAttribute(attribute: ItemConfig, ePath: string) {
 
-    debugger;
+    
     //Attribute config
     this.config = attribute;
 

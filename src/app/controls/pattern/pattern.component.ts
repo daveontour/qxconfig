@@ -11,16 +11,13 @@ import { ControlComponent } from '../control/control.component';
 // This is the default controller. Regex pattern will be defualt set to anything
 export class PatternComponent extends ControlComponent {
 
-   i : number = 0;
-   value: any;
-  constructor(public resolver: ComponentFactoryResolver, public global:Globals) {
-    super(resolver,global);
+  i: number = 0;
+  value: any;
+  constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
+    super(resolver, global);
   }
 
-  setUpCommon(){
-    this.popOverContent = "Length: min("+this.config.minLength+"), max("+this.config.maxLength+"), Pattern: "+this.config.pattern;
-    
-    if (typeof this.config.modelDescription != 'undefined')
-    this.popOverContent = this.config.modelDescription+"\n"+this.popOverContent;
-}
+  setUpCommon() {
+    this.popOverContent = "Pattern: " + this.config.pattern;
+  }
 }

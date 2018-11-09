@@ -16,8 +16,5 @@ export class XSStringComponent extends ControlComponent {
 
   setUpCommon() {
     this.popOverContent = "Pattern: " + this.config.pattern;
-
-    if (typeof this.config.modelDescription != 'undefined')
-      this.popOverContent = this.config.modelDescription + "\n" + this.popOverContent;
   }
 }

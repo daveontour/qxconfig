@@ -1,5 +1,6 @@
 <!-- The control -->
 <div class="input-group input-group-sm number-spinner" style="width: 200px">
+    <ng-template #popContent>{{this.config.modelDescription}}<br/></ng-template>
   <span class="input-group-btn">
     <button (click)='clickNum(-10)' data-dir="up" type="button"  style="background:#17A2B8;">
       <img src="/assets/img/minus.svg" style="width: 0.45rem; height: 0.45rem; cursor: pointer;" />
@@ -13,7 +14,7 @@
 
   <input type="text" #name="ngModel" [ngClass]="{'form-control-sm':true, 'text-center':true, 'form-control':true, 'inputOKSpinner':true }"
     class="form-control text-center form-control-sm" [(ngModel)]="this.num" style="width:60px" (change)="this.change()"
-    (onfocusout)="this.change()" ngbPopover="{{config.modelDescription}}" triggers="mouseenter:mouseleave" popoverTitle="Value Format">
+    (onfocusout)="this.change()" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="Value Format">
 
   <span class="input-group-btn data-up">
     <button (click)='clickNum(1)' data-dir="up" type="button"  style="background:#17A2B8;">

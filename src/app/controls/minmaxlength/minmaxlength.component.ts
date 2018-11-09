@@ -32,9 +32,6 @@ export class MinMaxLengthComponent extends ControlComponent {
       this.popOverContent = "Minimum Length: " + this.config.minLength + ", Maximum Length: " + this.config.maxLength + ", Pattern: " + this.config.pattern;
     }
     this.placeholder = this.popOverContent;
-    
-    if (typeof this.config.modelDescription != 'undefined') {
-      this.popOverContent = this.config.modelDescription + "   " + this.popOverContent;
-    }
+
   }
 }

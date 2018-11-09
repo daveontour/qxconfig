@@ -1,8 +1,10 @@
 
    <div  [ngClass]="{'d-none':(this.topLevel)}" style="margin-top:4px">
       <div [ngClass]="{'card':true,'px-2':true, 'pb-2':true, 'oddDepth':isOddDepth(),'evenDepth':isEvenDepth()}">   <div class='card-header'>
+          <ng-template #popContent>{{config.description}}<br/><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
+ 
       <label class="form-check-label h6 noselect" style="color:#930F80; display:initial !important" (click)="isCollapsed = !isCollapsed" placement="right"
-        ngbPopover="{{config.annotation+'  '+this.elementPath}}" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">
+        [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">
         {{config.name}} 
       </label>
       <!-- The little arrow at the end of the name -->

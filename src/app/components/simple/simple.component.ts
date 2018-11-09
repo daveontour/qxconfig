@@ -20,6 +20,7 @@ export class SimpleComponent extends ElementComponent {
   public siblingCounter = 0;
   public topLevel : boolean;
 
+
   constructor(public resolver: ComponentFactoryResolver, public global: Globals, public widgetFactory: WidgetFactory) {
     super(resolver);
   }
