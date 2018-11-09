@@ -1,10 +1,12 @@
-<div style="background-color: yellow; overflow-x: scroll; overflow-y: scroll">
+<div style="background-color: yellow; overflow-x: scroll; overflow-y: scroll;height: 100%;"
+[ngClass]="{'warning':hasWarning(), 'ok':!hasWarning()}"
+>
 
 <div>
   <span style="font-weight:bold">Undefined Elements</span>
   <br/>
   <div *ngFor="let err of this.global.elementsUndefined">
-    <em>Missing</em>{{err}}
+    {{err}}
   </div>
 </div>
 <div>
@@ -12,7 +14,7 @@
     <span style="font-weight:bold"> Undefined Attributes</span>
     <br/>
   <div *ngFor="let err of this.global.attributesUndefined">
-    <em>Missing</em>{{err}}
+    {{err}}
   </div>
 </div>
 </div>

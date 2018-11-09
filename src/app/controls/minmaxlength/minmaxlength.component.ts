@@ -9,15 +9,32 @@ import { ControlComponent } from '../control/control.component';
 })
 
 export class MinMaxLengthComponent extends ControlComponent {
+  public placeholder: string;
 
-  constructor(public resolver: ComponentFactoryResolver, public global:Globals) {
+  constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver, global);
   }
 
-  setUpCommon(){
-    this.popOverContent = "Length: min("+this.config.minLength+"), max("+this.config.maxLength+"), Pattern: "+this.config.pattern;
+  setUpCommon() {
+
+    if (this.config.model == "maxLength") {
+      this.config.minLength = 0;
+      this.popOverContent = "Maximum Length: " + this.config.maxLength;
+    }
+    if (this.config.model == "minLength") {
+      this.config.maxLength = Number.MAX_SAFE_INTEGER;
+      this.popOverContent = "Minimum Length: " + this.config.minLength;
+    }
+    if (this.config.model == "minMaxLength") {
+      this.popOverContent = "Minimum Length: " + this.config.minLength + ", Maximum Length: " + this.config.maxLength;
+    }
+    if (this.config.model == "minmaxlengthpattern") {
+      this.popOverContent = "Minimum Length: " + this.config.minLength + ", Maximum Length: " + this.config.maxLength + ", Pattern: " + this.config.pattern;
+    }
+    this.placeholder = this.popOverContent;
     
-    if (typeof this.config.modelDescription != 'undefined')
-    this.popOverContent = this.config.modelDescription+"   "+this.popOverContent;
-}
+    if (typeof this.config.modelDescription != 'undefined') {
+      this.popOverContent = this.config.modelDescription + "   " + this.popOverContent;
+    }
+  }
 }

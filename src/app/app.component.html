@@ -5,12 +5,12 @@
       <template #siblings></template>
     </div>
     <div id='second' style="overflow-y:scroll">
-      <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
+      <jqxSplitter   [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
         <div id="editor"  style="overflow-y:scroll">
           <ace-editor #sampleEditor [(text)]="this.global.sampleXMLMessage" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
             style="min-height: 250px; width:100%;"></ace-editor>
         </div>
-        <div id = "alerts"  style="overflow-y:scroll">
+        <div id = "alerts"  style="overflow-y:scroll;;background-color: gray">
             <!-- <ace-editor #alertEditor [(text)]="this.global.alerts" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
             style="min-height: 250px; width:100%;"></ace-editor> -->
             <app-alertswindow></app-alertswindow>

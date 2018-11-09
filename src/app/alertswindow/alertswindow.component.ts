@@ -14,4 +14,8 @@ export class AlertswindowComponent implements OnInit {
   ngOnInit() {
   }
 
+  hasWarning(){
+    return this.global.attributesUndefined.length > 0 || this.global.elementsUndefined.length > 0;
+  }
+
 }

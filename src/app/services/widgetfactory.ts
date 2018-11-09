@@ -10,7 +10,6 @@ import { BaseComponent } from './../controls/base/base.component';
 import { EnumListComponent } from './../controls/enumlist/enumlist.component';
 import { PatternComponent } from './../controls/pattern/pattern.component';
 import { XSBooleanComponent } from './../controls/xsboolean/xsboolean.component';
-import { MinMaxLengthPatternComponent } from './../controls/minmaxlengthpattern/minmaxlengthpattern.component';
 import { MinMaxLengthComponent } from './../controls/minmaxlength/minmaxlength.component';
 import { MinMaxInclusiveComponent } from './../controls/minmaxinclusive/minmaxinclusive.component';
 @Injectable()
@@ -25,17 +24,17 @@ export class WidgetFactory {
     var factory: any;
 
     switch (model) {
-      case "minMaxLength":
-        factory = resolver.resolveComponentFactory(MinMaxLengthComponent);
-        break;
       case "enum":
         factory = resolver.resolveComponentFactory(EnumListComponent);
         break;
       case "minmaxinclusive":
         factory = resolver.resolveComponentFactory(MinMaxInclusiveComponent);
         break;
-      case "minmaxlengthpattern":
-        factory = resolver.resolveComponentFactory(MinMaxLengthPatternComponent);
+        case "minmaxlengthpattern":
+        case "minMaxLength":
+        case "minLength":
+        case "maxLength":
+        factory = resolver.resolveComponentFactory(MinMaxLengthComponent);
         break;
       case "xs:boolean":
         factory = resolver.resolveComponentFactory(XSBooleanComponent);

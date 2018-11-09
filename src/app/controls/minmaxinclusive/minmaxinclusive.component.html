@@ -14,6 +14,8 @@
     [ngClass]="{'form-control-sm':true, 'text-center':true, 'form-control':true }"
     class="form-control text-center form-control-sm" 
     [(ngModel)]="this.num" style="width:60px"
+    (change) = "this.change()"
+    (onfocusout) = "this.change()"
     ngbPopover="{{config.modelDescription}}" triggers="mouseenter:mouseleave" popoverTitle="Value Format">
 
     <span class="input-group-btn data-up">

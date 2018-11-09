@@ -6,7 +6,6 @@ import { XSLanguageComponent } from './controls/xslanguage/xslanguage.component'
 import { XSIntegerComponent } from './controls/xsinteger/xsinteger.component';
 import { BaseComponent } from './controls/base/base.component';
 import { XSBooleanComponent } from './controls/xsboolean/xsboolean.component';
-import { MinMaxLengthPatternComponent } from './controls/minmaxlengthpattern/minmaxlengthpattern.component';
 import { EnumListComponent } from './controls/enumlist/enumlist.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -37,7 +36,6 @@ import { AlertswindowComponent } from './alertswindow/alertswindow.component';
     ChoiceComponent,
     PatternComponent,
     MinMaxLengthComponent,
-    MinMaxLengthPatternComponent,
     MinMaxInclusiveComponent,
     XSBooleanComponent,
     XSStringComponent,
@@ -73,7 +71,6 @@ import { AlertswindowComponent } from './alertswindow/alertswindow.component';
     PatternComponent,
     UnionComponent,
     MinMaxLengthComponent,
-    MinMaxLengthPatternComponent,
     MinMaxInclusiveComponent,
     EnumListComponent,
     XSBooleanComponent,

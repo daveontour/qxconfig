@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=aipfull').subscribe(data => {
+    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=test').subscribe(data => {
       data.elementPath = data.name;
       data.isRoot = true;
       this.walkStructure(data, this);

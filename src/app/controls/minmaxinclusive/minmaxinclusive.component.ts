@@ -45,6 +45,7 @@ export class MinMaxInclusiveComponent extends ControlComponent {
     }
 
     this.config.value = String(this.num);
+    this.change();
   }
 
   setAttribParent(parent: AttributeComponent) {
