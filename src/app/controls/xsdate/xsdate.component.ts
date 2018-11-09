@@ -14,6 +14,7 @@ export class XSDateComponent extends ControlComponent {
 
   d: Date;
   do: any;
+
   constructor(public resolver: ComponentFactoryResolver, public global:Globals) {
     super(resolver,global);
   
@@ -28,26 +29,25 @@ export class XSDateComponent extends ControlComponent {
   }
 
   setUpCommon(){
-    this.popOverContent = "Length: min("+this.config.minLength+"), max("+this.config.maxLength+"), Pattern: "+this.config.pattern;
-    
-    if (typeof this.config.modelDescription != 'undefined')
-    this.popOverContent = this.config.modelDescription+"\n"+this.popOverContent;
+
 }
 
 
   getValue(){
 
-    let day = this.config.value.day;
-    let month = this.config.value.month;
+    // debugger;
+    // let day = this.config.value.day;
+    // let month = this.config.value.month;
 
-    if (Number(this.config.value.month) < 10){
-      month = "0".concat(this.config.value.month);
-    }
-    if (Number(this.config.value.day) < 10){
-      day = "0".concat(this.config.value.day);
-    }
-    let x = this.config.value.year + "-" + month + "-" + day;
-    return x;
+    // if (Number(this.config.value.month) < 10){
+    //   month = "0".concat(this.config.value.month);
+    // }
+    // if (Number(this.config.value.day) < 10){
+    //   day = "0".concat(this.config.value.day);
+    // }
+    // let x = this.config.value.year + "-" + month + "-" + day;
+    
+    return "FIX THIS";
   }
 
   setElementParent(parent: SimpleComponent) {
@@ -55,6 +55,7 @@ export class XSDateComponent extends ControlComponent {
     this.config = parent.config;
     this.config.value = this.do;
     this.bElement = true;
+    this.setUpCommon();
 
   }
   setAttribParent(parent: AttributeComponent) {
@@ -62,5 +63,6 @@ export class XSDateComponent extends ControlComponent {
     this.config = parent.config;
     this.bElement = false;
     this.config.value = this.do;
+    this.setUpCommon();
   }
 }
