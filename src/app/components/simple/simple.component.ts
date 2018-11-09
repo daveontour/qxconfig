@@ -131,8 +131,6 @@ export class SimpleComponent extends ElementComponent {
     if (this.config.model != null) {
       let mfactory = this.widgetFactory.getFactory(this.config.model, this.resolver);
       this.controlRef = this.control.createComponent(mfactory);
-
-      // Set the config of the control
       this.controlRef.instance.setElementParent(this);
     }
 

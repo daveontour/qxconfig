@@ -27,7 +27,7 @@ export class WidgetFactory {
       case "enum":
         factory = resolver.resolveComponentFactory(EnumListComponent);
         break;
-      case "minmaxinclusive":
+      case "integerLimited":
         factory = resolver.resolveComponentFactory(MinMaxInclusiveComponent);
         break;
         case "minmaxlengthpattern":

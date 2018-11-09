@@ -18,6 +18,7 @@ export abstract class ControlComponent {
     this.parent = parent;
     this.config = parent.config;
     this.bElement = true;
+    console.log(parent.config.name);
     this.setUpCommon();
   }
 

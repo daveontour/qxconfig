@@ -98,6 +98,24 @@ span.form-check-input:disabled{
   padding-left: 5px;
 }
 
+.inputOKSpinner {
+  margin: 0;
+  min-width: 60px;
+  border: 1px solid #eee;
+  border-left: 3px solid;
+  border-right: 3px solid;
+  border-radius: 5px;
+  transition: border-color .5s ease-out;
+  border-left-color: palegreen;
+  border-right-color: palegreen;
+  font-size: 9pt !important;
+  height: 20px !important;
+  padding-left: 2px;
+}
+.spinnerBtn{
+  height: 20px !important;
+}
+
 .down-arrow-required::after {
   display: inline-block;
   width: 0;

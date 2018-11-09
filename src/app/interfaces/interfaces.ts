@@ -26,6 +26,8 @@ export interface ItemConfig{
     restrictionPattern: string,
     minInclusive: number,
     maxInclusive: number,
+    minExclusive: number,
+    maxExclusive: number,
     pattern:string,
     minOccurs : number,
     maxOccurs : number,

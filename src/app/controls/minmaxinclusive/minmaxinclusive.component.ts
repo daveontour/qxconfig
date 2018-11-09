@@ -14,29 +14,36 @@ import { ControlComponent } from '../control/control.component';
 
 export class MinMaxInclusiveComponent extends ControlComponent {
   num: number = 0;
- 
-  constructor(public resolver: ComponentFactoryResolver, public global:Globals) {
+
+  constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver, global);
   }
 
-  setUpCommon(){
-    this.popOverContent = "Length: min("+this.config.minLength+"), max("+this.config.maxLength+"), Pattern: "+this.config.pattern;
-    
+  public setUpCommon() {
+
+    //Enable it for inclusive and exclussive use
+    if (typeof this.config.maxExclusive != "undefined") {
+      this.config.maxInclusive = this.config.maxExclusive - 1;
+    }
+    if (typeof this.config.minExclusive != "undefined") {
+      this.config.minInclusive = this.config.minExclusive + 1;
+    }
+
     if (typeof this.config.modelDescription != 'undefined')
-    this.popOverContent = this.config.modelDescription+"\n"+this.popOverContent;
-}
+      this.popOverContent = this.config.modelDescription + "\n" + this.popOverContent;
+  }
 
-  clickNum(step:number) {
+  clickNum(step: number) {
 
- 
+
     this.num = Number(this.config.value) + step;
 
-    if ( this.config.minInclusive == null){
-      this.config.minInclusive = 1;
+    if (this.config.minInclusive == null) {
+      this.config.minInclusive = -1 * Number.MAX_SAFE_INTEGER;
     }
-    if ( this.config.maxInclusive == null){
+    if (this.config.maxInclusive == null) {
       this.config.maxInclusive = Number.MAX_SAFE_INTEGER;
-    }  
+    }
     if (this.num < this.config.minInclusive) {
       this.num = this.config.minInclusive;
     }
@@ -54,10 +61,11 @@ export class MinMaxInclusiveComponent extends ControlComponent {
     this.config = parent.config;
     this.bElement = false;
     this.num = Number(this.config.minInclusive);
-    if (isNaN(this.num)){
+    if (isNaN(this.num)) {
       this.num = 1;
-     }
-     this.config.value = String(this.num);
+    }
+    this.config.value = String(this.num);
+    this.setUpCommon();
   }
 
   setElementParent(parent: SimpleComponent) {
@@ -65,10 +73,10 @@ export class MinMaxInclusiveComponent extends ControlComponent {
     this.config = parent.config;
     this.bElement = true;
     this.num = Number(this.config.minInclusive);
-    if (isNaN(this.num)){
+    if (isNaN(this.num)) {
       this.num = 1;
     }
     this.config.value = String(this.num);
-
+    this.setUpCommon();
   }
 }

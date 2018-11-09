@@ -4,7 +4,7 @@
     name="dp" [(ngModel)]="config.value" ngbDatepicker #d="ngbDatepicker" placement="right" ngbPopover="{{config.modelDescription}}"
     triggers="mouseenter:mouseleave" popoverTitle="Value Format">
   <div class="input-group-append">
-    <button (click)="d.toggle()" type="button">
+    <button (click)="d.toggle()" type="button"  style="background:#17A2B8;">
       <img src="/assets/img/calendar-icon.svg" style="width: 0.45rem; height: 0.45rem; cursor: pointer;" />
     </button>
   </div>
