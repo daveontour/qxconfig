@@ -1,3 +1,4 @@
+import { XSDateTimeComponent } from './controls/xsdateTime/xsdateTime.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BaseNullComponent } from './controls/basenull/basenull.component';
@@ -37,7 +38,7 @@ import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 export const MY_MOMENT_FORMATS = {
   parseInput: 'l LT',
   fullPickerInput: '',
-  datePickerInput: 'l',
+  datePickerInput: 'YYYY-MM-DD',
   timePickerInput: 'LT',
   monthYearLabel: 'MMM YYYY',
   dateA11yLabel: 'LL',
@@ -63,6 +64,7 @@ export const MY_MOMENT_FORMATS = {
     BaseComponent,
     BaseNullComponent,
     XSDateComponent,
+    XSDateTimeComponent,
     AttributeComponent,
     jqxSplitterComponent,
     UnionComponent,
@@ -101,6 +103,7 @@ export const MY_MOMENT_FORMATS = {
     XSLanguageComponent,
     XSDecimalComponent,
     XSDateComponent,
+    XSDateTimeComponent,
     AttributeComponent
   ]
 })

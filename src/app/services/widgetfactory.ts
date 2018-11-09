@@ -1,3 +1,4 @@
+import { XSDateTimeComponent } from './../controls/xsdateTime/xsdateTime.component';
 import { UnionComponent } from './../controls/union/union.component';
 import { Injectable } from '@angular/core';
 import { XSDateComponent } from './../controls/xsdate/xsdate.component';
@@ -54,6 +55,9 @@ export class WidgetFactory {
         break;
         case "xs:date":
         factory = resolver.resolveComponentFactory(XSDateComponent);
+        break;
+        case "xs:dateTime":
+        factory = resolver.resolveComponentFactory(XSDateTimeComponent);
         break;
         case "pattern":
         factory = resolver.resolveComponentFactory(PatternComponent);
