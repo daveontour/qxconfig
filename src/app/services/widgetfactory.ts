@@ -1,3 +1,6 @@
+import { XSNumberComponent } from './../controls/xsnumber/xsnumber.component';
+import { XSGDayComponent } from './../controls/xsgDay/gDay.component';
+import { XSGMonthComponent } from './../controls/xsgMonth/gMonth.component';
 import { XSTimeComponent } from './../controls/xstime/xstime.component';
 import { XSDateTimeComponent } from './../controls/xsdateTime/xsdateTime.component';
 import { UnionComponent } from './../controls/union/union.component';
@@ -14,6 +17,7 @@ import { PatternComponent } from './../controls/pattern/pattern.component';
 import { XSBooleanComponent } from './../controls/xsboolean/xsboolean.component';
 import { MinMaxLengthComponent } from './../controls/minmaxlength/minmaxlength.component';
 import { MinMaxInclusiveComponent } from './../controls/minmaxinclusive/minmaxinclusive.component';
+
 
 @Injectable()
 export class WidgetFactory {
@@ -63,6 +67,26 @@ export class WidgetFactory {
         break;
         case "xs:dateTime":
         factory = resolver.resolveComponentFactory(XSDateTimeComponent);
+        break;
+        case "xs:gDay":
+        factory = resolver.resolveComponentFactory(XSGDayComponent);
+        break;
+        case "xs:gMonth":
+        factory = resolver.resolveComponentFactory(XSGMonthComponent);
+        break;
+        case "xs:byte":
+        case "xs:int":
+        case "xs:long":
+        case "xs:short":
+        case "xs:unsignedbyte":
+        case "xs:unsignedint":
+        case "xs:unsignedlong":
+        case "xs:unsignedshort":
+        case "xs:positiveinteger":
+        case "xs:negativeinteger":
+        case "xs:nonpositiveinteger":
+        case "xs:nonnegativeinteger":
+        factory = resolver.resolveComponentFactory(XSNumberComponent);
         break;
         case "pattern":
         factory = resolver.resolveComponentFactory(PatternComponent);

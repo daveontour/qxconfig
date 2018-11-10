@@ -1,3 +1,5 @@
+import { XSGMonthComponent } from './controls/xsgMonth/gMonth.component';
+import { XSNumberComponent } from './controls/xsnumber/xsnumber.component';
 import { XSDateTimeComponent } from './controls/xsdateTime/xsdateTime.component';
 import { XSTimeComponent } from './controls/xstime/xstime.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -33,6 +35,7 @@ import { AlertswindowComponent } from './alertswindow/alertswindow.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
+import { XSGDayComponent } from './controls/xsgDay/gDay.component';
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -70,7 +73,10 @@ export const MY_MOMENT_FORMATS = {
     AttributeComponent,
     jqxSplitterComponent,
     UnionComponent,
-    AlertswindowComponent
+    AlertswindowComponent,
+    XSGDayComponent,
+    XSGMonthComponent,
+    XSNumberComponent
   ],
   imports: [
     BrowserModule,
@@ -107,7 +113,10 @@ export const MY_MOMENT_FORMATS = {
     XSDateComponent,
     XSDateTimeComponent,
     XSTimeComponent,
-    AttributeComponent
+    AttributeComponent,
+    XSGDayComponent,
+    XSGMonthComponent,
+    XSNumberComponent
   ]
 })
 export class AppModule { }

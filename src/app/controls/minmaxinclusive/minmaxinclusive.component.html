@@ -12,8 +12,8 @@
     </button>
   </span>
 
-  <input type="text" #name="ngModel" [ngClass]="{'form-control-sm':true, 'text-center':true, 'form-control':true, 'inputOKSpinner':true }"
-    class="form-control text-center form-control-sm" [(ngModel)]="this.num" style="width:60px" (change)="this.change()"
+  <input type="text" #name="ngModel" [ngClass]="{'text-center':true, 'form-control':true, 'inputOKSpinner':true }"
+    class="form-control text-center form-control-sm" [(ngModel)]="this.num" style="width:50px !important" (change)="this.change()"
     (onfocusout)="this.change()" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="Value Format">
 
   <span class="input-group-btn data-up">

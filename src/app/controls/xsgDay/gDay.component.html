@@ -1,0 +1,9 @@
+  <select 
+  [(ngModel)]="config.value"
+  [ngClass]="{'form-control-sm':false}"
+  style = "font-size:9pt; padding-left:4px"
+  [ngClass]="{'inputRequired':(this.isEnabled()),'inputNotRequired':(!this.isEnabled()),'inputError':(this.isEnabled() && (this.isInvalid() || ( name.invalid))), 'inputOK':(this.isEnabled() && ( name.valid && !this.isInvalid()))}"
+  (change) = "this.change()"
+  [attr.disabled]="(this.isEnabled() || (!this.isEnabled() && this.isRequired()))?null:''" >
+    <option [value]="item.v" *ngFor="let item of this.items">{{item.d}}</option>
+  </select>
