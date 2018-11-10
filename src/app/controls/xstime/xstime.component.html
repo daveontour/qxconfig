@@ -1,0 +1,12 @@
+<div class="input-group">
+    <input 
+    [owlDateTimeTrigger]="dt7" 
+    [owlDateTime]="dt7"
+    [ngClass]="{ 'inputOK':true}"
+    [(ngModel)]="d"
+    >
+
+    <owl-date-time 
+    (afterPickerClosed) = "this.change()"
+    [pickerType]="'timer'" [showSecondsTimer] = "true" #dt7></owl-date-time>
+</div>

@@ -1,3 +1,4 @@
+import { XSTimeComponent } from './../controls/xstime/xstime.component';
 import { XSDateTimeComponent } from './../controls/xsdateTime/xsdateTime.component';
 import { UnionComponent } from './../controls/union/union.component';
 import { Injectable } from '@angular/core';
@@ -13,6 +14,7 @@ import { PatternComponent } from './../controls/pattern/pattern.component';
 import { XSBooleanComponent } from './../controls/xsboolean/xsboolean.component';
 import { MinMaxLengthComponent } from './../controls/minmaxlength/minmaxlength.component';
 import { MinMaxInclusiveComponent } from './../controls/minmaxinclusive/minmaxinclusive.component';
+
 @Injectable()
 export class WidgetFactory {
  
@@ -55,6 +57,9 @@ export class WidgetFactory {
         break;
         case "xs:date":
         factory = resolver.resolveComponentFactory(XSDateComponent);
+        break;
+        case "xs:time":
+        factory = resolver.resolveComponentFactory(XSTimeComponent);
         break;
         case "xs:dateTime":
         factory = resolver.resolveComponentFactory(XSDateTimeComponent);

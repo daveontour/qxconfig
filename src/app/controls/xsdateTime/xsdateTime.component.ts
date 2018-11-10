@@ -14,7 +14,6 @@ import * as moment from "moment";
 export class XSDateTimeComponent extends ControlComponent {
 
   d:  moment.Moment = moment();
-  do: moment.Moment = moment();
 
   constructor(public resolver: ComponentFactoryResolver, public global:Globals) {
     super(resolver,global);
@@ -31,7 +30,7 @@ export class XSDateTimeComponent extends ControlComponent {
   setElementParent(parent: SimpleComponent) {
     this.parent = parent;
     this.config = parent.config;
-    this.config.value = this.do;
+    this.config.value = this.d;
     this.bElement = true;
     this.setUpCommon();
 

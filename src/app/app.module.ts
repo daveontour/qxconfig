@@ -1,4 +1,5 @@
 import { XSDateTimeComponent } from './controls/xsdateTime/xsdateTime.component';
+import { XSTimeComponent } from './controls/xstime/xstime.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BaseNullComponent } from './controls/basenull/basenull.component';
@@ -39,7 +40,7 @@ export const MY_MOMENT_FORMATS = {
   parseInput: 'l LT',
   fullPickerInput: '',
   datePickerInput: 'YYYY-MM-DD',
-  timePickerInput: 'LT',
+  timePickerInput: 'HH:mm:SSZ',
   monthYearLabel: 'MMM YYYY',
   dateA11yLabel: 'LL',
   monthYearA11yLabel: 'MMMM YYYY',
@@ -65,6 +66,7 @@ export const MY_MOMENT_FORMATS = {
     BaseNullComponent,
     XSDateComponent,
     XSDateTimeComponent,
+    XSTimeComponent,
     AttributeComponent,
     jqxSplitterComponent,
     UnionComponent,
@@ -104,6 +106,7 @@ export const MY_MOMENT_FORMATS = {
     XSDecimalComponent,
     XSDateComponent,
     XSDateTimeComponent,
+    XSTimeComponent,
     AttributeComponent
   ]
 })

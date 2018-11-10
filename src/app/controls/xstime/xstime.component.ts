@@ -1,17 +1,17 @@
 import { Globals } from '../../services/globals';
-import { AttributeComponent } from './../../components/attribute/attribute.component';
-import { SimpleComponent } from './../../components/simple/simple.component';
+import { AttributeComponent } from '../../components/attribute/attribute.component';
+import { SimpleComponent } from '../../components/simple/simple.component';
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ControlComponent } from '../control/control.component';
 import * as moment from "moment";
 
 
 @Component({
-  selector: 'app-xsdateg',
-  templateUrl: './xsdate.component.html'
+  selector: 'app-xstime',
+  templateUrl: './xstime.component.html'
 })
 
-export class XSDateComponent extends ControlComponent {
+export class XSTimeComponent extends ControlComponent {
 
   d:  moment.Moment = moment();
 
@@ -23,9 +23,8 @@ export class XSDateComponent extends ControlComponent {
   setUpCommon(){
 
 }
-
   getValue(){
-    return this.d.format('YYYY-MM-DD');
+    return this.d.format('HH:mm:SSZ');
   }
 
   setElementParent(parent: SimpleComponent) {
