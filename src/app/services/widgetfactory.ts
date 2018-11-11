@@ -1,3 +1,4 @@
+import { XSGMonthDayComponent } from './../controls/xsgMonthDay/gMonthDay.component';
 import { XSNumberComponent } from './../controls/xsnumber/xsnumber.component';
 import { XSGDayComponent } from './../controls/xsgDay/gDay.component';
 import { XSGMonthComponent } from './../controls/xsgMonth/gMonth.component';
@@ -17,7 +18,6 @@ import { PatternComponent } from './../controls/pattern/pattern.component';
 import { XSBooleanComponent } from './../controls/xsboolean/xsboolean.component';
 import { MinMaxLengthComponent } from './../controls/minmaxlength/minmaxlength.component';
 import { MinMaxInclusiveComponent } from './../controls/minmaxinclusive/minmaxinclusive.component';
-
 
 @Injectable()
 export class WidgetFactory {
@@ -71,9 +71,13 @@ export class WidgetFactory {
         case "xs:gDay":
         factory = resolver.resolveComponentFactory(XSGDayComponent);
         break;
+        case "xs:gMonthDay":
+        factory = resolver.resolveComponentFactory(XSGMonthDayComponent);
+        break;
         case "xs:gMonth":
         factory = resolver.resolveComponentFactory(XSGMonthComponent);
         break;
+ 
         case "xs:byte":
         case "xs:int":
         case "xs:long":

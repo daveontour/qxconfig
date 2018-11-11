@@ -1,3 +1,4 @@
+import { XSGMonthDayComponent } from './controls/xsgMonthDay/gMonthDay.component';
 import { XSGMonthComponent } from './controls/xsgMonth/gMonth.component';
 import { XSNumberComponent } from './controls/xsnumber/xsnumber.component';
 import { XSDateTimeComponent } from './controls/xsdateTime/xsdateTime.component';
@@ -76,7 +77,8 @@ export const MY_MOMENT_FORMATS = {
     AlertswindowComponent,
     XSGDayComponent,
     XSGMonthComponent,
-    XSNumberComponent
+    XSNumberComponent,
+    XSGMonthDayComponent
   ],
   imports: [
     BrowserModule,
@@ -116,6 +118,7 @@ export const MY_MOMENT_FORMATS = {
     AttributeComponent,
     XSGDayComponent,
     XSGMonthComponent,
+    XSGMonthDayComponent,
     XSNumberComponent
   ]
 })

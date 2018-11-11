@@ -130,8 +130,6 @@ export class XSNumberComponent extends ControlComponent {
 
   public keyUp(evt) {
 
-    debugger;
-
     let cVal = evt.srcElement.value;
 
     if (cVal == "") {
