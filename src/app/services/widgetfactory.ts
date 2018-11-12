@@ -47,7 +47,18 @@ export class WidgetFactory {
         factory = resolver.resolveComponentFactory(XSBooleanComponent);
         break;
         case "xs:string":
+        case "xs:normalizedString":
+        case "xs:token":
+        case "xs:language":
         case "xs:NMTOKEN":
+        case "xs:NMTOKENS":
+        case "xs:Name":
+        case "xs:NCName":
+        case "xs:ID":
+        case "xs:IDREF":
+        case "xs:IDREFS":
+        case "xs:ENTITY":
+        case "xs:ENTITIES":
         factory = resolver.resolveComponentFactory(XSStringComponent);
         break;
       case "xs:integer":
@@ -82,14 +93,14 @@ export class WidgetFactory {
         case "xs:int":
         case "xs:long":
         case "xs:short":
-        case "xs:unsignedbyte":
-        case "xs:unsignedint":
-        case "xs:unsignedlong":
-        case "xs:unsignedshort":
-        case "xs:positiveinteger":
-        case "xs:negativeinteger":
-        case "xs:nonpositiveinteger":
-        case "xs:nonnegativeinteger":
+        case "xs:unsignedByte":
+        case "xs:unsignedInt":
+        case "xs:unsignedLong":
+        case "xs:unsignedShort":
+        case "xs:positiveInteger":
+        case "xs:negativeInteger":
+        case "xs:nonPositiveInteger":
+        case "xs:nonNegativeInteger":
         factory = resolver.resolveComponentFactory(XSNumberComponent);
         break;
         case "pattern":

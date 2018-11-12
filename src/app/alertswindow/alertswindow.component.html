@@ -1,17 +1,36 @@
-<div style="background-color: yellow; overflow-x: scroll; overflow-y: scroll;height: 100%;"
+<div style="overflow-x: scroll; overflow-y: scroll;height: 100%;"
 [ngClass]="{'warning':hasWarning(), 'ok':!hasWarning()}"
 >
+<div *ngIf = "hasFormatErrors()">
+  <br/>
+    <span style="font-weight:bold"> Format Errors</span>
+    <br/>
+  <div *ngFor="let err of this.global.formatErrors">
+    {{err}}
+  </div>
+</div> 
 
-<div>
+<div *ngIf = "hasElementWarnings()">
   <span style="font-weight:bold">Undefined Elements</span>
   <br/>
   <div *ngFor="let err of this.global.elementsUndefined">
     {{err}}
   </div>
 </div>
-<div>
+<div *ngIf = "hasAttributeWarnings()">
   <br/>
     <span style="font-weight:bold"> Undefined Attributes</span>
+    <br/>
+  <div *ngFor="let err of this.global.attributesUndefined">
+    {{err}}
+  </div>
+</div>
+
+
+<div *ngIf = "!hasWarning()">
+  <br/>
+  <br/>
+    <span style="font-weight:bold"> No Warnings</span>
     <br/>
   <div *ngFor="let err of this.global.attributesUndefined">
     {{err}}

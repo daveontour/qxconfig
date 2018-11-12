@@ -64,7 +64,7 @@ export abstract class ElementComponent  {
 
   addAttributes(conf) {
 
-    if (conf.hasAttributes) {
+    if (conf.hA) {
       this.sortAttributes("DESC");
       this.config.attributes.forEach( (att)=> {
         if (att.required) {
@@ -105,7 +105,7 @@ export abstract class ElementComponent  {
   }
 
   hasAttributes() {
-    return this.config.hasAttributes;
+    return this.config.hA;
   }
 
   hasRequiredAttributes() {

@@ -39,43 +39,43 @@ export class XSNumberComponent extends ControlComponent {
     "description": "Integer value between -32768  and 32768"
   }
 
-  unsignedbyte = {
+  unsignedByte = {
     "minValue": 0,
     "maxValue": 255,
     "description": "Integer value between 0 and 255"
   }
-  unsignedint = {
+  unsignedInt = {
     "minValue": 0,
     "maxValue": 4294967295,
     "description": "Integer value between  0  and 4294967295"
   }
 
-  unsignedlong = {
+  unsignedLong = {
     "minValue": 0,
     "maxValue": 18446744073709551615,
     "description": "Integer value between 0  and 18446744073709551615"
   }
-  unsignedshort = {
+  unsignedShort = {
     "minValue": 0,
     "maxValue": 65535,
     "description": "Integer value between 0  and 65535"
   }
-  positiveinteger = {
+  positiveInteger = {
     "minValue": 1,
     "maxValue": Number.MAX_SAFE_INTEGER,
     "description": "Positive Integer equal or greater than 1"
   }
-  nonpositiveinteger = {
+  nonPositiveInteger = {
     "minValue": -1 * Number.MAX_SAFE_INTEGER,
     "maxValue": 0,
     "description": "Negative Integer 0 or less"
   }
-  nonnegativeinteger = {
+  nonNegativeInteger = {
     "minValue": 0,
     "maxValue": Number.MAX_SAFE_INTEGER,
     "description": "Positive Integer 0 or greater"
   }
-  negativeinteger = {
+  negativeInteger = {
     "minValue": -1 * Number.MAX_SAFE_INTEGER,
     "maxValue": -1,
     "description": "Negative Integer -1 or less"
@@ -100,29 +100,29 @@ export class XSNumberComponent extends ControlComponent {
       case "xs:short":
         this.typeConfig = this.short;
         break;
-      case "xs:unsignedbyte":
-        this.typeConfig = this.unsignedbyte;
+      case "xs:unsignedByte":
+        this.typeConfig = this.unsignedByte;
         break;
-      case "xs:unsignedint":
-        this.typeConfig = this.unsignedint;
+      case "xs:unsignedInt":
+        this.typeConfig = this.unsignedInt;
         break;
-      case "xs:unsignedlong":
-        this.typeConfig = this.unsignedlong;
+      case "xs:unsignedLong":
+        this.typeConfig = this.unsignedLong;
         break;
-      case "xs:unsignedshort":
-        this.typeConfig = this.unsignedshort;
+      case "xs:unsignedShort":
+        this.typeConfig = this.unsignedShort;
         break;
-      case "xs:positiveinteger":
-        this.typeConfig = this.positiveinteger;
+      case "xs:positiveInteger":
+        this.typeConfig = this.positiveInteger;
         break;
-      case "xs:negativeinteger":
-        this.typeConfig = this.negativeinteger;
+      case "xs:negativeInteger":
+        this.typeConfig = this.negativeInteger;
         break;
-      case "xs:nonpositiveinteger":
-        this.typeConfig = this.nonpositiveinteger;
+      case "xs:nonPositiveInteger":
+        this.typeConfig = this.nonPositiveInteger;
         break;
-      case "xs:nonnegativeinteger":
-        this.typeConfig = this.nonnegativeinteger;
+      case "xs:nonNegativeInteger":
+        this.typeConfig = this.nonNegativeInteger;
         break;
 
     }

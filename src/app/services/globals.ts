@@ -9,17 +9,16 @@ export class Globals {
   public alerts : string = "No alerts";
   public elementsUndefined :string[] = [];
   public attributesUndefined :string[] = [];
+  public formatErrors :string[] = [];
   root: any;
 
   getString() {
 
     this.alerts = "";
+    this.formatErrors = [];
     this.elementsUndefined = [];
     this.attributesUndefined = [];
     this.sampleXMLMessage = this.formatXML(this.root.getElementString(""));
-    if (this.alerts == ""){
-      this.alerts = "No alerts";
-    }
   }
 
   public guid() {

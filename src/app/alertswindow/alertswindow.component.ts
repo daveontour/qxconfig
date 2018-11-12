@@ -15,7 +15,17 @@ export class AlertswindowComponent implements OnInit {
   }
 
   hasWarning(){
-    return this.global.attributesUndefined.length > 0 || this.global.elementsUndefined.length > 0;
+    return this.global.attributesUndefined.length > 0 || this.global.elementsUndefined.length > 0 || this.global.formatErrors.length > 0;
   }
 
+  hasAttributeWarnings(){
+    return this.global.attributesUndefined.length > 0 
+  }
+  hasElementWarnings(){
+    return this.global.elementsUndefined.length > 0;
+  }
+
+  hasFormatErrors(){
+    return this.global.formatErrors.length > 0;
+  }
 }

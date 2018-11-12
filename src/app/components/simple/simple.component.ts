@@ -18,7 +18,7 @@ export class SimpleComponent extends ElementComponent {
   public enabled: boolean = true;
   public uuid;
   public siblingCounter = 0;
-  public topLevel : boolean;
+  public topLevel: boolean;
 
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals, public widgetFactory: WidgetFactory) {
@@ -77,7 +77,7 @@ export class SimpleComponent extends ElementComponent {
   getElementString(indent?: string) {
 
     if (!indent) {
-       indent = "  ";
+      indent = "  ";
     }
 
     let x = "";
@@ -103,8 +103,7 @@ export class SimpleComponent extends ElementComponent {
       e = e.concat("/>\n");
 
       //If it's not a element that only has attributes, then raise an alarm
-      if (typeof this.config.model !="undefined"){
-        this.global.alerts = this.global.alerts+this.elementPath+" Undefined\n";
+      if (typeof this.config.model != "undefined") {
         this.global.elementsUndefined.push(this.elementPath);
       }
       return e;
@@ -122,8 +121,8 @@ export class SimpleComponent extends ElementComponent {
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.enabled = this.config.required;
     this.config.uuid = this.global.guid();
-    this.elementPath = this.parent.elementPath+"/"+conf.name;
- 
+    this.elementPath = this.parent.elementPath + "/" + conf.name;
+
 
     if (this.config.typeAnnotation == null) {
       this.config.typeAnnotation = this.config.annotation;
@@ -150,10 +149,10 @@ export class SimpleComponent extends ElementComponent {
     this.elementPath = parentObj.elementPath + "/" + this.config.name;
     this.config.uuid = this.global.guid();
 
-    if (typeof this.config.annotation == 'undefined'){
+    if (typeof this.config.annotation == 'undefined') {
       this.config.annotation = "";
     }
- 
+
 
     if (this.config.typeAnnotation == null) {
       this.config.typeAnnotation = this.config.annotation;

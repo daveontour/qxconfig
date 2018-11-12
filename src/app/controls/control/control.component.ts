@@ -43,9 +43,8 @@ export abstract class ControlComponent {
   getValue() {
     if (typeof this.config.value == "undefined"){
       if (this.bElement){
-      this.global.alerts = this.global.alerts+"Element "+this.parent.elementPath+" Undefined\n";
+        this.global.elementsUndefined.push(this.parent.elementPath);      
       } else {
-        this.global.alerts = this.global.alerts+this.parent.elementPath+ " Undefined\n"; 
         this.global.attributesUndefined.push(this.parent.elementPath);      
       }
     }

@@ -1,5 +1,5 @@
 <!-- The control -->
-<ng-template #popContent>{{this.config.modelDescription}}<br/><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
+<ng-template #popContent>{{this.typeConfig.modelDescription}}<br/><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
   <input 
   (change) = "this.change()"
   (onfocusout) = "this.change()"
@@ -7,5 +7,5 @@
   [attr.disabled]="(this.isEnabled() || (!this.isEnabled() && this.isRequired()))?null:''" 
   [ngClass]="{'inputRequired':(this.isEnabled()),'inputNotRequired':(!this.isEnabled()),'inputError':(this.isEnabled() && (this.isInvalid() || ( name.invalid))), 'inputOK':(this.isEnabled() && ( name.valid && !this.isInvalid()))}"
   placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="Value Format"
-  placeholder="{{config.pattern}}"  pattern="{{config.pattern}}"  
+  placeholder="{{config.pattern}}"  pattern="{{typeConfig.pattern}}"  
   />

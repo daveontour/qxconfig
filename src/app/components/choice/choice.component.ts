@@ -112,7 +112,7 @@ export class ChoiceComponent extends ElementComponent {
 
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.uuid = this.global.guid();
-    this.hasChildren = conf.hasChildren;
+    this.hasChildren = conf.hC;
 
     if (conf.oneOf.length > 0) {
       this.config.oneOf.forEach((v) => {
@@ -139,7 +139,7 @@ export class ChoiceComponent extends ElementComponent {
 
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.uuid = this.global.guid();
-    this.hasChildren = conf.hasChildren;
+    this.hasChildren = conf.hC;
 
 
     if (conf.oneOf.length > 0) {

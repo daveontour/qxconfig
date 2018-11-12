@@ -33,8 +33,8 @@ export interface ItemConfig{
     maxOccurs : number,
     restrictionEnumList: string[],
     type : string,
-    hasChildren : boolean,
-    hasAttributes : boolean,
+    hC : boolean,  //hasChildren
+    hA : boolean,  //hasAttributes
     uuid : string, 
     minLength : number,
     maxLength : number,
