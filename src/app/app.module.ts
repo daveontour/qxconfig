@@ -37,7 +37,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } fro
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 import { XSGDayComponent } from './controls/xsgDay/gDay.component';
-import {OwlBadgeModule} from "owl-ng";
+import {OwlBadgeModule, OwlAccordionModule, OwlSwitchModule, OwlCheckBoxModule} from "owl-ng";
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -90,7 +90,10 @@ export const MY_MOMENT_FORMATS = {
     AceEditorModule,
     OwlDateTimeModule, 
     OwlMomentDateTimeModule,
-    OwlBadgeModule
+    OwlBadgeModule,
+    OwlAccordionModule,
+    OwlSwitchModule,
+    OwlCheckBoxModule
   ],
   providers: [
     Globals,

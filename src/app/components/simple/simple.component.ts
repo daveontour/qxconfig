@@ -4,6 +4,7 @@ import { AttributeComponent } from '../attribute/attribute.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+
 @Component({
   selector: 'app-simple',
   templateUrl: './simple.component.html',

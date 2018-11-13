@@ -1,54 +1,56 @@
-<div [ngClass]="{'d-none':this.topLevel}">
-  <div class="row mt-1 ml-2" style="background-color:khakin">
-    <div class="col-md-7 pl-1" style="background-color: white">
-      <ng-template #popContent>{{config.description}}<br/><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
-        <label [ngClass]="{'form-check-label':true, 'simple-label':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}" (click)="isCollapsed = !isCollapsed" style="color:#930F80;margin-bottom:initial;display: initial !important;font-weight: 100"
-          placement="right" 
-          [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">{{config.name}}
-          <owl-badge 
-          [ngClass] = "{'badgeRed':this.hasRequiredAttributes(), 'badgeGray':!this.hasRequiredAttributes()}" 
-           *ngIf="hasAttributes()"  
-           [size] = "'small'"
-           [style.top] = "'-3px'"
-           [overlap] = "false"  
-           [content]="config.attributes.length"
-           (click)="isCollapsed = !isCollapsed" >
-          </owl-badge>
-        </label>
 
-        <!-- The little arrow at the end of the name -->
-        <!-- <span  
+    <div [ngClass]="{'d-none':this.topLevel}">
+        <div class="row mt-1 ml-2" style="background-color:khakin">
+          <div class="col-md-7 pl-1" style="background-color: white">
+            <ng-template #popContent>{{config.description}}<br /><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
+            <label [ngClass]="{'form-check-label':true, 'simple-label':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}"
+              (click)="isCollapsed = !isCollapsed" style="color:#930F80;margin-bottom:initial;display: initial !important;font-weight: 100"
+              placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">{{config.name}}
+              <owl-badge [ngClass]="{'badgeRed':this.hasRequiredAttributes(), 'badgeGray':!this.hasRequiredAttributes()}"
+                *ngIf="hasAttributes()" [size]="'small'" [style.top]="'-3px'" [overlap]="false" [content]="config.attributes.length"
+                (click)="isCollapsed = !isCollapsed">
+              </owl-badge>
+            </label>
+
+            <!-- The little arrow at the end of the name -->
+            <!-- <span  
         style="margin-left: 2px; cursor: pointer"
         (click)="isCollapsed = !isCollapsed" 
         [ngClass]="{'right-arrow':isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'down-arrow':!isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'right-arrow-required':isCollapsed  && hasRequiredAttributes(), 'down-arrow-required':!isCollapsed && hasRequiredAttributes()}" >
         </span> -->
 
 
-        <div *ngIf="showDeleteAction()" (click) = "this.remove()" style="float: right">
-        <span class="DeleteAction"> </span>
-        </div>
+            <div *ngIf="showDeleteAction()" (click)="this.remove()" style="float: right">
+              <span 
+              ngbPopover="This element can be removed. This the case when an there are more element than the configured minimum" placement="right" triggers="mouseenter:mouseleave" 
+              class="DeleteAction"> </span>
+            </div>
+          </div>
+
+          <!--  Start of the input element -->
+          <div class="col-md-5">
+            <template #control></template>
+          </div>
+          <!-- End of input element -->
+
+    </div>
+    <div [ngClass]="{'d-none':this.isCollapsed}">
+      <template #attributes></template>
+    </div>
     </div>
 
-    <!--  Start of the input element -->
-    <div class="col-md-5">
-      <template #control></template>
-    </div>
-    <!-- End of input element -->
-
-
-  </div>
-  <div [ngClass]="{'d-none':this.isCollapsed}">
-    <template #attributes></template>
-  </div>
-</div>
 
 <!-- The Top Level Heading to add more copies if maxOccurs > 0 -->
 <div *ngIf="this.topLevel && this.config.minOccurs != 1 && ((this.siblingCounter) != config.maxOccurs)" class="addSibling">
   <a class="AdditionalAction2 align-items-center noselect" (click)="this.addSibling()" role="button">
     <span style="color:#930F80; cursor:pointer">Add {{config.name}}</span>
   </a>
-  <span class="occurs noselect" *ngIf="config.maxOccurs > 100000"> ( Current: {{this.siblingCounter}} instances<span class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">, Minimum:{{config.minOccurs}}</span>)</span>
-  <span class="occurs noselect" *ngIf="config.maxOccurs < 100000"> ( {{this.siblingCounter}} of {{config.maxOccurs}}<span class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">, Minimum:{{config.minOccurs}}</span>)</span>
+  <span class="occurs noselect" *ngIf="config.maxOccurs > 100000"> ( Current: {{this.siblingCounter}} instances<span
+      class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
+      Minimum:{{config.minOccurs}}</span>)</span>
+  <span class="occurs noselect" *ngIf="config.maxOccurs < 100000"> ( {{this.siblingCounter}} of {{config.maxOccurs}}<span
+      class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
+      Minimum:{{config.minOccurs}}</span>)</span>
 </div>
 
 <template #siblings></template>
