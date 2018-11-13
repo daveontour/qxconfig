@@ -11,31 +11,52 @@ export class XSStringComponent extends ControlComponent {
   typeConfig: any;
   stringType: string;
 
-  xsstring = {};
-  xsnormalizedString = {};
-  xstoken = {};
+  xsstring = {
+    "modelDescription":"The type xsd:string represents a character string that may contain any Unicode character allowed by XML. Certain characters, namely the 'less than' symbol (<) and the ampersand (&), must be escaped (using the entities &lt; and &amp;, respectively) when used in strings in XML instances.", 
+    "pattern":".*"
+  };
+  xsnormalizedString = {
+    "modelDescription":"The type xsd:string represents a character string that may contain any Unicode character allowed by XML. Certain characters, namely the 'less than' symbol (<) and the ampersand (&), must be escaped (using the entities &lt; and &amp;, respectively) when used in strings in XML instances. Carriage returns, linefeeds and tabs will be replaced by a single space",
+    "pattern":".*"
+  };
+  xstoken = {
+    "modelDescription":"The type xsd:string represents a character string that may contain any Unicode character allowed by XML. Certain characters, namely the 'less than' symbol (<) and the ampersand (&), must be escaped (using the entities &lt; and &amp;, respectively) when used in strings in XML instances. Carriage returns, linefeeds and tabs will be replaced by a single space. Multiple spaces are replaced by a single space, leading and trailing spaces removed",
+    "pattern":".*"
+  };
   xslanguage = {
+    "modelDescription":"Values of the xsd:language type conform to RFC 3066, Tags for the Identification of Languages.",
     "pattern": "[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"
   };
   xsNMTOKEN = {
+    "modelDescription":"The type xsd:NMTOKEN represents a single string token. xsd:NMTOKEN values may consist of letters, digits, periods (.), hyphens (-), underscores (_), and colons (:). They may start with any of these characters. xsd:NMTOKEN has a whiteSpace facet value of collapse, so any leading or trailing whitespace will be removed. However, no whitespace may appear within the value itself.",
     "pattern": "\c+"
   };
-  xsNMTOKENS = {};
-  xsName = {
-    "pattern": "\\i\\c*"
+  xsNMTOKENS = {
+    "pattern":".*",
+    "modelDescription":"List of NMTOKENS"
   };
+  xsName = {
+    "pattern": "\\i\\c*",
+    "modelDescription":"The type xsd:Name represents an XML name, which can be used as an element-type name or attribute name, among other things. Specifically, this means that values must start with a letter, underscore(_), or colon (:), and may contain only letters, digits, underscores (_), colons (:), hyphens (-), and periods (.). Colons should only be used to separate namespace prefixes from local names."
+    };
   xsNCName = {
-    "pattern": "[\\i-[:]][\\c-[:]]*"
+    "pattern": "[\\i-[:]][\\c-[:]]*",
+    "modelDescription":"The type xsd:NCName represents an XML non-colonized name, which is simply a name that does not contain colons. An xsd:NCName value must start with either a letter or underscore (_) and may contain only letters, digits, underscores (_), hyphens (-), and periods (.). This is equivalent to the Name type, except that colons are not permitted."
   };
   xsID = {
-    "pattern": "[\\i-[:]][\\c-[:]]*"
+    "pattern": "[\\i-[:]][\\c-[:]]*",
+    "modelDescription":"The type xsd:ID is used for an attribute that uniquely identifies an element in an XML document. An xsd:ID value must be an NCName. This means that it must start with a letter or underscore, and can only contain letters, digits, underscores, hyphens, and periods."
   };
   xsIDREF = {
-    "pattern": "[\\i-[:]][\\c-[:]]*"
+    "pattern": "[\\i-[:]][\\c-[:]]*",
+    "modelDescription":"The type xsd:IDREF is used for an attribute that references an ID. All attributes of type xsd:IDREF must reference an xsd:ID in the same XML document. A common use case for xsd:IDREF is to create a cross-reference to a particular section of a document. Like ID, an xsd:IDREF value must be an NCName."
   };
-  xsIDREFS = {};
+  xsIDREFS = {
+    
+  };
   xsENTITY = {
-    "pattern": "[\\i-[:]][\\c-[:]]*"
+    "pattern": "[\\i-[:]][\\c-[:]]*",
+    "modelDescription":"The type xsd:ENTITY represents a reference to an unparsed entity. The xsd:ENTITY type is most often used to include information from another location that is not in XML format, such as graphics. An xsd:ENTITY value must be an NCName. An xsd:ENTITY value carries the additional constraint that it must match the name of an unparsed entity in a document type definition (DTD) for the instance."
   };
   xsENTITIES = {};
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
@@ -43,7 +64,6 @@ export class XSStringComponent extends ControlComponent {
   }
 
   public change() {
-    debugger;
     this.validate(this.config.value, true);
     this.global.getString();
   }
@@ -116,21 +136,22 @@ export class XSStringComponent extends ControlComponent {
       case "xs:normalizedString":
       case "xs:NMTOKEN":
       case "xs:Name":
+
         if (val.indexOf("<") != -1) {
+          valid = false;
           if (warn) {
             this.global.formatErrors.push("Unescaped '<' symbol " + this.parent.elementPath);
           }
-          valid = false;
         }
-        if (val.indexOf("&") != val.indexOf("&amp;")) {
-          if (val.indexOf("&") != val.indexOf("&lt;")) {
-            if (warn) {
-              this.global.formatErrors.push("Unescaped '&' symbol " + this.parent.elementPath);
-            }
-            valid = false;
+        if (val.indexOf("&") != val.indexOf("&amp;") && val.indexOf("&") != val.indexOf("&lt;")) {
+          valid = false;
+          if (warn) {
+            this.global.formatErrors.push("Unescaped '&' symbol " + this.parent.elementPath);
           }
         }
         break;
     }
   }
+
+ 
 }

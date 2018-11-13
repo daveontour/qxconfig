@@ -71,8 +71,6 @@ export class XSGMonthDayComponent extends ControlComponent {
 
   public change(){
 
-    debugger;
-
     if (typeof this.valueMonths == "undefined" || typeof this.valueDays == "undefined"){
       delete this.config.value;
     } else {

@@ -2,17 +2,26 @@
   <div class="row mt-1 ml-2" style="background-color:khakin">
     <div class="col-md-7 pl-1" style="background-color: white">
       <ng-template #popContent>{{config.description}}<br/><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
-        <label [ngClass]="{'form-check-label':true, 'simple-label':true, 'noselect':true}" (click)="isCollapsed = !isCollapsed" style="color:#930F80;margin-bottom:initial; display: initial !important;font-weight: 100"
+        <label [ngClass]="{'form-check-label':true, 'simple-label':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}" (click)="isCollapsed = !isCollapsed" style="color:#930F80;margin-bottom:initial;display: initial !important;font-weight: 100"
           placement="right" 
           [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">{{config.name}}
+          <owl-badge 
+          [ngClass] = "{'badgeRed':this.hasRequiredAttributes(), 'badgeGray':!this.hasRequiredAttributes()}" 
+           *ngIf="hasAttributes()"  
+           [size] = "'small'"
+           [style.top] = "'-3px'"
+           [overlap] = "false"  
+           [content]="config.attributes.length"
+           (click)="isCollapsed = !isCollapsed" >
+          </owl-badge>
         </label>
 
         <!-- The little arrow at the end of the name -->
-        <span  
+        <!-- <span  
         style="margin-left: 2px; cursor: pointer"
         (click)="isCollapsed = !isCollapsed" 
         [ngClass]="{'right-arrow':isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'down-arrow':!isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'right-arrow-required':isCollapsed  && hasRequiredAttributes(), 'down-arrow-required':!isCollapsed && hasRequiredAttributes()}" >
-        </span>
+        </span> -->
 
 
         <div *ngIf="showDeleteAction()" (click) = "this.remove()" style="float: right">

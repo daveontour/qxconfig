@@ -4,6 +4,7 @@
 /* @import "./assets/css/SITAUI.css";  */
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "~owl-ng/assets/style/theme.min.css";
 
 
 body,
@@ -11,6 +12,17 @@ html {
   height: 100%;
 }
 
+.cursorpointer{
+  cursor:pointer;
+}
+
+.badgeRed{
+  background: #FF0000;
+}
+
+.badgeGray {
+  background: #838383;
+}
 .attribute-label {
   font-size: 10pt;
   color: black;

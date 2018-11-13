@@ -3,13 +3,24 @@
       <div [ngClass]="{'card':true,'px-2':true, 'pb-2':true, 'oddDepth':isOddDepth(),'evenDepth':isEvenDepth()}">   <div class='card-header'>
           <ng-template #popContent>{{config.description}}<br/><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
  
-      <label class="form-check-label h6 noselect" style="color:#930F80; display:initial !important" (click)="isCollapsed = !isCollapsed" placement="right"
+      <label 
+      [ngClass]="{'form-check-label':true, 'h6':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}"
+      class="form-check-label h6 noselect" style="color:#930F80; display:initial !important" (click)="isCollapsed = !isCollapsed" placement="right"
         [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">
-        {{config.name}} 
+        {{config.name}}
+        <owl-badge
+        [ngClass] = "{'badgeRed':this.hasRequiredAttributes(), 'badgeGray':!this.hasRequiredAttributes()}" 
+        *ngIf="hasAttributes()"  
+        [size] = "'small'"
+        [overlap] = "false"  
+        [style.top] = "'-3px'"
+        [content]="config.attributes.length"
+        (click)="isCollapsed = !isCollapsed" >
+       </owl-badge> 
       </label>
       <!-- The little arrow at the end of the name -->
-      <span style="margin-left: 2px; cursor: pointer" (click)="isCollapsed = !isCollapsed" [ngClass]="{'right-arrow':isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'down-arrow':!isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'right-arrow-required':isCollapsed  && hasRequiredAttributes(), 'down-arrow-required':!isCollapsed && hasRequiredAttributes()}">
-      </span>
+      <!-- <span style="margin-left: 2px; cursor: pointer" (click)="isCollapsed = !isCollapsed" [ngClass]="{'right-arrow':isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'down-arrow':!isCollapsed && hasAttributes() && !hasRequiredAttributes(), 'right-arrow-required':isCollapsed  && hasRequiredAttributes(), 'down-arrow-required':!isCollapsed && hasRequiredAttributes()}">
+      </span> -->
       <!-- <div *ngIf="!config.required  && config.maxOccurs >= 1" (click) = "this.remove()" style="float: right"> -->
    
           <div *ngIf="(!this.isRoot && this.parent.siblingCounter != config.minOccurs)" (click) = "this.remove()" style="float: right">

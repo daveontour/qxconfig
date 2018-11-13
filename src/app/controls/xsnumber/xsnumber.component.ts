@@ -165,7 +165,6 @@ export class XSNumberComponent extends ControlComponent {
       this.inputNotOK = false;
       return this.inputOK;
     }
-    return this.inputOK;
   }
 
   setElementParent(parent: SimpleComponent) {
