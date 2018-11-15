@@ -22,7 +22,7 @@
   <owl-accordion>
     <owl-expansion-panel [expanded]='true' [ngClass]="{'oddDepth':isOddDepth(),'evenDepth':isEvenDepth(),'d-none':(this.topLevel),'mb-1':'true'}">
       <owl-expansion-panel-header style="background: rgba(0,0,0,0.1)">
-        <owl-expansion-panel-title [ngClass]="{'form-check-label':true, 'h6':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}">
+        <owl-expansion-panel-title [ngClass]="{'form-check-label':true, 'h6':true, 'noselect':true}">
           {{config.name}}
         </owl-expansion-panel-title>
         <owl-expansion-panel-description>
