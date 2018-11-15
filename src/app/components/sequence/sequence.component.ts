@@ -2,6 +2,7 @@ import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterViewInit, OnInit } from '@angular/core';
 import { Globals } from '../../services/globals';
+import{ ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-sequence',
@@ -13,8 +14,11 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
   @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
   isCollapsed = true;
   defferedConf: any;
+  topLevel = true;
+  releaseSiblingCounter = false;
+  tempSiblingCounter = 0;
 
-  constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
+  constructor(public resolver: ComponentFactoryResolver, public global: Globals, private cdRef : ChangeDetectorRef) {
     super(resolver);
   }
 
@@ -23,24 +27,36 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
   }
 
   ngAfterViewInit() {
+    this.init();
+  }
 
+  init() {
     if (this.topLevel) {
       for (var i = 0; i < this.config.minOccurs; i++) {
-        debugger;
         this.creator.walkSequenceSibling(this);
         this.siblingCounter++;
-
-
-
       }
+      this.siblingCounter = this.config.minOccurs;
+      this.releaseSiblingCounter = true;
     } else {
       this.addAttributes(this.config);
       for (var i = 0; i < this.config.allOf.length; i++) {
         this.creator.walkStructure(this.config.allOf[i], this);
       }
     }
+
+    //This prevents ExpressionChangedAfterItHasBeenCheckedError 
+    // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
+    this.cdRef.detectChanges();
   }
 
+  showTopBlock() {
+    if (!this.releaseSiblingCounter) {
+      return false;
+    } else {
+      return this.siblingCounter != this.config.maxOccurs;
+    }
+  }
   addSibling() {
 
     if (this.siblings.length == this.config.maxOccurs) {
@@ -63,14 +79,6 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     this.depth = parentObj.depth + 1;
     this.parent = parentObj;
     this.elementPath = parentObj.elementPath + "/" + this.config.name;
-
-    //this.addAttributes(conf);
-
-    //Add the minimum nuber of occurances, if this is the top level
-    // for (var i = 0; i < conf.minOccurs; i++) {
-    //   this.creator.walkSequenceSibling(this);
-    //   this.siblingCounter++;
-    // }
   }
 
   setSiblingConfig(conf: ItemConfig, creator, parentObj) {

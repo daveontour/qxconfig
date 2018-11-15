@@ -6,6 +6,9 @@
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 @import "~owl-ng/assets/style/theme.min.css";
 
+.owl-expansion-panel-body {
+  padding: 0 0.5em 0.5em;
+}
 
 body,
 html {

@@ -3,7 +3,7 @@ import { Globals } from './services/globals';
 import { ItemConfig } from './interfaces/interfaces';
 import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
-import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, OnInit, AfterViewInit, AfterContentInit,ChangeDetectorRef  } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -11,7 +11,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   @ViewChild("container", { read: ViewContainerRef }) container;
   @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
   componentRef: any;
@@ -21,7 +21,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   public elementPath :string = "";
   public name :string = "ROOTPAGE";
 
-  constructor( private resolver: ComponentFactoryResolver, private http: HttpClient,  public global: Globals ) {}
+  constructor( private resolver: ComponentFactoryResolver, private http: HttpClient,  public global: Globals,  private cdRef : ChangeDetectorRef) {
+    
+  }
 
   public getContainer(){
 
@@ -38,12 +40,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() : void {
-    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=aipfull').subscribe(data => {
+    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=aidx').subscribe(data => {
 
       data.elementPath = data.name;
       data.isRoot = true;
       this.walkStructure(data, this);
       this.global.getString();
+
+    //This prevents ExpressionChangedAfterItHasBeenCheckedError
+    // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
+      this.cdRef.detectChanges();
     },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
@@ -52,6 +58,10 @@ export class AppComponent implements OnInit, AfterViewInit {
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
         }
       });
+  }
+
+  ngAfterContentInit(){
+    //this.global.getString();
   }
 
  walkStructure(data, parentObject ) {

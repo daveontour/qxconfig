@@ -4,7 +4,7 @@ import { XSNumberComponent } from './controls/xsnumber/xsnumber.component';
 import { XSDateTimeComponent } from './controls/xsdateTime/xsdateTime.component';
 import { XSTimeComponent } from './controls/xstime/xstime.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ChangeDetectorRef } from '@angular/core';
 import { BaseNullComponent } from './controls/basenull/basenull.component';
 import { XSDecimalComponent } from './controls/xsdecimal/xsdecimal.component';
 import { XSLanguageComponent } from './controls/xslanguage/xslanguage.component';
@@ -32,6 +32,7 @@ import { XSDateComponent } from './controls/xsdate/xsdate.component';
 import { jqxSplitterComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxsplitter';
 import { UnionComponent } from './controls/union/union.component';
 import { AlertswindowComponent } from './alertswindow/alertswindow.component';
+
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
