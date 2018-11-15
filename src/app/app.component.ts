@@ -3,7 +3,7 @@ import { Globals } from './services/globals';
 import { ItemConfig } from './interfaces/interfaces';
 import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
-import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, OnInit, AfterViewInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -11,7 +11,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild("container", { read: ViewContainerRef }) container;
   @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
   componentRef: any;
@@ -19,10 +19,12 @@ export class AppComponent implements OnInit {
   public depth = 0;
   children : any[] = [];
   public elementPath :string = "";
+  public name :string = "ROOTPAGE";
 
   constructor( private resolver: ComponentFactoryResolver, private http: HttpClient,  public global: Globals ) {}
 
   public getContainer(){
+
     return this.container;
   }
 
@@ -30,9 +32,14 @@ export class AppComponent implements OnInit {
     return this.siblingsPt;
   }
 
+  
   ngOnInit(): void {
+//moved to ngAfterViewInit
+  }
 
-    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=aidx').subscribe(data => {
+  ngAfterViewInit() : void {
+    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=aipfull').subscribe(data => {
+
       data.elementPath = data.name;
       data.isRoot = true;
       this.walkStructure(data, this);
@@ -62,6 +69,8 @@ export class AppComponent implements OnInit {
   walkSequence(data,parentObject) {
 
     // Create the new Sequence Object (newObjRef)
+
+    console.log("Walk Sequence Child:", data +"Parent:",parentObject);
     let factory = this.resolver.resolveComponentFactory(SequenceComponent);
     let newObjRef = parentObject.getContainer().createComponent(factory).instance;
     
@@ -69,8 +78,9 @@ export class AppComponent implements OnInit {
       this.global.root = newObjRef;
     }
 
-    newObjRef.setConfig(data, this, parentObject);
     parentObject.children.push(newObjRef);
+    newObjRef.setConfig(data, this, parentObject);
+    
 
     // All the children of the object are created when the created objects calls walkSiblingSequence
     // The "headline" object is created and it takes care of creating the 
@@ -118,6 +128,7 @@ export class AppComponent implements OnInit {
   */
   walkSequenceSibling(parentObject) {
 
+    console.log("Walk Sequence Sibling Parent:",parentObject);
     let conf = JSON.parse(JSON.stringify(parentObject.config));
     conf.isSibling = true;
 
@@ -130,10 +141,14 @@ export class AppComponent implements OnInit {
     // Assign the new object as a child of the parent object
     parentObject.children.push(newObjRef);
    
+
+    // Deferred until the object AfterViewInit
     // Go through the same process with all the configured child objects recursively.
-    for (var i = 0; i < conf.allOf.length; i++){
-      this.walkStructure(conf.allOf[i], newObjRef);
-    }
+    // for (var i = 0; i < conf.allOf.length; i++){
+    //   this.walkStructure(conf.allOf[i], newObjRef);
+    // }
+
+    //newObjRef.setDefferedConf(conf);
   }
 
   createChoiceSibling(parentObject) {

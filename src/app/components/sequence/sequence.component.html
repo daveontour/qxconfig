@@ -1,67 +1,45 @@
-<!-- <div [ngClass]="{'d-none':(this.topLevel)}" style="margin-top:4px">
-  <div  style="padding-left: 4px; padding-right: 4px" [ngClass]="{'card':true,'px-1':true, 'pb-1':true, 'oddDepth':isOddDepth(),'evenDepth':isEvenDepth()}">
-    <div class='card-header' style="padding-top: 5px; padding-bottom:5px">
-      <ng-template #popContent>{{config.description}}<br /><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
+<div *ngIf="this.topLevel; then topBlock; else siblingBlock"></div>
 
-      <label [ngClass]="{'form-check-label':true, 'h6':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}"
-        class="form-check-label h6 noselect" style="color:#930F80; display:initial !important" (click)="isCollapsed = !isCollapsed"
-        placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">
-        {{config.name}}
-        <owl-badge [ngClass]="{'badgeRed':this.hasRequiredAttributes(), 'badgeGray':!this.hasRequiredAttributes()}"
-          *ngIf="hasAttributes()" [size]="'small'" [overlap]="false" [style.top]="'-3px'" [content]="config.attributes.length"
-          (click)="isCollapsed = !isCollapsed">
-        </owl-badge>
-      </label>
- 
-      <div *ngIf="(!this.isRoot && this.parent.siblingCounter != config.minOccurs)" (click)="this.remove()" style="float: right">
-        <span class="DeleteAction"> </span>
-      </div>
-
-
-      <div [ngClass]="{'d-none':this.isCollapsed}">
-        <template #attributes></template>
-      </div>
-    </div>
-    <div class="col-12" style="padding-left: 4px; padding-right: 4px">
-      <template #container></template>
-    </div>
+<!-- The Top block -->
+<ng-template #topBlock>
+  <div [ngClass] = "{'d-none':(this.siblingCounter == config.maxOccurs)}" class="addSibling">
+    <a class="AdditionalAction2 align-items-center noselect" (click)="this.addSibling()">
+      <span style="color:#930F80; cursor: pointer;">Add {{config.name}} Sequence</span>
+    </a>
+    <span class="occurs noselect" *ngIf="config.maxOccurs > 100000"> ( Current: {{this.siblingCounter}} instances <span
+        class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
+        Minimum:{{config.minOccurs}}</span>)</span>
+    <span class="occurs noselect" *ngIf="config.maxOccurs < 100000"> ( {{this.siblingCounter}} of {{config.maxOccurs}}<span
+        class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
+        Minimum:{{config.minOccurs}}</span>)</span>
   </div>
-</div> -->
+  <template #siblings></template>
+</ng-template>
 
-<owl-accordion>
-    <owl-expansion-panel [expanded] = 'true' [ngClass]="{'oddDepth':isOddDepth(),'evenDepth':isEvenDepth(),'d-none':(this.topLevel),'mb-1':'true'}">
-        <owl-expansion-panel-header  style="background: rgba(0,0,0,0.1)">
-            <owl-expansion-panel-title [ngClass]="{'form-check-label':true, 'h6':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}">
-                {{config.name}}
-            </owl-expansion-panel-title>
-            <owl-expansion-panel-description>
-               {{config.description}}
-            </owl-expansion-panel-description>
-            <div *ngIf="(!this.isRoot && this.parent.siblingCounter != config.minOccurs)" (click)="this.remove()" style="float: right">
-                <span class="DeleteAction"> </span>
-              </div>
-        </owl-expansion-panel-header>
+<!-- The block that actually holds the data-->
+<ng-template #siblingBlock>
+  <owl-accordion>
+    <owl-expansion-panel [expanded]='true' [ngClass]="{'oddDepth':isOddDepth(),'evenDepth':isEvenDepth(),'d-none':(this.topLevel),'mb-1':'true'}">
+      <owl-expansion-panel-header style="background: rgba(0,0,0,0.1)">
+        <owl-expansion-panel-title [ngClass]="{'form-check-label':true, 'h6':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}">
+          {{config.name}}
+        </owl-expansion-panel-title>
+        <owl-expansion-panel-description>
+          {{config.description}}
+        </owl-expansion-panel-description>
+        <div *ngIf="(!this.isRoot && this.parent.siblingCounter != config.minOccurs)" (click)="this.remove()" style="float: right">
+          <span class="DeleteAction"> </span>
+        </div>
+      </owl-expansion-panel-header>
 
-        <!-- <editor-fold desc="dummy text"> -->
-            <div [ngClass]="{'d-none':this.isCollapsed}">
-                <template #attributes></template>
-              </div>
-              <div class="col-12" style="padding-left: 4px; padding-right: 4px">
-                  <template #container></template>
-                </div>
-        <!-- </editor-fold> -->
+      <!-- <editor-fold desc="dummy text"> -->
+          <!-- <div [ngClass]="{'d-none':this.isCollapsed}"> -->
+        <div><template #attributes></template>
+      </div>
+       <div class="col-12" style="padding-left: 4px; padding-right: 4px">
+        <template #container></template>
+      </div>
+      <!-- </editor-fold> -->
     </owl-expansion-panel>
-</owl-accordion>
-
-<div *ngIf="this.topLevel  && (this.siblingCounter != config.maxOccurs)" class="addSibling">
-  <a class="AdditionalAction2 align-items-center noselect" (click)="this.addSibling()">
-    <span style="color:#930F80; cursor: pointer;">Add {{config.name}} Sequence</span>
-  </a>
-  <span class="occurs noselect" *ngIf="config.maxOccurs > 100000"> ( Current: {{this.siblingCounter}} instances <span
-      class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
-      Minimum:{{config.minOccurs}}</span>)</span>
-  <span class="occurs noselect" *ngIf="config.maxOccurs < 100000"> ( {{this.siblingCounter}} of {{config.maxOccurs}}<span
-      class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
-      Minimum:{{config.minOccurs}}</span>)</span>
-</div>
-<template #siblings></template>
+  </owl-accordion>
+</ng-template>

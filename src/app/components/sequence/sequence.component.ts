@@ -1,7 +1,6 @@
-import { AttributeComponent } from '../attribute/attribute.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
-import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterViewInit, OnInit } from '@angular/core';
 import { Globals } from '../../services/globals';
 
 @Component({
@@ -9,13 +8,37 @@ import { Globals } from '../../services/globals';
   templateUrl: './sequence.component.html',
   styleUrls: ['./sequence.component.css']
 })
-export class SequenceComponent extends ElementComponent {
+export class SequenceComponent extends ElementComponent implements AfterViewInit, OnInit {
   @ViewChild("control", { read: ViewContainerRef }) control;
   @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
   isCollapsed = true;
+  defferedConf: any;
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver);
+  }
+
+  ngOnInit() {
+
+  }
+
+  ngAfterViewInit() {
+
+    if (this.topLevel) {
+      for (var i = 0; i < this.config.minOccurs; i++) {
+        debugger;
+        this.creator.walkSequenceSibling(this);
+        this.siblingCounter++;
+
+
+
+      }
+    } else {
+      this.addAttributes(this.config);
+      for (var i = 0; i < this.config.allOf.length; i++) {
+        this.creator.walkStructure(this.config.allOf[i], this);
+      }
+    }
   }
 
   addSibling() {
@@ -39,15 +62,15 @@ export class SequenceComponent extends ElementComponent {
     this.topLevel = true;
     this.depth = parentObj.depth + 1;
     this.parent = parentObj;
-    this.elementPath = parentObj.elementPath+"/"+this.config.name;
+    this.elementPath = parentObj.elementPath + "/" + this.config.name;
 
-    this.addAttributes(conf);
+    //this.addAttributes(conf);
 
     //Add the minimum nuber of occurances, if this is the top level
-    for (var i = 0; i < conf.minOccurs; i++) {
-      this.creator.walkSequenceSibling(this);
-      this.siblingCounter++;
-    }
+    // for (var i = 0; i < conf.minOccurs; i++) {
+    //   this.creator.walkSequenceSibling(this);
+    //   this.siblingCounter++;
+    // }
   }
 
   setSiblingConfig(conf: ItemConfig, creator, parentObj) {
@@ -59,17 +82,17 @@ export class SequenceComponent extends ElementComponent {
     this.depth = parentObj.depth;
     this.parent = parentObj;
     this.elementPath = parentObj.elementPath;
-    this.addAttributes(conf);
- 
-    if (typeof this.config.annotation == 'undefined'){
+    // this.addAttributes(conf);
+
+    if (typeof this.config.annotation == 'undefined') {
       this.config.annotation = "";
     }
 
-    
-    this.parent.siblings.push(this); 
+
+    this.parent.siblings.push(this);
   }
 
-  getSiblingsContainer(){
+  getSiblingsContainer() {
     return this.siblingsPt;
   }
 
@@ -100,7 +123,7 @@ export class SequenceComponent extends ElementComponent {
 
     let e: string = "";
     this.siblings.forEach((s) => {
-       e = e.concat(s.getSiblingString(indent));
+      e = e.concat(s.getSiblingString(indent));
     });
     return e;
 
