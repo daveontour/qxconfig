@@ -79,8 +79,6 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   walkSequence(data,parentObject) {
 
     // Create the new Sequence Object (newObjRef)
-
-    console.log("Walk Sequence Child:", data +"Parent:",parentObject);
     let factory = this.resolver.resolveComponentFactory(SequenceComponent);
     let newObjRef = parentObject.getContainer().createComponent(factory).instance;
     
@@ -138,7 +136,6 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   */
   walkSequenceSibling(parentObject) {
 
-    console.log("Walk Sequence Sibling Parent:",parentObject);
     let conf = JSON.parse(JSON.stringify(parentObject.config));
     conf.isSibling = true;
 

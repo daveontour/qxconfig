@@ -12,6 +12,7 @@ export class Globals {
   public formatErrors :string[] = [];
   root: any;
 
+
   getString() {
 
     this.alerts = "";
@@ -19,6 +20,7 @@ export class Globals {
     this.elementsUndefined = [];
     this.attributesUndefined = [];
     this.sampleXMLMessage = this.formatXML(this.root.getElementString(""));
+ 
   }
 
   public guid() {
