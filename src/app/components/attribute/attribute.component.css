@@ -7,3 +7,7 @@
 .att_row{
     background-color:rgb(219, 219, 219)
 }
+
+.attribSelected {
+    background-color: lightsteelblue;
+}

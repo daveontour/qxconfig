@@ -67,6 +67,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
       this.creator.walkSequenceSibling(this);
       this.siblingCounter++;
       this.global.getString();
+      this.cdRef.detectChanges();
     }
   }
 
@@ -121,10 +122,10 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
         this.siblingsPt.remove(i);
         this.siblings.splice(i, 1);
         this.siblingCounter--;
-        this.global.getString();
         break;
       }
     }
+    this.global.getString();
   }
 
   getElementString(indent?: string) {

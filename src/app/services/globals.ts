@@ -6,6 +6,7 @@ export class Globals {
   baseURL: string = 'http://localhost:8080/XSD_Forms/json';
   xmlMessage: string = "";
   sampleXMLMessage: string = "";
+  XMLMessage : string = "";
   public alerts : string = "No alerts";
   public elementsUndefined :string[] = [];
   public attributesUndefined :string[] = [];
@@ -20,6 +21,7 @@ export class Globals {
     this.elementsUndefined = [];
     this.attributesUndefined = [];
     this.sampleXMLMessage = this.formatXML(this.root.getElementString(""));
+    this.XMLMessage = this.sampleXMLMessage;
  
   }
 

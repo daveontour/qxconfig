@@ -24,7 +24,9 @@ export abstract class ElementComponent  {
   public siblingCounter = 0;
   public topLevel : boolean = false;
   public isCollapsed : boolean = true;
-  public elementPath: string = "DAVE";
+  public elementPath: string;
+  public numRequiredAttributes: number = 0;
+  public numOptionalAttributes: number = 0;
 
   constructor(public resolver: ComponentFactoryResolver) { }
 
@@ -68,8 +70,10 @@ export abstract class ElementComponent  {
       this.sortAttributes("DESC");
       this.config.attributes.forEach( (att)=> {
         if (att.required) {
-          this.attributesRequired = true;
           this.isCollapsed = false;
+          this.numRequiredAttributes++;
+        } else {
+          this.numOptionalAttributes++;
         }
 
         let factory = this.resolver.resolveComponentFactory(AttributeComponent);
@@ -109,9 +113,11 @@ export abstract class ElementComponent  {
   }
 
   hasRequiredAttributes() {
-    return this.attributesRequired;
+    return this.numRequiredAttributes > 0;
   }
-
+  hasOptionalAttributes() {
+    return this.numOptionalAttributes > 0;
+  }
   sortAttributes(order: String): void {
 
     // Sort the order of the attributes so that the required ones are listed first 

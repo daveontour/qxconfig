@@ -137,6 +137,9 @@ export class XSStringComponent extends ControlComponent {
       case "xs:NMTOKEN":
       case "xs:Name":
 
+        if (typeof val == "undefined"){
+          return false;
+        }
         if (val.indexOf("<") != -1) {
           valid = false;
           if (warn) {

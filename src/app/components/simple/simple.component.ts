@@ -3,7 +3,8 @@ import { Globals } from '../../services/globals';
 import { AttributeComponent } from '../attribute/attribute.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
-import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-simple',
@@ -22,7 +23,7 @@ export class SimpleComponent extends ElementComponent {
   public topLevel: boolean;
 
 
-  constructor(public resolver: ComponentFactoryResolver, public global: Globals, public widgetFactory: WidgetFactory) {
+  constructor(public resolver: ComponentFactoryResolver, public global: Globals, public widgetFactory: WidgetFactory, private cdRef : ChangeDetectorRef) {
     super(resolver);
   }
 
@@ -36,6 +37,7 @@ export class SimpleComponent extends ElementComponent {
 
   change() {
     this.global.getString();
+    this.cdRef.detectChanges();
   }
 
 
