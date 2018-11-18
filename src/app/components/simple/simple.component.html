@@ -12,15 +12,15 @@
       
         <!-- The Attributes Badge-->      
         <owl-badge class="badgeRed"
-          *ngIf="hasRequiredAttributes()" [size]="'medium'" [style.top]="'-3px'" [overlap]="false" [content]="this.numRequiredAttributes">
+          *ngIf="hasRequiredAttributes() && isCollapsed" [size]="'medium'" [style.top]="'-3px'" [overlap]="false" [content]="this.numRequiredAttributes">
         </owl-badge>
 
         <owl-badge class="badgeGrayRight"
-        *ngIf="hasOptionalAttributes() && hasRequiredAttributes()" [size]="'medium'" [style.top]="'-3px'" [style.right]="'-35px'" [overlap]="false" [content]="this.numOptionalAttributes">
+        *ngIf="hasOptionalAttributes() && hasRequiredAttributes() && isCollapsed" [size]="'medium'" [style.top]="'-3px'" [style.right]="'-35px'" [overlap]="false" [content]="this.numOptionalAttributes">
       </owl-badge>
 
       <owl-badge class="badgeGray"
-      *ngIf="hasOptionalAttributes() && !hasRequiredAttributes()" [size]="'medium'" [style.top]="'-3px'"  [overlap]="false" [content]="this.numOptionalAttributes">
+      *ngIf="hasOptionalAttributes() && !hasRequiredAttributes() && isCollapsed" [size]="'medium'" [style.top]="'-3px'"  [overlap]="false" [content]="this.numOptionalAttributes">
     </owl-badge>
       </label>
 
