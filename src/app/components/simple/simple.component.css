@@ -33,7 +33,7 @@
 }
 
 .svg-minus:hover{
-  fill:rgb(161, 46, 46);
+  fill:rgb(214, 25, 25);
 }
 
 .svg-plus {
@@ -56,5 +56,16 @@
 .badgeGrayRight {
   background:  lightsteelblue;
   right: -35px
+}
+
+.simpleBorders{
+  border-left: 1px solid rgb(148, 147, 147);
+  border-top: 1px solid rgb(148, 147, 147);
+  border-right: 1px solid rgb(148, 147, 147);
+  border-bottom: 1px solid rgb(148, 147, 147);
+}
+
+.simpleBordersExpanded{
+  border-bottom-width: 0px
 }
  

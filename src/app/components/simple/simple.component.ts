@@ -3,7 +3,8 @@ import { Globals } from '../../services/globals';
 import { AttributeComponent } from '../attribute/attribute.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
-import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import * as $ from 'jquery';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, Chang
   templateUrl: './simple.component.html',
   styleUrls: ['./simple.component.css']
 })
-export class SimpleComponent extends ElementComponent {
+export class SimpleComponent extends ElementComponent implements AfterViewInit {
   // Reference to the place in the DOM to place the control
   @ViewChild("control", { read: ViewContainerRef }) control;
   @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
@@ -57,6 +58,10 @@ export class SimpleComponent extends ElementComponent {
     this.siblings.push(ref.instance);
     this.siblingCounter++;
     this.change();
+  }
+
+  ngAfterViewInit(){
+    $(".badgeGrayRight").css("right","-45px");
   }
 
   remove() {

@@ -66,6 +66,7 @@ export abstract class ElementComponent  {
 
   addAttributes(conf) {
 
+    let ordinal = 0;
     if (conf.hA) {
       this.sortAttributes("DESC");
       this.config.attributes.forEach( (att)=> {
@@ -76,6 +77,24 @@ export abstract class ElementComponent  {
           this.numOptionalAttributes++;
         }
 
+        if(ordinal == 0){
+          att.first = true;
+        } else {
+          att.first = false;
+        }
+        if (ordinal == this.config.attributes.length-1){
+          att.last = true;
+        } else {
+          att.last = false;
+        }
+
+
+        if (this.config.type == "sequence"){
+          att.sequenceAttribute = true;
+        } else {
+          att.sequenceAttribute = false;
+        }
+        ordinal++;
         let factory = this.resolver.resolveComponentFactory(AttributeComponent);
         let ref = this.attributes.createComponent(factory);
         ref.instance.setAttribute(att,this.elementPath+ "@" + att.name );

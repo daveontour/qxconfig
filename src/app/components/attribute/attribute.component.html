@@ -1,7 +1,7 @@
 
   <!--The label-->
   <div class="row ml-2" >
-    <div class="col-md-7 pl-4 att_row pt-1 pb-1 pr-1" [ngClass] = "{'attribSelected':config.enabled}">
+    <div class="col-md-7 pl-4 pt-1 pb-1 pr-1 attribBorder" style="border-top-width: 0; padding-left:2.5rem !important" [ngClass] = "{'attribSelected':config.enabled, 'attribBorderLast':config.last, 'sequenceAttribute':config.sequenceAttribute, 'simpleAttribute':!config.sequenceAttribute}">
       <input type="checkbox" [ngClass]="{'form-check-input':true}" [disabled]="config.required" [attr.id]="this.getID()"
         [(ngModel)]="config.enabled" (change)="change()">
 
@@ -11,15 +11,15 @@
       </div>
 
           <!-- The control -->
-    <div class="float-right">
+    <!-- <div class="float-right">
         <template #control></template>
-      </div>
+      </div> -->
       <!-- End of control -->
     </div>
 
     <!-- The control -->
-    <!-- <div class="col-md-5">
+    <div class="col-md-5">
       <template #control></template>
-    </div> -->
+    </div>
     <!-- End of control -->
   </div>

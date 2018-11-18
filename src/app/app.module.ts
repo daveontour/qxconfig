@@ -32,16 +32,13 @@ import { XSDateComponent } from './controls/xsdate/xsdate.component';
 import { jqxSplitterComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxsplitter';
 import { UnionComponent } from './controls/union/union.component';
 import { AlertswindowComponent } from './alertswindow/alertswindow.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCoffee, faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 import { XSGDayComponent } from './controls/xsgDay/gDay.component';
-import {OwlBadgeModule, OwlAccordionModule, OwlSwitchModule, OwlCheckBoxModule} from "owl-ng";
+import {OwlBadgeModule, OwlAccordionModule, OwlSwitchModule, OwlCheckBoxModule, OwlFormFieldModule, OwlInputDirective, OwlInputModule} from "owl-ng";
+
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -54,10 +51,6 @@ export const MY_MOMENT_FORMATS = {
   dateA11yLabel: 'LL',
   monthYearA11yLabel: 'MMMM YYYY',
 };
-
-library.add(faMinusCircle);
-library.add(faPlusCircle);
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,7 +94,8 @@ library.add(faPlusCircle);
     OwlAccordionModule,
     OwlSwitchModule,
     OwlCheckBoxModule,
-    FontAwesomeModule
+    OwlInputModule,
+    OwlFormFieldModule,
   ],
   providers: [
     Globals,

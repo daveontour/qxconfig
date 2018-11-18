@@ -39,5 +39,8 @@ export interface ItemConfig{
     minLength : number,
     maxLength : number,
     description : string,
-    enumList : string[]
+    enumList : string[], 
+    first : boolean,
+    last : boolean,
+    sequenceAttribute : boolean
 }
