@@ -4,4 +4,32 @@
 
 .ok{
     background: lime;
+    padding-top: 60px;
+    text-align: center;
+}
+
+.alertItem{
+    background-color: rgb(59, 53, 53); 
+    padding:4px;
+    width:800px;
+    border: 1px solid gray;
+}
+
+.alertIcon{
+    height: 1.0rem;
+    float:left;
+    background-color:black
+}
+
+.alertItem span {
+    margin-left:5px;
+    color: yellow
+}
+
+.warningLabel{
+    font-size: 11pt;
+    color:rgb(59, 53, 53); 
+    font-style: italic;
+    padding-left: 5px; 
+    margin-top:5px;
 }

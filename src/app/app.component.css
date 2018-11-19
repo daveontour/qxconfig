@@ -43,3 +43,11 @@ header {
     background: rgb(227, 238, 241);
     box-shadow: 0px 1px 2px #80CBC4;
 }
+
+.subHeading{
+    background: rgb(227, 238, 241);
+    height:40px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 5px;
+}
