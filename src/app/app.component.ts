@@ -1,3 +1,4 @@
+import { Messenger } from './services/messenger';
 import { ChoiceComponent } from './components/choice/choice.component';
 import { Globals } from './services/globals';
 import { ItemConfig } from './interfaces/interfaces';
@@ -5,6 +6,7 @@ import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
 import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, OnInit, AfterViewInit, AfterContentInit,ChangeDetectorRef  } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -20,9 +22,14 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   children : any[] = [];
   public elementPath :string = "";
   public name :string = "ROOTPAGE";
+  subscription :Subscription;
 
-  constructor( private resolver: ComponentFactoryResolver, private http: HttpClient,  public global: Globals,  private cdRef : ChangeDetectorRef) {
-    
+  constructor( private resolver: ComponentFactoryResolver, private http: HttpClient,  public global: Globals,  private cdRef : ChangeDetectorRef, private messenger: Messenger) {
+    this.subscription = messenger.missionAnnounced$.subscribe(
+      mission => {
+        this.retrieveData(mission);
+      }
+    )
   }
 
   public getContainer(){
@@ -40,7 +47,14 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   }
 
   ngAfterViewInit() : void {
-    this.http.get<ItemConfig>('http://localhost:8080/XSD_Forms/json?type=aidx').subscribe(data => {
+    this.retrieveData('http://localhost:8080/XSD_Forms/json?type=aidx');
+   }
+
+  retrieveData(url: string){
+   
+    this.container.clear();
+    this.global.root = null;
+    this.http.get<ItemConfig>(url).subscribe(data => {
 
       data.elementPath = data.name;
       data.isRoot = true;

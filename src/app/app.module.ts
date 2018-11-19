@@ -38,6 +38,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 import { XSGDayComponent } from './controls/xsgDay/gDay.component';
 import {OwlBadgeModule, OwlAccordionModule, OwlSwitchModule, OwlCheckBoxModule, OwlFormFieldModule, OwlInputDirective, OwlInputModule} from "owl-ng";
+import { Messenger } from './services/messenger';
+import { TopmenuComponent } from './components/topmenu/topmenu.component';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -79,7 +81,8 @@ export const MY_MOMENT_FORMATS = {
     XSGDayComponent,
     XSGMonthComponent,
     XSNumberComponent,
-    XSGMonthDayComponent
+    XSGMonthDayComponent,
+    TopmenuComponent
   ],
   imports: [
     BrowserModule,
@@ -99,6 +102,7 @@ export const MY_MOMENT_FORMATS = {
   ],
   providers: [
     Globals,
+    Messenger,
     WidgetFactory,
     {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
   ],

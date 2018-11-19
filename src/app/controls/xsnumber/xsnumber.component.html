@@ -7,6 +7,9 @@
   (onfocusout) = "this.change()"
   (keyup) = "this.keyUp($event)"
   [attr.disabled]="(this.isEnabled() || (!this.isEnabled() && this.isRequired()))?null:''" 
-  [ngClass]="{ 'pt-0':true, 'pb-0':true,'inputRequired':(this.isEnabled()||this.bElement),'inputError':(this.inputNotOK), 'inputOK':this.inputOK}"
-  placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="Value Format"
+  [ngClass]="{'pt-0':true, 'pb-0':true,'inputRequired':(this.isEnabled()),'inputNotRequired':(!this.isEnabled()),'inputError':(this.isEnabled() && (this.isInvalid() || ( name.invalid))), 'inputOK':(this.isEnabled() && ( name.valid && !this.isInvalid()))}"
+  
+   placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="Value Format"
   />
+
+  <!-- [ngClass]="{ 'pt-0':true, 'pb-0':true,'inputRequired':(this.isEnabled()||this.bElement),'inputError':(this.inputNotOK), 'inputOK':this.inputOK}" -->
