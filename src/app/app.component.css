@@ -44,10 +44,30 @@ header {
     box-shadow: 0px 1px 2px #80CBC4;
 }
 
-.subHeading{
+.xmlHeading{
     background: rgb(227, 238, 241);
+    /* background:rgb(59, 53, 53);  */
     height:40px;
     padding-top: 3px;
     padding-bottom: 3px;
     padding-left: 5px;
+}
+
+.xmlHeading h6{
+    color: rgb(0, 123, 255);
+}
+.subHeading{
+    /* background: rgb(227, 238, 241); */
+    background:rgba(59, 53, 53,0.5); 
+    height:40px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 5px;
+}
+.subHeading h6{
+    color: yellow;
+}
+
+.noWarning{
+    font-size:24pt; font-style: italic;color: rgb(65, 60, 60)
 }

@@ -1,44 +1,43 @@
 <div [ngClass]="{'d-none':this.topLevel}">
-  <div class="row mt-1 ml-2" style="background-color:khakin">
-    <div class="col-md-7 pl-1 pt-1 pb-1 simpleBorders" [ngClass]="{'simpleBordersExpanded':!isCollapsed}" style="background-color: white">
+  <!-- Template for the popover-->
+  <ng-template #popContent>{{config.description}}<br /><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
 
-      <!-- Template for the popover-->
-      <ng-template #popContent>{{config.description}}<br /><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
-      
-      <!-- The element's name -->
+  <div class="row mt-1 pl-1 pt-1 pb-1" [ngClass]="{'simpleBordersExpanded':!isCollapsed}" style="background-color: rgba(203, 209, 216, 0.856); margin-left: 0px;margin-right: 0px">
+    <!-- <div class="col-md-12 pl-1 pt-1 mr-1 pb-1 simpleBorders" [ngClass]="{'simpleBordersExpanded':!isCollapsed}" style="background-color: rgba(143, 148, 153, 0.856)"> -->
+
+
+    <!-- The element's name -->
+    <div class="col-md-6">
       <label [ngClass]="{'form-check-label':true, 'simple-label':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}"
         (click)="isCollapsed = !isCollapsed" style="color:#930F80;margin-bottom:initial;display: initial !important;font-weight: 100"
         placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">{{config.name}}
-      
-        <!-- The Attributes Badge-->      
-        <owl-badge class="badgeRed"
-          *ngIf="hasRequiredAttributes() && isCollapsed" [size]="'medium'" [style.top]="'-3px'" [overlap]="false" [content]="this.numRequiredAttributes">
+
+        <!-- The Attributes Badge-->
+        <owl-badge class="badgeRed" *ngIf="hasRequiredAttributes() && isCollapsed" [size]="'medium'" [style.top]="'-3px'"
+          [overlap]="false" [content]="this.numRequiredAttributes">
         </owl-badge>
 
-        <owl-badge class="badgeGrayRight"
-        *ngIf="hasOptionalAttributes() && hasRequiredAttributes() && isCollapsed" [size]="'medium'" [style.top]="'-3px'" [style.right]="'-35px'" [overlap]="false" [content]="this.numOptionalAttributes">
-      </owl-badge>
+        <owl-badge class="badgeGrayRight" *ngIf="hasOptionalAttributes() && hasRequiredAttributes() && isCollapsed"
+          [size]="'medium'" [style.top]="'-3px'" [style.right]="'-35px'" [overlap]="false" [content]="this.numOptionalAttributes">
+        </owl-badge>
 
-      <owl-badge class="badgeGray"
-      *ngIf="hasOptionalAttributes() && !hasRequiredAttributes() && isCollapsed" [size]="'medium'" [style.top]="'-3px'"  [overlap]="false" [content]="this.numOptionalAttributes">
-    </owl-badge>
+        <owl-badge class="badgeGray" *ngIf="hasOptionalAttributes() && !hasRequiredAttributes() && isCollapsed" [size]="'medium'"
+          [style.top]="'-3px'" [overlap]="false" [content]="this.numOptionalAttributes">
+        </owl-badge>
       </label>
+    </div>
 
+
+    <div class="col-md-6">
+      <template #control></template>
 
       <!-- The Delete Button-->
-      <div *ngIf="showDeleteAction()" (click)="this.remove()" style="float: right">
+      <div *ngIf="showDeleteAction()" (click)="this.remove()" class="float-right">
         <svg class="svg-minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path id="delete" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zM124 296c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h264c6.6 0 12 5.4 12 12v56c0 6.6-5.4 12-12 12H124z"></path>
         </svg>
       </div>
-      
     </div>
-
-    <!--  Start of the input element -->
-    <div class="col-md-5">
-      <template #control></template>
-    </div>
-    <!-- End of input element -->
 
   </div>
 
@@ -53,20 +52,17 @@
 <div *ngIf="this.topLevel && this.config.minOccurs != 1 && ((this.siblingCounter) != config.maxOccurs)" class="addSibling">
 
   <div id="addSiblingLabel">
-  <svg (click)="this.addSibling()" class="mr-2 svg-plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-    <path id="add" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"></path>
-  </svg>
-  <span class="noselect add" (click)="this.addSibling()">Add {{config.name}}</span>
+    <svg (click)="this.addSibling()" class="mr-2 svg-plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+      <path id="add" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"></path>
+    </svg>
+    <span class="noselect add" (click)="this.addSibling()">Add {{config.name}}</span>
+    <span class="occurs noselect" *ngIf="config.maxOccurs > 100000"> ( Current: {{this.siblingCounter}} instances<span
+        class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
+        Minimum:{{config.minOccurs}}</span>)</span>
+    <span class="occurs noselect" *ngIf="config.maxOccurs < 100000"> ( {{this.siblingCounter}} of {{config.maxOccurs}}<span
+        class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
+        Minimum:{{config.minOccurs}}</span>)</span>
 
-
-  <span class="occurs noselect" *ngIf="config.maxOccurs > 100000"> ( Current: {{this.siblingCounter}} instances<span
-      class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
-      Minimum:{{config.minOccurs}}</span>)</span>
-  <span class="occurs noselect" *ngIf="config.maxOccurs < 100000"> ( {{this.siblingCounter}} of {{config.maxOccurs}}<span
-      class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
-      Minimum:{{config.minOccurs}}</span>)</span>
-
-    </div>
+  </div>
 </div>
 <template #siblings></template>
-

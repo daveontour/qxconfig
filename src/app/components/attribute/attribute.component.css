@@ -18,6 +18,9 @@
     border-left: 1px solid rgb(148, 147, 147);
     border-right: 1px solid rgb(148, 147, 147);
     border-bottom: 1px solid lightgray;
+    border-top-width: 0; 
+    padding-top:2px; 
+    padding-bottom: 2px
 }
 
 .attribBorderLast{
@@ -29,8 +32,14 @@
 
 .sequenceAttribute{
     background:rgba(0,0,0,0.1) !important;
+    margin-left: -3px;
+    margin-right:-3px;
 }
 
 .simpleAttribute{
-    background-color:rgb(219, 219, 219)
+    background-color:rgb(219, 219, 219);
+    margin-left: 0px;
+    margin-right: 0px;
+    
+    
 } 

@@ -1,5 +1,6 @@
-<div class="input-group">
+
     <input 
+    style = "min-width: 200px;width:calc(100% - 25px) !important"
     [owlDateTimeTrigger]="dt7" 
     [owlDateTime]="dt7"
     [ngClass]="{ 'inputOK':true}"
@@ -8,4 +9,4 @@
     <owl-date-time 
     (afterPickerClosed) = "this.change()"
     [pickerType]="'calendar'" #dt7></owl-date-time>
-</div>
+

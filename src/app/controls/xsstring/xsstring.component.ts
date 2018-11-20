@@ -40,22 +40,22 @@ export class XSStringComponent extends ControlComponent {
     "modelDescription":"The type xsd:Name represents an XML name, which can be used as an element-type name or attribute name, among other things. Specifically, this means that values must start with a letter, underscore(_), or colon (:), and may contain only letters, digits, underscores (_), colons (:), hyphens (-), and periods (.). Colons should only be used to separate namespace prefixes from local names."
     };
   xsNCName = {
-    "pattern": "[\\i-[:]][\\c-[:]]*",
+ //   "pattern": "[\\i-[:]][\\c-[:]]*",
     "modelDescription":"The type xsd:NCName represents an XML non-colonized name, which is simply a name that does not contain colons. An xsd:NCName value must start with either a letter or underscore (_) and may contain only letters, digits, underscores (_), hyphens (-), and periods (.). This is equivalent to the Name type, except that colons are not permitted."
   };
   xsID = {
-    "pattern": "[\\i-[:]][\\c-[:]]*",
+  //  "pattern": "[\\i-[:]][\\c-[:]]*",
     "modelDescription":"The type xsd:ID is used for an attribute that uniquely identifies an element in an XML document. An xsd:ID value must be an NCName. This means that it must start with a letter or underscore, and can only contain letters, digits, underscores, hyphens, and periods."
   };
   xsIDREF = {
-    "pattern": "[\\i-[:]][\\c-[:]]*",
+   // "pattern": "[\\i-[:]][\\c-[:]]*",
     "modelDescription":"The type xsd:IDREF is used for an attribute that references an ID. All attributes of type xsd:IDREF must reference an xsd:ID in the same XML document. A common use case for xsd:IDREF is to create a cross-reference to a particular section of a document. Like ID, an xsd:IDREF value must be an NCName."
   };
   xsIDREFS = {
     
   };
   xsENTITY = {
-    "pattern": "[\\i-[:]][\\c-[:]]*",
+  //  "pattern": "[\\i-[:]][\\c-[:]]*",
     "modelDescription":"The type xsd:ENTITY represents a reference to an unparsed entity. The xsd:ENTITY type is most often used to include information from another location that is not in XML format, such as graphics. An xsd:ENTITY value must be an NCName. An xsd:ENTITY value carries the additional constraint that it must match the name of an unparsed entity in a document type definition (DTD) for the instance."
   };
   xsENTITIES = {};
