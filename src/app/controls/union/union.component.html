@@ -1,1 +1,6 @@
-  <span>Need to Sort out Union</span>
+<ng-template #popContent>This type is defined as a "union" of other types, where the value may be of one of the displayed types. The last control you make changes to will be taken as the defined value</ng-template>
+
+  <div style="display: inline-block" class="unionHolder"
+  placement="left" [ngbPopover]="popContent" triggers="mouseenter:mouseleave">
+    <template #members></template>
+  </div>

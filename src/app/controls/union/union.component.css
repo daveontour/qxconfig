@@ -1,0 +1,7 @@
+.unionHolder input {
+    margin-bottom: 2px;
+}
+
+.unionHolder{
+    width: calc(100% - 25px);
+}

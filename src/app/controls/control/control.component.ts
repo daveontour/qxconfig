@@ -8,7 +8,8 @@ export abstract class ControlComponent {
   parent: any;
   bElement: boolean = false;
   public config: ItemConfig;
-  popOverContent : string = ""
+  popOverContent : string = "";
+  public unionMember:boolean = false;
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) { }
 

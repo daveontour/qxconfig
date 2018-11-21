@@ -42,5 +42,6 @@ export interface ItemConfig{
     enumList : string[], 
     first : boolean,
     last : boolean,
-    sequenceAttribute : boolean
+    sequenceAttribute : boolean,
+    union : any[]
 }
