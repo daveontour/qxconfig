@@ -31,6 +31,7 @@ import { MinMaxInclusiveComponent } from '../../controls/minmaxinclusive/minmaxi
 export class UnionComponent extends ControlComponent implements AfterViewInit {
   @ViewChild("members", { read: ViewContainerRef }) membersPt;
   members :any[] = [];
+  activeMember:ControlComponent;
 
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
@@ -45,9 +46,33 @@ export class UnionComponent extends ControlComponent implements AfterViewInit {
         let controlRef = this.membersPt.createComponent(factory);
         controlRef.instance.setElementParent(this);
         controlRef.instance.unionMember = true;
-        this.members.push(controlRef);
+        this.activeMember = controlRef;
       }
     });
+  }
+
+  public memberChange(member){
+    debugger;
+    this.activeMember = member;
+    this.global.getString();
+  }
+
+  getValue() {
+
+    debugger;
+    if (typeof this.activeMember == "undefined"){
+      return "undefined";
+    }
+    let value = this.activeMember.getValue();
+
+    if (typeof value == "undefined") {
+      if (this.bElement) {
+        this.global.elementsUndefined.push(this.parent.elementPath);
+      } else {
+        this.global.attributesUndefined.push(this.parent.elementPath);
+      }
+    }
+    return value;
   }
 
   setUpCommon() {
@@ -60,7 +85,6 @@ export class UnionComponent extends ControlComponent implements AfterViewInit {
   public setElementParent(parent) {
     this.parent = parent;
     this.config = parent.config;
-    console.log(this.config);
     this.bElement = true;
     this.setUpCommon();
   }
@@ -68,7 +92,6 @@ export class UnionComponent extends ControlComponent implements AfterViewInit {
   public setAttribParent(parent) {
     this.parent = parent;
     this.config = parent.config;
-    console.log(this.config);
     this.bElement = false;
     this.setUpCommon();
   }

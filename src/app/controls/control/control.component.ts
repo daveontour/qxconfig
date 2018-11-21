@@ -8,12 +8,12 @@ export abstract class ControlComponent {
   parent: any;
   bElement: boolean = false;
   public config: ItemConfig;
-  popOverContent : string = "";
-  public unionMember:boolean = false;
+  popOverContent: string = "";
+  public unionMember: boolean = false;
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) { }
 
-  abstract setUpCommon() :void;
+  abstract setUpCommon(): void;
 
   public setElementParent(parent) {
     this.parent = parent;
@@ -30,23 +30,27 @@ export abstract class ControlComponent {
   }
 
 
-  change(){
-    this.global.getString();
+  change() {
+    if (this.unionMember) {
+      this.parent.memberChange(this);
+    } else {
+      this.global.getString();
+    }
   }
 
-  requireStar(){
+  requireStar() {
     return (this.config.enabled || this.config.required);
   }
-    setValue(value: any) {
+  setValue(value: any) {
     this.config.value = value;
   }
 
   getValue() {
-    if (typeof this.config.value == "undefined"){
-      if (this.bElement){
-        this.global.elementsUndefined.push(this.parent.elementPath);      
+    if (typeof this.config.value == "undefined") {
+      if (this.bElement) {
+        this.global.elementsUndefined.push(this.parent.elementPath);
       } else {
-        this.global.attributesUndefined.push(this.parent.elementPath);      
+        this.global.attributesUndefined.push(this.parent.elementPath);
       }
     }
     return this.config.value;
@@ -65,8 +69,8 @@ export abstract class ControlComponent {
     }
   }
 
-  isInvalid(){
-    if (this.isEnabled && (typeof this.config.value == 'undefined' ||  this.config.value == '')){
+  isInvalid() {
+    if (this.isEnabled && (typeof this.config.value == 'undefined' || this.config.value == '')) {
       return true
     }
   }
