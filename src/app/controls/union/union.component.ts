@@ -52,14 +52,12 @@ export class UnionComponent extends ControlComponent implements AfterViewInit {
   }
 
   public memberChange(member){
-    debugger;
     this.activeMember = member;
     this.global.getString();
   }
 
   getValue() {
 
-    debugger;
     if (typeof this.activeMember == "undefined"){
       return "undefined";
     }

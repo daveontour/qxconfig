@@ -1,0 +1,29 @@
+.svg-minus {
+    display: inline-block;
+    font-size: inherit;
+    height: 1.2em;
+    overflow: visible;
+    vertical-align: -.125em;
+    width: 1.2em;
+    font-size: 1.2em;
+    overflow: visible;
+    fill:grey;
+    cursor: pointer;
+  }
+  
+  .svg-minus:hover{
+    fill:rgb(161, 46, 46);
+  }
+  
+  .svg-plus {
+    display: inline-block;
+    font-size: inherit;
+    height: 1.1em;
+    overflow: visible;
+    vertical-align: -.125em;
+    width: 1.1em;
+    font-size: 1.1em;
+    overflow: visible;
+    fill:grey;
+    cursor: pointer;
+  }

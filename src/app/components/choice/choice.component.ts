@@ -1,6 +1,6 @@
 import { Globals } from '../../services/globals';
 import { ItemConfig } from '../../interfaces/interfaces';
-import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterViewInit, OnInit } from '@angular/core';
 import { ElementComponent } from '../element/element.component';
 
 @Component({
@@ -8,13 +8,42 @@ import { ElementComponent } from '../element/element.component';
   templateUrl: './choice.component.html',
   styleUrls: ['./choice.component.css']
 })
-export class ChoiceComponent extends ElementComponent {
+export class ChoiceComponent extends ElementComponent implements AfterViewInit, OnInit {
   @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
   selectedChoice: string;
   opts: any[] = [];
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver);
+  }
+
+  ngOnInit() {
+
+  }
+
+  ngAfterViewInit() {
+    this.init();
+  }
+
+  init() {
+    if (this.topLevel) {
+      // for (var i = 0; i < this.config.minOccurs; i++) {
+      //   this.creator.walkSequenceSibling(this);
+      //   this.siblingCounter++;
+      // }
+      // this.siblingCounter = this.config.minOccurs;
+      // this.releaseSiblingCounter = true;
+    } else {
+     
+      this.addAttributes(this.config);
+      // for (var i = 0; i < this.config.allOf.length; i++) {
+      //   this.creator.walkStructure(this.config.allOf[i], this);
+      // }
+    }
+
+    //This prevents ExpressionChangedAfterItHasBeenCheckedError 
+    // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
+    // this.cdRef.detectChanges();
   }
 
   getSiblingsContainer() {
@@ -104,6 +133,7 @@ export class ChoiceComponent extends ElementComponent {
 
   setConfig(conf: ItemConfig, creator, parentObj) {
 
+  
     this.creator = creator;
     let choiceIDs = [];
     this.topLevel = true;

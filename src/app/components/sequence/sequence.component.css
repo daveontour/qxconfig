@@ -43,3 +43,10 @@
   fill:grey;
   cursor: pointer;
 }
+
+.simpleBorder{
+  border-left: 1px solid rgb(148, 147, 147);
+  border-right: 1px solid rgb(148, 147, 147);
+  border-bottom: 1px solid rgb(148, 147, 147);
+  margin-bottom: 5px;
+}

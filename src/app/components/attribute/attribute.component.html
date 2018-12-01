@@ -1,7 +1,8 @@
 <!--The label-->
-<div class="row attribBorder" [ngClass]="{'attribSelected':config.enabled, 'attribBorderLast':config.last, 'sequenceAttribute':config.sequenceAttribute, 'simpleAttribute':!config.sequenceAttribute}">
+<!-- <div class="row attribBorder" [ngClass]="{'attribSelected':config.enabled, 'attribBorderLast':config.last, 'sequenceAttribute':config.sequenceAttribute, 'simpleAttribute':!config.sequenceAttribute}"> -->
 
-  <div class="col-md-6 pl-4">
+  <div class="row" [ngClass]="{'sequenceAttribute':config.sequenceAttribute, 'simpleAttribute':!config.sequenceAttribute}">
+    <div class="col-md-6 pl-4">
     <input type="checkbox" class="form-check-input" [disabled]="config.required" [attr.id]="this.getID()"
       [(ngModel)]="config.enabled" (change)="change()">
 

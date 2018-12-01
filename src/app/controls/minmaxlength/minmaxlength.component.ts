@@ -17,6 +17,7 @@ export class MinMaxLengthComponent extends ControlComponent {
 
   setUpCommon() {
 
+
     if (this.config.model == "maxLength") {
       this.config.minLength = 0;
       this.popOverContent = "Maximum Length: " + this.config.maxLength;

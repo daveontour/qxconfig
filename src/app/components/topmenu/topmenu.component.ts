@@ -25,5 +25,9 @@ export class TopmenuComponent implements OnInit {
   sendTest(){
     this.messenger.announceMission('http://localhost:8080/XSD_Forms/json?type=test');
   }
+
+  sendAIPTest(){
+    this.messenger.announceMission('http://localhost:8080/XSD_Forms/json?type=aip');
+  }
 }
 
