@@ -30,8 +30,8 @@ export abstract class ElementComponent  {
 
   constructor(public resolver: ComponentFactoryResolver) { }
 
-  abstract getElementString(indent?:string): string;
-  abstract getSiblingString(indent?:string): string;
+  abstract getElementString(): string;
+  abstract getSiblingString(): string;
   abstract setConfig(conf: ItemConfig, parentObject: any, topLevel:boolean): void;
   abstract remove(): void;
   abstract removeChild(childIDtoRemove : string): void;
@@ -115,12 +115,12 @@ export abstract class ElementComponent  {
     this.parentID = id;
   }
 
-  getChildString(indent:string) {
+  getChildString() {
     let e: string = "";
     let o = this;
     if (this.children != null) {
       this.children.forEach(function (value) {
-        let x = value.getElementString(indent);
+        let x = value.getElementString();
         e = e.concat(x);
       });
     }

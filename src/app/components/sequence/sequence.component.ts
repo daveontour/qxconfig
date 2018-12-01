@@ -2,7 +2,7 @@ import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterViewInit, OnInit } from '@angular/core';
 import { Globals } from '../../services/globals';
-import{ ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-sequence',
@@ -18,7 +18,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
   releaseSiblingCounter = false;
   tempSiblingCounter = 0;
 
-  constructor(public resolver: ComponentFactoryResolver, public global: Globals, private cdRef : ChangeDetectorRef) {
+  constructor(public resolver: ComponentFactoryResolver, public global: Globals, private cdRef: ChangeDetectorRef) {
     super(resolver);
   }
 
@@ -128,29 +128,33 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     this.global.getString();
   }
 
-  getElementString(indent?: string) {
+  getElementString() {
 
     let e: string = "";
     this.siblings.forEach((s) => {
-      e = e.concat(s.getSiblingString(indent));
+      e = e.concat(s.getSiblingString());
     });
     return e;
 
   }
 
-  getSiblingString(indent: string) {
+  getSiblingString() {
 
-    let c: string = this.getChildString(indent + this.in);
-    let e: string = indent + '<' + this.config.name;
-    e = e.concat(this.getAttributeString());
+    let e: string = "";
+    let c: string = this.getChildString();
 
-    if (c == null && this.config.value == null) {
-      e = e.concat(" />");
-      return e;
-    } else {
-      e = e.concat('>');
+    if (!this.config.annon) {
+      e = '<' + this.config.name;
+      e = e.concat(this.getAttributeString());
+
+
+      if (c == null && this.config.value == null) {
+        e = e.concat(" />");
+        return e;
+      } else {
+        e = e.concat('>');
+      }
     }
-
     if (this.config.value != null) {
       e = e.concat(this.config.value);
     }
@@ -160,7 +164,9 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
       e = e.concat(c);
     }
 
-    e = e.concat(indent + '</' + this.config.name + '>\n');
+    if (!this.config.annon) {
+      e = e.concat('</' + this.config.name + '>\n');
+    }
     return e;
   }
 }

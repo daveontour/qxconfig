@@ -43,5 +43,8 @@ export interface ItemConfig{
     first : boolean,
     last : boolean,
     sequenceAttribute : boolean,
-    union : any[]
+    union : any[],
+    annon : boolean,
+    nillable : boolean,
+    choiceHead : boolean
 }

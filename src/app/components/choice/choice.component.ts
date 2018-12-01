@@ -107,13 +107,13 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
     this.global.getString();
   }
 
-  getChildString(indent: string) {
+  getChildString() {
     let e: string = "";
     let choice = this.selectedChoice;
     if (this.children != null) {
       this.children.forEach((value) => {
         if (value.config.name == choice) {
-          e = e.concat(value.getElementString(indent));
+          e = e.concat(value.getElementString());
           if (choice == "-Sequence Holder-") {
             e = e.replace("<-Sequence Holder->\n", "");
             e = e.replace("</-Sequence Holder->\n", "");
@@ -123,8 +123,23 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
     }
     return e;
   }
-  getElementString(indent: string) {
-    return this.getChildString(indent);
+  getElementString() {
+    if (this.topLevel){
+      return "";
+    }
+    let e: string = "";
+    if (this.config.choiceHead){
+      e = e.concat("<"+this.config.name);
+      e = e.concat(this.getAttributeString());
+      e = e.concat(">");
+    }
+    e = e.concat(this.getChildString());
+
+    if (this.config.choiceHead){
+      e = e.concat("</"+this.config.name+">");
+    }
+
+    return e;
   }
 
   getSiblingString() {

@@ -82,29 +82,25 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
     }
   }
 
-  getElementString(indent?: string) {
+  getElementString() {
 
-    if (!indent) {
-      indent = "  ";
-    }
-
-    let x = "";
+      let x = "";
     this.siblings.forEach(function (v) {
-      x = x.concat(v.getSiblingString(indent))
+      x = x.concat(v.getSiblingString())
     });
 
     return x;
 
   }
 
-  getSiblingString(indent?: string) {
+  getSiblingString() {
 
     if (!this.config.enabled && !this.config.required) {
       return "";
     }
 
 
-    let e: string = indent + '<' + this.config.name;
+    let e: string = '<' + this.config.name;
     e = e.concat(this.getAttributeString());
 
     if (this.config.value == null) {
