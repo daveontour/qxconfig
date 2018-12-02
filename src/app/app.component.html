@@ -7,8 +7,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <!-- <div [ngClass]="{'modal-body': true, 'loading':this.validateInProgress, 'valid':!this.validateInProgress && this.validationStatus, 'invalid':!this.validateInProgress && !this.validationStatus}"> -->
-    <div [ngClass]="{'modal-body': true}">
+  <div [ngClass]="{'modal-body': true, 'loading':this.validateInProgress, 'valid':!this.validateInProgress && this.validationStatus, 'invalid':!this.validateInProgress && !this.validationStatus}"> 
       <p>{{validationMessage}}</p>
   </div>
   <div class="modal-footer" style="background-color:#E9ECEF">
@@ -53,9 +52,6 @@
                 style="min-height: 250px; width:100%;"></ace-editor>
             </div>
             <div id="alerts" style="overflow-y:scroll;">
-              <!-- <div class="subHeading">
-                <h6>Warnings and Alerts</h6>
-              </div> -->
               <app-alertswindow></app-alertswindow>
             </div>
           </jqxSplitter>

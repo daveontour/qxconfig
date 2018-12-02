@@ -9,6 +9,7 @@ import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, } fro
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ValidationResult } from './interfaces/interfaces';
 
 @Component({
   selector: 'app-root',
@@ -25,11 +26,12 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   public elementPath: string ;
   public name = 'ROOTPAGE';
   subscription: Subscription;
-  private validationMessage = 'Validating...please wait';
-  private validationStatus = false;
-  private validateInProgress = false;
-  private schemaVersion  = '';
-  private supplementalMsg = '';
+
+  validationMessage = 'Validating...please wait';
+  validationStatus = false;
+  validateInProgress = false;
+  schemaVersion  = '';
+  supplementalMsg = '';
 
   constructor(
     private resolver: ComponentFactoryResolver,
@@ -69,6 +71,57 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     this.modalService.open(content, { centered: true });
 
   }
+
+
+  validateAIDXMessage() {
+
+    // Indicators for the modal dialog box
+    this.validationMessage = 'Validating...please wait';
+    this.validateInProgress = true;
+    this.validationStatus = false;
+    this.supplementalMsg = '';
+
+
+    let params = new HttpParams();
+    params = params.append('schemaVersion', this.schemaVersion);
+
+    // this.http.post<ValidatonResult>(this.global.baseURL + '/validate', this.global.xmlMessage, {
+    this.http.post(this.global.baseURL + '/validate', this.global.xmlMessage, {
+        params: params
+    }).subscribe(data => {
+
+      // Update the indicators for the modal dialog box
+      // this.validationMessage = data.message;
+      // this.validationStatus = data.status;
+      // this.validateInProgress = false;
+
+      if (this.validationMessage.indexOf('The markup in the document following the root element must be well-formed') > 0) {
+        this.supplementalMsg = 'Did you include multipe messages? This validator only hanldes one message at a time';
+      } else
+      if (this.validationMessage.indexOf('Cannot find the declaration of element') > 0) {
+        this.supplementalMsg = 'Did you select the correct message type?';
+      } else
+      if (this.validationMessage.indexOf('Premature end of file') > 0) {
+        this.supplementalMsg = 'It appears no message data was entered';
+      } else
+      if (this.validationMessage.indexOf('Content is not allowed in prolog') > 0) {
+        this.supplementalMsg = 'The message is badly formed XML';
+      } else {
+        if (!this.validationStatus) {
+          this.supplementalMsg = 'Refer to above error message';
+        }
+      }
+
+    },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message);
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+        }
+      });
+  }
+
   ngOnInit(): void {
 // moved to ngAfterViewInit
   }
@@ -217,3 +270,4 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     this.walkStructure(data, parentObj);
   }
 }
+
