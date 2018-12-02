@@ -15,8 +15,8 @@ import { EnumListComponent } from './controls/enumlist/enumlist.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http'; 
-import { FormsModule, FormBuilder, FormGroup }   from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { Globals } from './services/globals';
 import { WidgetFactory } from './services/widgetfactory';
 import { AceEditorModule } from 'ng2-ace-editor';
@@ -37,7 +37,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } fro
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 import { XSGDayComponent } from './controls/xsgDay/gDay.component';
-import {OwlBadgeModule, OwlAccordionModule, OwlSwitchModule, OwlCheckBoxModule, OwlFormFieldModule, OwlInputDirective, OwlInputModule} from "owl-ng";
+import { OwlCheckBoxModule, OwlFormFieldModule, OwlSwitchModule, OwlInputModule} from 'owl-ng';
+import {OwlBadgeModule, OwlAccordionModule} from 'owl-ng';
 import { Messenger } from './services/messenger';
 import { TopmenuComponent } from './components/topmenu/topmenu.component';
 
@@ -91,7 +92,7 @@ export const MY_MOMENT_FORMATS = {
     FormsModule,
     NgbModule.forRoot(),
     AceEditorModule,
-    OwlDateTimeModule, 
+    OwlDateTimeModule,
     OwlMomentDateTimeModule,
     OwlBadgeModule,
     OwlAccordionModule,
@@ -109,8 +110,8 @@ export const MY_MOMENT_FORMATS = {
   bootstrap: [AppComponent],
   entryComponents: [
     SequenceComponent,
-    SimpleComponent, 
-    ChoiceComponent, 
+    SimpleComponent,
+    ChoiceComponent,
     PatternComponent,
     UnionComponent,
     MinMaxLengthComponent,

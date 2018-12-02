@@ -4,9 +4,11 @@ import { Globals } from './services/globals';
 import { ItemConfig } from './interfaces/interfaces';
 import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
-import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, OnInit, AfterViewInit, AfterContentInit,ChangeDetectorRef  } from '@angular/core';
+import {  OnInit, AfterViewInit, AfterContentInit, ChangeDetectorRef  } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -14,44 +16,68 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
-  @ViewChild("container", { read: ViewContainerRef }) container;
-  @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
+  @ViewChild('container', { read: ViewContainerRef }) container;
+  @ViewChild('siblings', { read: ViewContainerRef }) siblingsPt;
   componentRef: any;
   elements: any[] = [];
   public depth = 0;
-  children : any[] = [];
-  public elementPath :string = "";
-  public name :string = "ROOTPAGE";
-  subscription :Subscription;
+  children: any[] = [];
+  public elementPath: string ;
+  public name = 'ROOTPAGE';
+  subscription: Subscription;
+  private validationMessage = 'Validating...please wait';
+  private validationStatus = false;
+  private validateInProgress = false;
+  private schemaVersion  = '';
+  private supplementalMsg = '';
 
-  constructor( private resolver: ComponentFactoryResolver, private http: HttpClient,  public global: Globals,  private cdRef : ChangeDetectorRef, private messenger: Messenger) {
+  constructor(
+    private resolver: ComponentFactoryResolver,
+    private modalService: NgbModal,
+    private http: HttpClient,
+    public global: Globals,
+    private cdRef: ChangeDetectorRef,
+    private messenger: Messenger) {
     this.subscription = messenger.missionAnnounced$.subscribe(
       mission => {
         this.retrieveData(mission);
       }
-    )
+    );
   }
 
-  public getContainer(){
+  public getContainer() {
 
     return this.container;
   }
 
-  public getSiblingsContainer(){
+  public getSiblingsContainer() {
     return this.siblingsPt;
   }
 
-  
+  validate(content) {
+
+    // //Send the text for validation
+    // this.validateAIDXMessage();
+    // //Then open up the modal dialog box which will display status
+
+        // Indicators for the modal dialog box
+        this.validationMessage = 'Validating...please wait';
+        this.validateInProgress = true;
+        this.validationStatus = false;
+        this.supplementalMsg = '';
+
+    this.modalService.open(content, { centered: true });
+
+  }
   ngOnInit(): void {
-//moved to ngAfterViewInit
+// moved to ngAfterViewInit
   }
 
-  ngAfterViewInit() : void {
+  ngAfterViewInit(): void {
     this.retrieveData('http://localhost:8080/XSD_Forms/json?type=aidx');
    }
 
-  retrieveData(url: string){
-   
+  retrieveData(url: string) {
     this.container.clear();
     this.global.root = null;
     this.http.get<ItemConfig>(url).subscribe(data => {
@@ -61,7 +87,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       this.walkStructure(data, this);
       this.global.getString();
 
-    //This prevents ExpressionChangedAfterItHasBeenCheckedError
+    // This prevents ExpressionChangedAfterItHasBeenCheckedError
     // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
       this.cdRef.detectChanges();
     },
@@ -74,75 +100,74 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       });
   }
 
-  ngAfterContentInit(){
-    //this.global.getString();
+  ngAfterContentInit() {
+    // this.global.getString();
   }
 
  walkStructure(data, parentObject ) {
 
-    //Dispatch the item to the selected type handler
-    if (data.type == "sequence") {
+    // Dispatch the item to the selected type handler
+    if (data.type === 'sequence') {
       this.walkSequence(data, parentObject);
-    } else if (data.type == "choice") {
-      this.walkChoice(data,parentObject);
+    } else if (data.type === 'choice') {
+      this.walkChoice(data, parentObject);
     } else {
       this.createSimple(data, parentObject);
     }
   }
 
-  walkSequence(data,parentObject) {
+  walkSequence(data, parentObject) {
 
     // Create the new Sequence Object (newObjRef)
-    let factory = this.resolver.resolveComponentFactory(SequenceComponent);
-    let newObjRef = parentObject.getContainer().createComponent(factory).instance;
-    
-    if (this.global.root == null){
+    const factory = this.resolver.resolveComponentFactory(SequenceComponent);
+    const newObjRef = parentObject.getContainer().createComponent(factory).instance;
+
+    if (this.global.root == null) {
       this.global.root = newObjRef;
     }
 
     parentObject.children.push(newObjRef);
     newObjRef.setConfig(data, this, parentObject);
-    
 
     // All the children of the object are created when the created objects calls walkSiblingSequence
-    // The "headline" object is created and it takes care of creating the 
+    // The "headline" object is created and it takes care of creating the
     // required number of "real" objects (siblings)
    }
 
-  walkChoice(data,parentObject) {
+  walkChoice(data, parentObject) {
 
     // Create the new Sequence Object (newObjRef)
-    let factory = this.resolver.resolveComponentFactory(ChoiceComponent);
-    let newObjRef = parentObject.getContainer().createComponent(factory).instance;
+    const factory = this.resolver.resolveComponentFactory(ChoiceComponent);
+    const newObjRef = parentObject.getContainer().createComponent(factory).instance;
 
-    if (this.global.root == null){
+    if (this.global.root == null) {
       this.global.root = newObjRef;
     }
     // Assign the new object as a child of the parent object
     parentObject.children.push(newObjRef);
 
     // Initialise the object with it's configuration data
-    newObjRef.setConfig(data, this,parentObject);
-    
+    newObjRef.setConfig(data, this, parentObject);
+
   }
 
-  createSimple(data, parentObject){
+  createSimple(data, parentObject) {
 
     // Create the new Sequence Object (newObjRef)
-     let factory = this.resolver.resolveComponentFactory(SimpleComponent);
-     let newObjRef = parentObject.getContainer().createComponent(factory).instance;
+     const factory = this.resolver.resolveComponentFactory(SimpleComponent);
+     const newObjRef = parentObject.getContainer().createComponent(factory).instance;
 
-     if (this.global.root == null){
+     if (this.global.root == null) {
       this.global.root = newObjRef;
     }
-     
+
      // Initialise the object with it's configuration data
-     newObjRef.setParentID(parentObject.id + "/" + data.name);
+     newObjRef.setParentID(parentObject.id + '/' + data.name);
      newObjRef.setParent(parentObject);
      newObjRef.setConfig(data, parentObject);
-     
+
      // Assign the new object as a child of the parent object
-     parentObject.children.push(newObjRef);     
+     parentObject.children.push(newObjRef);
   }
 
   /*
@@ -150,18 +175,18 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   */
   walkSequenceSibling(parentObject) {
 
-    let conf = JSON.parse(JSON.stringify(parentObject.config));
+    const conf = JSON.parse(JSON.stringify(parentObject.config));
     conf.isSibling = true;
 
     // Create the new Sequence Object (newObjRef)
-    let factory = this.resolver.resolveComponentFactory(SequenceComponent);
-    let newObjRef = parentObject.getSiblingsContainer().createComponent(factory).instance;
-    
+    const factory = this.resolver.resolveComponentFactory(SequenceComponent);
+    const newObjRef = parentObject.getSiblingsContainer().createComponent(factory).instance;
+
     newObjRef.setSiblingConfig(conf, this, parentObject);
-    
+
     // Assign the new object as a child of the parent object
     parentObject.children.push(newObjRef);
-   
+
 
     // Deferred until the object AfterViewInit
     // Go through the same process with all the configured child objects recursively.
@@ -169,26 +194,26 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     //   this.walkStructure(conf.allOf[i], newObjRef);
     // }
 
-    //newObjRef.setDefferedConf(conf);
+    // newObjRef.setDefferedConf(conf);
   }
 
   createChoiceSibling(parentObject) {
 
-    let conf = JSON.parse(JSON.stringify(parentObject.config));
+    const conf = JSON.parse(JSON.stringify(parentObject.config));
     conf.isSibling = true;
 
     // Create the new Sequence Object (newObjRef)
-    let factory = this.resolver.resolveComponentFactory(ChoiceComponent);
-    let newObjRef = parentObject.getSiblingsContainer().createComponent(factory).instance;
-    
+    const factory = this.resolver.resolveComponentFactory(ChoiceComponent);
+    const newObjRef = parentObject.getSiblingsContainer().createComponent(factory).instance;
+
     newObjRef.setSiblingConfig(conf, this, parentObject);
-    
+
     // Assign the new object as a child of the parent object
     parentObject.parent.children.push(newObjRef);
     parentObject.siblings.push(newObjRef);
   }
 
-  createChoiceElement(data, parentObj){
-    this.walkStructure(data,parentObj);
+  createChoiceElement(data, parentObj) {
+    this.walkStructure(data, parentObj);
   }
 }

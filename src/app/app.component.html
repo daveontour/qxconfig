@@ -1,3 +1,29 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background-color: #E9ECEF">
+    <h4 class="modal-title" *ngIf="this.validateInProgress">Validating AIDX XML</h4>
+    <h4 class="modal-title" *ngIf="!this.validateInProgress && this.validationStatus">Valid AIDX XML</h4>
+    <h4 class="modal-title" *ngIf="!this.validateInProgress && !this.validationStatus">Invalid AIDX XML</h4>
+    <button type="button" class="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!-- <div [ngClass]="{'modal-body': true, 'loading':this.validateInProgress, 'valid':!this.validateInProgress && this.validationStatus, 'invalid':!this.validateInProgress && !this.validationStatus}"> -->
+    <div [ngClass]="{'modal-body': true}">
+      <p>{{validationMessage}}</p>
+  </div>
+  <div class="modal-footer" style="background-color:#E9ECEF">
+    <div>
+    <p>{{supplementalMsg}}</p>
+    <p class="small"><em>This tool does not check for the correctness of PADIS codes</em></p>
+    <p class="small"><em>The AIDX Implementation Guide allows for bilateral agreements which may result in invaild XML being valid in respect to those agrrements</em></p>
+    </div>
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+
+
+
 <div style="height: calc(100vh - 20px)">
 
   <jqxSplitter [width]="'100%'" [height]="'100%'" [showSplitBar]="false" [orientation]="'horizontal'" [panels]="[{ size: 50, min: 50, collapsible:false},{ collapsible: false }]">
@@ -18,7 +44,7 @@
             <div id="editor" style="overflow-y:scroll">
               <div class="xmlHeading">
                 <h6>Generated XML
-                  <button type="button" class="float-right ml-1 btn-sm btn-outline-primary" style="border-radius: 2.0rem; font-size: 0.7rem;" >Validate</button>
+                  <button type="button" (click)="validate(content)" class="float-right ml-1 btn-sm btn-outline-primary" style="border-radius: 2.0rem; font-size: 0.7rem;" >Validate</button>
                   <button type="button" class="float-right ml-1 btn-sm btn-outline-primary" style="border-radius: 2.0rem; font-size: 0.7rem;" >Send To</button>
                   <button type="button" class="float-right ml-1 btn-sm btn-outline-primary" style="border-radius: 2.0rem; font-size: 0.7rem;" >Copy</button>
                 </h6>
