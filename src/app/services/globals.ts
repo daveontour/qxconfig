@@ -3,20 +3,21 @@ import { Injectable} from '@angular/core';
 @Injectable()
 export class Globals {
   // baseURL: string = 'http://aidx.quaysystems.com.au';
-  baseURL: string = 'http://localhost:8080/XSD_Forms/json';
-  xmlMessage: string = "";
-  sampleXMLMessage: string = "";
-  XMLMessage : string = "";
-  public alerts : string = "No alerts";
-  public elementsUndefined :string[] = [];
-  public attributesUndefined :string[] = [];
-  public formatErrors :string[] = [];
+  baseURL = 'http://localhost:8080/XSD_Forms/json';
+  baseURLValidate = 'http://localhost:8080/XSD_Forms/validate';
+  xmlMessage = '';
+  sampleXMLMessage = '';
+  XMLMessage = '';
+  public alerts = 'No alerts';
+  public elementsUndefined: string[] = [];
+  public attributesUndefined: string[] = [];
+  public formatErrors: string[] = [];
   root: any;
 
 
   getString() {
 
-    this.alerts = "";
+    this.alerts = '';
     this.formatErrors = [];
     this.elementsUndefined = [];
     this.attributesUndefined = [];
@@ -35,17 +36,17 @@ export class Globals {
   }
 
   formatXML(xml) {
-    var reg = /(>)\s*(<)(\/*)/g; // updated Mar 30, 2015
-    var wsexp = / *(.*) +\n/g;
-    var contexp = /(<.+>)(.+\n)/g;
+    let reg = /(>)\s*(<)(\/*)/g; // updated Mar 30, 2015
+    let wsexp = / *(.*) +\n/g;
+    let contexp = /(<.+>)(.+\n)/g;
     xml = xml.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
-    var pad = 0;
-    var formatted = '';
-    var lines = xml.split('\n');
-    var indent = 0;
-    var lastType = 'other';
+    let pad = 0;
+    let formatted = '';
+    let lines = xml.split('\n');
+    let indent = 0;
+    let lastType = 'other';
     // 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions 
-    var transitions = {
+    let transitions = {
       'single->single': 0,
       'single->closing': -1,
       'single->opening': 0,
@@ -64,8 +65,8 @@ export class Globals {
       'other->other': 0
     };
 
-    for (var i = 0; i < lines.length; i++) {
-      var ln = lines[i];
+    for (let i = 0; i < lines.length; i++) {
+      let ln = lines[i];
 
       // Luca Viggiani 2017-07-03: handle optional <?xml ... ?> declaration
       if (ln.match(/\s*<\?xml/)) {
@@ -74,16 +75,16 @@ export class Globals {
       }
       // ---
 
-      var single = Boolean(ln.match(/<.+\/>/)); // is this line a single tag? ex. <br />
-      var closing = Boolean(ln.match(/<\/.+>/)); // is this a closing tag? ex. </a>
-      var opening = Boolean(ln.match(/<[^!].*>/)); // is this even a tag (that's not <!something>)
-      var type = single ? 'single' : closing ? 'closing' : opening ? 'opening' : 'other';
-      var fromTo = lastType + '->' + type;
+      let single = Boolean(ln.match(/<.+\/>/)); // is this line a single tag? ex. <br />
+      let closing = Boolean(ln.match(/<\/.+>/)); // is this a closing tag? ex. </a>
+      let opening = Boolean(ln.match(/<[^!].*>/)); // is this even a tag (that's not <!something>)
+      let type = single ? 'single' : closing ? 'closing' : opening ? 'opening' : 'other';
+      let fromTo = lastType + '->' + type;
       lastType = type;
-      var padding = '';
+      let padding = '';
 
       indent += transitions[fromTo];
-      for (var j = 0; j < indent; j++) {
+      for (let j = 0; j < indent; j++) {
         padding += '  ';
       }
       if (fromTo == 'opening->closing')

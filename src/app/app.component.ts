@@ -30,7 +30,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   validationMessage = 'Validating...please wait';
   validationStatus = false;
   validateInProgress = false;
-  schemaVersion  = '';
+  schemaVersion  = '16.1';
   supplementalMsg = '';
 
   constructor(
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   validate(content) {
 
     // //Send the text for validation
-    // this.validateAIDXMessage();
+     this.validateAIDXMessage();
     // //Then open up the modal dialog box which will display status
 
         // Indicators for the modal dialog box
@@ -86,14 +86,14 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     params = params.append('schemaVersion', this.schemaVersion);
 
     // this.http.post<ValidatonResult>(this.global.baseURL + '/validate', this.global.xmlMessage, {
-    this.http.post(this.global.baseURL + '/validate', this.global.xmlMessage, {
+    this.http.post<ValidationResult>(this.global.baseURLValidate, this.global.XMLMessage, {
         params: params
     }).subscribe(data => {
 
       // Update the indicators for the modal dialog box
-      // this.validationMessage = data.message;
-      // this.validationStatus = data.status;
-      // this.validateInProgress = false;
+      this.validationMessage = data.message;
+      this.validationStatus = data.status;
+      this.validateInProgress = false;
 
       if (this.validationMessage.indexOf('The markup in the document following the root element must be well-formed') > 0) {
         this.supplementalMsg = 'Did you include multipe messages? This validator only hanldes one message at a time';

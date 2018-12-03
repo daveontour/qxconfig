@@ -10,8 +10,8 @@ import { ChangeDetectorRef } from '@angular/core';
   styleUrls: ['./sequence.component.css']
 })
 export class SequenceComponent extends ElementComponent implements AfterViewInit, OnInit {
-  @ViewChild("control", { read: ViewContainerRef }) control;
-  @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
+  @ViewChild('control', { read: ViewContainerRef }) control;
+  @ViewChild('siblings', { read: ViewContainerRef }) siblingsPt;
   isCollapsed = true;
   defferedConf: any;
   topLevel = true;
@@ -32,7 +32,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
 
   init() {
     if (this.topLevel) {
-      for (var i = 0; i < this.config.minOccurs; i++) {
+      for (let ix = 0; ix < this.config.minOccurs; ix++) {
         this.creator.walkSequenceSibling(this);
         this.siblingCounter++;
       }
@@ -40,12 +40,12 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
       this.releaseSiblingCounter = true;
     } else {
       this.addAttributes(this.config);
-      for (var i = 0; i < this.config.allOf.length; i++) {
-        this.creator.walkStructure(this.config.allOf[i], this);
+      for (let ix = 0; ix < this.config.allOf.length; ix++) {
+        this.creator.walkStructure(this.config.allOf[ix], this);
       }
     }
 
-    //This prevents ExpressionChangedAfterItHasBeenCheckedError 
+    // This prevents ExpressionChangedAfterItHasBeenCheckedError
     // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
     this.cdRef.detectChanges();
   }
@@ -54,13 +54,13 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     if (!this.releaseSiblingCounter) {
       return false;
     } else {
-      return this.siblingCounter != this.config.maxOccurs;
+      return this.siblingCounter !== this.config.maxOccurs;
     }
   }
   addSibling() {
 
-    if (this.siblings.length == this.config.maxOccurs) {
-      alert("Maximum Number of Occurances Already Reached");
+    if (this.siblings.length === this.config.maxOccurs) {
+      alert('Maximum Number of Occurances Already Reached');
       return;
     }
     if (this.topLevel) {
@@ -79,7 +79,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     this.topLevel = true;
     this.depth = parentObj.depth + 1;
     this.parent = parentObj;
-    this.elementPath = parentObj.elementPath + "/" + this.config.name;
+    this.elementPath = parentObj.elementPath + '/' + this.config.name;
   }
 
   setSiblingConfig(conf: ItemConfig, creator, parentObj) {
@@ -93,8 +93,8 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     this.elementPath = parentObj.elementPath;
     // this.addAttributes(conf);
 
-    if (typeof this.config.annotation == 'undefined') {
-      this.config.annotation = "";
+    if (typeof this.config.annotation === 'undefined') {
+      this.config.annotation = '';
     }
 
 
@@ -112,13 +112,13 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
   removeChild(childIDToRemove: string) {
 
     if (this.siblings.length <= this.config.minOccurs) {
-      alert("Cannot Remove. At least " + this.config.minOccurs + " instance required");
+      alert('Cannot Remove. At least ' + this.config.minOccurs + ' instance required');
       return;
     }
 
-    for (var i = 0; i < this.siblings.length; i++) {
-      var id = this.siblings[i].config.uuid
-      if (id == childIDToRemove) {
+    for (let i = 0; i < this.siblings.length; i++) {
+      const id = this.siblings[i].config.uuid;
+      if (id === childIDToRemove) {
         this.siblingsPt.remove(i);
         this.siblings.splice(i, 1);
         this.siblingCounter--;
@@ -130,7 +130,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
 
   getElementString() {
 
-    let e: string = "";
+    let e = '';
     this.siblings.forEach((s) => {
       e = e.concat(s.getSiblingString());
     });
@@ -140,8 +140,8 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
 
   getSiblingString() {
 
-    let e: string = "";
-    let c: string = this.getChildString();
+    let e = '';
+    const c = this.getChildString();
 
     if (!this.config.annon) {
       e = '<' + this.config.name;
@@ -149,9 +149,18 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
 
 
       if (c == null && this.config.value == null) {
-        e = e.concat(" />");
+        if (this.config.ns != null) {
+          e = e.concat(' xmlns ="' + this.config.ns + '"');
+        }
+        if (this.config.ns != null) {
+          e = e.concat(' xmlns ="' + this.config.ns + '"');
+        }
+        e = e.concat(' />');
         return e;
       } else {
+        if (this.config.ns != null) {
+          e = e.concat(' xmlns ="' + this.config.ns + '"');
+        }
         e = e.concat('>');
       }
     }

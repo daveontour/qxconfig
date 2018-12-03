@@ -71,3 +71,13 @@ header {
 .noWarning{
     font-size:24pt; font-style: italic;color: rgb(65, 60, 60)
 }
+
+.loading{
+    background-color: yellow
+}
+.invalid{
+    background-color: red
+}
+.valid {
+    background-color: lawngreen
+}

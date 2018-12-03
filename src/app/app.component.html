@@ -44,8 +44,6 @@
               <div class="xmlHeading">
                 <h6>Generated XML
                   <button type="button" (click)="validate(content)" class="float-right ml-1 btn-sm btn-outline-primary" style="border-radius: 2.0rem; font-size: 0.7rem;" >Validate</button>
-                  <button type="button" class="float-right ml-1 btn-sm btn-outline-primary" style="border-radius: 2.0rem; font-size: 0.7rem;" >Send To</button>
-                  <button type="button" class="float-right ml-1 btn-sm btn-outline-primary" style="border-radius: 2.0rem; font-size: 0.7rem;" >Copy</button>
                 </h6>
               </div>
               <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"

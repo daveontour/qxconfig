@@ -47,4 +47,6 @@ export interface ItemConfig {
     annon: boolean;
     nillable: boolean;
     choiceHead: boolean;
+    ns: string;
+    nspre: string;
 }
