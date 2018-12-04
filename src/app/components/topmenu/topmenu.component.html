@@ -1,9 +1,9 @@
 <ng-template #schemaChoice let-c="close" let-d="dismiss">
   <div class="modal-header" style="background-color: #E9ECEF">
     <h4 class="modal-title">Select Schema Collection, File and Type</h4>
-    <button type="button" class="close" (click)="d('Cross click')"></button>
+    <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
   </div>
-  <div class="pl-2 pr-2 pt-2"> 
+  <div class="pl-3 pr-3 pt-2"> 
     <form>
       <div class="form-group">
         <label for="schemaCollection">Step 1: Select Schema Collection</label>
