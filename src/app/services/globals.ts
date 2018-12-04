@@ -12,6 +12,7 @@ export class Globals {
   public elementsUndefined: string[] = [];
   public attributesUndefined: string[] = [];
   public formatErrors: string[] = [];
+  public selectedSchema: string;
   root: any;
 
 

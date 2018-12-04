@@ -1,8 +1,8 @@
+import { Globals } from './../../services/globals';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Messenger } from './../../services/messenger';
 import { Component, OnInit } from '@angular/core';
-
 
 @Component({
   selector: 'app-topmenu',
@@ -22,6 +22,8 @@ export class TopmenuComponent implements OnInit {
     private messenger: Messenger,
     private modalService: NgbModal,
     private http: HttpClient,
+    private global: Globals,
+
     ) { }
 
   ngOnInit() {
@@ -36,7 +38,7 @@ export class TopmenuComponent implements OnInit {
     this.selectedType = null;
     this.selectedCollection = null;
 
-    this.http.get<string[]>('http://localhost:8080/XSD_Forms/json?schemaCollections=true').subscribe(data => {
+    this.http.get<string[]>('http://localhost:8080/XSD_Forms/json?op=getSchemas').subscribe(data => {
 
       this.schemaCollections = data;
     },
@@ -50,12 +52,13 @@ export class TopmenuComponent implements OnInit {
   }
 
   changeCollection() {
+    this.global.selectedSchema = this.selectedCollection;
     this.schemaFiles = [];
     this.schemaTypes = [];
     this.selectedFile = null;
     this.selectedType = null;
 
-    this.http.get<string[]>('http://localhost:8080/XSD_Forms/json?collectionFiles=' + this.selectedCollection).subscribe(data => {
+    this.http.get<string[]>('http://localhost:8080/XSD_Forms/json?op=getSchemaFiles&schema=' + this.selectedCollection).subscribe(data => {
 
       this.schemaFiles = data;
     },
@@ -72,8 +75,8 @@ export class TopmenuComponent implements OnInit {
     this.schemaTypes = [];
     this.selectedType = null;
 
-    this.http.get<string[]>('http://localhost:8080/XSD_Forms/json?fileTypes=' + this.selectedFile +
-    '&fileSchema=' + this.selectedCollection).subscribe(data => {
+    this.http.get<string[]>('http://localhost:8080/XSD_Forms/json?op=getSchemaTypes&' +
+    '&schema=' + this.selectedCollection + '&fname=' + this.selectedFile).subscribe(data => {
 
       this.schemaTypes = data;
     },
@@ -87,8 +90,10 @@ export class TopmenuComponent implements OnInit {
   }
 
   changeType() {
-    this.messenger.announceMission('http://localhost:8080/XSD_Forms/json?dir=' + this.selectedCollection +
-    '&file=' + this.selectedFile + '&root=' + this.selectedType);
+    this.messenger.announceMission('http://localhost:8080/XSD_Forms/json?op=getType' +
+    '&schema=' + this.selectedCollection +
+    '&file=' + this.selectedFile +
+    '&type=' + this.selectedType);
   }
 
   selectType(content) {

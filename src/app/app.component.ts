@@ -4,7 +4,7 @@ import { Globals } from './services/globals';
 import { ItemConfig } from './interfaces/interfaces';
 import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
-import {  OnInit, AfterViewInit, AfterContentInit, ChangeDetectorRef  } from '@angular/core';
+import { OnInit, AfterViewInit, AfterContentInit, ChangeDetectorRef } from '@angular/core';
 import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
@@ -23,14 +23,14 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   elements: any[] = [];
   public depth = 0;
   children: any[] = [];
-  public elementPath: string ;
+  public elementPath: string;
   public name = 'ROOTPAGE';
   subscription: Subscription;
 
   validationMessage = 'Validating...please wait';
   validationStatus = false;
   validateInProgress = false;
-  schemaVersion  = '16.1';
+  schemaVersion = '16.1';
   supplementalMsg = '';
 
   constructor(
@@ -60,20 +60,19 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   validate(content) {
 
     // //Send the text for validation
-     this.validateAIDXMessage();
-    // //Then open up the modal dialog box which will display status
+    this.validateAIDXMessage();
 
-        // Indicators for the modal dialog box
-        this.validationMessage = 'Validating...please wait';
-        this.validateInProgress = true;
-        this.validationStatus = false;
-        this.supplementalMsg = '';
+
+    // //Then open up the modal dialog box which will display status
+    // Indicators for the modal dialog box
+    this.validationMessage = 'Validating...please wait';
+    this.validateInProgress = true;
+    this.validationStatus = false;
+    this.supplementalMsg = '';
 
     this.modalService.open(content, { centered: true });
 
   }
-
-
   validateAIDXMessage() {
 
     // Indicators for the modal dialog box
@@ -84,11 +83,11 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
 
     let params = new HttpParams();
-    params = params.append('schemaVersion', this.schemaVersion);
+    params = params.append('schema', this.global.selectedSchema);
 
     // this.http.post<ValidatonResult>(this.global.baseURL + '/validate', this.global.xmlMessage, {
     this.http.post<ValidationResult>(this.global.baseURLValidate, this.global.XMLMessage, {
-        params: params
+      params: params
     }).subscribe(data => {
 
       // Update the indicators for the modal dialog box
@@ -99,19 +98,19 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       if (this.validationMessage.indexOf('The markup in the document following the root element must be well-formed') > 0) {
         this.supplementalMsg = 'Did you include multipe messages? This validator only hanldes one message at a time';
       } else
-      if (this.validationMessage.indexOf('Cannot find the declaration of element') > 0) {
-        this.supplementalMsg = 'Did you select the correct message type?';
-      } else
-      if (this.validationMessage.indexOf('Premature end of file') > 0) {
-        this.supplementalMsg = 'It appears no message data was entered';
-      } else
-      if (this.validationMessage.indexOf('Content is not allowed in prolog') > 0) {
-        this.supplementalMsg = 'The message is badly formed XML';
-      } else {
-        if (!this.validationStatus) {
-          this.supplementalMsg = 'Refer to above error message';
-        }
-      }
+        if (this.validationMessage.indexOf('Cannot find the declaration of element') > 0) {
+          this.supplementalMsg = 'Did you select the correct message type?';
+        } else
+          if (this.validationMessage.indexOf('Premature end of file') > 0) {
+            this.supplementalMsg = 'It appears no message data was entered';
+          } else
+            if (this.validationMessage.indexOf('Content is not allowed in prolog') > 0) {
+              this.supplementalMsg = 'The message is badly formed XML';
+            } else {
+              if (!this.validationStatus) {
+                this.supplementalMsg = 'Refer to above error message';
+              }
+            }
 
     },
       (err: HttpErrorResponse) => {
@@ -124,16 +123,24 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   }
 
   ngOnInit(): void {
-// moved to ngAfterViewInit
+    // moved to ngAfterViewInit
   }
 
   ngAfterViewInit(): void {
-    this.retrieveData('http://localhost:8080/XSD_Forms/json?type=aidx');
-   }
+   // this.retrieveData('http://localhost:8080/XSD_Forms/json?op=default');
+  }
 
   retrieveData(url: string) {
     this.container.clear();
     this.global.root = null;
+
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Access-Control-Allow-Methods': 'GET',
+    //     'Access-Control-Allow-Headers': 'application/json',
+    //   })
+    // };
     this.http.get<ItemConfig>(url).subscribe(data => {
 
       data.elementPath = data.name;
@@ -141,8 +148,8 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       this.walkStructure(data, this);
       this.global.getString();
 
-    // This prevents ExpressionChangedAfterItHasBeenCheckedError
-    // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
+      // This prevents ExpressionChangedAfterItHasBeenCheckedError
+      // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
       this.cdRef.detectChanges();
     },
       (err: HttpErrorResponse) => {
@@ -158,7 +165,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     // this.global.getString();
   }
 
- walkStructure(data, parentObject ) {
+  walkStructure(data, parentObject) {
 
     // Dispatch the item to the selected type handler
     if (data.type === 'sequence') {
@@ -186,7 +193,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     // All the children of the object are created when the created objects calls walkSiblingSequence
     // The "headline" object is created and it takes care of creating the
     // required number of "real" objects (siblings)
-   }
+  }
 
   walkChoice(data, parentObject) {
 
@@ -208,20 +215,20 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   createSimple(data, parentObject) {
 
     // Create the new Sequence Object (newObjRef)
-     const factory = this.resolver.resolveComponentFactory(SimpleComponent);
-     const newObjRef = parentObject.getContainer().createComponent(factory).instance;
+    const factory = this.resolver.resolveComponentFactory(SimpleComponent);
+    const newObjRef = parentObject.getContainer().createComponent(factory).instance;
 
-     if (this.global.root == null) {
+    if (this.global.root == null) {
       this.global.root = newObjRef;
     }
 
-     // Initialise the object with it's configuration data
-     newObjRef.setParentID(parentObject.id + '/' + data.name);
-     newObjRef.setParent(parentObject);
-     newObjRef.setConfig(data, parentObject);
+    // Initialise the object with it's configuration data
+    newObjRef.setParentID(parentObject.id + '/' + data.name);
+    newObjRef.setParent(parentObject);
+    newObjRef.setConfig(data, parentObject);
 
-     // Assign the new object as a child of the parent object
-     parentObject.children.push(newObjRef);
+    // Assign the new object as a child of the parent object
+    parentObject.children.push(newObjRef);
   }
 
   /*
