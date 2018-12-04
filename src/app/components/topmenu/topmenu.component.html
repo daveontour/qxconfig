@@ -1,11 +1,50 @@
-
-
-<div ngbDropdown>
-  <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Select Schema</button>
-  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-    <button (click) = "sendAIDX()"class="dropdown-item">AIDX</button>
-    <button (click) = "sendAIP()"class="dropdown-item">AIP</button>
-    <button (click) = "sendTest()" class="dropdown-item">TEST</button>
-    <button (click) = "sendAIPTest()" class="dropdown-item">AIP TEST</button>
+<ng-template #schemaChoice let-c="close" let-d="dismiss">
+  <div class="modal-header" style="background-color: #E9ECEF">
+    <h4 class="modal-title">Select Schema Collection, File and Type</h4>
+    <button type="button" class="close" (click)="d('Cross click')"></button>
   </div>
+  <div class="pl-2 pr-2 pt-2"> 
+    <form>
+      <div class="form-group">
+        <label for="schemaCollection">Step 1: Select Schema Collection</label>
+        <select 
+        id="schemaCollection"
+        [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="this.selectedCollection"
+        (change) = "this.changeCollection()"
+        [ngClass]="{'form-control':true}">
+          <option [value]="item" *ngFor="let item of this.schemaCollections">{{item}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="schemaFile">Step 2: Select Schema File</label>
+        <select 
+        id="schemaFile"
+        [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="this.selectedFile"
+        (change) = "this.changeFile()"
+        [ngClass]="{'form-control':true}">
+          <option [value]="item" *ngFor="let item of this.schemaFiles">{{item}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="schemaType">Step 3: Select Type</label>
+        <select 
+        id="schemaType"
+        [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="this.selectedType"
+        (change) = "this.changeType()"
+        [ngClass]="{'form-control':true}">
+          <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
+        </select>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" style="background-color:#E9ECEF">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<div>
+  <button class="btn btn-outline-primary" (click)=" selectType(schemaChoice)">Select Schema</button>
 </div>

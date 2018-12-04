@@ -40,6 +40,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     public global: Globals,
     private cdRef: ChangeDetectorRef,
     private messenger: Messenger) {
+
     this.subscription = messenger.missionAnnounced$.subscribe(
       mission => {
         this.retrieveData(mission);
