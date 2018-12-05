@@ -49,4 +49,5 @@ export interface ItemConfig {
     choiceHead: boolean;
     ns: string;
     nspre: string;
+    prefix: string;
 }

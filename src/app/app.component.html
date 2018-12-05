@@ -1,8 +1,8 @@
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header" style="background-color: #E9ECEF">
-    <h4 class="modal-title" *ngIf="this.validateInProgress">Validating AIDX XML</h4>
-    <h4 class="modal-title" *ngIf="!this.validateInProgress && this.validationStatus">Valid AIDX XML</h4>
-    <h4 class="modal-title" *ngIf="!this.validateInProgress && !this.validationStatus">Invalid AIDX XML</h4>
+    <h4 class="modal-title" *ngIf="this.validateInProgress">Validating XML</h4>
+    <h4 class="modal-title" *ngIf="!this.validateInProgress && this.validationStatus">Valid XML</h4>
+    <h4 class="modal-title" *ngIf="!this.validateInProgress && !this.validationStatus">Invalid XML</h4>
     <button type="button" class="close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -13,9 +13,7 @@
   <div class="modal-footer" style="background-color:#E9ECEF">
     <div>
     <p>{{supplementalMsg}}</p>
-    <p class="small"><em>This tool does not check for the correctness of PADIS codes</em></p>
-    <p class="small"><em>The AIDX Implementation Guide allows for bilateral agreements which may result in invaild XML being valid in respect to those agrrements</em></p>
-    </div>
+     </div>
     <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
   </div>
 </ng-template>

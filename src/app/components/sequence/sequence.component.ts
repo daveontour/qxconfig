@@ -144,22 +144,27 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     const c = this.getChildString();
 
     if (!this.config.annon) {
-      e = '<' + this.config.name;
+
+      // Opening Tag, optionally prefixed with namespace prefix
+      if (this.config.prefix.length >= 1) {
+        e = '<' + this.config.prefix + ':' + this.config.name;
+      } else {
+        e = '<' + this.config.name;
+      }
+
+      // The attributes for the element
       e = e.concat(this.getAttributeString());
 
-
+      // If there is no child string or value, close the tag and  optionally add the namespace prefix
       if (c == null && this.config.value == null) {
         if (this.config.ns != null) {
-          e = e.concat(' xmlns ="' + this.config.ns + '"');
-        }
-        if (this.config.ns != null) {
-          e = e.concat(' xmlns ="' + this.config.ns + '"');
+          e = e.concat( this.config.ns);
         }
         e = e.concat(' />');
         return e;
       } else {
         if (this.config.ns != null) {
-          e = e.concat(' xmlns ="' + this.config.ns + '"');
+          e = e.concat( this.config.ns );
         }
         e = e.concat('>');
       }
@@ -174,7 +179,11 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     }
 
     if (!this.config.annon) {
-      e = e.concat('</' + this.config.name + '>\n');
+      if (this.config.prefix.length >= 1) {
+        e = e.concat('</' + this.config.prefix + ':' + this.config.name + '>\n');
+      } else {
+        e =  e.concat('</' + this.config.name + '>\n');
+      }
     }
     return e;
   }

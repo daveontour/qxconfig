@@ -124,19 +124,28 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
     return e;
   }
   getElementString() {
-    if (this.topLevel){
-      return "";
+    if (this.topLevel) {
+      return '';
     }
-    let e: string = "";
-    if (this.config.choiceHead){
-      e = e.concat("<"+this.config.name);
+    let e = '';
+    if (this.config.choiceHead) {
+
+      if (this.config.prefix.length >= 1) {
+        e = '<' + this.config.prefix + ':' + this.config.name;
+      } else {
+        e = '<' + this.config.name;
+      }
       e = e.concat(this.getAttributeString());
-      e = e.concat(">");
+      e = e.concat('>');
     }
     e = e.concat(this.getChildString());
 
-    if (this.config.choiceHead){
-      e = e.concat("</"+this.config.name+">");
+    if (this.config.choiceHead) {
+      if (this.config.prefix.length >= 1) {
+        e = e.concat('</' + this.config.prefix + ':' + this.config.name + '>\n');
+      } else {
+        e =  e.concat('</' + this.config.name + '>\n');
+      }
     }
 
     return e;
