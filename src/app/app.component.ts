@@ -23,9 +23,10 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   elements: any[] = [];
   public depth = 0;
   children: any[] = [];
-  public elementPath: string;
+  public elementPath = '';
   public name = 'ROOTPAGE';
   subscription: Subscription;
+
 
   validationMessage = 'Validating...please wait';
   validationStatus = false;
@@ -134,13 +135,6 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     this.container.clear();
     this.global.root = null;
 
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Access-Control-Allow-Origin': '*',
-    //     'Access-Control-Allow-Methods': 'GET',
-    //     'Access-Control-Allow-Headers': 'application/json',
-    //   })
-    // };
     this.http.get<ItemConfig>(url).subscribe(data => {
 
       data.elementPath = data.name;

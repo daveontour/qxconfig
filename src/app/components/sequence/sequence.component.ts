@@ -9,7 +9,7 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './sequence.component.html',
   styleUrls: ['./sequence.component.css']
 })
-export class SequenceComponent extends ElementComponent implements AfterViewInit, OnInit {
+export class SequenceComponent extends ElementComponent implements AfterViewInit {
   @ViewChild('control', { read: ViewContainerRef }) control;
   @ViewChild('siblings', { read: ViewContainerRef }) siblingsPt;
   isCollapsed = true;
@@ -17,13 +17,11 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
   topLevel = true;
   releaseSiblingCounter = false;
   tempSiblingCounter = 0;
+  openTag: string;
+  closeTag: string;
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals, private cdRef: ChangeDetectorRef) {
     super(resolver);
-  }
-
-  ngOnInit() {
-
   }
 
   ngAfterViewInit() {
@@ -32,6 +30,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
 
   init() {
     if (this.topLevel) {
+      // This ia a top level object so tell the creator to add the minimum number of siblings
       for (let ix = 0; ix < this.config.minOccurs; ix++) {
         this.creator.walkSequenceSibling(this);
         this.siblingCounter++;
@@ -39,6 +38,8 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
       this.siblingCounter = this.config.minOccurs;
       this.releaseSiblingCounter = true;
     } else {
+
+      // This is normal object, so add the attributes and add all the children
       this.addAttributes(this.config);
       for (let ix = 0; ix < this.config.allOf.length; ix++) {
         this.creator.walkStructure(this.config.allOf[ix], this);
@@ -97,6 +98,22 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
       this.config.annotation = '';
     }
 
+    // Preset the opening and closing tags
+
+    this.openTag = '<' + this.config.name;
+    this.closeTag = '</' + this.config.name + '>\n';
+
+    if (typeof this.config.prefix !== 'undefined') {
+      if (this.config.prefix.length >= 1) {
+        this.openTag = '<' + this.config.prefix + ':' + this.config.name;
+        this.closeTag = '</' + this.config.prefix + ':' + this.config.name + '>\n';
+      }
+    }
+
+    // Add the name space declaration if it is configured
+    if (this.config.ns != null) {
+      this.openTag = this.openTag.concat(this.config.ns);
+    }
 
     this.parent.siblings.push(this);
   }
@@ -106,10 +123,12 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
   }
 
   remove() {
+    // Tell the parent object of itself to remove this
     this.parent.removeChild(this.config.uuid);
   }
 
   removeChild(childIDToRemove: string) {
+    // A child object has told the parent to remove it.
 
     if (this.siblings.length <= this.config.minOccurs) {
       alert('Cannot Remove. At least ' + this.config.minOccurs + ' instance required');
@@ -131,8 +150,8 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
   getElementString() {
 
     let e = '';
-    this.siblings.forEach((s) => {
-      e = e.concat(s.getSiblingString());
+    this.siblings.forEach((sibling) => {
+      e = e.concat(sibling.getSiblingString());
     });
     return e;
 
@@ -141,49 +160,31 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
   getSiblingString() {
 
     let e = '';
-    const c = this.getChildString();
+    const childString = this.getChildString();
 
     if (!this.config.annon) {
 
       // Opening Tag, optionally prefixed with namespace prefix
-      if (this.config.prefix.length >= 1) {
-        e = '<' + this.config.prefix + ':' + this.config.name;
-      } else {
-        e = '<' + this.config.name;
-      }
+      e = this.openTag.concat(this.getAttributeString());
 
-      // The attributes for the element
-      e = e.concat(this.getAttributeString());
-
-      // If there is no child string or value, close the tag and  optionally add the namespace prefix
-      if (c == null && this.config.value == null) {
-        if (this.config.ns != null) {
-          e = e.concat( this.config.ns);
-        }
-        e = e.concat(' />');
-        return e;
+      // If there is no child string or value, close the tag
+      if (childString == null && this.config.value == null) {
+        return e.concat(' />');
       } else {
-        if (this.config.ns != null) {
-          e = e.concat( this.config.ns );
-        }
         e = e.concat('>');
       }
     }
+
     if (this.config.value != null) {
       e = e.concat(this.config.value);
     }
 
-    if (c != null) {
-      e = e.concat('\n');
-      e = e.concat(c);
+    if (childString != null) {
+      e = e.concat('\n' + childString);
     }
 
     if (!this.config.annon) {
-      if (this.config.prefix.length >= 1) {
-        e = e.concat('</' + this.config.prefix + ':' + this.config.name + '>\n');
-      } else {
-        e =  e.concat('</' + this.config.name + '>\n');
-      }
+      e = e.concat(this.closeTag);
     }
     return e;
   }

@@ -17,14 +17,12 @@ export class Globals {
 
 
   getString() {
-
     this.alerts = '';
     this.formatErrors = [];
     this.elementsUndefined = [];
     this.attributesUndefined = [];
-    this.sampleXMLMessage = this.formatXML(this.root.getElementString(""));
+    this.sampleXMLMessage = this.formatXML(this.root.getElementString(''));
     this.XMLMessage = this.sampleXMLMessage;
- 
   }
 
   public guid() {
@@ -88,10 +86,11 @@ export class Globals {
       for (let j = 0; j < indent; j++) {
         padding += '  ';
       }
-      if (fromTo == 'opening->closing')
+      if (fromTo === 'opening->closing') {
         formatted = formatted.substr(0, formatted.length - 1) + ln + '\n'; // substr removes line break (\n) from prev loop
-      else
+       } else {
         formatted += padding + ln + '\n';
+       }
     }
 
     return formatted;

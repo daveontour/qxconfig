@@ -3,9 +3,6 @@
     <h4 class="modal-title" *ngIf="this.validateInProgress">Validating XML</h4>
     <h4 class="modal-title" *ngIf="!this.validateInProgress && this.validationStatus">Valid XML</h4>
     <h4 class="modal-title" *ngIf="!this.validateInProgress && !this.validationStatus">Invalid XML</h4>
-    <button type="button" class="close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
   </div>
   <div [ngClass]="{'modal-body': true, 'loading':this.validateInProgress, 'valid':!this.validateInProgress && this.validationStatus, 'invalid':!this.validateInProgress && !this.validationStatus}"> 
       <p>{{validationMessage}}</p>

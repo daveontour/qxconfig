@@ -22,6 +22,8 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
   public uuid;
   public siblingCounter = 0;
   public topLevel: boolean;
+  public openTag: string;
+  public closeTag: string;
 
 
   constructor(
@@ -35,9 +37,9 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
   showDeleteAction() {
     if (this.parent.siblings.length > this.config.minOccurs) {
       return true;
+    } else {
+      return false;
     }
-
-    return false;
   }
 
   change() {
@@ -88,7 +90,7 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
 
   getElementString() {
 
-      let x = '';
+    let x = '';
     this.siblings.forEach(function (v) {
       x = x.concat(v.getSiblingString());
     });
@@ -104,20 +106,12 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
     }
 
 
-    let e = '';
-
-    if (this.config.prefix.length >= 1) {
-      e = '<' + this.config.prefix + ':' + this.config.name;
-    } else {
-      e = '<' + this.config.name;
-    }
-    e = e.concat(this.getAttributeString());
-
-    if (this.config.ns != null) {
-      e = e.concat( this.config.ns);
-    }
+    let e = this.openTag.concat(this.getAttributeString());
 
     if (this.config.value == null) {
+      if (this.config.nillable) {
+        e = e.concat(' xsi:nil="true"');
+      }
       e = e.concat('/>\n');
 
       // If it's not a element that only has attributes, then raise an alarm
@@ -128,11 +122,7 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
     } else {
       e = e.concat('>');
       e = e.concat(this.controlRef.instance.getValue());
-      if (this.config.prefix.length >= 1) {
-        e = e.concat('</' + this.config.prefix + ':' + this.config.name + '>\n');
-      } else {
-        e =  e.concat('</' + this.config.name + '>\n');
-      }
+      e = e.concat(this.closeTag);
       return e;
     }
   }
@@ -170,6 +160,20 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
     this.config.enabled = this.config.required;
     this.elementPath = parentObj.elementPath + '/' + this.config.name;
     this.config.uuid = this.global.guid();
+
+    // Preset the opening and closing tags
+    if (this.config.prefix.length >= 1) {
+      this.openTag = '<' + this.config.prefix + ':' + this.config.name;
+      this.closeTag = '</' + this.config.prefix + ':' + this.config.name + '>\n';
+    } else {
+      this.openTag = '<' + this.config.name;
+      this.closeTag = '</' + this.config.name + '>\n';
+    }
+
+    // Add the name space declaration if it is configured
+    if (this.config.ns != null) {
+      this.openTag = this.openTag.concat(this.config.ns);
+    }
 
     if (typeof this.config.annotation === 'undefined') {
       this.config.annotation = '';

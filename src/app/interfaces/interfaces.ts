@@ -40,8 +40,6 @@ export interface ItemConfig {
     maxLength: number;
     description: string;
     enumList: string[];
-    first: boolean;
-    last: boolean;
     sequenceAttribute: boolean;
     union: any[];
     annon: boolean;
