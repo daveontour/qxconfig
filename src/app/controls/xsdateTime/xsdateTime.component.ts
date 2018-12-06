@@ -3,11 +3,11 @@ import { AttributeComponent } from '../../components/attribute/attribute.compone
 import { SimpleComponent } from '../../components/simple/simple.component';
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ControlComponent } from '../control/control.component';
-import * as moment from "moment";
+import * as moment from 'moment';
 
 
 @Component({
-  selector: 'app-xsdateTime',
+  selector: 'app-xsdatetime',
   templateUrl: './xsdateTime.component.html'
 })
 
@@ -15,15 +15,14 @@ export class XSDateTimeComponent extends ControlComponent {
 
   d:  moment.Moment = moment();
 
-  constructor(public resolver: ComponentFactoryResolver, public global:Globals) {
-    super(resolver,global);
-  
+  constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
+    super(resolver, global);
  }
 
-  setUpCommon(){}
+  setUpCommon() {}
 
 
-  getValue(){
+  getValue() {
     return this.d.toISOString();
   }
 

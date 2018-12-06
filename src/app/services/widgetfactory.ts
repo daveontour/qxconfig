@@ -21,92 +21,92 @@ import { MinMaxInclusiveComponent } from './../controls/minmaxinclusive/minmaxin
 
 @Injectable()
 export class WidgetFactory {
- 
+
   getFactory(model: string, resolver: any) {
 
     if (model == null) {
       return  resolver.resolveComponentFactory(BaseNullComponent);
     }
 
-    var factory: any;
+    let factory: any;
 
     switch (model) {
-      case "enum":
+      case 'enum':
         factory = resolver.resolveComponentFactory(EnumListComponent);
         break;
-      case "integerLimited":
+      case 'integerLimited':
         factory = resolver.resolveComponentFactory(MinMaxInclusiveComponent);
         break;
-        case "minmaxlengthpattern":
-        case "minMaxLength":
-        case "minLength":
-        case "maxLength":
+        case 'minmaxlengthpattern':
+        case 'minMaxLength':
+        case 'minLength':
+        case 'maxLength':
         factory = resolver.resolveComponentFactory(MinMaxLengthComponent);
         break;
-      case "xs:boolean":
+      case 'xs:boolean':
         factory = resolver.resolveComponentFactory(XSBooleanComponent);
         break;
-        case "xs:string":
-        case "xs:normalizedString":
-        case "xs:token":
-        case "xs:language":
-        case "xs:NMTOKEN":
-        case "xs:NMTOKENS":
-        case "xs:Name":
-        case "xs:NCName":
-        case "xs:ID":
-        case "xs:IDREF":
-        case "xs:IDREFS":
-        case "xs:ENTITY":
-        case "xs:ENTITIES":
+        case 'xs:string':
+        case 'xs:normalizedString':
+        case 'xs:token':
+        case 'xs:language':
+        case 'xs:NMTOKEN':
+        case 'xs:NMTOKENS':
+        case 'xs:Name':
+        case 'xs:NCName':
+        case 'xs:ID':
+        case 'xs:IDREF':
+        case 'xs:IDREFS':
+        case 'xs:ENTITY':
+        case 'xs:ENTITIES':
         factory = resolver.resolveComponentFactory(XSStringComponent);
         break;
-      case "xs:integer":
+      case 'xs:integer':
         factory = resolver.resolveComponentFactory(XSIntegerComponent);
         break;
-      case "xs:language":
+      case 'xs:language':
         factory = resolver.resolveComponentFactory(XSLanguageComponent);
         break;
-        case "xs:decimal":
+        case 'xs:decimal':
         factory = resolver.resolveComponentFactory(XSDecimalComponent);
         break;
-        case "xs:date":
+        case 'xs:date':
         factory = resolver.resolveComponentFactory(XSDateComponent);
         break;
-        case "xs:time":
+        case 'xs:time':
         factory = resolver.resolveComponentFactory(XSTimeComponent);
         break;
-        case "xs:dateTime":
+        case 'xs:dateTime':
         factory = resolver.resolveComponentFactory(XSDateTimeComponent);
         break;
-        case "xs:gDay":
+        case 'xs:gDay':
         factory = resolver.resolveComponentFactory(XSGDayComponent);
         break;
-        case "xs:gMonthDay":
+        case 'xs:gMonthDay':
         factory = resolver.resolveComponentFactory(XSGMonthDayComponent);
         break;
-        case "xs:gMonth":
+        case 'xs:gMonth':
         factory = resolver.resolveComponentFactory(XSGMonthComponent);
         break;
- 
-        case "xs:byte":
-        case "xs:int":
-        case "xs:long":
-        case "xs:short":
-        case "xs:unsignedByte":
-        case "xs:unsignedInt":
-        case "xs:unsignedLong":
-        case "xs:unsignedShort":
-        case "xs:positiveInteger":
-        case "xs:negativeInteger":
-        case "xs:nonPositiveInteger":
-        case "xs:nonNegativeInteger":
+
+        case 'xs:byte':
+        case 'xs:int':
+        case 'xs:long':
+        case 'xs:short':
+        case 'xs:unsignedByte':
+        case 'xs:unsignedInt':
+        case 'xs:unsignedLong':
+        case 'xs:unsignedShort':
+        case 'xs:positiveInteger':
+        case 'xs:negativeInteger':
+        case 'xs:nonPositiveInteger':
+        case 'xs:nonNegativeInteger':
         factory = resolver.resolveComponentFactory(XSNumberComponent);
         break;
-        case "pattern":
+        case 'pattern':
         factory = resolver.resolveComponentFactory(PatternComponent);
         break;
-        case "union":
+        case 'union':
         factory = resolver.resolveComponentFactory(UnionComponent);
         break;
       default:
@@ -116,6 +116,4 @@ export class WidgetFactory {
 
     return factory;
   }
-
-
 }

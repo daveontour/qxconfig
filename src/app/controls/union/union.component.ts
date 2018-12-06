@@ -29,9 +29,11 @@ import { MinMaxInclusiveComponent } from '../../controls/minmaxinclusive/minmaxi
 
 
 export class UnionComponent extends ControlComponent implements AfterViewInit {
-  @ViewChild("members", { read: ViewContainerRef }) membersPt;
-  members :any[] = [];
-  activeMember:ControlComponent;
+  @ViewChild('members', { read: ViewContainerRef }) membersPt;
+  members: any[] = [];
+  activeMember: any;
+  childReadyCounter = 0;
+  ready = false;
 
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
@@ -42,42 +44,77 @@ export class UnionComponent extends ControlComponent implements AfterViewInit {
 
     this.config.union.forEach(x => {
       if (this.config.model != null) {
-        let factory = this.getFactory(x.model, this.resolver);
-        let controlRef = this.membersPt.createComponent(factory);
-        controlRef.instance.setElementParent(this);
-        controlRef.instance.unionMember = true;
+        const factory = this.getFactory(x.model, this.resolver);
+        const controlRef = this.membersPt.createComponent(factory);
         this.activeMember = controlRef;
+        controlRef.instance.unionMember = true;
+        controlRef.instance.setElementParent(this);
       }
     });
+
+    this.change();
   }
 
-  public memberChange(member){
+  childReady() {
+    // Register that one of the children is ready and when they are all ready, call the change() function.
+    this.childReadyCounter++;
+    if (this.childReadyCounter === this.config.union.length) {
+      this.ready = true;
+      this.change();
+    }
+  }
+
+  public memberChange(member) {
     this.activeMember = member;
     this.global.getString();
   }
 
   getValue() {
 
-    if (typeof this.activeMember == "undefined"){
-      return "undefined";
+    if (this.parent.topLevel) {
+      return ' Top Level Parent ';
     }
-    let value = this.activeMember.getValue();
-
-    if (typeof value == "undefined") {
-      if (this.bElement) {
-        this.global.elementsUndefined.push(this.parent.elementPath);
-      } else {
-        this.global.attributesUndefined.push(this.parent.elementPath);
+    if (!this.ready) {
+      return '--Not Ready--';
+    }
+    try {
+      if (typeof this.activeMember === 'undefined') {
+        return 'undefined';
       }
+
+      // Not exactly sure why the below is required. At some point activeMember is defined to be a component ref
+      // So have to call the instance
+      let value;
+      try {
+        value = this.activeMember.getValue();
+      } catch (e) {
+        try {
+          value = this.activeMember.instance.getValue();
+        } catch (e2) {
+          value = 'undefined';
+        }
+      }
+
+
+      if (typeof value === 'undefined') {
+        if (this.bElement) {
+          this.global.elementsUndefined.push(this.parent.elementPath);
+        } else {
+          this.global.attributesUndefined.push(this.parent.elementPath);
+        }
+      }
+      return value;
+    } catch (e) {
+      return 'undefined';
     }
-    return value;
   }
 
   setUpCommon() {
-    this.popOverContent = "Length: min(" + this.config.minLength + "), max(" + this.config.maxLength + "), Pattern: " + this.config.pattern;
+    this.popOverContent = 'Length: min(' + this.config.minLength + '), max(' + this.config.maxLength + '), Pattern: ' + this.config.pattern;
 
-    if (typeof this.config.modelDescription != 'undefined')
-      this.popOverContent = this.config.modelDescription + "\n" + this.popOverContent;
+    if (typeof this.config.modelDescription !== 'undefined') {
+      this.popOverContent = this.config.modelDescription + '\n' + this.popOverContent;
+    }
   }
 
   public setElementParent(parent) {
@@ -97,88 +134,87 @@ export class UnionComponent extends ControlComponent implements AfterViewInit {
   getFactory(model: string, resolver: any) {
 
     if (model == null) {
-      return  resolver.resolveComponentFactory(BaseNullComponent);
+      return resolver.resolveComponentFactory(BaseNullComponent);
     }
 
-    var factory: any;
+    let factory: any;
 
     switch (model) {
-      case "enum":
+      case 'enum':
         factory = resolver.resolveComponentFactory(EnumListComponent);
         break;
-      case "integerLimited":
+      case 'integerLimited':
         factory = resolver.resolveComponentFactory(MinMaxInclusiveComponent);
         break;
-        case "minmaxlengthpattern":
-        case "minMaxLength":
-        case "minLength":
-        case "maxLength":
+      case 'minmaxlengthpattern':
+      case 'minMaxLength':
+      case 'minLength':
+      case 'maxLength':
         factory = resolver.resolveComponentFactory(MinMaxLengthComponent);
         break;
-      case "xs:boolean":
+      case 'xs:boolean':
         factory = resolver.resolveComponentFactory(XSBooleanComponent);
         break;
-        case "xs:string":
-        case "xs:normalizedString":
-        case "xs:token":
-        case "xs:language":
-        case "xs:NMTOKEN":
-        case "xs:NMTOKENS":
-        case "xs:Name":
-        case "xs:NCName":
-        case "xs:ID":
-        case "xs:IDREF":
-        case "xs:IDREFS":
-        case "xs:ENTITY":
-        case "xs:ENTITIES":
+      case 'xs:string':
+      case 'xs:normalizedString':
+      case 'xs:token':
+      case 'xs:language':
+      case 'xs:NMTOKEN':
+      case 'xs:NMTOKENS':
+      case 'xs:Name':
+      case 'xs:NCName':
+      case 'xs:ID':
+      case 'xs:IDREF':
+      case 'xs:IDREFS':
+      case 'xs:ENTITY':
+      case 'xs:ENTITIES':
         factory = resolver.resolveComponentFactory(XSStringComponent);
         break;
-      case "xs:integer":
+      case 'xs:integer':
         factory = resolver.resolveComponentFactory(XSIntegerComponent);
         break;
-      case "xs:language":
+      case 'xs:language':
         factory = resolver.resolveComponentFactory(XSLanguageComponent);
         break;
-        case "xs:decimal":
+      case 'xs:decimal':
         factory = resolver.resolveComponentFactory(XSDecimalComponent);
         break;
-        case "xs:date":
+      case 'xs:date':
         factory = resolver.resolveComponentFactory(XSDateComponent);
         break;
-        case "xs:time":
+      case 'xs:time':
         factory = resolver.resolveComponentFactory(XSTimeComponent);
         break;
-        case "xs:dateTime":
+      case 'xs:dateTime':
         factory = resolver.resolveComponentFactory(XSDateTimeComponent);
         break;
-        case "xs:gDay":
+      case 'xs:gDay':
         factory = resolver.resolveComponentFactory(XSGDayComponent);
         break;
-        case "xs:gMonthDay":
+      case 'xs:gMonthDay':
         factory = resolver.resolveComponentFactory(XSGMonthDayComponent);
         break;
-        case "xs:gMonth":
+      case 'xs:gMonth':
         factory = resolver.resolveComponentFactory(XSGMonthComponent);
         break;
- 
-        case "xs:byte":
-        case "xs:int":
-        case "xs:long":
-        case "xs:short":
-        case "xs:unsignedByte":
-        case "xs:unsignedInt":
-        case "xs:unsignedLong":
-        case "xs:unsignedShort":
-        case "xs:positiveInteger":
-        case "xs:negativeInteger":
-        case "xs:nonPositiveInteger":
-        case "xs:nonNegativeInteger":
+      case 'xs:byte':
+      case 'xs:int':
+      case 'xs:long':
+      case 'xs:short':
+      case 'xs:unsignedByte':
+      case 'xs:unsignedInt':
+      case 'xs:unsignedLong':
+      case 'xs:unsignedShort':
+      case 'xs:positiveInteger':
+      case 'xs:negativeInteger':
+      case 'xs:nonPositiveInteger':
+      case 'xs:nonNegativeInteger':
         factory = resolver.resolveComponentFactory(XSNumberComponent);
         break;
-        case "pattern":
+      case 'pattern':
         factory = resolver.resolveComponentFactory(PatternComponent);
         break;
-        case "union":
+      case 'union':
         factory = resolver.resolveComponentFactory(UnionComponent);
         break;
       default:

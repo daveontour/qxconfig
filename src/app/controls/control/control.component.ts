@@ -1,19 +1,26 @@
 import { Globals } from '../../services/globals';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { AttributeComponent } from '../../components/attribute/attribute.component';
-import { Component, ComponentFactoryResolver } from '@angular/core';
+import { Component, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
 
-export abstract class ControlComponent {
+
+export abstract class ControlComponent implements AfterViewInit{
 
   parent: any;
-  bElement: boolean = false;
+  bElement = false;
   public config: ItemConfig;
-  popOverContent: string = "";
-  public unionMember: boolean = false;
+  popOverContent = '';
+  public unionMember = false;
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) { }
 
   abstract setUpCommon(): void;
+
+  ngAfterViewInit() {
+    if (this.unionMember) {
+      this.parent.childReady();
+    }
+  }
 
   public setElementParent(parent) {
     this.parent = parent;
@@ -38,6 +45,10 @@ export abstract class ControlComponent {
     }
   }
 
+  childReady() {
+    // For signalling to union component when the child id ready
+  }
+
   requireStar() {
     return (this.config.enabled || this.config.required);
   }
@@ -46,7 +57,7 @@ export abstract class ControlComponent {
   }
 
   getValue() {
-    if (typeof this.config.value == "undefined") {
+    if (typeof this.config.value === 'undefined') {
       if (this.bElement) {
         this.global.elementsUndefined.push(this.parent.elementPath);
       } else {
@@ -70,8 +81,8 @@ export abstract class ControlComponent {
   }
 
   isInvalid() {
-    if (this.isEnabled && (typeof this.config.value == 'undefined' || this.config.value == '')) {
-      return true
+    if (this.isEnabled && (typeof this.config.value === 'undefined' || this.config.value === '')) {
+      return true;
     }
   }
 

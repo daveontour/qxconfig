@@ -4,4 +4,5 @@
 
 .unionHolder{
     width: calc(100% - 25px);
+    background-color: rgba(127,127,127,0.25);
 }

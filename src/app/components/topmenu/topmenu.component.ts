@@ -38,7 +38,7 @@ export class TopmenuComponent implements OnInit {
     this.selectedType = null;
     this.selectedCollection = null;
 
-    this.http.get<string[]>('http://localhost:8080/XSD_Forms/json?op=getSchemas').subscribe(data => {
+    this.http.get<string[]>(this.global.baseURL + '?op=getSchemas').subscribe(data => {
 
       this.schemaCollections = data;
     },
@@ -58,7 +58,7 @@ export class TopmenuComponent implements OnInit {
     this.selectedFile = null;
     this.selectedType = null;
 
-    this.http.get<string[]>('http://localhost:8080/XSD_Forms/json?op=getSchemaFiles&schema=' + this.selectedCollection).subscribe(data => {
+    this.http.get<string[]>(this.global.baseURL + '?op=getSchemaFiles&schema=' + this.selectedCollection).subscribe(data => {
 
       this.schemaFiles = data;
     },
@@ -75,7 +75,7 @@ export class TopmenuComponent implements OnInit {
     this.schemaTypes = [];
     this.selectedType = null;
 
-    this.http.get<string[]>('http://localhost:8080/XSD_Forms/json?op=getSchemaTypes&' +
+    this.http.get<string[]>(this.global.baseURL + '?op=getSchemaTypes&' +
     '&schema=' + this.selectedCollection + '&fname=' + this.selectedFile).subscribe(data => {
 
       this.schemaTypes = data;
@@ -90,10 +90,11 @@ export class TopmenuComponent implements OnInit {
   }
 
   changeType() {
-    this.messenger.announceMission('http://localhost:8080/XSD_Forms/json?op=getType' +
+    this.messenger.announceMission(this.global.baseURL + '?op=getType' +
     '&schema=' + this.selectedCollection +
     '&file=' + this.selectedFile +
     '&type=' + this.selectedType);
+    this.modalService.dismissAll();
   }
 
   selectType(content) {
@@ -101,4 +102,3 @@ export class TopmenuComponent implements OnInit {
     this.modalService.open(content, { centered: true });
   }
 }
-

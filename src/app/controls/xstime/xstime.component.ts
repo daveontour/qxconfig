@@ -3,7 +3,7 @@ import { AttributeComponent } from '../../components/attribute/attribute.compone
 import { SimpleComponent } from '../../components/simple/simple.component';
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ControlComponent } from '../control/control.component';
-import * as moment from "moment";
+import * as moment from 'moment';
 
 
 @Component({
@@ -15,16 +15,15 @@ export class XSTimeComponent extends ControlComponent {
 
   d:  moment.Moment = moment();
 
-  constructor(public resolver: ComponentFactoryResolver, public global:Globals) {
-    super(resolver,global);
-  
+  constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
+    super(resolver, global);
  }
 
-  setUpCommon(){
+  setUpCommon() {
 
 }
-  getValue(){
-    return this.d.format('HH:mm:SSZ');
+  getValue() {
+    return this.d.format('HH:mm:ssZ');
   }
 
   setElementParent(parent: SimpleComponent) {
