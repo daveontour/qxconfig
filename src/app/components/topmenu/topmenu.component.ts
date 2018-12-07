@@ -17,6 +17,21 @@ export class TopmenuComponent implements OnInit {
   selectedCollection: string;
   selectedFile: string;
   selectedType: string;
+  afuConfig = {
+    multiple: true,
+    formatsAllowed: '.xsd',
+    maxSize: '100',
+    uploadAPI:  {
+      url: 'http://localhost:8080/XSD_Forms/upload',
+      headers: {
+        'Access-Control-Allow-Origin' : '*'
+      }
+    },
+  //  theme: 'dragNDrop',
+    hideProgressBar: false,
+    hideResetBtn: true,
+    hideSelectBtn: false
+};
 
   constructor(
     private messenger: Messenger,
@@ -28,6 +43,10 @@ export class TopmenuComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  docUpload(event) {
+    console.log(event);
   }
 
   getCollection() {
@@ -99,6 +118,9 @@ export class TopmenuComponent implements OnInit {
 
   selectType(content) {
     this.getCollection();
+    this.modalService.open(content, { centered: true });
+  }
+  uploadSchema(content) {
     this.modalService.open(content, { centered: true });
   }
 }

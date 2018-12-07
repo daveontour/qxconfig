@@ -1,0 +1,13 @@
+<p>
+  Select your own XSD
+  <input type="file"
+   (change)="onChange($event)"
+   title="Select files" 
+   name="files[]" 
+   accept=".xsd"
+   multiple />
+</p>
+
+<div *ngFor="let item of selectedFiles">
+  <h6>{{item.name}} - {{item.size}}</h6>
+</div>

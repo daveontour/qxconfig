@@ -41,6 +41,7 @@ import { OwlCheckBoxModule, OwlFormFieldModule, OwlSwitchModule, OwlInputModule}
 import {OwlBadgeModule, OwlAccordionModule} from 'owl-ng';
 import { Messenger } from './services/messenger';
 import { TopmenuComponent } from './components/topmenu/topmenu.component';
+import { CustomUploaderComponent } from './components/custom-uploader/custom-uploader.component';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -83,7 +84,8 @@ export const MY_MOMENT_FORMATS = {
     XSGMonthComponent,
     XSNumberComponent,
     XSGMonthDayComponent,
-    TopmenuComponent
+    TopmenuComponent,
+    CustomUploaderComponent
   ],
   imports: [
     BrowserModule,

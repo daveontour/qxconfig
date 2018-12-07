@@ -12,7 +12,7 @@
         [ngModelOptions]="{standalone: true}"
         [(ngModel)]="this.selectedCollection"
         (change) = "this.changeCollection()"
-        [ngClass]="{'form-control':true}">
+        [ngClass]="{'form-control-sm':true}">
           <option [value]="item" *ngFor="let item of this.schemaCollections">{{item}}</option>
         </select>
       </div>
@@ -23,7 +23,7 @@
         [ngModelOptions]="{standalone: true}"
         [(ngModel)]="this.selectedFile"
         (change) = "this.changeFile()"
-        [ngClass]="{'form-control':true}">
+        [ngClass]="{'form-control-sm':true}">
           <option [value]="item" *ngFor="let item of this.schemaFiles">{{item}}</option>
         </select>
       </div>
@@ -34,21 +34,25 @@
         [ngModelOptions]="{standalone: true}"
         [(ngModel)]="this.selectedType"
         (change) = "this.changeType()"
-        [ngClass]="{'form-control':true}">
+        [ngClass]="{'form-control-sm':true}">
           <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
         </select>
       </div>
     </form>
+    <app-custom-uploader></app-custom-uploader>
   </div>
   <div class="modal-footer" style="background-color:#E9ECEF">
     <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
   </div>
 </ng-template>
 
+
+
 <div class="jumbotron pt-2 pb-1">
   <p class="lead float-left"> XSD to XML - Generate XML documents directly from the defining XSD</p>
   <div class="float-left ml-4">
     <button class="btn btn-outline-primary" (click)=" selectType(schemaChoice)">Select Schema</button>
   </div>
+
 </div>
 
