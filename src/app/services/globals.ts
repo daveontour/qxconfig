@@ -13,6 +13,7 @@ export class Globals {
   public attributesUndefined: string[] = [];
   public formatErrors: string[] = [];
   public selectedSchema: string;
+  public sessionID = 'new';
   root: any;
 
 
