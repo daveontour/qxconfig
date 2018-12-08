@@ -1,5 +1,5 @@
 import { Globals } from './../../services/globals';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpEvent, HttpEventType, HttpRequest, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 
@@ -47,18 +47,8 @@ export class CustomUploaderComponent implements OnInit {
     }
   }
 
-   upload() {
+  upload() {
     const formData: any = new FormData();
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Access-Control-Allow-Origin': '*'
-      }),
-      params: {
-        sessionID: this.global.sessionID
-      },
-      reportProgress: true
-    };
-
     for (let i = 0; i < this.selectedFiles.length; i++) {
       if (this.Caption[i] === undefined) {
         this.Caption[i] = 'file' + i;
@@ -67,28 +57,63 @@ export class CustomUploaderComponent implements OnInit {
       formData.append(this.Caption[i], this.selectedFiles[i]);
     }
 
-    this.http.post<UploadStatus>('http://localhost:8080/XSD_Forms/upload', formData, httpOptions)
+    const request = new HttpRequest(
+      'POST',
+      'http://localhost:8080/XSD_Forms/upload?sessionID=' + this.global.sessionID,
+      formData,
+      {
+        headers: new HttpHeaders({
+          'Access-Control-Allow-Origin': '*'
+        }),
+        reportProgress: true
+      }
+    );
+
+    this.http.request<PostEvent>(request)
+      .subscribe(
+        event => {
+
+          if (event.type === HttpEventType.DownloadProgress) {
+            console.log('Download progress event', event);
+          }
+
+          if (event.type === HttpEventType.UploadProgress) {
+            console.log('Upload progress event', event);
+          }
+
+          if (event.type === HttpEventType.Response) {
+            console.log('response received...', event.body);
+            if (event.body.status) {
+              alert('Upload OK ' + event.body.sessionID);
+              this.global.sessionID = event.body.sessionID;
+            } else {
+              alert('Upload Failed');
+            }
+          }
+        }
+
+
+      );
     // .pipe(
     //   map(event => this.getEventMessage(event, file)),
     //   tap(message => this.showProgress(message)),
     //   last(), // return last (completed) message to caller
     //   catchError(this.handleError(file))
     // );
-      .subscribe(data => {
-        console.log(data);
-        if (data.status) {
-          alert('Upload OK ' + data.sessionID);
-          this.global.sessionID = data.sessionID;
-        } else {
-          alert ('Upload Failed');
-        }
-      }, (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message);
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
-        }
-      });
+    // .subscribe(data => {
+    //    if (data.status) {
+    //     alert('Upload OK ' + data.sessionID);
+    //     this.global.sessionID = data.sessionID;
+    //   } else {
+    //     alert ('Upload Failed');
+    //   }
+    // }, (err: HttpErrorResponse) => {
+    //   if (err.error instanceof Error) {
+    //     console.log('An error occurred:', err.error.message);
+    //   } else {
+    //     console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+    //   }
+    // });
   }
 
   private getEventMessage(event: HttpEvent<any>, file: File) {
@@ -104,6 +129,13 @@ export class CustomUploaderComponent implements OnInit {
         return `File "${file.name}" surprising upload event: ${event.type}.`;
     }
   }
+}
+
+interface PostEvent {
+  type: any;
+  body: UploadStatus;
+  sessionID: string;
+  status: boolean;
 }
 
 interface UploadStatus {

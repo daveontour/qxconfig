@@ -3,44 +3,43 @@
     <h4 class="modal-title">Select Schema Collection, File and Type</h4>
     <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
   </div>
-  <div class="pl-3 pr-3 pt-2"> 
-    <form>
-      <div class="form-group">
-        <label for="schemaCollection">Step 1: Select Schema Collection</label>
-        <select 
-        id="schemaCollection"
-        [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="this.selectedCollection"
-        (change) = "this.changeCollection()"
-        [ngClass]="{'form-control-sm':true}">
-          <option [value]="item" *ngFor="let item of this.schemaCollections">{{item}}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="schemaFile">Step 2: Select Schema File</label>
-        <select 
-        id="schemaFile"
-        [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="this.selectedFile"
-        (change) = "this.changeFile()"
-        [ngClass]="{'form-control-sm':true}">
-          <option [value]="item" *ngFor="let item of this.schemaFiles">{{item}}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="schemaType">Step 3: Select Type</label>
-        <select 
-        id="schemaType"
-        [ngModelOptions]="{standalone: true}"
-        [(ngModel)]="this.selectedType"
-        (change) = "this.changeType()"
-        [ngClass]="{'form-control-sm':true}">
-          <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
-        </select>
-      </div>
-    </form>
-    <app-custom-uploader></app-custom-uploader>
-  </div>
+  <ngb-tabset>
+    <ngb-tab title="Pre Loaded">
+      <ng-template ngbTabContent>
+        <div class="pl-3 pr-3 pt-2">
+          <form>
+            <div class="form-group">
+              <label for="schemaCollection">Step 1: Select Schema Collection</label>
+              <select id="schemaCollection" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedCollection"
+                (change)="this.changeCollection()" [ngClass]="{'form-control-sm':true}">
+                <option [value]="item" *ngFor="let item of this.schemaCollections">{{item}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="schemaFile">Step 2: Select Schema File</label>
+              <select id="schemaFile" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedFile" (change)="this.changeFile()"
+                [ngClass]="{'form-control-sm':true}">
+                <option [value]="item" *ngFor="let item of this.schemaFiles">{{item}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="schemaType">Step 3: Select Type</label>
+              <select id="schemaType" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
+                [ngClass]="{'form-control-sm':true}">
+                <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
+              </select>
+            </div>
+          </form>
+
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Load Your Own">
+      <ng-template ngbTabContent>
+        <app-custom-uploader></app-custom-uploader>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
   <div class="modal-footer" style="background-color:#E9ECEF">
     <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
   </div>
@@ -55,4 +54,3 @@
   </div>
 
 </div>
-
