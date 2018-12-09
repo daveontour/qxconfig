@@ -1,6 +1,6 @@
 <div class="pl-3 pr-3 pt-2" style="height: 450px">
   <div style="clear:left">
-  <label class="controlEnabled" style="float:left; margin-top: 5px; margin-right: 10px">Step 1: Select the XSD files and dependencies: </label>
+  <label class="controlEnabled" style="float:left; margin-top: 5px; margin-right: 10px">Step 1: Select the XSD files: </label>
   <input type="file" (change)="onChange($event)" title="Select Files" name="files[]" accept=".xsd" multiple />
   </div>
   <div style="height:200px; width:100%; overflow-y: scroll; float:left;clear: left;" class="border border-secondary">
@@ -13,6 +13,9 @@
     <button style="float: left" class="btn btn-outline-primary" [disabled]="this.selectedFiles.length == 0"  (click)="upload()">Upload</button>
     <button style="float: right" class="btn btn-outline-primary ml-2"  [disabled]="this.selectedFiles.length == 0"(click)="clear()">Clear Files</button>
   </div>
+  <div style="float:left; clear: left; width:100%" class="mt-1">
+    <ngb-progressbar type="success" [value]="this.percentComplete"></ngb-progressbar>
+    </div>
   <div class="form-group" style="float:left; clear:left; width:100%;">
     <label for="schemaFile" [ngClass]="{'controlEnabled':this.selectedCollection != null, 'controlNotEnabled':this.selectedCollection == null}">Step
       3: Select Schema File</label>

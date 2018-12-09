@@ -6,7 +6,7 @@
     </div>
   <button type="button" class="btn btn-outline-dark float-right mt-2" [disabled]="this.enteredXSD.length < 10" (click)="upload()">Save</button>
   <div class="form-group" style="clear:both">
-      <label for="schemaType3">Step 2: Select Type</label>
+      <label for="schemaType3" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null}">Step 2: Select Type</label>
       <select id="schemaType3" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()" class="form-control">
         <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
       </select>

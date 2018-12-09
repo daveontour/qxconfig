@@ -21,6 +21,7 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
   multiple = true;
   maxSize = 20;
   selectionMethod =  'loadyourown';
+  percentComplete = 0;
 
   constructor(
     public messenger: Messenger,
@@ -35,9 +36,10 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
 
   clear() {
     this.selectedFiles = [];
+    this.percentComplete = 0;
   }
   onChange(event) {
-
+    this.global.selectionMethod = this.selectionMethod;
     this.selectedFiles = [];
     this.Caption = [];
 
@@ -85,6 +87,7 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
         event => {
 
           if (event.type === HttpEventType.DownloadProgress) {
+            this.percentComplete = 100 * Math.round(event.loaded / event.total);
             console.log('Download progress event', event);
           }
 

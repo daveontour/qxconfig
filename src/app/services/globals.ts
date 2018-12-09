@@ -14,6 +14,7 @@ export class Globals {
   public formatErrors: string[] = [];
   public selectedSchema: string;
   public sessionID = 'new';
+  public selectionMethod: string;
   root: any;
 
 

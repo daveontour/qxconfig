@@ -64,6 +64,8 @@ export class PreLodedComponent implements OnInit {
     this.selectedFile = null;
     this.selectedType = null;
 
+    this.global.selectionMethod = this.selectionMethod;
+
     this.http.get<string[]>(this.global.baseURL + '?op=getSchemaFiles&schema=' + this.selectedCollection +
      '&selectionMethod=' + this.selectionMethod).subscribe(data => {
 

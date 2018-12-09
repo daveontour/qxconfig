@@ -83,44 +83,48 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     this.supplementalMsg = '';
 
 
-    let params = new HttpParams();
-    params = params.append('schema', this.global.selectedSchema);
+    const params = new HttpParams();
+    params.append('schema', this.global.selectedSchema);
+    params.append('sessionID', this.global.sessionID);
+    params.append('selectionMethod', this.global.selectionMethod);
 
     // this.http.post<ValidatonResult>(this.global.baseURL + '/validate', this.global.xmlMessage, {
-    this.http.post<ValidationResult>(this.global.baseURLValidate, this.global.XMLMessage, {
-      params: params
-    }).subscribe(data => {
+    this.http.post<ValidationResult>(this.global.baseURLValidate +
+      '?schema=' + this.global.selectedSchema +
+      '&sessionID=' + this.global.sessionID +
+      '&selectionMethod=' + this.global.selectionMethod,
+      this.global.XMLMessage, {
+        params: params
+      }).subscribe(data => {
+        // Update the indicators for the modal dialog box
+        this.validationMessage = data.message;
+        this.validationStatus = data.status;
+        this.validateInProgress = false;
 
-      // Update the indicators for the modal dialog box
-      this.validationMessage = data.message;
-      this.validationStatus = data.status;
-      this.validateInProgress = false;
-
-      if (this.validationMessage.indexOf('The markup in the document following the root element must be well-formed') > 0) {
-        this.supplementalMsg = 'Did you include multipe messages? This validator only hanldes one message at a time';
-      } else
-        if (this.validationMessage.indexOf('Cannot find the declaration of element') > 0) {
-          this.supplementalMsg = 'Did you select the correct message type?';
+        if (this.validationMessage.indexOf('The markup in the document following the root element must be well-formed') > 0) {
+          this.supplementalMsg = 'Did you include multipe messages? This validator only hanldes one message at a time';
         } else
-          if (this.validationMessage.indexOf('Premature end of file') > 0) {
-            this.supplementalMsg = 'It appears no message data was entered';
+          if (this.validationMessage.indexOf('Cannot find the declaration of element') > 0) {
+            this.supplementalMsg = 'Did you select the correct message type?';
           } else
-            if (this.validationMessage.indexOf('Content is not allowed in prolog') > 0) {
-              this.supplementalMsg = 'The message is badly formed XML';
-            } else {
-              if (!this.validationStatus) {
-                this.supplementalMsg = 'Refer to above error message';
+            if (this.validationMessage.indexOf('Premature end of file') > 0) {
+              this.supplementalMsg = 'It appears no message data was entered';
+            } else
+              if (this.validationMessage.indexOf('Content is not allowed in prolog') > 0) {
+                this.supplementalMsg = 'The message is badly formed XML';
+              } else {
+                if (!this.validationStatus) {
+                  this.supplementalMsg = 'Refer to above error message';
+                }
               }
-            }
-
-    },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message);
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
-        }
-      });
+      },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            console.log('An error occurred:', err.error.message);
+          } else {
+            console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+          }
+        });
   }
 
   ngOnInit(): void {
@@ -128,7 +132,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   }
 
   ngAfterViewInit(): void {
-   // this.retrieveData('http://localhost:8080/XSD_Forms/json?op=default');
+    // this.retrieveData('http://localhost:8080/XSD_Forms/json?op=default');
   }
 
   retrieveData(url: string) {
