@@ -5,11 +5,18 @@ import { Messenger } from './../../services/messenger';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-topmenu',
-  templateUrl: './topmenu.component.html',
-  styleUrls: ['./topmenu.component.scss']
+  selector: 'app-pre-loded',
+  templateUrl: './pre-loded.component.html',
+  styleUrls: ['./pre-loded.component.scss']
 })
-export class TopmenuComponent implements OnInit {
+export class PreLodedComponent implements OnInit {
+
+  Caption = [];
+  selectedFiles = [];
+  notAllowedList = [];
+  afterUpload: boolean;
+  multiple = true;
+  maxSize = 20;
 
   schemaCollections: string[];
   schemaFiles: string[];
@@ -17,38 +24,18 @@ export class TopmenuComponent implements OnInit {
   selectedCollection: string;
   selectedFile: string;
   selectedType: string;
-  afuConfig = {
-    multiple: true,
-    formatsAllowed: '.xsd',
-    maxSize: '100',
-    uploadAPI:  {
-      url: 'http://localhost:8080/XSD_Forms/upload',
-      headers: {
-        'Access-Control-Allow-Origin' : '*'
-      }
-    },
-  //  theme: 'dragNDrop',
-    hideProgressBar: false,
-    hideResetBtn: true,
-    hideSelectBtn: false
-};
+  selectionMethod =  'preload';
+
 
   constructor(
-    private messenger: Messenger,
-    private modalService: NgbModal,
-    private http: HttpClient,
-    private global: Globals,
-
-    ) { }
+    public messenger: Messenger,
+    public http: HttpClient,
+    public modalService: NgbModal,
+    public global: Globals) { }
 
   ngOnInit() {
-
+    this.getCollection();
   }
-
-  docUpload(event) {
-    console.log(event);
-  }
-
   getCollection() {
     this.schemaFiles = [];
     this.schemaTypes = [];
@@ -77,7 +64,8 @@ export class TopmenuComponent implements OnInit {
     this.selectedFile = null;
     this.selectedType = null;
 
-    this.http.get<string[]>(this.global.baseURL + '?op=getSchemaFiles&schema=' + this.selectedCollection).subscribe(data => {
+    this.http.get<string[]>(this.global.baseURL + '?op=getSchemaFiles&schema=' + this.selectedCollection +
+     '&selectionMethod=' + this.selectionMethod).subscribe(data => {
 
       this.schemaFiles = data;
     },
@@ -94,36 +82,32 @@ export class TopmenuComponent implements OnInit {
     this.schemaTypes = [];
     this.selectedType = null;
 
-    this.http.get<string[]>(this.global.baseURL +
-    '?op=getSchemaTypes&' +
-    '&schema=' + this.selectedCollection +
-    '&file=' + this.selectedFile
-    ).subscribe(data => {
+    this.http.get<string[]>(this.global.baseURL + '?op=getSchemaTypes' +
+      '&schema=' + this.selectedCollection +
+      '&file=' + this.selectedFile +
+      '&sessionID=' + this.global.sessionID +
+      '&selectionMethod=' + this.selectionMethod
+      ).subscribe(data => {
 
-      this.schemaTypes = data;
-    },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message);
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
-        }
-      });
+        this.schemaTypes = data;
+      },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            console.log('An error occurred:', err.error.message);
+          } else {
+            console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+          }
+        });
   }
 
   changeType() {
     this.messenger.announceMission(this.global.baseURL + '?op=getType' +
-    '&schema=' + this.selectedCollection +
-    '&file=' + this.selectedFile +
-    '&type=' + this.selectedType);
+      '&schema=' + this.selectedCollection +
+      '&file=' + this.selectedFile +
+      '&type=' + this.selectedType +
+      '&sessionID=' + this.global.sessionID +
+      '&selectionMethod=' + this.selectionMethod);
     this.modalService.dismissAll();
   }
-
-  selectType(content) {
-    this.getCollection();
-    this.modalService.open(content, { centered: true });
-  }
-  uploadSchema(content) {
-    this.modalService.open(content, { centered: true });
-  }
 }
+

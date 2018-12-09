@@ -6,37 +6,17 @@
   <ngb-tabset>
     <ngb-tab title="Pre Loaded">
       <ng-template ngbTabContent>
-        <div class="pl-3 pr-3 pt-2">
-          <form>
-            <div class="form-group">
-              <label for="schemaCollection">Step 1: Select Schema Collection</label>
-              <select id="schemaCollection" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedCollection"
-                (change)="this.changeCollection()" [ngClass]="{'form-control-sm':true}">
-                <option [value]="item" *ngFor="let item of this.schemaCollections">{{item}}</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="schemaFile">Step 2: Select Schema File</label>
-              <select id="schemaFile" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedFile" (change)="this.changeFile()"
-                [ngClass]="{'form-control-sm':true}">
-                <option [value]="item" *ngFor="let item of this.schemaFiles">{{item}}</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="schemaType">Step 3: Select Type</label>
-              <select id="schemaType" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
-                [ngClass]="{'form-control-sm':true}">
-                <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
-              </select>
-            </div>
-          </form>
-
-        </div>
+        <app-pre-loded></app-pre-loded>
       </ng-template>
     </ngb-tab>
     <ngb-tab title="Load Your Own">
       <ng-template ngbTabContent>
-        <app-custom-uploader></app-custom-uploader>
+        <app-load-your-own></app-load-your-own>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Enter XSD">
+      <ng-template ngbTabContent>
+        <app-enter-xsd></app-enter-xsd>
       </ng-template>
     </ngb-tab>
   </ngb-tabset>
@@ -45,12 +25,9 @@
   </div>
 </ng-template>
 
-
-
 <div class="jumbotron pt-2 pb-1">
   <p class="lead float-left"> XSD to XML - Generate XML documents directly from the defining XSD</p>
   <div class="float-left ml-4">
     <button class="btn btn-outline-primary" (click)=" selectType(schemaChoice)">Select Schema</button>
   </div>
-
 </div>

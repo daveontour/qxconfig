@@ -42,6 +42,9 @@ import {OwlBadgeModule, OwlAccordionModule} from 'owl-ng';
 import { Messenger } from './services/messenger';
 import { TopmenuComponent } from './components/topmenu/topmenu.component';
 import { CustomUploaderComponent } from './components/custom-uploader/custom-uploader.component';
+import { PreLodedComponent } from './components/pre-loded/pre-loded.component';
+import { LoadYourOwnComponent } from './components/load-your-own/load-your-own.component';
+import { EnterXSDComponent } from './components/enter-xsd/enter-xsd.component';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -85,7 +88,10 @@ export const MY_MOMENT_FORMATS = {
     XSNumberComponent,
     XSGMonthDayComponent,
     TopmenuComponent,
-    CustomUploaderComponent
+    CustomUploaderComponent,
+    PreLodedComponent,
+    LoadYourOwnComponent,
+    EnterXSDComponent
   ],
   imports: [
     BrowserModule,

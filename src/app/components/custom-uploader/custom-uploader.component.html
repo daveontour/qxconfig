@@ -8,8 +8,23 @@
    multiple />
 </p>
 
-<div *ngFor="let item of selectedFiles">
-  <h6>{{item.name}} - {{item.size}}</h6>
-</div>
-
+<span *ngFor="let item of selectedFiles">
+  {{item.name}}&nbsp;&nbsp;
+</span>
+<br/>
 <button (click)="upload()">Upload</button>
+
+<div class="form-group">
+    <label for="schemaFile">Step 2: Select Schema File</label>
+    <select id="schemaFile" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedFile" (change)="this.changeFile()"
+      [ngClass]="{'form-control':true}">
+      <option [value]="item" *ngFor="let item of this.schemaFiles">{{item}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="schemaType">Step 3: Select Type</label>
+    <select id="schemaType" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
+      [ngClass]="{'form-control':true}">
+      <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
+    </select>
+  </div>

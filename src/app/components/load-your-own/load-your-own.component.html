@@ -1,0 +1,26 @@
+<div class="pl-3 pr-3 pt-2" style="height: 450px">
+     Select your own XSD
+    <input type="file" (change)="onChange($event)" title="Select files" name="files[]" accept=".xsd" multiple />
+
+
+  <span *ngFor="let item of selectedFiles">
+    {{item.name}}&nbsp;&nbsp;
+  </span>
+  <br />
+  <button (click)="upload()">Upload</button>
+
+  <div class="form-group">
+    <label for="schemaFile" [ngClass]="{'controlEnabled':this.selectedCollection != null, 'controlNotEnabled':this.selectedCollection == null}">Step 2: Select Schema File</label>
+    <select id="schemaFile" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedFile" (change)="this.changeFile()"
+      [ngClass]="{'form-control':true}">
+      <option [value]="item" *ngFor="let item of this.schemaFiles">{{item}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="schemaType"  [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null}">Step 3: Select Type</label>
+    <select id="schemaType" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
+      [ngClass]="{'form-control':true}">
+      <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
+    </select>
+  </div>
+</div>

@@ -4,6 +4,10 @@ export interface ValidationResult {
 }
 
 export interface ItemConfig {
+    // Status parameters rather than config parameters.
+    failed: boolean;
+    msg: string;
+
     isRoot: boolean;
     name: string;
     annotation: string;
@@ -49,3 +53,15 @@ export interface ItemConfig {
     nspre: string;
     prefix: string;
 }
+
+export interface PostEvent {
+    type: any;
+    body: UploadStatus;
+    sessionID: string;
+    status: boolean;
+  }
+export interface UploadStatus {
+    status: boolean;
+    sessionID: string;
+  }
+

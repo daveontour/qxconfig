@@ -137,6 +137,10 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
     this.http.get<ItemConfig>(url).subscribe(data => {
 
+      if (data.failed) {
+        alert(data.msg);
+        return;
+      }
       data.elementPath = data.name;
       data.isRoot = true;
       this.walkStructure(data, this);
