@@ -14,7 +14,7 @@ import { PostEvent, UploadStatus } from './..//../interfaces/interfaces';
 export class EnterXSDComponent extends PreLodedComponent implements OnInit {
 
   selectionMethod = 'enterxsd';
-  enteredXSD: string;
+  enteredXSD = '';
 
   constructor(
     public messenger: Messenger,
@@ -56,7 +56,6 @@ export class EnterXSDComponent extends PreLodedComponent implements OnInit {
           if (event.type === HttpEventType.Response) {
             console.log('response received...', event.body);
             if (event.body.status) {
-              alert('Upload OK ' + event.body.sessionID);
               this.global.sessionID = event.body.sessionID;
 
               // The SessionID is used as the directory name on the server

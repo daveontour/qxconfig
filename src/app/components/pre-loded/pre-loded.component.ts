@@ -90,8 +90,12 @@ export class PreLodedComponent implements OnInit {
       ).subscribe(data => {
 
         this.schemaTypes = data;
+        if (this.schemaTypes.length === 0 ) {
+          alert('No Types wer found');
+        }
       },
         (err: HttpErrorResponse) => {
+          alert('Error - check console');
           if (err.error instanceof Error) {
             console.log('An error occurred:', err.error.message);
           } else {

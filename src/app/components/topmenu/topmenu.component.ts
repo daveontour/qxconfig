@@ -121,9 +121,6 @@ export class TopmenuComponent implements OnInit {
 
   selectType(content) {
     this.getCollection();
-    this.modalService.open(content, { centered: true });
-  }
-  uploadSchema(content) {
-    this.modalService.open(content, { centered: true });
+    this.modalService.open(content, { centered: true, size: 'lg'  });
   }
 }

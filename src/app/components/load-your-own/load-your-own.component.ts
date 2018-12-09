@@ -33,6 +33,9 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
   ngOnInit() {
   }
 
+  clear() {
+    this.selectedFiles = [];
+  }
   onChange(event) {
 
     this.selectedFiles = [];
@@ -92,7 +95,7 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
           if (event.type === HttpEventType.Response) {
             console.log('response received...', event.body);
             if (event.body.status) {
-              alert('Upload OK ' + event.body.sessionID);
+
               this.global.sessionID = event.body.sessionID;
 
               // The SessionID is used as the directory name on the server
