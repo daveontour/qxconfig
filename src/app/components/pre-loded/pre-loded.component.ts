@@ -24,7 +24,7 @@ export class PreLodedComponent implements OnInit {
   selectedCollection: string;
   selectedFile: string;
   selectedType: string;
-  selectionMethod =  'preload';
+  selectionMethod = 'preload';
 
 
   constructor(
@@ -35,6 +35,10 @@ export class PreLodedComponent implements OnInit {
 
   ngOnInit() {
     this.getCollection();
+    this.messenger.setSchema('-');
+    this.messenger.setSchemaFile('-');
+    this.messenger.setType('-');
+    this.messenger.setStatus('Ready');
   }
   getCollection() {
     this.schemaFiles = [];
@@ -65,39 +69,14 @@ export class PreLodedComponent implements OnInit {
     this.selectedType = null;
 
     this.global.selectionMethod = this.selectionMethod;
+    this.messenger.setSchema(this.global.selectedSchema);
 
     this.http.get<string[]>(this.global.baseURL + '?op=getSchemaFiles&schema=' + this.selectedCollection +
-     '&selectionMethod=' + this.selectionMethod).subscribe(data => {
+      '&selectionMethod=' + this.selectionMethod).subscribe(data => {
 
-      this.schemaFiles = data;
-    },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message);
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
-        }
-      });
-  }
-
-  changeFile() {
-    this.schemaTypes = [];
-    this.selectedType = null;
-
-    this.http.get<string[]>(this.global.baseURL + '?op=getSchemaTypes' +
-      '&schema=' + this.selectedCollection +
-      '&file=' + this.selectedFile +
-      '&sessionID=' + this.global.sessionID +
-      '&selectionMethod=' + this.selectionMethod
-      ).subscribe(data => {
-
-        this.schemaTypes = data;
-        if (this.schemaTypes.length === 0 ) {
-          alert('No Types wer found');
-        }
+        this.schemaFiles = data;
       },
         (err: HttpErrorResponse) => {
-          alert('Error - check console');
           if (err.error instanceof Error) {
             console.log('An error occurred:', err.error.message);
           } else {
@@ -106,7 +85,40 @@ export class PreLodedComponent implements OnInit {
         });
   }
 
+  changeFile() {
+    this.schemaTypes = [];
+    this.selectedType = null;
+    if (this.selectionMethod === 'enterxsd') {
+      this.messenger.setSchemaFile('User Uploaded');
+    } else {
+      this.messenger.setSchemaFile(this.selectedFile);
+    }
+
+    this.http.get<string[]>(this.global.baseURL + '?op=getSchemaTypes' +
+      '&schema=' + this.selectedCollection +
+      '&file=' + this.selectedFile +
+      '&sessionID=' + this.global.sessionID +
+      '&selectionMethod=' + this.selectionMethod
+    ).subscribe(data => {
+
+      this.schemaTypes = data;
+      if (this.schemaTypes.length === 0) {
+        alert('No Types wer found');
+      }
+    },
+      (err: HttpErrorResponse) => {
+        this.messenger.setStatus('File Selection Failure');
+        this.global.openModalAlert('Schema File Selection Error', 'There was an error selecting the file. Unable to retrieve types from schema');
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message);
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+        }
+      });
+  }
+
   changeType() {
+    this.messenger.setType(this.selectedType);
     this.messenger.announceMission(this.global.baseURL + '?op=getType' +
       '&schema=' + this.selectedCollection +
       '&file=' + this.selectedFile +

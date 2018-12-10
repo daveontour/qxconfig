@@ -1,3 +1,4 @@
+import { NgbdModalContentComponent } from './components/ngbd-modal-content/ngbd-modal-content.component';
 import { Messenger } from './services/messenger';
 import { ChoiceComponent } from './components/choice/choice.component';
 import { Globals } from './services/globals';
@@ -6,10 +7,10 @@ import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
 import { OnInit, AfterViewInit, AfterContentInit, ChangeDetectorRef } from '@angular/core';
 import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ValidationResult } from './interfaces/interfaces';
+
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,14 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   public elementPath = '';
   public name = 'ROOTPAGE';
   subscription: Subscription;
+  schemaSub: Subscription;
+  schemaFileSub: Subscription;
+  typeSub: Subscription;
+  statusSub: Subscription;
+  schema = '-';
+  schemaFile = '-';
+  type = '-';
+  status = 'Ready';
 
 
   validationMessage = 'Validating...please wait';
@@ -47,6 +56,29 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
         this.retrieveData(mission);
       }
     );
+    this.schemaSub = messenger.schema$.subscribe(
+      data => {
+        this.schema = data;
+      }
+    );
+
+    this.schemaFileSub = messenger.schemaFile$.subscribe(
+      data => {
+        this.schemaFile = data;
+      }
+    );
+
+    this.typeSub = messenger.type$.subscribe(
+      data => {
+        this.type = data;
+      }
+    );
+
+    this.statusSub = messenger.status$.subscribe(
+      data => {
+        this.status = data;
+      }
+    );
   }
 
   public getContainer() {
@@ -58,92 +90,42 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     return this.siblingsPt;
   }
 
-  validate(content) {
-
-    // //Send the text for validation
-    this.validateAIDXMessage();
-
-
-    // //Then open up the modal dialog box which will display status
-    // Indicators for the modal dialog box
-    this.validationMessage = 'Validating...please wait';
-    this.validateInProgress = true;
-    this.validationStatus = false;
-    this.supplementalMsg = '';
-
-    this.modalService.open(content, { centered: true });
-
-  }
-  validateAIDXMessage() {
-
-    // Indicators for the modal dialog box
-    this.validationMessage = 'Validating...please wait';
-    this.validateInProgress = true;
-    this.validationStatus = false;
-    this.supplementalMsg = '';
-
-
-    const params = new HttpParams();
-    params.append('schema', this.global.selectedSchema);
-    params.append('sessionID', this.global.sessionID);
-    params.append('selectionMethod', this.global.selectionMethod);
-
-    // this.http.post<ValidatonResult>(this.global.baseURL + '/validate', this.global.xmlMessage, {
-    this.http.post<ValidationResult>(this.global.baseURLValidate +
-      '?schema=' + this.global.selectedSchema +
-      '&sessionID=' + this.global.sessionID +
-      '&selectionMethod=' + this.global.selectionMethod,
-      this.global.XMLMessage, {
-        params: params
-      }).subscribe(data => {
-        // Update the indicators for the modal dialog box
-        this.validationMessage = data.message;
-        this.validationStatus = data.status;
-        this.validateInProgress = false;
-
-        if (this.validationMessage.indexOf('The markup in the document following the root element must be well-formed') > 0) {
-          this.supplementalMsg = 'Did you include multipe messages? This validator only hanldes one message at a time';
-        } else
-          if (this.validationMessage.indexOf('Cannot find the declaration of element') > 0) {
-            this.supplementalMsg = 'Did you select the correct message type?';
-          } else
-            if (this.validationMessage.indexOf('Premature end of file') > 0) {
-              this.supplementalMsg = 'It appears no message data was entered';
-            } else
-              if (this.validationMessage.indexOf('Content is not allowed in prolog') > 0) {
-                this.supplementalMsg = 'The message is badly formed XML';
-              } else {
-                if (!this.validationStatus) {
-                  this.supplementalMsg = 'Refer to above error message';
-                }
-              }
-      },
-        (err: HttpErrorResponse) => {
-          if (err.error instanceof Error) {
-            console.log('An error occurred:', err.error.message);
-          } else {
-            console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
-          }
-        });
-  }
 
   ngOnInit(): void {
     // moved to ngAfterViewInit
   }
 
   ngAfterViewInit(): void {
-    // this.retrieveData('http://localhost:8080/XSD_Forms/json?op=default');
+   
+
+    const initURL = this.global.baseURL + '?op=getType&schema=AIDX18.1&file=IATA_AIDX_FlightLegNotifRQ.xsd' +
+    '&type=IATA_AIDX_FlightLegNotifRQ&sessionID=new&selectionMethod=preload';
+    this.retrieveData(initURL);
+    this.messenger.setSchema('AIDX18.1');
+    this.messenger.setSchemaFile('IATA_AIDX_FlightLegNotifRQ.xsd');
+    this.messenger.setType('IATA_AIDX_FlightLegNotifRQ');
+    this.messenger.setStatus('Retrieving Schema');
+    this.global.openModalAlert('Welcome', 'Use the menu to select the schema and type to begin or start populating the already loaded');
   }
 
   retrieveData(url: string) {
+    this.status = 'Retrieving Data';
     this.container.clear();
     this.global.root = null;
 
+    this.modalService.dismissAll();
+    this.global.openModalAlert('Schema Processing', 'Processing Schema. Please Wait.');
+
     this.http.get<ItemConfig>(url).subscribe(data => {
 
+      this.modalService.dismissAll();
       if (data.failed) {
-        alert(data.msg);
+        this.status = 'Retrival Failure';
+        this.global.openModalAlert('Problem Reading Scheam', data.msg);
         return;
+      } else {
+        this.status = 'Ready';
+        this.global.openModalAlert('Schema Retrieved', 'Schema interpretted successfully');
       }
       data.elementPath = data.name;
       data.isRoot = true;
@@ -155,9 +137,11 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       this.cdRef.detectChanges();
     },
       (err: HttpErrorResponse) => {
+        this.modalService.dismissAll();
         if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message);
+          this.global.openModalAlert('An error occurred:', err.error.message);
         } else {
+          this.global.openModalAlert('An error occurred:', 'Check Console');
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
         }
       });

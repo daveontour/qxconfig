@@ -37,8 +37,15 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
   clear() {
     this.selectedFiles = [];
     this.percentComplete = 0;
+
+    this.messenger.setSchema('-');
+    this.messenger.setSchemaFile('-');
+    this.messenger.setType('-');
+    this.messenger.setStatus('Ready');
   }
   onChange(event) {
+    this.messenger.setSchema('User Uploaded');
+    this.messenger.setStatus('Ready to Upload File');
     this.global.selectionMethod = this.selectionMethod;
     this.selectedFiles = [];
     this.Caption = [];
@@ -61,6 +68,7 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
   }
 
   upload() {
+    this.messenger.setStatus('Uploading Files');
     const formData: any = new FormData();
     for (let i = 0; i < this.selectedFiles.length; i++) {
       if (this.Caption[i] === undefined) {
@@ -88,11 +96,14 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
 
           if (event.type === HttpEventType.DownloadProgress) {
             this.percentComplete = 100 * Math.round(event.loaded / event.total);
+            this.messenger.setStatus('Uploading Files ' + this.percentComplete + '% Complete');
             console.log('Download progress event', event);
           }
 
           if (event.type === HttpEventType.UploadProgress) {
-            console.log('Upload progress event', event);
+            this.percentComplete = 100 * Math.round(event.loaded / event.total);
+            this.messenger.setStatus('Uploading Files ' + this.percentComplete + '% Complete');
+             console.log('Upload progress event', event);
           }
 
           if (event.type === HttpEventType.Response) {
@@ -110,33 +121,12 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
               }
 
             } else {
-              alert('Upload Failed');
+              this.global.openModalAlert('Upload Failure', 'Uploading of selected files failed');
+              this.messenger.setStatus('Uploading Files Failed');
             }
           }
         }
       );
-  }
-
-  changeFile() {
-    this.schemaTypes = [];
-    this.selectedType = null;
-
-    this.http.get<string[]>(this.global.baseURL + '?op=getSchemaTypes' +
-      '&schema=' + this.selectedCollection +
-      '&file=' + this.selectedFile +
-      '&selectionMethod=' + this.selectionMethod +
-      '&sessionID=' + this.global.sessionID
-      ).subscribe(data => {
-
-        this.schemaTypes = data;
-      },
-        (err: HttpErrorResponse) => {
-          if (err.error instanceof Error) {
-            console.log('An error occurred:', err.error.message);
-          } else {
-            console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
-          }
-        });
   }
 }
 

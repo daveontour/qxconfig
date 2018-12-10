@@ -1,4 +1,7 @@
+import { NgbdModalContentComponent } from './../components/ngbd-modal-content/ngbd-modal-content.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Injectable} from '@angular/core';
+
 
 @Injectable()
 export class Globals {
@@ -17,6 +20,11 @@ export class Globals {
   public selectionMethod: string;
   root: any;
 
+  constructor(
+    private modalService: NgbModal
+  ) {
+
+  }
 
   getString() {
     this.alerts = '';
@@ -25,6 +33,12 @@ export class Globals {
     this.attributesUndefined = [];
     this.sampleXMLMessage = this.formatXML(this.root.getElementString(''));
     this.XMLMessage = this.sampleXMLMessage;
+  }
+
+  public openModalAlert(title: string, message: string) {
+    const modalRef = this.modalService.open(NgbdModalContentComponent);
+    modalRef.componentInstance.title = title;
+    modalRef.componentInstance.message = message;
   }
 
   public guid() {

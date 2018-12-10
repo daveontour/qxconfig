@@ -1,0 +1,22 @@
+.menu {
+    display: inline-block;
+    font-size: inherit;
+    height: 1.1em;
+    overflow: visible;
+    vertical-align: -.125em;
+    width: 1.1em;
+    font-size: 1.1em;
+    overflow: visible;
+    fill:grey;
+    cursor: pointer;
+  }
+
+  .loading{
+    background-color: yellow
+}
+.invalid{
+    background-color: red
+}
+.valid {
+    background-color: lawngreen
+}

@@ -28,6 +28,12 @@ export class EnterXSDComponent extends PreLodedComponent implements OnInit {
   }
 
   upload() {
+
+    this.messenger.setSchema('User Uploaded');
+    this.messenger.setSchemaFile('User Uploaded');
+    this.messenger.setType('-');
+    this.messenger.setStatus('Ready');
+
     this.global.selectionMethod = this.selectionMethod;
     const request = new HttpRequest(
       'POST',
@@ -63,7 +69,8 @@ export class EnterXSDComponent extends PreLodedComponent implements OnInit {
               this.selectedFile = this.global.sessionID + '.xsd';
               this.changeFile();
             } else {
-              alert('Upload Failed');
+              this.messenger.setStatus('XSD Upload failure');
+              this.global.openModalAlert('XSD Save Failure', 'The XSD could not be uploaded to the server for processing');
             }
           }
         }

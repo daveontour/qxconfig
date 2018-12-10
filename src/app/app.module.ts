@@ -12,7 +12,7 @@ import { XSIntegerComponent } from './controls/xsinteger/xsinteger.component';
 import { BaseComponent } from './controls/base/base.component';
 import { XSBooleanComponent } from './controls/xsboolean/xsboolean.component';
 import { EnumListComponent } from './controls/enumlist/enumlist.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,17 +34,18 @@ import { UnionComponent } from './controls/union/union.component';
 import { AlertswindowComponent } from './alertswindow/alertswindow.component';
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 import { XSGDayComponent } from './controls/xsgDay/gDay.component';
 import { OwlCheckBoxModule, OwlFormFieldModule, OwlSwitchModule, OwlInputModule} from 'owl-ng';
-import {OwlBadgeModule, OwlAccordionModule} from 'owl-ng';
+import { OwlBadgeModule, OwlAccordionModule} from 'owl-ng';
 import { Messenger } from './services/messenger';
 import { TopmenuComponent } from './components/topmenu/topmenu.component';
 import { CustomUploaderComponent } from './components/custom-uploader/custom-uploader.component';
 import { PreLodedComponent } from './components/pre-loded/pre-loded.component';
 import { LoadYourOwnComponent } from './components/load-your-own/load-your-own.component';
 import { EnterXSDComponent } from './components/enter-xsd/enter-xsd.component';
+import { NgbdModalContentComponent } from './components/ngbd-modal-content/ngbd-modal-content.component';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -91,7 +92,8 @@ export const MY_MOMENT_FORMATS = {
     CustomUploaderComponent,
     PreLodedComponent,
     LoadYourOwnComponent,
-    EnterXSDComponent
+    EnterXSDComponent,
+    NgbdModalContentComponent
   ],
   imports: [
     BrowserModule,
@@ -139,7 +141,8 @@ export const MY_MOMENT_FORMATS = {
     XSGDayComponent,
     XSGMonthComponent,
     XSGMonthDayComponent,
-    XSNumberComponent
+    XSNumberComponent,
+    NgbdModalContentComponent
   ]
 })
 export class AppModule { }
