@@ -1,25 +1,34 @@
-<div class="pl-3 pr-3 pt-2" style="height:450px">
+<div class="modal-header" style="background-color: #E9ECEF">
+  <h4 class="modal-title">Select Schema Collection, File and Type</h4>
+  <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
+</div>
+<div class="pl-3 pr-3 pt-2" style="height:350px">
   <form>
     <div class="form-group">
-      <label for="schemaCollection" class = "controlEnabled">Step 1: Select Schema Collection</label>
+      <label for="schemaCollection" class="controlEnabled">Step 1: Select Schema Collection</label>
       <select id="schemaCollection" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedCollection"
         (change)="this.changeCollection()" [ngClass]="{'form-control':true}">
         <option [value]="item" *ngFor="let item of this.schemaCollections">{{item}}</option>
       </select>
     </div>
     <div class="form-group">
-      <label for="schemaFile" [ngClass]="{'controlEnabled':this.selectedCollection != null, 'controlNotEnabled':this.selectedCollection == null}">Step 2: Select Schema File</label>
+      <label for="schemaFile" [ngClass]="{'controlEnabled':this.selectedCollection != null, 'controlNotEnabled':this.selectedCollection == null}">Step
+        2: Select Schema File</label>
       <select id="schemaFile" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedFile" (change)="this.changeFile()"
         [ngClass]="{'form-control':true}">
         <option [value]="item" *ngFor="let item of this.schemaFiles">{{item}}</option>
       </select>
     </div>
     <div class="form-group">
-      <label for="schemaType" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null}">Step 3: Select Type</label>
+      <label for="schemaType" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null}">Step
+        3: Select Type</label>
       <select id="schemaType" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
         [ngClass]="{'form-control':true}">
         <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
       </select>
     </div>
   </form>
+</div>
+<div class="modal-footer" style="background-color:#E9ECEF">
+  <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
 </div>

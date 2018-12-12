@@ -142,7 +142,10 @@ export const MY_MOMENT_FORMATS = {
     XSGMonthComponent,
     XSGMonthDayComponent,
     XSNumberComponent,
-    NgbdModalContentComponent
+    NgbdModalContentComponent,
+    PreLodedComponent,
+    LoadYourOwnComponent,
+    EnterXSDComponent
   ]
 })
 export class AppModule { }

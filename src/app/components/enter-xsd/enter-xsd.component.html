@@ -1,3 +1,7 @@
+<div class="modal-header" style="background-color: #E9ECEF">
+  <h4 class="modal-title">Select Schema Collection, File and Type</h4>
+  <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
+</div>
 <div class="pl-3 pr-3 pt-2" style="height: 450px; overflow-y: scroll">
     <label class = "controlEnabled" style="margin-top:5px">Step 1: Enter the XSD</label>
     <div style = "height:250px;overflow-y:scroll" class="border border-secondary">
@@ -11,4 +15,7 @@
         <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
       </select>
   </div>
+</div>
+<div class="modal-footer" style="background-color:#E9ECEF">
+  <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
 </div>

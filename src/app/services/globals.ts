@@ -16,6 +16,7 @@ export class Globals {
   public attributesUndefined: string[] = [];
   public formatErrors: string[] = [];
   public selectedSchema: string;
+  public selectedType: string;
   public sessionID = 'new';
   public selectionMethod: string;
   root: any;
@@ -27,6 +28,7 @@ export class Globals {
   }
 
   getString() {
+    debugger;
     this.alerts = '';
     this.formatErrors = [];
     this.elementsUndefined = [];

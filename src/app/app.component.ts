@@ -26,21 +26,22 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   children: any[] = [];
   public elementPath = '';
   public name = 'ROOTPAGE';
-  subscription: Subscription;
-  schemaSub: Subscription;
-  schemaFileSub: Subscription;
-  typeSub: Subscription;
-  statusSub: Subscription;
+  private subscription: Subscription;
+  private schemaSub: Subscription;
+  private schemaFileSub: Subscription;
+  private typeSub: Subscription;
+  private statusSub: Subscription;
   schema = '-';
   schemaFile = '-';
   type = '-';
   status = 'Ready';
+  wait = false;
 
 
   validationMessage = 'Validating...please wait';
   validationStatus = false;
   validateInProgress = false;
-  schemaVersion = '16.1';
+  schemaVersion = '18.1';
   supplementalMsg = '';
 
   constructor(
@@ -96,32 +97,36 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   }
 
   ngAfterViewInit(): void {
-   
 
     const initURL = this.global.baseURL + '?op=getType&schema=AIDX18.1&file=IATA_AIDX_FlightLegNotifRQ.xsd' +
-    '&type=IATA_AIDX_FlightLegNotifRQ&sessionID=new&selectionMethod=preload';
+      '&type=IATA_AIDX_FlightLegNotifRQ&sessionID=new&selectionMethod=preload';
     this.retrieveData(initURL);
     this.messenger.setSchema('AIDX18.1');
     this.messenger.setSchemaFile('IATA_AIDX_FlightLegNotifRQ.xsd');
     this.messenger.setType('IATA_AIDX_FlightLegNotifRQ');
     this.messenger.setStatus('Retrieving Schema');
-    this.global.openModalAlert('Welcome', 'Use the menu to select the schema and type to begin or start populating the already loaded');
+
+    this.global.selectedSchema = 'AIDX18.1';
+    this.global.sessionID = 'new';
+    this.global.selectionMethod = 'preload';
+
   }
 
   retrieveData(url: string) {
     this.status = 'Retrieving Data';
+    this.wait = true;
     this.container.clear();
     this.global.root = null;
 
-    this.modalService.dismissAll();
+ //   this.modalService.dismissAll();
     this.global.openModalAlert('Schema Processing', 'Processing Schema. Please Wait.');
 
     this.http.get<ItemConfig>(url).subscribe(data => {
-
+      this.wait = false;
       this.modalService.dismissAll();
       if (data.failed) {
         this.status = 'Retrival Failure';
-        this.global.openModalAlert('Problem Reading Scheam', data.msg);
+        this.global.openModalAlert('Problem Reading Schema', data.msg);
         return;
       } else {
         this.status = 'Ready';
@@ -138,6 +143,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     },
       (err: HttpErrorResponse) => {
         this.modalService.dismissAll();
+        this.wait = false;
         if (err.error instanceof Error) {
           this.global.openModalAlert('An error occurred:', err.error.message);
         } else {
@@ -186,6 +192,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     // Create the new Sequence Object (newObjRef)
     const factory = this.resolver.resolveComponentFactory(ChoiceComponent);
     const newObjRef = parentObject.getContainer().createComponent(factory).instance;
+
 
     if (this.global.root == null) {
       this.global.root = newObjRef;

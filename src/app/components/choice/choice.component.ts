@@ -9,7 +9,7 @@ import { ElementComponent } from '../element/element.component';
   styleUrls: ['./choice.component.css']
 })
 export class ChoiceComponent extends ElementComponent implements AfterViewInit, OnInit {
-  @ViewChild("siblings", { read: ViewContainerRef }) siblingsPt;
+  @ViewChild('siblings', { read: ViewContainerRef }) siblingsPt;
   selectedChoice: string;
   opts: any[] = [];
 
@@ -34,14 +34,14 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
       // this.siblingCounter = this.config.minOccurs;
       // this.releaseSiblingCounter = true;
     } else {
-     
+
       this.addAttributes(this.config);
       // for (var i = 0; i < this.config.allOf.length; i++) {
       //   this.creator.walkStructure(this.config.allOf[i], this);
       // }
     }
 
-    //This prevents ExpressionChangedAfterItHasBeenCheckedError 
+    // This prevents ExpressionChangedAfterItHasBeenCheckedError
     // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
     // this.cdRef.detectChanges();
   }
@@ -51,8 +51,8 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
   }
 
   addSibling() {
-    if (this.siblings.length == this.config.maxOccurs) {
-      alert("Maximum Number of Occurances Already Reached");
+    if (this.siblings.length === this.config.maxOccurs) {
+      this.global.openModalAlert('You should not see this message :( ', 'Maximum Number of Occurances Already Reached');
       return;
     }
     if (this.topLevel) {
@@ -68,12 +68,14 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
   removeChild(childIDToRemove: string) {
 
     if (this.siblingCounter <= this.config.minOccurs) {
-      alert("Cannot Remove. At least " + this.config.minOccurs + " instance required");
+      this.global.openModalAlert('You should not see this message :( ', 'Cannot Remove. At least ' +
+      this.config.minOccurs + 'instance required');
+
       return false;
     }
-    for (var i = 0; i < this.siblings.length; i++) {
-      var id = this.siblings[i].config.uuid
-      if (id == childIDToRemove) {
+    for (let i = 0; i < this.siblings.length; i++) {
+      const id = this.siblings[i].config.uuid;
+      if (id === childIDToRemove) {
         this.siblingsPt.remove(i);
         this.siblings.splice(i, 1);
         this.siblingCounter--;
@@ -88,19 +90,19 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
 
   checkChoice() {
 
-    let size = this.container.length;
+    const size = this.container.length;
 
-    for (var i = 0; i < size; i++) {
+    for (let i = 0; i < size; i++) {
       this.container.remove();
     }
     this.children = [];
 
-    let choice = this.selectedChoice;
+    const choice = this.selectedChoice;
     this.opts.forEach((c) => {
-      if (c.name == choice) {
+      if (c.name === choice) {
         this.creator.createChoiceElement(c, this);
       }
-    })
+    });
   }
 
   change() {
@@ -108,15 +110,15 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
   }
 
   getChildString() {
-    let e: string = "";
-    let choice = this.selectedChoice;
+    let e = '';
+    const choice = this.selectedChoice;
     if (this.children != null) {
       this.children.forEach((value) => {
-        if (value.config.name == choice) {
+        if (value.config.name === choice) {
           e = e.concat(value.getElementString());
-          if (choice == "-Sequence Holder-") {
-            e = e.replace("<-Sequence Holder->\n", "");
-            e = e.replace("</-Sequence Holder->\n", "");
+          if (choice === '-Sequence Holder-') {
+            e = e.replace('<-Sequence Holder->\n', '');
+            e = e.replace('</-Sequence Holder->\n', '');
           }
         }
       });
@@ -152,14 +154,14 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
   }
 
   getSiblingString() {
-    return "";
+    return '';
   }
 
   setConfig(conf: ItemConfig, creator, parentObj) {
 
-  
+
     this.creator = creator;
-    let choiceIDs = [];
+    const choiceIDs = [];
     this.topLevel = true;
     this.parent = parentObj;
     this.elementPath = this.parent.elementPath;
@@ -178,7 +180,7 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
     this.selectedChoice = choiceIDs[0];
     this.config.choiceElementIdentifiers = choiceIDs;
 
-    for (var i = 0; i < conf.minOccurs; i++) {
+    for (let i = 0; i < conf.minOccurs; i++) {
       this.addSibling();
     }
   }
@@ -187,7 +189,7 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
 
     this.creator = root;
     this.parent = parentObj;
-    let choiceIDs = [];
+    const choiceIDs = [];
     this.topLevel = false;
     this.elementPath = this.parent.elementPath;
 

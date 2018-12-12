@@ -1,30 +1,3 @@
-<ng-template #schemaChoice let-c="close" let-d="dismiss">
-  <div class="modal-header" style="background-color: #E9ECEF">
-    <h4 class="modal-title">Select Schema Collection, File and Type</h4>
-    <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
-  </div>
-  <ngb-tabset>
-    <ngb-tab title="Pre Loaded">
-      <ng-template ngbTabContent>
-        <app-pre-loded></app-pre-loded>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Load Your Own">
-      <ng-template ngbTabContent>
-        <app-load-your-own></app-load-your-own>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Enter XSD">
-      <ng-template ngbTabContent>
-        <app-enter-xsd></app-enter-xsd>
-      </ng-template>
-    </ngb-tab>
-  </ngb-tabset>
-  <div class="modal-footer" style="background-color:#E9ECEF">
-    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
-  </div>
-</ng-template>
-
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header" style="background-color: #E9ECEF">
       <h4 class="modal-title" *ngIf="this.validateInProgress">Validating XML</h4>
@@ -52,11 +25,11 @@
           </svg><span class="ml-2">Menu</span></button>
           <div class="dropdown-menu" ngbDropdownMenu>
               <h6 class="dropdown-header">Load Schema</h6>
-              <button class="dropdown-item" (click)=" selectType(schemaChoice)">Pre Loaded</button>
-              <button class="dropdown-item" (click)=" selectType(schemaChoice)">Load Your Own Schema Files</button>
-              <button class="dropdown-item" (click)=" selectType(schemaChoice)">Enter XSD Directly</button>
+              <button class="dropdown-item" (click)=" selectType('pre')">Select a Pre Loaded Schema</button>
+              <button class="dropdown-item" (click)=" selectType('user')">Load Your Own Schema Files</button>
+              <button class="dropdown-item" (click)=" selectType('enter')">Enter XSD Directly</button>
               <div class="dropdown-divider"></div>
-              <button class="dropdown-item" (click)=" validate(content)">Validate Generated XML</button>
+              <button class="dropdown-item" (click)=" validate(content)">Validate the Generated XML</button>
 
             </div>
         </div>

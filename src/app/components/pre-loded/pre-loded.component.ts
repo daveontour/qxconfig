@@ -2,7 +2,7 @@ import { Globals } from './../../services/globals';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Messenger } from './../../services/messenger';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 
 @Component({
   selector: 'app-pre-loded',
@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pre-loded.component.scss']
 })
 export class PreLodedComponent implements OnInit {
+  @ViewChild('schemaChoice', { read: ViewContainerRef }) content;
 
   Caption = [];
   selectedFiles = [];
@@ -25,7 +26,6 @@ export class PreLodedComponent implements OnInit {
   selectedFile: string;
   selectedType: string;
   selectionMethod = 'preload';
-
 
   constructor(
     public messenger: Messenger,
@@ -108,7 +108,8 @@ export class PreLodedComponent implements OnInit {
     },
       (err: HttpErrorResponse) => {
         this.messenger.setStatus('File Selection Failure');
-        this.global.openModalAlert('Schema File Selection Error', 'There was an error selecting the file. Unable to retrieve types from schema');
+        this.global.openModalAlert('Schema File Selection Error',
+        'There was an error selecting the file. Unable to retrieve types from schema');
         if (err.error instanceof Error) {
           console.log('An error occurred:', err.error.message);
         } else {
@@ -118,6 +119,8 @@ export class PreLodedComponent implements OnInit {
   }
 
   changeType() {
+    this.schemaTypes = [];
+    this.global.selectedType = this.selectedType;
     this.messenger.setType(this.selectedType);
     this.messenger.announceMission(this.global.baseURL + '?op=getType' +
       '&schema=' + this.selectedCollection +
@@ -125,6 +128,13 @@ export class PreLodedComponent implements OnInit {
       '&type=' + this.selectedType +
       '&sessionID=' + this.global.sessionID +
       '&selectionMethod=' + this.selectionMethod);
+    this.modalService.dismissAll();
+  }
+
+  c(reason) {
+    this.modalService.dismissAll();
+  }
+  d(reason) {
     this.modalService.dismissAll();
   }
 }
