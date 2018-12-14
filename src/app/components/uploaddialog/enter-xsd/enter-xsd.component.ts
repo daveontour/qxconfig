@@ -1,10 +1,10 @@
 import { PreLodedComponent } from './../pre-loded/pre-loded.component';
-import { Globals } from './../../services/globals';
+import { Globals } from './../../../services/globals';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpEvent, HttpEventType, HttpRequest, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Messenger } from './../../services/messenger';
-import { PostEvent, UploadStatus } from './..//../interfaces/interfaces';
+import { Messenger } from './../../../services/messenger';
+import { PostEvent, UploadStatus } from './../../../interfaces/interfaces';
 
 @Component({
   selector: 'app-enter-xsd',

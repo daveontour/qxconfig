@@ -1,4 +1,4 @@
-import { NgbdModalContentComponent } from './../components/ngbd-modal-content/ngbd-modal-content.component';
+import { GenericAlertComponent } from './../components/utils/genericalert/generic-alert.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Injectable} from '@angular/core';
 
@@ -38,7 +38,7 @@ export class Globals {
   }
 
   public openModalAlert(title: string, message: string) {
-    const modalRef = this.modalService.open(NgbdModalContentComponent);
+    const modalRef = this.modalService.open(GenericAlertComponent);
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
   }

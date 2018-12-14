@@ -1,3 +1,4 @@
+import { GenericAlertComponent } from './components/utils/genericalert/generic-alert.component';
 import { XSGMonthDayComponent } from './controls/xsgMonthDay/gMonthDay.component';
 import { XSGMonthComponent } from './controls/xsgMonth/gMonth.component';
 import { XSNumberComponent } from './controls/xsnumber/xsnumber.component';
@@ -41,11 +42,10 @@ import { OwlCheckBoxModule, OwlFormFieldModule, OwlSwitchModule, OwlInputModule}
 import { OwlBadgeModule, OwlAccordionModule} from 'owl-ng';
 import { Messenger } from './services/messenger';
 import { TopmenuComponent } from './components/topmenu/topmenu.component';
-import { CustomUploaderComponent } from './components/custom-uploader/custom-uploader.component';
-import { PreLodedComponent } from './components/pre-loded/pre-loded.component';
-import { LoadYourOwnComponent } from './components/load-your-own/load-your-own.component';
-import { EnterXSDComponent } from './components/enter-xsd/enter-xsd.component';
-import { NgbdModalContentComponent } from './components/ngbd-modal-content/ngbd-modal-content.component';
+import { PreLodedComponent } from './components/uploaddialog/pre-loded/pre-loded.component';
+import { LoadYourOwnComponent } from './components/uploaddialog/load-your-own/load-your-own.component';
+import { EnterXSDComponent } from './components/uploaddialog/enter-xsd/enter-xsd.component';
+
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -89,11 +89,10 @@ export const MY_MOMENT_FORMATS = {
     XSNumberComponent,
     XSGMonthDayComponent,
     TopmenuComponent,
-    CustomUploaderComponent,
     PreLodedComponent,
     LoadYourOwnComponent,
     EnterXSDComponent,
-    NgbdModalContentComponent
+    GenericAlertComponent
   ],
   imports: [
     BrowserModule,
@@ -142,10 +141,10 @@ export const MY_MOMENT_FORMATS = {
     XSGMonthComponent,
     XSGMonthDayComponent,
     XSNumberComponent,
-    NgbdModalContentComponent,
     PreLodedComponent,
     LoadYourOwnComponent,
-    EnterXSDComponent
+    EnterXSDComponent,
+    GenericAlertComponent
   ]
 })
 export class AppModule { }

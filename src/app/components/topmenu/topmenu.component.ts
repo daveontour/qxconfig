@@ -1,7 +1,6 @@
-import { EnterXSDComponent } from './../enter-xsd/enter-xsd.component';
-import { LoadYourOwnComponent } from './../load-your-own/load-your-own.component';
-import { PreLodedComponent } from './../pre-loded/pre-loded.component';
-import { NgbdModalContentComponent } from './../ngbd-modal-content/ngbd-modal-content.component';
+import { EnterXSDComponent } from './../uploaddialog/enter-xsd/enter-xsd.component';
+import { LoadYourOwnComponent } from './../uploaddialog/load-your-own/load-your-own.component';
+import { PreLodedComponent } from './../uploaddialog/pre-loded/pre-loded.component';
 import { Subscription } from 'rxjs';
 import { Globals } from './../../services/globals';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
@@ -9,8 +8,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Messenger } from './../../services/messenger';
 import { Component, OnInit, ViewChild, ViewContainerRef, AfterContentInit, AfterViewInit } from '@angular/core';
 import { ValidationResult } from './../../interfaces/interfaces';
-
-
 
 @Component({
   selector: 'app-topmenu',

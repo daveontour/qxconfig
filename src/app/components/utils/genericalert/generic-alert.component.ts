@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import { Title } from '@angular/platform-browser';
+
 
 @Component({
-  selector: 'app-ngbd-modal-content',
+  selector: 'app-generic-alert',
   template: `
     <div class="modal-header">
       <h4 class="modal-title">{{title}}</h4>
@@ -19,7 +19,7 @@ import { Title } from '@angular/platform-browser';
     </div>
   `
 })
-export class NgbdModalContentComponent {
+export class GenericAlertComponent {
   @Input() message;
   @Input() title;
 

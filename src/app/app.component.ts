@@ -1,4 +1,3 @@
-import { NgbdModalContentComponent } from './components/ngbd-modal-content/ngbd-modal-content.component';
 import { Messenger } from './services/messenger';
 import { ChoiceComponent } from './components/choice/choice.component';
 import { Globals } from './services/globals';
