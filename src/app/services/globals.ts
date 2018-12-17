@@ -5,8 +5,17 @@ import { Injectable} from '@angular/core';
 
 @Injectable()
 export class Globals {
-  baseURL = 'http://localhost:8080/XSD_Forms/json';
-  baseURLValidate = 'http://localhost:8080/XSD_Forms/validate';
+
+  /**
+  * The Jenkins job that deploys the package has a build step
+  * that uses SED to edit this file to replace the below two
+  *  parameters with relative parameters
+  */
+
+  baseURL = 'http://localhost:8080/XSD2XML/json';
+  baseURLValidate = 'http://localhost:8080/XSD2XML/validate';
+ 
+
   xmlMessage = '';
   sampleXMLMessage = '';
   XMLMessage = '';
@@ -27,7 +36,6 @@ export class Globals {
   }
 
   getString() {
-    debugger;
     this.alerts = '';
     this.formatErrors = [];
     this.elementsUndefined = [];
