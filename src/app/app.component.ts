@@ -83,6 +83,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     );
     this.homeSub = messenger.home$.subscribe(
       data => {
+        this.global.XMLMessage = "";
         this.getContainer().clear();
         const factory = this.resolver.resolveComponentFactory(IntroTextComponent);
         const newObjRef = this.getContainer().createComponent(factory).instance;
