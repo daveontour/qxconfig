@@ -173,6 +173,9 @@ export class TopmenuComponent implements OnInit, AfterViewInit, AfterContentInit
     }
   }
 
+  goHome() {
+    this.messenger.goHome();
+  }
 
   validate(content) {
 

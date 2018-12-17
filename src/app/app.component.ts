@@ -1,3 +1,4 @@
+import { IntroTextComponent } from './components/intro-text/intro-text.component';
 import { Messenger } from './services/messenger';
 import { ChoiceComponent } from './components/choice/choice.component';
 import { Globals } from './services/globals';
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   private schemaFileSub: Subscription;
   private typeSub: Subscription;
   private statusSub: Subscription;
+  private homeSub: Subscription;
   schema = '-';
   schemaFile = '-';
   type = '-';
@@ -79,6 +81,14 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
         this.status = data;
       }
     );
+    this.homeSub = messenger.home$.subscribe(
+      data => {
+        this.getContainer().clear();
+        const factory = this.resolver.resolveComponentFactory(IntroTextComponent);
+        const newObjRef = this.getContainer().createComponent(factory).instance;
+      }
+    );
+
   }
 
   public getContainer() {
@@ -97,17 +107,20 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   ngAfterViewInit(): void {
 
-    const initURL = this.global.baseURL + '?op=getType&schema=AIDX18.1&file=IATA_AIDX_FlightLegNotifRQ.xsd' +
-      '&type=IATA_AIDX_FlightLegNotifRQ&sessionID=new&selectionMethod=preload';
-    this.retrieveData(initURL);
-    this.messenger.setSchema('AIDX18.1');
-    this.messenger.setSchemaFile('IATA_AIDX_FlightLegNotifRQ.xsd');
-    this.messenger.setType('IATA_AIDX_FlightLegNotifRQ');
-    this.messenger.setStatus('Retrieving Schema');
+    const factory = this.resolver.resolveComponentFactory(IntroTextComponent);
+    const newObjRef = this.getContainer().createComponent(factory).instance;
 
-    this.global.selectedSchema = 'AIDX18.1';
-    this.global.sessionID = 'new';
-    this.global.selectionMethod = 'preload';
+    // const initURL = this.global.baseURL + '?op=getType&schema=AIDX18.1&file=IATA_AIDX_FlightLegNotifRQ.xsd' +
+    //   '&type=IATA_AIDX_FlightLegNotifRQ&sessionID=new&selectionMethod=preload';
+    // this.retrieveData(initURL);
+    // this.messenger.setSchema('AIDX18.1');
+    // this.messenger.setSchemaFile('IATA_AIDX_FlightLegNotifRQ.xsd');
+    // this.messenger.setType('IATA_AIDX_FlightLegNotifRQ');
+    // this.messenger.setStatus('Retrieving Schema');
+
+    // this.global.selectedSchema = 'AIDX18.1';
+    // this.global.sessionID = 'new';
+    // this.global.selectionMethod = 'preload';
 
   }
 

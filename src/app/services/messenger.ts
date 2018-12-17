@@ -12,6 +12,8 @@ export class Messenger {
     private announceSchemaFile = new Subject<string>();
     private announceType = new Subject<string>();
     private announceStatus = new Subject<string>();
+    private announceGoHome = new Subject<string>();
+
 
     // Observable string streams
     missionAnnounced$ = this.missionAnnouncedSource.asObservable();
@@ -21,6 +23,8 @@ export class Messenger {
     schemaFile$ = this.announceSchemaFile.asObservable();
     type$ = this.announceType.asObservable();
     status$ = this.announceStatus.asObservable();
+    home$ = this.announceGoHome.asObservable();
+
     // Service message commands
     announceMission(mission: string) {
       this.missionAnnouncedSource.next(mission);
@@ -45,6 +49,9 @@ export class Messenger {
     }
     setStatus(string: string) {
       this.announceStatus.next(string);
+    }
+    goHome() {
+      this.announceGoHome.next('goHome');
     }
 
 }

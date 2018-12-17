@@ -45,6 +45,7 @@ import { TopmenuComponent } from './components/topmenu/topmenu.component';
 import { PreLodedComponent } from './components/uploaddialog/pre-loded/pre-loded.component';
 import { LoadYourOwnComponent } from './components/uploaddialog/load-your-own/load-your-own.component';
 import { EnterXSDComponent } from './components/uploaddialog/enter-xsd/enter-xsd.component';
+import { IntroTextComponent } from './components/intro-text/intro-text.component';
 
 
 
@@ -92,7 +93,8 @@ export const MY_MOMENT_FORMATS = {
     PreLodedComponent,
     LoadYourOwnComponent,
     EnterXSDComponent,
-    GenericAlertComponent
+    GenericAlertComponent,
+    IntroTextComponent
   ],
   imports: [
     BrowserModule,
@@ -144,7 +146,8 @@ export const MY_MOMENT_FORMATS = {
     PreLodedComponent,
     LoadYourOwnComponent,
     EnterXSDComponent,
-    GenericAlertComponent
+    GenericAlertComponent,
+    IntroTextComponent
   ]
 })
 export class AppModule { }

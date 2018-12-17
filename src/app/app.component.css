@@ -98,3 +98,12 @@
     top: 0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
   }
+
+  .quayfooter {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    height:25px;
+  }
