@@ -5,10 +5,7 @@ import { Injectable} from '@angular/core';
 
 @Injectable()
 export class Globals {
-  // baseURL: string = 'http://aidx.quaysystems.com.au';
-// baseURL = 'http://localhost:8080/XSD_Forms/json';
-//  baseURL = 'http://aidx.quaysystems.com.au:8081/XSDXML/json';
-  baseURL = './json';
+  baseURL = 'http://localhost:8080/XSD_Forms/json';
   baseURLValidate = 'http://localhost:8080/XSD_Forms/validate';
   xmlMessage = '';
   sampleXMLMessage = '';
