@@ -1,40 +1,32 @@
-<div style="height: calc(100vh - 25px);overflow-x: hidden">
-  <jqxSplitter [width]="'100%'" [height]="'100%'" [showSplitBar]="false" [orientation]="'horizontal'" [panels]="[{ size: 50, min: 50, collapsible:false},{ collapsible: false }]">
-    <div class="outer">
-      <div id="TopWindow" class="header middle">
-        <app-topmenu></app-topmenu>
-        <!-- <div class="float-left pl-4" style="font-size: 18px; font-weight: 400; font-family: Verdana, Geneva, Tahoma, sans-serif">
-          XSD to XML - Generate XML documents directly from the defining XSD</div> -->
-      </div>
-    </div>
-    <div id="BotomWindow" style="overflow-y:hidden">
+<div class="holder">
+  <div class="top"><app-topmenu></app-topmenu></div>  
+  <div class="middle">
+
       <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'vertical'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
-        <div style="overflow-y:hidden">
-          <div id='FormWindow' style="overflow-y:scroll; height: 100%;">
-            <template #container></template>
-            <template #siblings></template>
+          <div style="overflow-y:hidden">
+            <div id='FormWindow' style="overflow-y:scroll; height: 100%;">
+              <template #container></template>
+              <template #siblings></template>
+            </div>
           </div>
-        </div>
-        <div id='second' style="overflow-y:scroll">
-          <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
-            <div id="GeneratedWindow" style="overflow-y:scroll">
-              <div style="height:100%" class="border border-secondary">
-                <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
-                  style="min-height: 100%; width:100%;"></ace-editor>
+          <div id='second' style="height:100%">
+            <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
+              <div id="GeneratedWindow" style="overflow-y:scroll">
+                <div style="height:100%" class="border border-secondary">
+                  <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
+                    style="min-height: 100%; width:100%;"></ace-editor>
+                </div>
               </div>
-            </div>
-            <div id="AlertsWindow" style="overflow-y:scroll;">
-              <app-alertswindow></app-alertswindow>
-            </div>
-          </jqxSplitter>
-        </div>
-      </jqxSplitter>
-    </div>
-  </jqxSplitter>
-  <div id="StatusWindow2" class="quayfooter">
-    <div class='outer border border-secondary' style="border-color:#C7C7C7 !important;background-color: #333; height:100%">
-      <div class="middle pl-4" style="font-size: 0.75em;color:#f2f2f2"><b>Schema:</b> {{schema}} <b>Schema File:</b>
-        {{schemaFile}} <b>Type or Element:</b> {{type}} <b>Status:</b> <span [ngClass]="{'wait':wait}"> {{status}}</span></div>
-    </div>
+              <div id="AlertsWindow" style="overflow-y:scroll;">
+                <app-alertswindow></app-alertswindow>
+              </div>
+            </jqxSplitter>
+          </div>
+        </jqxSplitter>
+
+  </div>  
+  <div class="bottom"> 
+      <div class="pl-4" style="padding-top:2px;height:100%;background-color:#333;font-size: 0.75em;color:#f2f2f2">Schema: {{schema}} Schema File:
+        {{schemaFile}} Type or Element: {{type}} Status: <span [ngClass]="{'wait':wait}"> {{status}}</span></div>
   </div>
 </div>
