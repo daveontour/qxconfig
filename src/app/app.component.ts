@@ -32,9 +32,13 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   private typeSub: Subscription;
   private statusSub: Subscription;
   private homeSub: Subscription;
+  private dismissSub: Subscription;
   schema = '-';
+  prevSchema = '-';
   schemaFile = '-';
+  prevScehmaFile = '-';
   type = '-';
+  prevType = '-';
   status = 'Ready';
   wait = false;
 
@@ -60,18 +64,21 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     );
     this.schemaSub = messenger.schema$.subscribe(
       data => {
+        this.prevSchema = this.schema;
         this.schema = data;
       }
     );
 
     this.schemaFileSub = messenger.schemaFile$.subscribe(
       data => {
+        this.prevScehmaFile = this.schemaFile;
         this.schemaFile = data;
       }
     );
 
     this.typeSub = messenger.type$.subscribe(
       data => {
+        this.prevType = this.type;
         this.type = data;
       }
     );
@@ -83,10 +90,33 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     );
     this.homeSub = messenger.home$.subscribe(
       data => {
-        this.global.XMLMessage = "";
+        this.global.XMLMessage = '';
+        this.global.elementsUndefined = [];
+        this.global.attributesUndefined = [];
+        this.global.formatErrors = [];
         this.getContainer().clear();
+        this.schema = '-';
+        this.schemaFile = '-';
+        this.type = '-';
+        this.status = 'Ready';
         const factory = this.resolver.resolveComponentFactory(IntroTextComponent);
         const newObjRef = this.getContainer().createComponent(factory).instance;
+      }
+    );
+
+    this.dismissSub = messenger.dismiss$.subscribe(
+      data => {
+        // this.global.XMLMessage = '';
+        // this.global.elementsUndefined = [];
+        // this.global.attributesUndefined = [];
+        // this.global.formatErrors = [];
+        // this.getContainer().clear();
+        this.schema = this.prevSchema;
+        this.schemaFile = this.prevScehmaFile;
+        this.type = this.prevType;
+        this.status = 'Ready';
+        // const factory = this.resolver.resolveComponentFactory(IntroTextComponent);
+        // const newObjRef = this.getContainer().createComponent(factory).instance;
       }
     );
 

@@ -151,7 +151,7 @@ export class TopmenuComponent implements OnInit, AfterViewInit, AfterContentInit
     switch (method) {
       case 'pre':
         try {
-          this.modalService.open(PreLodedComponent, { centered: true, size: 'sm' });
+          this.modalService.open(PreLodedComponent, { centered: true, size: 'lg' });
         } catch (e) {
           console.log(e);
         }

@@ -1,32 +1,34 @@
 <div class="holder">
-  <div class="top"><app-topmenu></app-topmenu></div>  
+  <div class="top">
+    <app-topmenu></app-topmenu>
+  </div>
   <div class="middle">
-
-      <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'vertical'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
-          <div style="overflow-y:hidden">
-            <div id='FormWindow' style="overflow-y:scroll; height: 100%;">
-              <template #container></template>
-              <template #siblings></template>
-            </div>
+    <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'vertical'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
+      <div style="overflow-y:hidden">
+        <div id='FormWindow' style="overflow-y:scroll; height: 100%;">
+          <template #container></template>
+          <template #siblings></template>
+        </div>
+      </div>
+      <div>
+      <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
+        <div id="GeneratedWindow" style="overflow-y:scroll">
+          <div style="height:100%" class="border border-secondary">
+            <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
+              style="min-height: 100%; width:100%;"></ace-editor>
           </div>
-          <div id='second' style="height:100%">
-            <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
-              <div id="GeneratedWindow" style="overflow-y:scroll">
-                <div style="height:100%" class="border border-secondary">
-                  <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
-                    style="min-height: 100%; width:100%;"></ace-editor>
-                </div>
-              </div>
-              <div id="AlertsWindow" style="overflow-y:scroll;">
-                <app-alertswindow></app-alertswindow>
-              </div>
-            </jqxSplitter>
-          </div>
-        </jqxSplitter>
-
-  </div>  
-  <div class="bottom"> 
-      <div class="pl-4" style="padding-top:2px;height:100%;background-color:#333;font-size: 0.75em;color:#f2f2f2">Schema: {{schema}} Schema File:
-        {{schemaFile}} Type or Element: {{type}} Status: <span [ngClass]="{'wait':wait}"> {{status}}</span></div>
+        </div>
+        <div id="AlertsWindow" style="overflow-y:scroll;">
+          <app-alertswindow></app-alertswindow>
+        </div>
+      </jqxSplitter>
+    </div>
+    </jqxSplitter>
+  </div>
+  <div class="bottom">
+      <div class="title">Schema: </div><div class="value">{{schema}}</div>
+      <div class="title">Schema File:</div><div class="value">{{schemaFile}}</div> 
+      <div class="title">Type or Element: </div><div class="value">{{type}}</div> 
+      <div class="title">Status: </div><div [ngClass]="{'value':true,'wait':wait}">{{status}}</div>
   </div>
 </div>

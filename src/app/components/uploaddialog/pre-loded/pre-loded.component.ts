@@ -133,9 +133,11 @@ export class PreLodedComponent implements OnInit {
 
   c(reason) {
     this.modalService.dismissAll();
+    this.messenger.dismiss();
   }
   d(reason) {
     this.modalService.dismissAll();
+    this.messenger.dismiss();
   }
 }
 
