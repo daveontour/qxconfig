@@ -12,8 +12,8 @@
   <div class="form-row" style="clear:both">
     <div class="col">
       <label for="schemaType3A" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null}">Step 2a: Select Element</label>
-      <select id="schemaType3A" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedElements" (change)="this.changeType()" class="form-control">
-        <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
+      <select id="schemaType3A" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedTypes" (change)="this.changeType()" class="form-control">
+        <option [value]="item" *ngFor="let item of this.schemaElements">{{item}}</option>
       </select>
       </div>
       <div class="col">
