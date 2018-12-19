@@ -22,6 +22,7 @@ export class PreLodedComponent implements OnInit {
   schemaCollections: string[];
   schemaFiles: string[];
   schemaTypes: string[];
+  schemaElements: string[];
   selectedCollection: string;
   selectedFile: string;
   selectedType: string;
@@ -65,6 +66,7 @@ export class PreLodedComponent implements OnInit {
     this.global.selectedSchema = this.selectedCollection;
     this.schemaFiles = [];
     this.schemaTypes = [];
+    this.schemaElements = [];
     this.selectedFile = null;
     this.selectedType = null;
 
@@ -87,6 +89,7 @@ export class PreLodedComponent implements OnInit {
 
   changeFile() {
     this.schemaTypes = [];
+    this.schemaElements = [];
     this.selectedType = null;
     if (this.selectionMethod === 'enterxsd') {
       this.messenger.setSchemaFile('User Uploaded');
@@ -94,16 +97,17 @@ export class PreLodedComponent implements OnInit {
       this.messenger.setSchemaFile(this.selectedFile);
     }
 
-    this.http.get<string[]>(this.global.baseURL + '?op=getSchemaTypes' +
+    this.http.get<ElementAndTypes>(this.global.baseURL + '?op=getSchemaTypes' +
       '&schema=' + this.selectedCollection +
       '&file=' + this.selectedFile +
       '&sessionID=' + this.global.sessionID +
       '&selectionMethod=' + this.selectionMethod
     ).subscribe(data => {
 
-      this.schemaTypes = data;
-      if (this.schemaTypes.length === 0) {
-        alert('No Types wer found');
+      this.schemaTypes = data.types;
+      this.schemaElements = data.elements;
+      if (this.schemaTypes.length === 0  && this.schemaElements.length === 0) {
+        alert('No Elements or Types were found');
       }
     },
       (err: HttpErrorResponse) => {
@@ -141,5 +145,10 @@ export class PreLodedComponent implements OnInit {
     this.modalService.dismissAll();
     this.messenger.dismiss();
   }
+}
+
+interface ElementAndTypes {
+  elements: string[];
+  types: string[];
 }
 

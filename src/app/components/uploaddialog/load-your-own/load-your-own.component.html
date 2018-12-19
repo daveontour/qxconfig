@@ -37,7 +37,7 @@
         4a: Select Element</label>
       <select id="schemaTypeA" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
         [ngClass]="{'form-control':true}">
-        <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
+        <option [value]="item" *ngFor="let item of this.schemaElements">{{item}}</option>
       </select>
     </div>
     <div class="col">
