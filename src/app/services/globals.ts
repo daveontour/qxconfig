@@ -14,6 +14,8 @@ export class Globals {
 
   baseURL = 'http://localhost:8080/XSD2XML/json';
   baseURLValidate = 'http://localhost:8080/XSD2XML/validate';
+  baseURLUploadEntered = 'http://localhost:8080/XSD_Forms/upload?uploadType=enteredxsd&sessionID=';
+  baseURLUploadFiles = 'http://localhost:8080/XSD_Forms/upload?uploadType=files&sessionID=';
  
 
   xmlMessage = '';

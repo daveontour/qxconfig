@@ -11,24 +11,28 @@
         </div>
       </div>
       <div>
-      <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
-        <div id="GeneratedWindow" style="overflow-y:scroll">
-          <div style="height:100%" class="border border-secondary">
-            <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
-              style="min-height: 100%; width:100%;"></ace-editor>
+        <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
+          <div id="GeneratedWindow" style="overflow-y:scroll">
+            <div style="height:100%" class="border border-secondary">
+              <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
+                style="min-height: 100%; width:100%;"></ace-editor>
+            </div>
           </div>
-        </div>
-        <div id="AlertsWindow" style="overflow-y:scroll;">
-          <app-alertswindow></app-alertswindow>
-        </div>
-      </jqxSplitter>
-    </div>
+          <div id="AlertsWindow" style="overflow-y:scroll;">
+            <app-alertswindow></app-alertswindow>
+          </div>
+        </jqxSplitter>
+      </div>
     </jqxSplitter>
   </div>
   <div class="bottom">
-      <div class="title">Schema: </div><div class="value">{{schema}}</div>
-      <div class="title">Schema File:</div><div class="value">{{schemaFile}}</div> 
-      <div class="title">Type or Element: </div><div class="value">{{type}}</div> 
-      <div class="title">Status: </div><div [ngClass]="{'value':true,'wait':wait}">{{status}}</div>
+    <div class="title">Schema: </div>
+    <div class="value">{{schema}}</div>
+    <div class="title">Schema File:</div>
+    <div class="value">{{schemaFile}}</div>
+    <div class="title">Type or Element: </div>
+    <div class="value">{{type}}</div>
+    <div class="title">Status: </div>
+    <div [ngClass]="{'value':true,'wait':wait}">{{status}}</div>
   </div>
 </div>

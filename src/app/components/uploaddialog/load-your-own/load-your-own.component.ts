@@ -1,10 +1,10 @@
 import { PreLodedComponent } from './../pre-loded/pre-loded.component';
 import { Globals } from './../../../services/globals';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpEvent, HttpEventType, HttpRequest, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpEventType, HttpRequest } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Messenger } from './../../../services/messenger';
-import { PostEvent, UploadStatus } from './../../../interfaces/interfaces';
+import { PostEvent } from './../../../interfaces/interfaces';
 
 
 @Component({
@@ -20,7 +20,7 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
   afterUpload: boolean;
   multiple = true;
   maxSize = 20;
-  selectionMethod =  'loadyourown';
+  selectionMethod = 'loadyourown';
   percentComplete = 0;
 
   constructor(
@@ -28,8 +28,8 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
     public http: HttpClient,
     public modalService: NgbModal,
     public global: Globals) {
-      super(messenger, http, modalService, global);
-     }
+    super(messenger, http, modalService, global);
+  }
 
   ngOnInit() {
   }
@@ -80,7 +80,7 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
 
     const request = new HttpRequest(
       'POST',
-      'http://localhost:8080/XSD_Forms/upload?uploadType=files&sessionID=' + this.global.sessionID,
+      this.global.baseURLUploadFiles + this.global.sessionID,
       formData,
       {
         headers: new HttpHeaders({
@@ -93,7 +93,6 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
     this.http.request<PostEvent>(request)
       .subscribe(
         event => {
-
           if (event.type === HttpEventType.DownloadProgress) {
             this.percentComplete = 100 * Math.round(event.loaded / event.total);
             this.messenger.setStatus('Uploading Files ' + this.percentComplete + '% Complete');
@@ -103,7 +102,7 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
           if (event.type === HttpEventType.UploadProgress) {
             this.percentComplete = 100 * Math.round(event.loaded / event.total);
             this.messenger.setStatus('Uploading Files ' + this.percentComplete + '% Complete');
-             console.log('Upload progress event', event);
+            console.log('Upload progress event', event);
           }
 
           if (event.type === HttpEventType.Response) {
@@ -129,4 +128,3 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
       );
   }
 }
-

@@ -37,7 +37,7 @@ export class EnterXSDComponent extends PreLodedComponent implements OnInit {
     this.global.selectionMethod = this.selectionMethod;
     const request = new HttpRequest(
       'POST',
-      'http://localhost:8080/XSD_Forms/upload?uploadType=enteredxsd&sessionID=' + this.global.sessionID,
+      this.global.baseURLUploadEntered + this.global.sessionID,
       this.enteredXSD,
       {
         headers: new HttpHeaders({

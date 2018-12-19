@@ -119,6 +119,9 @@ export class PreLodedComponent implements OnInit {
   }
 
   changeType() {
+
+    this.modalService.dismissAll();
+
     this.schemaTypes = [];
     this.global.selectedType = this.selectedType;
     this.messenger.setType(this.selectedType);
@@ -128,7 +131,6 @@ export class PreLodedComponent implements OnInit {
       '&type=' + this.selectedType +
       '&sessionID=' + this.global.sessionID +
       '&selectionMethod=' + this.selectionMethod);
-    this.modalService.dismissAll();
   }
 
   c(reason) {
