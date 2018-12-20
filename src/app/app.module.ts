@@ -13,7 +13,7 @@ import { XSIntegerComponent } from './controls/xsinteger/xsinteger.component';
 import { BaseComponent } from './controls/base/base.component';
 import { XSBooleanComponent } from './controls/xsboolean/xsboolean.component';
 import { EnumListComponent } from './controls/enumlist/enumlist.component';
-import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -46,6 +46,8 @@ import { PreLodedComponent } from './components/uploaddialog/pre-loded/pre-loded
 import { LoadYourOwnComponent } from './components/uploaddialog/load-your-own/load-your-own.component';
 import { EnterXSDComponent } from './components/uploaddialog/enter-xsd/enter-xsd.component';
 import { IntroTextComponent } from './components/intro-text/intro-text.component';
+import { SettingsComponent } from './components/utils/settings/settings.component';
+import { ValidateComponent } from './components/utils/validate/validate.component';
 
 
 
@@ -94,7 +96,9 @@ export const MY_MOMENT_FORMATS = {
     LoadYourOwnComponent,
     EnterXSDComponent,
     GenericAlertComponent,
-    IntroTextComponent
+    IntroTextComponent,
+    SettingsComponent,
+    ValidateComponent
   ],
   imports: [
     BrowserModule,
@@ -115,6 +119,7 @@ export const MY_MOMENT_FORMATS = {
   providers: [
     Globals,
     Messenger,
+    NgbPopoverConfig,
     WidgetFactory,
     {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
   ],
@@ -147,7 +152,9 @@ export const MY_MOMENT_FORMATS = {
     LoadYourOwnComponent,
     EnterXSDComponent,
     GenericAlertComponent,
-    IntroTextComponent
+    IntroTextComponent,
+    SettingsComponent,
+    ValidateComponent
   ]
 })
 export class AppModule { }

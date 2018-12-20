@@ -1,25 +1,9 @@
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header" style="background-color: #E9ECEF">
-    <h4 class="modal-title" *ngIf="this.validateInProgress">Validating XML</h4>
-    <h4 class="modal-title" *ngIf="!this.validateInProgress && this.validationStatus">Valid XML</h4>
-    <h4 class="modal-title" *ngIf="!this.validateInProgress && !this.validationStatus">Invalid XML</h4>
-  </div>
-  <div [ngClass]="{'modal-body': true, 'loading':this.validateInProgress, 'valid':!this.validateInProgress && this.validationStatus, 'invalid':!this.validateInProgress && !this.validationStatus}">
-    <p>{{validationMessage}}</p>
-  </div>
-  <div class="modal-footer" style="background-color:#E9ECEF">
-    <div>
-      <p>{{supplementalMsg}}</p>
-    </div>
-    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
-  </div>
-</ng-template>
-
 <div class="pt-1 pb-1 navbarquay">
   <a (click)="goHome()">Home</a>
   <a (click)="selectType('pre')">Select Schema</a>
   <a (click)="selectType('user')">Load Schema</a>
   <a (click)="selectType('enter')">Enter Schema</a>
   <a (click)="validate(content)">Validate XML</a>
+  <a class ="ml-4 mr-2" style="float:right"  (click)="settings()">Settings</a>
   <a (click)="goHome()" class="title">XSD2XML - Build XML from XSD Definition</a>
 </div>

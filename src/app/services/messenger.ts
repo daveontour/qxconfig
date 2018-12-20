@@ -14,6 +14,7 @@ export class Messenger {
     private announceStatus = new Subject<string>();
     private announceGoHome = new Subject<string>();
     private announceDismiss = new Subject<string>();
+    private announceTrigger = new Subject<string>();
 
     // Observable string streams
     missionAnnounced$ = this.missionAnnouncedSource.asObservable();
@@ -25,6 +26,7 @@ export class Messenger {
     status$ = this.announceStatus.asObservable();
     home$ = this.announceGoHome.asObservable();
     dismiss$ = this.announceDismiss.asObservable();
+    triggers$ = this.announceTrigger.asObservable();
 
     // Service message commands
     announceMission(mission: string) {
@@ -56,6 +58,9 @@ export class Messenger {
     }
     dismiss() {
       this.announceDismiss.next();
+    }
+    setPopoverTrigger(trigger) {
+      this.announceTrigger.next(trigger);
     }
 
 }

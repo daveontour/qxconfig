@@ -8,7 +8,7 @@
     <div class="col-md-6">
       <label [ngClass]="{'form-check-label':true, 'simple-label':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}"
         (click)="isCollapsed = !isCollapsed" style="color:#930F80;margin-bottom:initial;display: initial !important;font-weight: 100"
-        placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="{{config.name}}">{{config.name}}
+        placement="right" [ngbPopover]="popContent" popoverTitle="{{config.name}}">{{config.name}}
 
         <!-- The Attributes Badge-->
         <owl-badge class="badgeRed" *ngIf="hasRequiredAttributes() && isCollapsed" [size]="'medium'" [style.top]="'-3px'"

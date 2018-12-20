@@ -1,6 +1,9 @@
+import { Messenger } from './../../services/messenger';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { WidgetFactory } from './../../services/widgetfactory';
 import { Globals } from '../../services/globals';
 import { AttributeComponent } from '../attribute/attribute.component';
+import { Subscription } from 'rxjs';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectorRef, AfterViewInit } from '@angular/core';
@@ -24,15 +27,28 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
   public topLevel: boolean;
   public openTag: string;
   public closeTag: string;
+  private sub: Subscription;
+
 
 
   constructor(
+    public conf: NgbPopoverConfig,
     public resolver: ComponentFactoryResolver,
     public global: Globals,
     public widgetFactory: WidgetFactory,
+    private messenger: Messenger,
     private cdRef: ChangeDetectorRef) {
     super(resolver);
+    conf.triggers = global.triggers;
+
+    // this.sub = messenger.triggers$.subscribe(
+    //   triggers => {
+    //     console.log(triggers);
+    //     this.conf.triggers = triggers;
+    //   }
+    // );
   }
+
 
   showDeleteAction() {
     if (this.parent.siblings.length > this.config.minOccurs) {

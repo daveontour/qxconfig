@@ -8,12 +8,13 @@ import { ControlComponent } from '../control/control.component';
 
 @Component({
   selector: 'app-minmaxinclusive',
-  templateUrl: './minmaxinclusive.component.html'
+  templateUrl: './minmaxinclusive.component.html',
+  styleUrls: ['./minmaxinclusive.component.scss']
 })
 
 
 export class MinMaxInclusiveComponent extends ControlComponent {
-  num: number = 0;
+  num = 0;
 
   constructor(public resolver: ComponentFactoryResolver, public global: Globals) {
     super(resolver, global);
@@ -21,16 +22,17 @@ export class MinMaxInclusiveComponent extends ControlComponent {
 
   public setUpCommon() {
 
-    //Enable it for inclusive and exclussive use
-    if (typeof this.config.maxExclusive != "undefined") {
+    // Enable it for inclusive and exclussive use
+    if (typeof this.config.maxExclusive !== 'undefined') {
       this.config.maxInclusive = this.config.maxExclusive - 1;
     }
-    if (typeof this.config.minExclusive != "undefined") {
+    if (typeof this.config.minExclusive !== 'undefined') {
       this.config.minInclusive = this.config.minExclusive + 1;
     }
 
-    if (typeof this.config.modelDescription != 'undefined')
-      this.popOverContent = this.config.modelDescription + "\n" + this.popOverContent;
+    if (typeof this.config.modelDescription !== 'undefined') {
+      this.popOverContent = this.config.modelDescription + '\n' + this.popOverContent;
+    }
   }
 
   clickNum(step: number) {

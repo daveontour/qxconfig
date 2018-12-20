@@ -10,12 +10,14 @@ import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, } fro
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [NgbPopoverConfig]
 })
 export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   @ViewChild('container', { read: ViewContainerRef }) container;
@@ -55,7 +57,10 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     private http: HttpClient,
     public global: Globals,
     private cdRef: ChangeDetectorRef,
-    private messenger: Messenger) {
+    private messenger: Messenger,
+    public config: NgbPopoverConfig) {
+
+      config.triggers = 'triggers="mouseenter:mouseleave';
 
     this.subscription = messenger.missionAnnounced$.subscribe(
       mission => {

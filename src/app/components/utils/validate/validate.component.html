@@ -1,0 +1,14 @@
+<div class="modal-header" >
+  <h4 class="modal-title" *ngIf="this.validateInProgress">Validating XML</h4>
+  <h4 class="modal-title" *ngIf="!this.validateInProgress && this.validationStatus">Valid XML</h4>
+  <h4 class="modal-title" *ngIf="!this.validateInProgress && !this.validationStatus">Invalid XML</h4>
+</div>
+<div [ngClass]="{'modal-body': true, 'loading':this.validateInProgress, 'valid':!this.validateInProgress && this.validationStatus, 'invalid':!this.validateInProgress && !this.validationStatus}">
+  <p>{{validationMessage}}</p>
+</div>
+<div class="modal-footer">
+  <div>
+    <p>{{supplementalMsg}}</p>
+  </div>
+  <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+</div>

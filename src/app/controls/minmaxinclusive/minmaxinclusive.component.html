@@ -1,14 +1,14 @@
 <!-- The control -->
 <div class="input-group float-left" style="width: 200px">
-    <ng-template #popContent>{{this.config.modelDescription}}<br/></ng-template>
+  <ng-template #popContent>{{this.config.modelDescription}}<br /></ng-template>
   <span class="input-group-btn">
-    <button (click)='clickNum(-10)' data-dir="up" type="button"  style="background:#17A2B8;">
-      <img src="./assets/img/minus.svg" style="width: 0.45rem; height: 0.45rem; cursor: pointer;" />
-      <img src="./assets/img/minus.svg" style="width: 0.45rem; height: 0.45rem; cursor: pointer; margin-left:2px" />
+    <button (click)='clickNum(-10)' type="button">
+      <img src="./assets/img/minus.svg" />
+      <img src="./assets/img/minus.svg" style="margin-left:2px" />
     </button>
 
-    <button (click)='clickNum(-1)' data-dir="up" type="button" style="margin-left:1px; background:#17A2B8;">
-      <img src="./assets/img/minus.svg" style="width: 0.45rem; height: 0.45rem; cursor: pointer;" />
+    <button (click)='clickNum(-1)' type="button" style="margin-left:1px;">
+      <img src="./assets/img/minus.svg" />
     </button>
   </span>
 
@@ -16,14 +16,14 @@
     class="form-control text-center form-control-sm" [(ngModel)]="this.num" style="width:50px !important" (change)="this.change()"
     (onfocusout)="this.change()" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="Value Format">
 
-  <span class="input-group-btn data-up">
-    <button (click)='clickNum(1)' data-dir="up" type="button"  style="background:#17A2B8;">
-      <img src="./assets/img/plus.svg" style="width: 0.45rem; height: 0.45rem; cursor: pointer;" />
+  <span class="input-group-btn">
+    <button (click)='clickNum(1)' type="button">
+      <img src="./assets/img/plus.svg" />
     </button>
 
-    <button (click)='clickNum(10)' data-dir="up" type="button" style="margin-left:1px; background:#17A2B8;">
-      <img src="./assets/img/plus.svg" style="width: 0.45rem; height: 0.45rem; cursor: pointer;" />
-      <img src="./assets/img/plus.svg" style="width: 0.45rem; height: 0.45rem; cursor: pointer; margin-left:2px" />
+    <button (click)='clickNum(10)' type="button" style="margin-left:1px;">
+      <img src="./assets/img/plus.svg" />
+      <img src="./assets/img/plus.svg" style="margin-left:2px" />
     </button>
   </span>
 </div>

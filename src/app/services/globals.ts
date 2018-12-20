@@ -31,6 +31,7 @@ export class Globals {
   public selectedType: string;
   public sessionID = 'new';
   public selectionMethod: string;
+  public triggers = 'mouseenter:mouseleave';
   root: any;
 
   constructor(

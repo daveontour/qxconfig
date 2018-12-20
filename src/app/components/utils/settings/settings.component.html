@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <h4 class="modal-title">Settings</h4>
+  <button type="button" class="close" (click)="d('Cross click')"> </button>
+</div>
+
+<form class="pl-2 pr-2">
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+      <label class="form-check-label" for="defaultCheck1">
+        Generate sample random data when the element is enabled
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value=""  [(ngModel)]="popOver" (change)="change()" id="defaultCheck2" [ngModelOptions]="{standalone: true}">
+      <label class="form-check-label" for="defaultCheck2">
+        Disabled tooltips
+      </label>
+    </div>
+  </div>
+</form>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+</div>
