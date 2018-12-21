@@ -1,8 +1,11 @@
 import { WidgetFactory } from './../../services/widgetfactory';
 import { Globals } from '../../services/globals';
-import { Component} from '@angular/core';
-import { ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core'
-import { ItemConfig } from '../../interfaces/interfaces'
+import { Component } from '@angular/core';
+import { ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ItemConfig } from '../../interfaces/interfaces';
+import { Messenger } from './../../services/messenger';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-attribute',
@@ -11,37 +14,43 @@ import { ItemConfig } from '../../interfaces/interfaces'
 })
 export class AttributeComponent {
   // Reference to the place in the DOM to place the control
-  @ViewChild("control", { read: ViewContainerRef }) control;
+  @ViewChild('control', { read: ViewContainerRef }) control;
   controlRef: any;
   config: ItemConfig;
   id: string;
   factory: any;
   elementPath: string;
 
-  constructor(public resolver: ComponentFactoryResolver, public global:Globals, public widgetFactory: WidgetFactory) {
-  
-   }
+  constructor(
+    public conf: NgbPopoverConfig,
+    public resolver: ComponentFactoryResolver,
+    public global: Globals,
+    private messenger: Messenger,
+    public widgetFactory: WidgetFactory) {
 
-   change(){
+      conf.triggers = global.triggers;
+  }
+
+  change() {
     this.global.getString();
   }
-   isEnabled(){
-     return this.config.enabled;
-   }
+  isEnabled() {
+    return this.config.enabled;
+  }
 
   setAttribute(attribute: ItemConfig, ePath: string) {
 
-    
-    //Attribute config
+
+    // Attribute config
     this.config = attribute;
 
-    if (this.config.required){
+    if (this.config.required) {
       this.config.enabled = true;
     }
 
     this.elementPath = ePath;
 
-    // Create the editable control 
+    // Create the editable control
     this.factory = this.widgetFactory.getFactory(this.config.model, this.resolver);
     this.controlRef = this.control.createComponent(this.factory);
 

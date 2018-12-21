@@ -21,13 +21,13 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
   }
 
-  change () {
-    if (this.popOver) {
-    this.messenger.setPopoverTrigger('');
-    this.global.triggers = '';
-    } else {
+  changePop() {
+    if (this.global.showPopovers) {
       this.messenger.setPopoverTrigger('mouseenter:mouseleave');
       this.global.triggers = 'mouseenter:mouseleave';
+    } else {
+      this.messenger.setPopoverTrigger('');
+      this.global.triggers = '';
     }
   }
 

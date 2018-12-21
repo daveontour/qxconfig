@@ -29,8 +29,6 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
   public closeTag: string;
   private sub: Subscription;
 
-
-
   constructor(
     public conf: NgbPopoverConfig,
     public resolver: ComponentFactoryResolver,
@@ -39,6 +37,7 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
     private messenger: Messenger,
     private cdRef: ChangeDetectorRef) {
     super(resolver);
+
     conf.triggers = global.triggers;
 
     // this.sub = messenger.triggers$.subscribe(

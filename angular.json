@@ -24,15 +24,16 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/assets/theme-chrome.js"
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss",
               "node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.base.css"
             ],
-            "scripts": []
-          },
+            "scripts": ["node_modules/ace-builds/src-min/ace.js",
+              "node_modules/ace-builds/src-min/theme-chrome.js",
+              "node_modules/ace-builds/src-min/theme-eclipse.js"]
+            },
           "configurations": {
             "production": {
               "fileReplacements": [

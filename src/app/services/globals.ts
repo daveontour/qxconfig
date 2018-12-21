@@ -32,6 +32,7 @@ export class Globals {
   public sessionID = 'new';
   public selectionMethod: string;
   public triggers = 'mouseenter:mouseleave';
+  public showPopovers = true;
   root: any;
 
   constructor(

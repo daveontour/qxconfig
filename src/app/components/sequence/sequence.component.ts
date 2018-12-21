@@ -3,6 +3,7 @@ import { ElementComponent } from '../element/element.component';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterViewInit, OnInit } from '@angular/core';
 import { Globals } from '../../services/globals';
 import { ChangeDetectorRef } from '@angular/core';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-sequence',
@@ -20,9 +21,16 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
   openTag: string;
   closeTag: string;
 
-  constructor(public resolver: ComponentFactoryResolver, public global: Globals, private cdRef: ChangeDetectorRef) {
+  constructor(
+    public resolver: ComponentFactoryResolver,
+    public global: Globals,
+    private cdRef: ChangeDetectorRef,
+    public conf: NgbPopoverConfig) {
+
     super(resolver);
+    conf.triggers = this.global.triggers;
   }
+
 
   ngAfterViewInit() {
     this.init();
