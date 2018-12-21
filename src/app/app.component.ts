@@ -11,6 +11,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
+import { Editor } from 'brace';
 
 
 @Component({
@@ -22,6 +23,7 @@ import {NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
 export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   @ViewChild('container', { read: ViewContainerRef }) container;
   @ViewChild('siblings', { read: ViewContainerRef }) siblingsPt;
+  @ViewChild('sampleEditor') editor;
   componentRef: any;
   elements: any[] = [];
   public depth = 0;
@@ -203,6 +205,17 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   ngAfterContentInit() {
     // this.global.getString();
+    this.global.editor = this.editor;
+  }
+
+  onTextChange( event) {
+    const ace = this.editor.getEditor();
+    const sess = ace.session;
+    const len = sess.getLength();
+
+    // for (let i = 0; i < len; i++) {
+    //   console.log(sess.getTokens(i));
+    // }
   }
 
   walkStructure(data, parentObject) {

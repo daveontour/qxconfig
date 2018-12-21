@@ -33,6 +33,7 @@ export class Globals {
   public selectionMethod: string;
   public triggers = 'mouseenter:mouseleave';
   public showPopovers = true;
+  public editor: any;
   root: any;
 
   constructor(
