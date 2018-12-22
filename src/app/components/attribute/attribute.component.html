@@ -6,7 +6,7 @@
     <input type="checkbox" class="form-check-input" [disabled]="config.required" [attr.id]="this.getID()"
       [(ngModel)]="config.enabled" (change)="change()">
 
-    <div class="att_label float-left" placement="right" ngbPopover="{{config.description}}" popoverTitle="{{config.name}}">
+    <div [ngClass]="{'eclipse':true, 'float-left':true}" placement="right" ngbPopover="{{config.description}}" popoverTitle="{{config.name}}">
       <span *ngIf="config.required">*</span> {{config.name}}
     </div>
   </div>

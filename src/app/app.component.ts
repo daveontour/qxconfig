@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
 import { Editor } from 'brace';
+import { TokenInterpretter } from './services/token-interpretter';
 
 
 @Component({
@@ -209,13 +210,9 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   }
 
   onTextChange( event) {
-    const ace = this.editor.getEditor();
-    const sess = ace.session;
-    const len = sess.getLength();
 
-    // for (let i = 0; i < len; i++) {
-    //   console.log(sess.getTokens(i));
-    // }
+    const ti = new TokenInterpretter(this.global);
+
   }
 
   walkStructure(data, parentObject) {

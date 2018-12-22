@@ -3,12 +3,11 @@
   <ng-template #popContent>{{config.description}}<br /><span style="font-size: 9pt; font-style: italic">{{this.elementPath}}</span></ng-template>
 
   <div class="row mt-1 pl-1 pt-1 pb-1" [ngClass]="{'simpleBordersExpanded':!isCollapsed, simpleBorder:true}" style="background-color: rgba(230, 235, 241, 0.856); margin-left: 0px;margin-right: 0px">
- 
+
     <!-- The element's name -->
     <div class="col-md-6">
-      <label [ngClass]="{'form-check-label':true, 'simple-label':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}"
-        (click)="isCollapsed = !isCollapsed" style="color:#930F80;margin-bottom:initial;display: initial !important;font-weight: 100"
-        placement="right" [ngbPopover]="popContent" popoverTitle="{{config.name}}">{{config.name}}
+      <label [ngClass]="{'eclipse':true,'form-check-label':true, 'simple-label':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}"
+        (click)="isCollapsed = !isCollapsed" placement="right" [ngbPopover]="popContent" popoverTitle="{{config.name}}">{{config.name}}
 
         <!-- The Attributes Badge-->
         <owl-badge class="badgeRed" *ngIf="hasRequiredAttributes() && isCollapsed" [size]="'medium'" [style.top]="'-3px'"
@@ -36,13 +35,13 @@
       </div>
     </div>
 
- 
 
-  <!-- DIV for the attributes to be dispalyed -->
-  <div [ngClass]="{'d-none':this.isCollapsed, 'col-md-12':true}">
-    <template #attributes></template>
+
+    <!-- DIV for the attributes to be dispalyed -->
+    <div [ngClass]="{'d-none':this.isCollapsed, 'col-md-12':true}">
+      <template #attributes></template>
+    </div>
   </div>
-</div>
 </div>
 
 <!-- The Top Level Heading to add more copies if maxOccurs > 0 -->

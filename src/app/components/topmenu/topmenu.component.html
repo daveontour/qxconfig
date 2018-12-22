@@ -1,9 +1,14 @@
 <div class="pt-1 pb-1 navbarquay">
+
+  <!-- Left Hand Side of the Menu-->
   <a (click)="goHome()">Home</a>
   <a (click)="selectType('pre')">Select Schema</a>
   <a (click)="selectType('user')">Load Schema</a>
   <a (click)="selectType('enter')">Enter Schema</a>
   <a (click)="validate()">Validate XML</a>
-  <a class ="ml-4 mr-2" style="float:right"  (click)="settings()">Settings</a>
+
+  <!-- Right Hand Side of the Menu-->
+  <a class ="ml-4 mr-2 float-right" (click)="settings()">Settings</a>
   <a (click)="goHome()" class="title">XSD2XML - Build XML from XSD Definition</a>
+  
 </div>
