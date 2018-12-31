@@ -58,6 +58,9 @@ export class AttributeComponent {
     this.controlRef.instance.setAttribParent(this);
   }
 
+  setValue(value){
+    this.config.value = value;
+  }
   setID(id) {
     this.id = id;
   }

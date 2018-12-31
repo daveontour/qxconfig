@@ -128,3 +128,29 @@ export class Globals {
     return formatted;
   }
 }
+
+export class XMLElement {
+  constructor(n: string) {
+      this.name = n;
+  }
+  name: string;
+  path: string;
+  value: string;
+  parent: XMLElement;
+  children: XMLElement[] = [];
+  attributes: XMLAttribute[] = [];
+  setValue(v: string) {
+      this.value = v;
+  }
+}
+
+export class XMLAttribute {
+  constructor(n: string) {
+      this.name = n;
+  }
+  name: string;
+  value: string;
+  setValue(v: string) {
+      this.value = v;
+  }
+}

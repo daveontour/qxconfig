@@ -212,6 +212,11 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   onTextChange( event) {
 
     const ti = new TokenInterpretter(this.global);
+    const textRoot = ti.getRoot();
+
+    let rootArray = [];
+    rootArray.push(textRoot)
+    this.global.root.setText(rootArray);
 
   }
 

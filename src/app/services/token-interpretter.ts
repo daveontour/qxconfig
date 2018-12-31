@@ -1,9 +1,10 @@
-import { Globals } from './globals';
-import { element } from '@angular/core/src/render3';
+import { Globals, XMLAttribute, XMLElement } from './globals';
+
 
 export class TokenInterpretter {
 
     editor: any;
+    root = new XMLElement('root');
 
     constructor(global: Globals) {
 
@@ -13,46 +14,70 @@ export class TokenInterpretter {
         const elementStack = [];
         const attributeStack = [];
 
-        let root: XMLElement;
+        let att: XMLAttribute;
+     
+ 
+        elementStack.push(this.root);
+
+        let tokens = [];
+
         for (let i = 0; i < len; i++) {
-         const tokens = sess.getTokens(i);
-         console.log(tokens);
-         for ( let j = 0; j < tokens.length; j++) {
-             if (tokens[j].type === 'meta.tag.tag-name.xml') {
-                 const t = new XMLElement(tokens[j].value);
-                 if (elementStack.length === 0 ) {
-                     elementStack.push(t);
-                     root = t;
-                 } else {
-                     elementStack[elementStack.length - 1].children.push(t);
-                 }
-             }
-             if (tokens[j].type === 'meta.tag.punctuation.end-tag-open.xml' || tokens[j].type === '/>') {
-                 elementStack.pop();
-             }
-             console.log(root);
-         }
+            tokens = tokens.concat(sess.getTokens(i));
         }
-        console.log(root);
+
+        for (let j = 0; j < tokens.length; j++) {
+
+            const tType = tokens[j].type;
+            let tValue = tokens[j].value;
+
+            if (tType === 'text.xml'){
+               tValue  = tValue.trim();
+               if (tValue.length < 1){
+                   continue;
+               } else {
+                   elementStack[elementStack.length - 1].setValue(tValue);
+               }
+               continue;
+            }
+            // Begining tag of an element
+            if (tType === 'meta.tag.tag-name.xml' && tokens[j-1].type === 'meta.tag.punctuation.tag-open.xml') {
+                const t = new XMLElement(tValue);
+                elementStack[elementStack.length - 1].children.push(t);
+                elementStack.push(t);
+                continue;
+            }
+
+            // Closing tag of an element
+            if (tType === 'meta.tag.punctuation.end-tag-open.xml') {
+                elementStack.pop();
+                continue;
+            }
+            // Closing tag of an element
+            if (tValue === '/>') {
+                elementStack.pop();
+                continue;
+            }
+            // Attribute name
+            if (tType === 'entity.other.attribute-name.xml') {
+                att = new XMLAttribute(tValue);
+                continue;
+            }
+
+            if (tType === 'string.attribute-value.xml') {
+                tValue = tValue.substring(1, tValue.length - 1);
+                att.setValue(tValue);
+                elementStack[elementStack.length - 1].attributes.push(att);
+                continue;
+            }
+        }
+        console.log(this.root);
+    }
+
+    getRoot(){
+        return this.root.children[0];
     }
 }
 
-class XMLElement {
-    constructor(n: string) {
-        this.name = n;
-    }
-    name: string;
-    path: string;
-    value: string;
-    parent: XMLElement;
-    children: XMLElement[] = [];
-    attributes: XMLAttribute[] = [];
-}
-
-class XMLAttribute {
-    name: string;
-    value: string;
-}
 
 // var stack = [];
 // stack.push(2);       // stack is now [2]

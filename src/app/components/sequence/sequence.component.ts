@@ -1,9 +1,12 @@
+import { XMLElement } from './../../services/globals';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterViewInit, OnInit } from '@angular/core';
 import { Globals } from '../../services/globals';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { noSideEffects } from '@angular/core/src/util';
+import { text } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-sequence',
@@ -163,6 +166,72 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     });
     return e;
 
+  }
+
+  setText(textXMLs: XMLElement[]) {
+  
+    let _this = this;
+    if (textXMLs === null) {
+      return;
+    }
+    if (_this.config.name !== textXMLs[0].name) {
+      return;
+    }
+
+
+    if (_this.topLevel) {
+
+      // Make sure the correct number of siblings have been created.
+      const numberToCreate = textXMLs.length - _this.siblings.length;
+      for (let i = 0; i < numberToCreate; i++) {
+        _this.addSibling();
+      }
+
+      const sibLength = _this.siblings.length
+      for (let i = 0; i < sibLength; i++) {
+        _this.siblings[i].setText([textXMLs[i]]);
+      }
+
+    } else {
+
+      // Set the attributes text. Handled in the super class 
+      _this.setAttributeText(textXMLs[0]);
+
+      for (let i = 0; i < textXMLs[0].children.length; i++) {
+        let arr = [];
+        arr.push(textXMLs[0].children[i]);
+
+        try {
+          while (textXMLs[0].children[i].name === textXMLs[0].children[i + i].name) {
+            arr.push(textXMLs[0].children[i + 1]);
+            i = i + 1;
+          }
+        } catch (e) {
+          // Do nothing. Will occur for end of childrem
+        }
+        
+        // This will go through all the children, but each child will reject if name is not right
+        // May be a problem for CHOICES!!!!
+        _this.children.forEach(function (child) {
+          child.setText(arr);
+        });
+
+      }
+
+    }
+
+    // textXMLs.forEach(function (textXML) {
+    //   if (_this.topLevel) {
+    //     _this.siblings.forEach(function (sib) {
+    //       // sib.setText(textXML);
+    //     });
+    //   } else {
+    //     // Set the attributes text. Handled in the super class
+    //     _this.setAttributeText(textXML);
+
+    //     // Manage all the chidlren
+    //   }
+    // });
   }
 
   getSiblingString() {

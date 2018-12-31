@@ -1,3 +1,4 @@
+import { XMLElement } from './../../services/globals';
 import { AttributeComponent } from './../attribute/attribute.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { Input, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
@@ -40,7 +41,7 @@ export abstract class ElementComponent {
   getAttributeString() {
     let attString = '';
     this.attchildren.forEach(function (att) {
-       if (att.config.enabled || att.config.required) {
+      if (att.config.enabled || att.config.required) {
         attString = attString.concat(' ' + att.config.name + '="' + att.controlRef.instance.getValue() + '" ');
       }
     });
@@ -129,7 +130,7 @@ export abstract class ElementComponent {
   setParentID(id) {
     this.parentID = id;
   }
- getContainer() {
+  getContainer() {
     return this.container;
   }
   getSiblingContainer() {
@@ -137,5 +138,21 @@ export abstract class ElementComponent {
   }
   setParent(parent: ElementComponent) {
     this.parent = parent;
+  }
+
+  setText(textXML: XMLElement[]) {
+
+  }
+
+  setAttributeText(textXML: XMLElement) {
+    let _this = this;
+
+    textXML.attributes.forEach(function (a) {
+      _this.attchildren.forEach(function (att) {
+        if (att.config.name === a.name) {
+          att.setValue(a.value);
+        }
+      });
+    });
   }
 }

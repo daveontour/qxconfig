@@ -1,3 +1,4 @@
+import { XMLElement } from './../../services/globals';
 import { Messenger } from './../../services/messenger';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { WidgetFactory } from './../../services/widgetfactory';
@@ -207,4 +208,38 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
 
     this.addAttributes(conf);
   }
+
+
+  setText(textXMLs: XMLElement[]) {
+    debugger;
+    let _this = this;
+    if (textXMLs === null) {
+      return;
+    }
+    if (_this.config.name !== textXMLs[0].name) {
+      return;
+    }
+
+
+    if (_this.topLevel) {
+
+      // Make sure the correct number of siblings have been created.
+      const numberToCreate = textXMLs.length - _this.siblings.length;
+      for (let i = 0; i < numberToCreate; i++) {
+        _this.addSibling();
+      }
+
+      const sibLength = _this.siblings.length
+      for (let i = 0; i < sibLength; i++) {
+        _this.siblings[i].setText([textXMLs[i]]);
+      }
+
+    } else {
+      // Set the attributes text. Handled in the super class 
+      _this.setAttributeText(textXMLs[0]);
+      _this.config.value = textXMLs[0].value;
+    }
+  }
 }
+
+
