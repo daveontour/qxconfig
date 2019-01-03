@@ -30,7 +30,9 @@
               "src/styles.scss",
               "node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.base.css"
             ],
-            "scripts": ["node_modules/ace-builds/src-min/ace.js",
+            "scripts": [
+              "node_modules/ace-builds/src-min/ace.js",
+              "node_modules/ace-builds/src-min/ext-statusjar.js",
               "node_modules/ace-builds/src-min/theme-chrome.js",
               "node_modules/ace-builds/src-min/theme-eclipse.js"]
             },
