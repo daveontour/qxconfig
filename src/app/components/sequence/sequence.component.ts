@@ -182,12 +182,6 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
 
     if (_this.topLevel) {
 
-      // Make sure the correct number of siblings have been created.
-      const numberToCreate = textXMLs.length - _this.siblings.length;
-      if (numberToCreate !== 0) {
-        return Globals.STRUCTURECHANGE;
-      }
-
       // Distribute to each of the siblings
       const sibLength = _this.siblings.length;
       for (let i = 0; i < sibLength; i++) {

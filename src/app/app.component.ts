@@ -15,6 +15,7 @@ import { Editor } from 'brace';
 import { TokenInterpretter } from './services/token-interpretter';
 
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   wait = false;
   ace: any;
   sess: any;
+  editorStatus: string;
 
 
   validationMessage = 'Validating...please wait';
@@ -210,14 +212,19 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     // this.global.getString();
     const _this = this;
 
+
     // Set up the keystroke handler for the editor to limit what is editable
     this.global.editor = this.editor;
     this.ace = this.global.editor.getEditor();
     this.sess = this.ace.session;
 
+ 
     this.editor._editor.keyBinding.addKeyboardHandler(function($data, hashId, keyString, keyCode, e) {
 
       // Clear any status message
+
+      _this.editorStatus = '';
+      _this.cdRef.detectChanges();
 
       if ( keyString === 'up'
       || keyString === 'down'
@@ -230,6 +237,20 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       const pos = _this.editor._editor.selection.getCursor();
       const token = _this.sess.getTokenAt(pos.row, pos.column);
 
+      // Protect agains removing space between tag and first attribute
+      if (token.type === 'text.tag-whitespace.xml' && keyString === 'backspace') {
+        const token2 = _this.sess.getTokenAt(pos.row, pos.column - 1);
+        if (token2.type === 'meta.tag.tag-name.xml') {
+          return {command: 'null'};
+        }
+      }
+      // Don't delete the closing tag
+      if ((token.type === 'text.tag-whitespace.xml' || token.type === 'string.attribute-value.xml') && keyString === 'delete') {
+        const token2 = _this.sess.getTokenAt(pos.row, pos.column + 1);
+        if (token2.type === 'meta.tag.punctuation.tag-close.xml') {
+          return {command: 'null'};
+        }
+      }
       if ( token.type === 'text.xml'
       || token.type  === 'string.attribute-value.xml'
       || token.type === 'text.tag-whitespace.xml'
@@ -239,12 +260,18 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       }
 
       // Put up a status message
+      _this.editorStatus = 'Warning: You can only edit element values and attributes here';
+      _this.cdRef.detectChanges();
       return {command: 'null'};
 
     });
   }
 
   onTextChange( event) {
+
+    this.editorStatus = '';
+    this.cdRef.detectChanges();
+
 
     if (this.global.lockEditorUpdates) {
       return;
@@ -259,18 +286,21 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     const res = this.global.root.setText(rootArray);
 
     if (res === Globals.VALUEHANDLED || res === Globals.ATTRIBUTEHANDLED) {
+      this.editorStatus = 'Changes Processed';
+      this.cdRef.detectChanges();
       return;
     }
 
     if (res === Globals.OK) {
-      this.global.getString();
+      this.editorStatus = 'No changes made yet';
+      this.cdRef.detectChanges();
       return;
     }
-    if (res === Globals.STRUCTURECHANGE) {
-      this.global.openModalAlert('Structure Change Detected', 'Only element and attribute values can be directly changed in the XML.',
-      'Please make any structural changes (adding or removing elements) using the editor');
-      return;
-    }
+    // if (res === Globals.STRUCTURECHANGE) {
+    //   this.global.openModalAlert('Structure Change Detected', 'Only element and attribute values can be directly changed in the XML.',
+    //   'Please make any structural changes (adding or removing elements) using the editor');
+    //   return;
+    // }
 
 
   }
