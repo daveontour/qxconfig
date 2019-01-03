@@ -32,7 +32,6 @@
             ],
             "scripts": [
               "node_modules/ace-builds/src-min/ace.js",
-              "node_modules/ace-builds/src-min/ext-statusjar.js",
               "node_modules/ace-builds/src-min/theme-chrome.js",
               "node_modules/ace-builds/src-min/theme-eclipse.js"]
             },
