@@ -69,17 +69,18 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
       return this.siblingCounter !== this.config.maxOccurs;
     }
   }
-  addSibling() {
+  addSibling(): boolean {
 
     if (this.siblings.length === this.config.maxOccurs) {
       alert('Maximum Number of Occurances Already Reached');
-      return;
+      return false;
     }
     if (this.topLevel) {
       this.creator.walkSequenceSibling(this);
       this.siblingCounter++;
       this.global.getString();
       this.cdRef.detectChanges();
+      return true;
     }
   }
 
@@ -168,14 +169,14 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
 
   }
 
-  setText(textXMLs: XMLElement[]) {
-  
-    let _this = this;
+  setText(textXMLs: XMLElement[]): number {
+
+    const _this = this;
     if (textXMLs === null) {
-      return;
+      return Globals.OK;
     }
     if (_this.config.name !== textXMLs[0].name) {
-      return;
+      return Globals.OK;
     }
 
 
@@ -183,55 +184,58 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
 
       // Make sure the correct number of siblings have been created.
       const numberToCreate = textXMLs.length - _this.siblings.length;
-      for (let i = 0; i < numberToCreate; i++) {
-        _this.addSibling();
+      if (numberToCreate !== 0) {
+        return Globals.STRUCTURECHANGE;
       }
 
-      const sibLength = _this.siblings.length
+      // Distribute to each of the siblings
+      const sibLength = _this.siblings.length;
       for (let i = 0; i < sibLength; i++) {
-        _this.siblings[i].setText([textXMLs[i]]);
+        const res =  _this.siblings[i].setText([textXMLs[i]]);
+
+        if (res !== Globals.OK) {
+          return res;
+        }
       }
+      return Globals.OK;
 
     } else {
 
-      // Set the attributes text. Handled in the super class 
-      _this.setAttributeText(textXMLs[0]);
+      const xml = textXMLs[0];
+      // Set the attributes text. Handled in the super class
+      const res = _this.setAttributeText(xml);
 
-      for (let i = 0; i < textXMLs[0].children.length; i++) {
-        let arr = [];
-        arr.push(textXMLs[0].children[i]);
+      for (let i = 0; i < xml.children.length; i++) {
+        const arr = [];
+        arr.push(xml.children[i]);
 
         try {
-          while (textXMLs[0].children[i].name === textXMLs[0].children[i + i].name) {
-            arr.push(textXMLs[0].children[i + 1]);
+          let var1 = xml.children[i];
+          let var2 = xml.children[i + 1];
+          while (var1.name === var2.name) {
+            arr.push(var2);
             i = i + 1;
+            var1 = xml.children[i];
+            var2 = xml.children[i + 1];
           }
         } catch (e) {
           // Do nothing. Will occur for end of childrem
         }
-        
+
         // This will go through all the children, but each child will reject if name is not right
         // May be a problem for CHOICES!!!!
-        _this.children.forEach(function (child) {
-          child.setText(arr);
-        });
 
+        for (let j = 0 ; j < _this.children.length; j++) {
+          const child = _this.children[j];
+          const res2 = child.setText(arr);
+          if (res2 !== Globals.OK) {
+            return res2;
+          }
+        }
       }
-
+       // Will return the fact if the attribute was handled or not
+      return res;
     }
-
-    // textXMLs.forEach(function (textXML) {
-    //   if (_this.topLevel) {
-    //     _this.siblings.forEach(function (sib) {
-    //       // sib.setText(textXML);
-    //     });
-    //   } else {
-    //     // Set the attributes text. Handled in the super class
-    //     _this.setAttributeText(textXML);
-
-    //     // Manage all the chidlren
-    //   }
-    // });
   }
 
   getSiblingString() {

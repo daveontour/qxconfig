@@ -3,7 +3,6 @@ import { Messenger } from './../../services/messenger';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { WidgetFactory } from './../../services/widgetfactory';
 import { Globals } from '../../services/globals';
-import { AttributeComponent } from '../attribute/attribute.component';
 import { Subscription } from 'rxjs';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
@@ -41,12 +40,6 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
 
     conf.triggers = global.triggers;
 
-    // this.sub = messenger.triggers$.subscribe(
-    //   triggers => {
-    //     console.log(triggers);
-    //     this.conf.triggers = triggers;
-    //   }
-    // );
   }
 
 
@@ -64,11 +57,11 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
   }
 
 
-  addSibling() {
+  addSibling(): boolean {
 
     if (this.siblings.length === this.config.maxOccurs) {
       alert('Maximum Number of Occurances Already Reached');
-      return;
+      return false;
     }
 
     const ref = this.siblingsPt.createComponent(this.resolver.resolveComponentFactory(SimpleComponent));
@@ -80,6 +73,7 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
     this.siblings.push(ref.instance);
     this.siblingCounter++;
     this.change();
+    return true;
   }
 
   ngAfterViewInit() {
@@ -210,34 +204,58 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
   }
 
 
-  setText(textXMLs: XMLElement[]) {
-    debugger;
-    let _this = this;
+  setText(textXMLs: XMLElement[]): number {
+
+    // Check if an early return is possible
+    const _this = this;
     if (textXMLs === null) {
-      return;
+      return Globals.OK;
     }
     if (_this.config.name !== textXMLs[0].name) {
-      return;
+      return Globals.OK;
     }
 
 
+
+    // If this is the top level element, check that there is no changes in the number of 
+    // elements and then farm out to the individual instantiations
     if (_this.topLevel) {
+
 
       // Make sure the correct number of siblings have been created.
       const numberToCreate = textXMLs.length - _this.siblings.length;
-      for (let i = 0; i < numberToCreate; i++) {
-        _this.addSibling();
+      if (numberToCreate !== 0) {
+        return Globals.STRUCTURECHANGE;
       }
 
-      const sibLength = _this.siblings.length
+      // Send the data to the individual items
+      const sibLength = _this.siblings.length;
       for (let i = 0; i < sibLength; i++) {
-        _this.siblings[i].setText([textXMLs[i]]);
+        const res = _this.siblings[i].setText([textXMLs[i]]);
+        if (res !== Globals.OK) {
+          // Early return if there was an error or if was handled
+          return res;
+        }
       }
+
+      return Globals.OK;
 
     } else {
-      // Set the attributes text. Handled in the super class 
-      _this.setAttributeText(textXMLs[0]);
-      _this.config.value = textXMLs[0].value;
+      // Set the attributes text and value. Handled in the super class
+      // There will only be one element in the array if theis point is reached.
+
+      const xml = textXMLs[0];
+      const res = _this.setAttributeText(xml);
+
+      if (_this.config.value === xml.value) {
+        // There are no changes to the value, so return the result of setting the attributes
+        return res;
+      } else {
+        // Change the value and return the fact that it was handled
+        _this.config.value = xml.value;
+        _this.controlRef.instance.tickle();
+        return Globals.VALUEHANDLED;
+      }
     }
   }
 }

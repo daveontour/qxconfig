@@ -46,6 +46,8 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   prevType = '-';
   status = 'Ready';
   wait = false;
+  ace: any;
+  sess: any;
 
 
   validationMessage = 'Validating...please wait';
@@ -206,17 +208,70 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   ngAfterContentInit() {
     // this.global.getString();
+    const _this = this;
+
+    // Set up the keystroke handler for the editor to limit what is editable
     this.global.editor = this.editor;
+    this.ace = this.global.editor.getEditor();
+    this.sess = this.ace.session;
+
+    this.editor._editor.keyBinding.addKeyboardHandler(function($data, hashId, keyString, keyCode, e) {
+
+      // Clear any status message
+
+      if ( keyString === 'up'
+      || keyString === 'down'
+      || keyString === 'right'
+      || keyString === 'left'
+      ) {
+        return;
+      }
+
+      const pos = _this.editor._editor.selection.getCursor();
+      const token = _this.sess.getTokenAt(pos.row, pos.column);
+
+      if ( token.type === 'text.xml'
+      || token.type  === 'string.attribute-value.xml'
+      || token.type === 'text.tag-whitespace.xml'
+      || token.type === 'entity.other.attribute-name.xml'
+      || token.type === 'keyword.operator.attribute-equals.xml') {
+        return;
+      }
+
+      // Put up a status message
+      return {command: 'null'};
+
+    });
   }
 
   onTextChange( event) {
 
+    if (this.global.lockEditorUpdates) {
+      return;
+    }
+
     const ti = new TokenInterpretter(this.global);
     const textRoot = ti.getRoot();
 
-    let rootArray = [];
-    rootArray.push(textRoot)
-    this.global.root.setText(rootArray);
+    const rootArray = [];
+    rootArray.push(textRoot);
+
+    const res = this.global.root.setText(rootArray);
+
+    if (res === Globals.VALUEHANDLED || res === Globals.ATTRIBUTEHANDLED) {
+      return;
+    }
+
+    if (res === Globals.OK) {
+      this.global.getString();
+      return;
+    }
+    if (res === Globals.STRUCTURECHANGE) {
+      this.global.openModalAlert('Structure Change Detected', 'Only element and attribute values can be directly changed in the XML.',
+      'Please make any structural changes (adding or removing elements) using the editor');
+      return;
+    }
+
 
   }
 

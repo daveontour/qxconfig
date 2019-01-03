@@ -13,6 +13,7 @@ import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
     </div>
     <div class="modal-body">
       <p>{{message}}</p>
+      <p>{{message2}}</p>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
@@ -21,6 +22,7 @@ import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class GenericAlertComponent {
   @Input() message;
+  @Input() message2;
   @Input() title;
 
   constructor(public activeModal: NgbActiveModal) {}

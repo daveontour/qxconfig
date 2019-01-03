@@ -4,7 +4,7 @@ import { AttributeComponent } from '../../components/attribute/attribute.compone
 import { Component, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
 
 
-export abstract class ControlComponent implements AfterViewInit{
+export abstract class ControlComponent implements AfterViewInit {
 
   parent: any;
   bElement = false;
@@ -88,5 +88,8 @@ export abstract class ControlComponent implements AfterViewInit{
 
   isRequired() {
     return this.parent.config.enabled;
+  }
+
+  tickle() {
   }
 }

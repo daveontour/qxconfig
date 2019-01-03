@@ -40,4 +40,8 @@ export class XSDateComponent extends ControlComponent {
     this.bElement = false;
     this.setUpCommon();
   }
+
+  tickle() {
+    this.d = moment(this.config.value);
+  }
 }

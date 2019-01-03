@@ -14,9 +14,8 @@ export class TokenInterpretter {
         const elementStack = [];
         const attributeStack = [];
 
+
         let att: XMLAttribute;
-     
- 
         elementStack.push(this.root);
 
         let tokens = [];
@@ -30,9 +29,9 @@ export class TokenInterpretter {
             const tType = tokens[j].type;
             let tValue = tokens[j].value;
 
-            if (tType === 'text.xml'){
+            if (tType === 'text.xml') {
                tValue  = tValue.trim();
-               if (tValue.length < 1){
+               if (tValue.length < 1) {
                    continue;
                } else {
                    elementStack[elementStack.length - 1].setValue(tValue);
@@ -40,7 +39,7 @@ export class TokenInterpretter {
                continue;
             }
             // Begining tag of an element
-            if (tType === 'meta.tag.tag-name.xml' && tokens[j-1].type === 'meta.tag.punctuation.tag-open.xml') {
+            if (tType === 'meta.tag.tag-name.xml' && tokens[ j - 1 ].type === 'meta.tag.punctuation.tag-open.xml') {
                 const t = new XMLElement(tValue);
                 elementStack[elementStack.length - 1].children.push(t);
                 elementStack.push(t);
@@ -70,10 +69,9 @@ export class TokenInterpretter {
                 continue;
             }
         }
-        console.log(this.root);
     }
 
-    getRoot(){
+    getRoot() {
         return this.root.children[0];
     }
 }

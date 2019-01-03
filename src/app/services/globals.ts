@@ -6,6 +6,11 @@ import { Injectable} from '@angular/core';
 @Injectable()
 export class Globals {
 
+  public static OK = 1;
+  public static STRUCTURECHANGE  = -1;
+  public static ATTRIBUTEHANDLED = 2;
+  public static VALUEHANDLED = 3;
+
   /**
   * The Jenkins job that deploys the package has a build step
   * that uses SED to edit this file to replace the below two
@@ -34,6 +39,7 @@ export class Globals {
   public triggers = 'mouseenter:mouseleave';
   public showPopovers = true;
   public editor: any;
+  public lockEditorUpdates = false;
   root: any;
 
   constructor(
@@ -43,18 +49,21 @@ export class Globals {
   }
 
   getString() {
+    this.lockEditorUpdates = true;
     this.alerts = '';
     this.formatErrors = [];
     this.elementsUndefined = [];
     this.attributesUndefined = [];
     this.sampleXMLMessage = this.formatXML(this.root.getElementString(''));
     this.XMLMessage = this.sampleXMLMessage;
+    this.lockEditorUpdates = false;
   }
 
-  public openModalAlert(title: string, message: string) {
+  public openModalAlert(title: string, message: string, message2: string = '') {
     const modalRef = this.modalService.open(GenericAlertComponent);
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
+    modalRef.componentInstance.message2 = message2;
   }
 
   public guid() {

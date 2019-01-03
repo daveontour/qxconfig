@@ -57,6 +57,9 @@ export class MinMaxInclusiveComponent extends ControlComponent {
     this.change();
   }
 
+  tickle() {
+    this.num = this.config.value;
+}
   setAttribParent(parent: AttributeComponent) {
 
     this.parent = parent;

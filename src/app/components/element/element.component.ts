@@ -1,4 +1,4 @@
-import { XMLElement } from './../../services/globals';
+import { XMLElement, Globals } from './../../services/globals';
 import { AttributeComponent } from './../attribute/attribute.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { Input, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
@@ -140,19 +140,62 @@ export abstract class ElementComponent {
     this.parent = parent;
   }
 
-  setText(textXML: XMLElement[]) {
-
+  setText(textXML: XMLElement[]): number {
+    return Globals.OK;
   }
 
-  setAttributeText(textXML: XMLElement) {
-    let _this = this;
+  setAttributeText(textXML: XMLElement): number {
+    const _this = this;
+    const childAttLength = _this.attchildren.length;
+    const xmlAttLength = textXML.attributes.length;
 
-    textXML.attributes.forEach(function (a) {
-      _this.attchildren.forEach(function (att) {
-        if (att.config.name === a.name) {
-          att.setValue(a.value);
+    let handled = false;
+
+    for (let c = 0; c < childAttLength; c++) {
+      const cName = _this.attchildren[c].config.name;
+      const cValue = _this.attchildren[c].config.value;
+      const cEnabled = _this.attchildren[c].config.enabled;
+      const cRequired = _this.attchildren[c].config.required;
+
+      let cModified = false;
+      let cFound = false;
+
+      for (let d = 0; d < xmlAttLength; d++) {
+        const dName = textXML.attributes[d].name;
+        const dValue = textXML.attributes[d].value;
+
+        if (dName === cName) {
+          cFound = true;
+        } else {
+          continue;
         }
-      });
-    });
+
+        if (dName === cName && dValue !== cValue) {
+          _this.attchildren[c].config.value = dValue;
+          _this.attchildren[c].config.enabled = true;
+          _this.attchildren[c].controlRef.instance.tickle();
+          cModified = true;
+          break;
+        }
+      }
+
+      if (!cFound && cEnabled) {
+        if (!cRequired) {
+          _this.attchildren[c].config.enabled = false;
+          _this.attchildren[c].config.value = '';
+        }
+        cModified = true;
+      }
+
+
+      handled = handled || cModified;
+
+    }
+
+    if (handled) {
+      return Globals.ATTRIBUTEHANDLED;
+    } else {
+      return Globals.OK;
+    }
   }
 }
