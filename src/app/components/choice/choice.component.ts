@@ -1,3 +1,4 @@
+import { XMLElement, XMLAttribute } from './../../services/globals';
 import { Globals } from '../../services/globals';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterViewInit, OnInit } from '@angular/core';
@@ -208,5 +209,80 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
     this.selectedChoice = choiceIDs[0];
     this.config.choiceElementIdentifiers = choiceIDs;
     this.checkChoice();
+  }
+
+  setText(textXMLs: XMLElement[]): number {
+
+    debugger;
+    const _this = this;
+    if (textXMLs === null) {
+      return Globals.OK;
+    }
+
+    if (_this.topLevel) {
+
+      // Distribute to each of the siblings
+      const sibLength = _this.siblings.length;
+      for (let i = 0; i < sibLength; i++) {
+        const res =  _this.siblings[i].setText([textXMLs[i]]);
+
+        if (res !== Globals.OK) {
+          return res;
+        }
+      }
+      return Globals.OK;
+
+    } else {
+
+      const xml = textXMLs[0];
+      // Set the attributes text. Handled in the super class
+      const res = _this.setAttributeText(xml);
+
+
+
+      for (let i = 0; i < xml.children.length; i++) {
+        const arr = [];
+        arr.push(xml.children[i]);
+
+        try {
+          let var1 = xml.children[i];
+          let var2 = xml.children[i + 1];
+          while (var1.name === var2.name) {
+            arr.push(var2);
+            i = i + 1;
+            var1 = xml.children[i];
+            var2 = xml.children[i + 1];
+          }
+        } catch (e) {
+          // Do nothing. Will occur for end of childrem
+        }
+
+        // This will go through all the children, but each child will reject if name is not right
+        // May be a problem for CHOICES!!!!
+
+        const choice = this.selectedChoice;
+        if (this.children != null) {
+          for (let j = 0 ; j < _this.children.length; j++) {
+            const child = _this.children[j];
+            if (child.config.name === choice) {
+              const res2 = child.setText(textXMLs);
+              if (res2 !== Globals.OK) {
+                return res2;
+              }
+            }
+          }
+        }
+
+        // for (let j = 0 ; j < _this.children.length; j++) {
+        //   const child = _this.children[j];
+        //   const res2 = child.setText(arr);
+        //   if (res2 !== Globals.OK) {
+        //     return res2;
+        //   }
+        // }
+      }
+       // Will return the fact if the attribute was handled or not
+      return res;
+    }
   }
 }

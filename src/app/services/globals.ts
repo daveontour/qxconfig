@@ -140,6 +140,9 @@ export class Globals {
 
 export class XMLElement {
   constructor(n: string) {
+      if (n.indexOf(':') !== -1 ) {
+        n = n.substring(n.indexOf(':') + 1 );
+      }
       this.name = n;
   }
   name: string;

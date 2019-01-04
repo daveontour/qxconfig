@@ -11,10 +11,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
-import { Editor } from 'brace';
 import { TokenInterpretter } from './services/token-interpretter';
-
-
 
 @Component({
   selector: 'app-root',
@@ -118,17 +115,10 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
     this.dismissSub = messenger.dismiss$.subscribe(
       data => {
-        // this.global.XMLMessage = '';
-        // this.global.elementsUndefined = [];
-        // this.global.attributesUndefined = [];
-        // this.global.formatErrors = [];
-        // this.getContainer().clear();
         this.schema = this.prevSchema;
         this.schemaFile = this.prevScehmaFile;
         this.type = this.prevType;
         this.status = 'Ready';
-        // const factory = this.resolver.resolveComponentFactory(IntroTextComponent);
-        // const newObjRef = this.getContainer().createComponent(factory).instance;
       }
     );
 
@@ -152,19 +142,6 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
     const factory = this.resolver.resolveComponentFactory(IntroTextComponent);
     const newObjRef = this.getContainer().createComponent(factory).instance;
-
-    // const initURL = this.global.baseURL + '?op=getType&schema=AIDX18.1&file=IATA_AIDX_FlightLegNotifRQ.xsd' +
-    //   '&type=IATA_AIDX_FlightLegNotifRQ&sessionID=new&selectionMethod=preload';
-    // this.retrieveData(initURL);
-    // this.messenger.setSchema('AIDX18.1');
-    // this.messenger.setSchemaFile('IATA_AIDX_FlightLegNotifRQ.xsd');
-    // this.messenger.setType('IATA_AIDX_FlightLegNotifRQ');
-    // this.messenger.setStatus('Retrieving Schema');
-
-    // this.global.selectedSchema = 'AIDX18.1';
-    // this.global.sessionID = 'new';
-    // this.global.selectionMethod = 'preload';
-
   }
 
   retrieveData(url: string) {
@@ -226,6 +203,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       _this.editorStatus = '';
       _this.cdRef.detectChanges();
 
+      // Allow cursor movements
       if ( keyString === 'up'
       || keyString === 'down'
       || keyString === 'right'
@@ -236,21 +214,41 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
       const pos = _this.editor._editor.selection.getCursor();
       const token = _this.sess.getTokenAt(pos.row, pos.column);
+      let token2 = _this.sess.getTokenAt(pos.row, pos.column + 1 );
 
+      if ( token2 == null || token == null) {
+        return {command: 'null'};
+      }
+      if (token.type === 'meta.tag.punctuation.tag-close.xml' && token2.type === 'meta.tag.punctuation.end-tag-open.xml')  {
+        if ( keyString === 'backspace' || keyString === 'delete' ) {
+          return {command: 'null'};
+        } else {
+          return;
+        }
+      }
+
+      if (token.type === 'text.xml' && token2.type === 'meta.tag.punctuation.end-tag-open.xml' && keyString === 'delete' ) {
+          return {command: 'null'};
+      }
+      if (token.type === 'meta.tag.punctuation.tag-close.xml' && token2.type === 'text.xml' && keyString === 'delete' ) {
+        return;
+    }
       // Protect agains removing space between tag and first attribute
       if (token.type === 'text.tag-whitespace.xml' && keyString === 'backspace') {
-        const token2 = _this.sess.getTokenAt(pos.row, pos.column - 1);
+         token2 = _this.sess.getTokenAt(pos.row, pos.column - 1);
         if (token2.type === 'meta.tag.tag-name.xml') {
           return {command: 'null'};
         }
       }
       // Don't delete the closing tag
       if ((token.type === 'text.tag-whitespace.xml' || token.type === 'string.attribute-value.xml') && keyString === 'delete') {
-        const token2 = _this.sess.getTokenAt(pos.row, pos.column + 1);
+        token2 = _this.sess.getTokenAt(pos.row, pos.column + 1);
         if (token2.type === 'meta.tag.punctuation.tag-close.xml') {
           return {command: 'null'};
         }
       }
+
+      // Allow editing of these types
       if ( token.type === 'text.xml'
       || token.type  === 'string.attribute-value.xml'
       || token.type === 'text.tag-whitespace.xml'
@@ -259,7 +257,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
         return;
       }
 
-      // Put up a status message
+      // Put up a status message and disallow the keystroke
       _this.editorStatus = 'Warning: You can only edit element values and attributes here';
       _this.cdRef.detectChanges();
       return {command: 'null'};
@@ -272,10 +270,12 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     this.editorStatus = '';
     this.cdRef.detectChanges();
 
+    debugger;
 
     if (this.global.lockEditorUpdates) {
       return;
     }
+
 
     const ti = new TokenInterpretter(this.global);
     const textRoot = ti.getRoot();
@@ -296,13 +296,6 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       this.cdRef.detectChanges();
       return;
     }
-    // if (res === Globals.STRUCTURECHANGE) {
-    //   this.global.openModalAlert('Structure Change Detected', 'Only element and attribute values can be directly changed in the XML.',
-    //   'Please make any structural changes (adding or removing elements) using the editor');
-    //   return;
-    // }
-
-
   }
 
   walkStructure(data, parentObject) {
