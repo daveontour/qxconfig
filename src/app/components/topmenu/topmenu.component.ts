@@ -56,6 +56,9 @@ export class TopmenuComponent {
   apply() {
     this.messenger.apply();
   }
+  undo() {
+    this.messenger.undo();
+  }
 
   validate() {
 

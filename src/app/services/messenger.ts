@@ -17,6 +17,7 @@ export class Messenger {
     private announceTrigger = new Subject<string>();
     private announceSave = new Subject<string>();
     private announceApply = new Subject<string>();
+    private announceUndo = new Subject<string>();
 
     // Observable string streams
     missionAnnounced$ = this.missionAnnouncedSource.asObservable();
@@ -31,6 +32,7 @@ export class Messenger {
     triggers$ = this.announceTrigger.asObservable();
     save$ = this.announceSave.asObservable();
     apply$ = this.announceApply.asObservable();
+    undo$ = this.announceUndo.asObservable();
 
     // Service message commands
     announceMission(mission: string) {
@@ -65,6 +67,9 @@ export class Messenger {
     }
     apply() {
       this.announceApply.next();
+    }
+    undo() {
+      this.announceUndo.next();
     }
     dismiss() {
       this.announceDismiss.next();

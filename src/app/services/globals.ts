@@ -18,17 +18,16 @@ export class Globals {
   *  parameters with relative parameters
   */
 
-  baseURL = 'http://localhost:8080/XSD2XML/json';
-  baseURLValidate = 'http://localhost:8080/XSD2XML/validate';
-  baseURLUploadEntered = 'http://localhost:8080/XSD_Forms/upload?uploadType=enteredxsd&sessionID=';
-  baseURLUploadFiles = 'http://localhost:8080/XSD_Forms/upload?uploadType=files&sessionID=';
+  public baseURL = 'http://localhost:8080/XSD2XML/json';
+  public baseURLValidate = 'http://localhost:8080/XSD2XML/validate';
+  public baseURLUploadEntered = 'http://localhost:8080/XSD_Forms/upload?uploadType=enteredxsd&sessionID=';
+  public baseURLUploadFiles = 'http://localhost:8080/XSD_Forms/upload?uploadType=files&sessionID=';
 
-  buildNumber = 'localbuild';
+  public buildNumber = 'localbuild';
 
-
-  xmlMessage = '';
-  sampleXMLMessage = '';
-  XMLMessage = '';
+  public xmlMessage = '';
+  public sampleXMLMessage = '';
+  public XMLMessage = '';
   public alerts = 'No alerts';
   public elementsUndefined: string[] = [];
   public attributesUndefined: string[] = [];
@@ -41,7 +40,8 @@ export class Globals {
   public showPopovers = true;
   public editor: any;
   public lockEditorUpdates = false;
-  root: any;
+  public undoStack: SaveObj[] = [];
+  public root: any;
 
   constructor(
     private modalService: NgbModal
@@ -58,6 +58,10 @@ export class Globals {
     this.sampleXMLMessage = this.formatXML(this.root.getElementString(''));
     this.XMLMessage = this.sampleXMLMessage;
     this.lockEditorUpdates = false;
+
+    //Put it on the undoSack
+
+   // this.undoStack.push(this.root.getSaveObj());
   }
 
   public openModalAlert(title: string, message: string, message2: string = '') {
@@ -176,6 +180,7 @@ export class SaveObj {
   c: SaveObj[] = [];
   s: SaveObj[] = [];
   sel: string;
+  p: string;
   choice = false;
 }
 

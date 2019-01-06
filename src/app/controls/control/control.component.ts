@@ -90,6 +90,10 @@ export abstract class ControlComponent implements AfterViewInit {
     return this.parent.config.enabled;
   }
 
+  // Tickle is used when special sction may need to be takem
+  // i.e the minMaxInclusive control uses "num" rather than "value", so it's needed
+  // to set up the control properly. Usually does nothing, but subclasses
+  // will implement as necessary
   tickle() {
   }
 }

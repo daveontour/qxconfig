@@ -70,7 +70,7 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
 
     if (this.siblingCounter <= this.config.minOccurs) {
       this.global.openModalAlert('You should not see this message :( ', 'Cannot Remove. At least ' +
-      this.config.minOccurs + 'instance required');
+        this.config.minOccurs + 'instance required');
 
       return false;
     }
@@ -91,24 +91,21 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
 
   getSaveObj(): SaveObj {
 
-
     if (this.topLevel) {
       return null;
-      // this.siblings.forEach(sib => {
-      //   so.s.push(sib.getSaveObj());
-      // });
     } else {
       const so = new SaveObj();
       so.tl = false;
       so.n = this.config.name;
       so.choice = true;
       so.sel = this.selectedChoice;
+      so.p = this.elementPath;
 
       this.attchildren.forEach(att => {
-        so.a.push(new AttItemConfig(att.config.name, att.config.value));
+        so.a.push(new AttItemConfig(att.config.name, att.config.value, att.config.enabled));
       });
 
-     const  _this = this;
+      const _this = this;
       if (this.children != null) {
         this.children.forEach((value) => {
           if (value.config.name === _this.selectedChoice) {
@@ -118,6 +115,33 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
       }
 
       return so;
+    }
+  }
+
+  applyConfig(so: SaveObj) {
+    if (so == null) {
+      console.log('Apply Config Error - null object');
+      return;
+    }
+    if (this.topLevel) {
+      return;
+    } else {
+
+      // First set the Attribute of the sequence
+      for (let i = 0; i < so.a.length; i++) {
+        const att = so.a[i];
+        this.attchildren[i].setValue(att.v);
+        this.attchildren[i].setEnabled(att.e);
+        this.attchildren[i].controlRef.instance.tickle();
+      }
+      // Now handle the children
+      this.config.value = so.v;
+      this.selectedChoice = so.sel;
+
+      // Now handle the children
+      for (let i = 0; i < so.c.length; i++) {
+        this.children[i].applyConfig(so.c[i]);
+      }
     }
   }
 
@@ -179,7 +203,7 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
       if (this.config.prefix.length >= 1) {
         e = e.concat('</' + this.config.prefix + ':' + this.config.name + '>\n');
       } else {
-        e =  e.concat('</' + this.config.name + '>\n');
+        e = e.concat('</' + this.config.name + '>\n');
       }
     }
 
@@ -190,7 +214,7 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
     return '';
   }
 
-   setConfig(conf: ItemConfig, creator, parentObj) {
+  setConfig(conf: ItemConfig, creator, parentObj) {
 
 
     this.creator = creator;
@@ -256,7 +280,7 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
       // Distribute to each of the siblings
       const sibLength = _this.siblings.length;
       for (let i = 0; i < sibLength; i++) {
-        const res =  _this.siblings[i].setText([textXMLs[i]]);
+        const res = _this.siblings[i].setText([textXMLs[i]]);
 
         if (res !== Globals.OK) {
           return res;
@@ -269,8 +293,6 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
       const xml = textXMLs[0];
       // Set the attributes text. Handled in the super class
       const res = _this.setAttributeText(xml);
-
-
 
       for (let i = 0; i < xml.children.length; i++) {
         const arr = [];
@@ -291,10 +313,9 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
 
         // This will go through all the children, but each child will reject if name is not right
         // May be a problem for CHOICES!!!!
-
         const choice = this.selectedChoice;
         if (this.children != null) {
-          for (let j = 0 ; j < _this.children.length; j++) {
+          for (let j = 0; j < _this.children.length; j++) {
             const child = _this.children[j];
             if (child.config.name === choice) {
               const res2 = child.setText(textXMLs);
@@ -304,16 +325,8 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
             }
           }
         }
-
-        // for (let j = 0 ; j < _this.children.length; j++) {
-        //   const child = _this.children[j];
-        //   const res2 = child.setText(arr);
-        //   if (res2 !== Globals.OK) {
-        //     return res2;
-        //   }
-        // }
       }
-       // Will return the fact if the attribute was handled or not
+      // Will return the fact if the attribute was handled or not
       return res;
     }
   }

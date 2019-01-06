@@ -1,7 +1,7 @@
 import { XMLElement, SaveObj, AttItemConfig } from './../../services/globals';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
-import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterViewInit, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterViewInit} from '@angular/core';
 import { Globals } from '../../services/globals';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -38,6 +38,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
   }
 
   init() {
+
     if (this.topLevel) {
       // This ia a top level object so tell the creator to add the minimum number of siblings
       for (let ix = 0; ix < this.config.minOccurs; ix++) {
@@ -50,6 +51,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
 
       // This is normal object, so add the attributes and add all the children
       this.addAttributes(this.config);
+
       for (let ix = 0; ix < this.config.allOf.length; ix++) {
         this.creator.walkStructure(this.config.allOf[ix], this);
       }
@@ -60,13 +62,6 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     this.cdRef.detectChanges();
   }
 
-  showTopBlock() {
-    if (!this.releaseSiblingCounter) {
-      return false;
-    } else {
-      return this.siblingCounter !== this.config.maxOccurs;
-    }
-  }
   addSibling(): boolean {
 
     if (this.siblings.length === this.config.maxOccurs) {
@@ -93,11 +88,70 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     this.elementPath = parentObj.elementPath + '/' + this.config.name;
   }
 
+  setSiblingConfig(conf: ItemConfig, creator, parentObj) {
+
+    this.config = JSON.parse(JSON.stringify(conf));
+    this.creator = creator;
+    this.config.uuid = this.global.guid();
+    this.topLevel = false;
+    this.depth = parentObj.depth;
+    this.parent = parentObj;
+    this.elementPath = parentObj.elementPath;
+
+    if (typeof this.config.annotation === 'undefined') {
+      this.config.annotation = '';
+    }
+
+    // Preset the opening and closing tags
+    this.openTag = '<' + this.config.name;
+    this.closeTag = '</' + this.config.name + '>\n';
+
+    if (typeof this.config.prefix !== 'undefined') {
+      if (this.config.prefix.length >= 1) {
+        this.openTag = '<' + this.config.prefix + ':' + this.config.name;
+        this.closeTag = '</' + this.config.prefix + ':' + this.config.name + '>\n';
+      }
+    }
+
+    // Add the name space declaration if it is configured
+    if (this.config.ns != null) {
+      this.openTag = this.openTag.concat(this.config.ns);
+    }
+
+    this.parent.siblings.push(this);
+  }
+
+  remove() {
+    // Tell the parent object of itself to remove this
+    this.parent.removeChild(this.config.uuid);
+  }
+
+  removeChild(childIDToRemove: string) {
+    // A child object has told the parent to remove it.
+
+    if (this.siblings.length <= this.config.minOccurs) {
+      alert('Cannot Remove. At least ' + this.config.minOccurs + ' instance required');
+      return;
+    }
+
+    for (let i = 0; i < this.siblings.length; i++) {
+      const id = this.siblings[i].config.uuid;
+      if (id === childIDToRemove) {
+        this.siblingsPt.remove(i);
+        this.siblings.splice(i, 1);
+        this.siblingCounter--;
+        break;
+      }
+    }
+    this.global.getString();
+  }
+
   getSaveObj(): SaveObj {
 
     const so = new SaveObj();
     so.tl = this.topLevel;
     so.n = this.config.name;
+    so.p = this.elementPath;
 
     if (this.topLevel) {
       this.siblings.forEach(sib => {
@@ -132,14 +186,14 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
 
       // Remove all existing siblings
       for (let i = 0; i < this.siblings.length; i++) {
-          this.siblingsPt.remove(i);
-          this.siblings.splice(i, 1);
-          this.siblingCounter--;
-          break;
+        this.siblingsPt.remove(i);
+        this.siblings.splice(i, 1);
+        this.siblingCounter--;
+        break;
       }
 
       // Add the correct number of siblings
-      for (let i = 0; i < so.s.length; i++){
+      for (let i = 0; i < so.s.length; i++) {
         this.addSibling();
       }
 
@@ -155,8 +209,8 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
       }
 
       // This is an actual instance, so process the children
-      if ( so.c.length !== this.children.length) {
-        console.log ('Apply Config Error - children not equal');
+      if (so.c.length !== this.children.length) {
+        console.log('Apply Config Error - children not equal');
       } else {
 
         // First set the Attribute of the sequence
@@ -169,76 +223,14 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
 
         // Now handle the children
         for (let i = 0; i < so.c.length; i++) {
-          const child = so.c[i];
-          this.children[i].applyConfig(child);
+          this.children[i].applyConfig(so.c[i]);
         }
       }
     }
-
-  }
-
-  setSiblingConfig(conf: ItemConfig, creator, parentObj) {
-
-    this.config = JSON.parse(JSON.stringify(conf));
-    this.creator = creator;
-    this.config.uuid = this.global.guid();
-    this.topLevel = false;
-    this.depth = parentObj.depth;
-    this.parent = parentObj;
-    this.elementPath = parentObj.elementPath;
-    // this.addAttributes(conf);
-
-    if (typeof this.config.annotation === 'undefined') {
-      this.config.annotation = '';
-    }
-
-    // Preset the opening and closing tags
-
-    this.openTag = '<' + this.config.name;
-    this.closeTag = '</' + this.config.name + '>\n';
-
-    if (typeof this.config.prefix !== 'undefined') {
-      if (this.config.prefix.length >= 1) {
-        this.openTag = '<' + this.config.prefix + ':' + this.config.name;
-        this.closeTag = '</' + this.config.prefix + ':' + this.config.name + '>\n';
-      }
-    }
-
-    // Add the name space declaration if it is configured
-    if (this.config.ns != null) {
-      this.openTag = this.openTag.concat(this.config.ns);
-    }
-
-    this.parent.siblings.push(this);
   }
 
   getSiblingsContainer() {
     return this.siblingsPt;
-  }
-
-  remove() {
-    // Tell the parent object of itself to remove this
-    this.parent.removeChild(this.config.uuid);
-  }
-
-  removeChild(childIDToRemove: string) {
-    // A child object has told the parent to remove it.
-
-    if (this.siblings.length <= this.config.minOccurs) {
-      alert('Cannot Remove. At least ' + this.config.minOccurs + ' instance required');
-      return;
-    }
-
-    for (let i = 0; i < this.siblings.length; i++) {
-      const id = this.siblings[i].config.uuid;
-      if (id === childIDToRemove) {
-        this.siblingsPt.remove(i);
-        this.siblings.splice(i, 1);
-        this.siblingCounter--;
-        break;
-      }
-    }
-    this.global.getString();
   }
 
   getElementString() {
@@ -249,6 +241,38 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     });
     return e;
 
+  }
+
+  getSiblingString() {
+
+    let e = '';
+    const childString = this.getChildString();
+
+    if (!this.config.annon) {
+
+      // Opening Tag, optionally prefixed with namespace prefix
+      e = this.openTag.concat(this.getAttributeString());
+
+      // If there is no child string or value, close the tag
+      if (childString == null && this.config.value == null) {
+        return e.concat(' />');
+      } else {
+        e = e.concat('>');
+      }
+    }
+
+    if (this.config.value != null) {
+      e = e.concat(this.config.value);
+    }
+
+    if (childString != null) {
+      e = e.concat('\n' + childString);
+    }
+
+    if (!this.config.annon) {
+      e = e.concat(this.closeTag);
+    }
+    return e;
   }
 
   setText(textXMLs: XMLElement[]): number {
@@ -314,35 +338,13 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     }
   }
 
-  getSiblingString() {
-
-    let e = '';
-    const childString = this.getChildString();
-
-    if (!this.config.annon) {
-
-      // Opening Tag, optionally prefixed with namespace prefix
-      e = this.openTag.concat(this.getAttributeString());
-
-      // If there is no child string or value, close the tag
-      if (childString == null && this.config.value == null) {
-        return e.concat(' />');
-      } else {
-        e = e.concat('>');
-      }
+  showTopBlock() {
+    if (!this.releaseSiblingCounter) {
+      return false;
+    } else {
+      return this.siblingCounter !== this.config.maxOccurs;
     }
-
-    if (this.config.value != null) {
-      e = e.concat(this.config.value);
-    }
-
-    if (childString != null) {
-      e = e.concat('\n' + childString);
-    }
-
-    if (!this.config.annon) {
-      e = e.concat(this.closeTag);
-    }
-    return e;
   }
+
+
 }

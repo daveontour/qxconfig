@@ -22,7 +22,7 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
   controlRef: any;
   public isCollapsed = true;
   public enabled = true;
-  public uuid;
+  public uuid: string;
   public siblingCounter = 0;
   public topLevel: boolean;
   public openTag: string;
@@ -34,7 +34,6 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
     public resolver: ComponentFactoryResolver,
     public global: Globals,
     public widgetFactory: WidgetFactory,
-    private messenger: Messenger,
     private cdRef: ChangeDetectorRef) {
     super(resolver);
 
@@ -78,6 +77,73 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     $('.badgeGrayRight').css('right', '-45px');
+  }
+
+  setConfig(conf: ItemConfig, parentObject) {
+
+    this.topLevel = true;
+    this.config = JSON.parse(JSON.stringify(conf));
+    this.config.enabled = this.config.required;
+    this.config.uuid = this.global.guid();
+    this.elementPath = this.parent.elementPath + '/' + conf.name;
+
+
+    if (this.config.typeAnnotation == null) {
+      this.config.typeAnnotation = this.config.annotation;
+    }
+
+    if (this.config.model != null) {
+      const mfactory = this.widgetFactory.getFactory(this.config.model, this.resolver);
+      this.controlRef = this.control.createComponent(mfactory);
+      this.controlRef.instance.setElementParent(this);
+    }
+
+    this.addAttributes(conf);
+
+    for (let i = 0; i < conf.minOccurs; i++) {
+      this.addSibling();
+    }
+  }
+
+  setSiblingConfig(conf: ItemConfig, parentObj: any) {
+
+    this.topLevel = false;
+    this.config = JSON.parse(JSON.stringify(conf));
+    this.config.enabled = this.config.required;
+    this.elementPath = parentObj.elementPath + '/' + this.config.name;
+    this.config.uuid = this.global.guid();
+
+    // Preset the opening and closing tags
+    if (this.config.prefix.length >= 1) {
+      this.openTag = '<' + this.config.prefix + ':' + this.config.name;
+      this.closeTag = '</' + this.config.prefix + ':' + this.config.name + '>\n';
+    } else {
+      this.openTag = '<' + this.config.name;
+      this.closeTag = '</' + this.config.name + '>\n';
+    }
+
+    // Add the name space declaration if it is configured
+    if (this.config.ns != null) {
+      this.openTag = this.openTag.concat(this.config.ns);
+    }
+
+    if (typeof this.config.annotation === 'undefined') {
+      this.config.annotation = '';
+    }
+
+    if (this.config.typeAnnotation == null) {
+      this.config.typeAnnotation = this.config.annotation;
+    }
+
+    // Create the actual control for the input
+    if (this.config.model != null) {
+      this.mfactory = this.widgetFactory.getFactory(this.config.model, this.resolver);
+      this.controlRef = this.control.createComponent(this.mfactory);
+      this.controlRef.instance.setElementParent(this);
+    }
+
+    // Display all the attributes (handled in superclass)
+    this.addAttributes(conf);
   }
 
   remove() {
@@ -143,10 +209,12 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
 
     so.tl = this.topLevel;
     so.n = this.config.name;
+    so.p = this.elementPath;
 
     if (this.topLevel) {
       this.siblings.forEach(sib => {
         so.s.push(sib.getSaveObj());
+
       });
     } else {
       so.v = this.config.value;
@@ -160,7 +228,7 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
 
   applyConfig(so: SaveObj) {
     if (so == null) {
-      alert("Error");
+     console.log('Simple Apply Config Error');
       return;
     }
     if (this.topLevel) {
@@ -201,7 +269,6 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
         this.attchildren[i].setValue(att.v);
         this.attchildren[i].setEnabled(att.e);
         this.attchildren[i].controlRef.instance.tickle();
-
       }
       // Now handle the children
       this.config.value = so.v;
@@ -212,72 +279,6 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
       }
     }
   }
-  setConfig(conf: ItemConfig, parentObject) {
-
-    this.topLevel = true;
-    this.config = JSON.parse(JSON.stringify(conf));
-    this.config.enabled = this.config.required;
-    this.config.uuid = this.global.guid();
-    this.elementPath = this.parent.elementPath + '/' + conf.name;
-
-
-    if (this.config.typeAnnotation == null) {
-      this.config.typeAnnotation = this.config.annotation;
-    }
-
-    if (this.config.model != null) {
-      const mfactory = this.widgetFactory.getFactory(this.config.model, this.resolver);
-      this.controlRef = this.control.createComponent(mfactory);
-      this.controlRef.instance.setElementParent(this);
-    }
-
-    this.addAttributes(conf);
-
-    for (let i = 0; i < conf.minOccurs; i++) {
-      this.addSibling();
-    }
-  }
-
-  setSiblingConfig(conf: ItemConfig, parentObj) {
-
-    this.topLevel = false;
-    this.config = JSON.parse(JSON.stringify(conf));
-    this.config.enabled = this.config.required;
-    this.elementPath = parentObj.elementPath + '/' + this.config.name;
-    this.config.uuid = this.global.guid();
-
-    // Preset the opening and closing tags
-    if (this.config.prefix.length >= 1) {
-      this.openTag = '<' + this.config.prefix + ':' + this.config.name;
-      this.closeTag = '</' + this.config.prefix + ':' + this.config.name + '>\n';
-    } else {
-      this.openTag = '<' + this.config.name;
-      this.closeTag = '</' + this.config.name + '>\n';
-    }
-
-    // Add the name space declaration if it is configured
-    if (this.config.ns != null) {
-      this.openTag = this.openTag.concat(this.config.ns);
-    }
-
-    if (typeof this.config.annotation === 'undefined') {
-      this.config.annotation = '';
-    }
-
-
-    if (this.config.typeAnnotation == null) {
-      this.config.typeAnnotation = this.config.annotation;
-    }
-
-    if (this.config.model != null) {
-      this.mfactory = this.widgetFactory.getFactory(this.config.model, this.resolver);
-      this.controlRef = this.control.createComponent(this.mfactory);
-      this.controlRef.instance.setElementParent(this);
-    }
-
-    this.addAttributes(conf);
-  }
-
 
   setText(textXMLs: XMLElement[]): number {
 
@@ -289,13 +290,9 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
     if (_this.config.name !== textXMLs[0].name) {
       return Globals.OK;
     }
-
-
-
     // If this is the top level element, check that there is no changes in the number of
     // elements and then farm out to the individual instantiations
     if (_this.topLevel) {
-
 
       // Send the data to the individual items
       const sibLength = _this.siblings.length;
