@@ -1,12 +1,10 @@
-import { XMLElement } from './../../services/globals';
+import { XMLElement, SaveObj, AttItemConfig } from './../../services/globals';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterViewInit, OnInit } from '@angular/core';
 import { Globals } from '../../services/globals';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
-import { noSideEffects } from '@angular/core/src/util';
-import { text } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-sequence',
@@ -93,6 +91,90 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     this.depth = parentObj.depth + 1;
     this.parent = parentObj;
     this.elementPath = parentObj.elementPath + '/' + this.config.name;
+  }
+
+  getSaveObj(): SaveObj {
+
+    const so = new SaveObj();
+    so.tl = this.topLevel;
+    so.n = this.config.name;
+
+    if (this.topLevel) {
+      this.siblings.forEach(sib => {
+        so.s.push(sib.getSaveObj());
+      });
+    } else {
+      this.attchildren.forEach(att => {
+        so.a.push(new AttItemConfig(att.config.name, att.config.value, att.config.enabled));
+      });
+
+      this.children.forEach(child => {
+        so.c.push(child.getSaveObj());
+      });
+    }
+
+    return so;
+  }
+
+  applyConfig(so: SaveObj) {
+
+    if (so == null) {
+      console.log('Apply Config Error - null object');
+      return;
+    }
+    if (this.topLevel) {
+      if (!so.tl) {
+        return;
+      }
+
+      // This is a topLevel instance, so create the correct
+      // number of siblings
+
+      // Remove all existing siblings
+      for (let i = 0; i < this.siblings.length; i++) {
+          this.siblingsPt.remove(i);
+          this.siblings.splice(i, 1);
+          this.siblingCounter--;
+          break;
+      }
+
+      // Add the correct number of siblings
+      for (let i = 0; i < so.s.length; i++){
+        this.addSibling();
+      }
+
+      for (let i = 0; i < so.s.length; i++) {
+        const soSib = so.s[i];
+        this.siblings[i].applyConfig(soSib);
+      }
+
+
+    } else {
+      if (so.tl) {
+        return;
+      }
+
+      // This is an actual instance, so process the children
+      if ( so.c.length !== this.children.length) {
+        console.log ('Apply Config Error - children not equal');
+      } else {
+
+        // First set the Attribute of the sequence
+        for (let i = 0; i < so.a.length; i++) {
+          const att = so.a[i];
+          this.attchildren[i].setValue(att.v);
+          this.attchildren[i].setEnabled(att.e);
+          this.attchildren[i].controlRef.instance.tickle();
+        }
+
+        // Now handle the children
+        for (let i = 0; i < so.c.length; i++) {
+          const child = so.c[i];
+          this.children[i].applyConfig(child);
+        }
+      }
+    }
+
   }
 
   setSiblingConfig(conf: ItemConfig, creator, parentObj) {
@@ -185,7 +267,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
       // Distribute to each of the siblings
       const sibLength = _this.siblings.length;
       for (let i = 0; i < sibLength; i++) {
-        const res =  _this.siblings[i].setText([textXMLs[i]]);
+        const res = _this.siblings[i].setText([textXMLs[i]]);
 
         if (res !== Globals.OK) {
           return res;
@@ -219,7 +301,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
         // This will go through all the children, but each child will reject if name is not right
         // May be a problem for CHOICES!!!!
 
-        for (let j = 0 ; j < _this.children.length; j++) {
+        for (let j = 0; j < _this.children.length; j++) {
           const child = _this.children[j];
           const res2 = child.setText(arr);
           if (res2 !== Globals.OK) {
@@ -227,7 +309,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
           }
         }
       }
-       // Will return the fact if the attribute was handled or not
+      // Will return the fact if the attribute was handled or not
       return res;
     }
   }

@@ -1,4 +1,4 @@
-import { XMLElement, XMLAttribute } from './../../services/globals';
+import { XMLElement, XMLAttribute, SaveObj, AttItemConfig } from './../../services/globals';
 import { Globals } from '../../services/globals';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, AfterViewInit, OnInit } from '@angular/core';
@@ -89,6 +89,38 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
     return this.parent.siblingCounter > this.config.minOccurs;
   }
 
+  getSaveObj(): SaveObj {
+
+
+    if (this.topLevel) {
+      return null;
+      // this.siblings.forEach(sib => {
+      //   so.s.push(sib.getSaveObj());
+      // });
+    } else {
+      const so = new SaveObj();
+      so.tl = false;
+      so.n = this.config.name;
+      so.choice = true;
+      so.sel = this.selectedChoice;
+
+      this.attchildren.forEach(att => {
+        so.a.push(new AttItemConfig(att.config.name, att.config.value));
+      });
+
+     const  _this = this;
+      if (this.children != null) {
+        this.children.forEach((value) => {
+          if (value.config.name === _this.selectedChoice) {
+            so.c.push(value.getSaveObj());
+          }
+        });
+      }
+
+      return so;
+    }
+  }
+
   checkChoice() {
 
     const size = this.container.length;
@@ -158,7 +190,7 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
     return '';
   }
 
-  setConfig(conf: ItemConfig, creator, parentObj) {
+   setConfig(conf: ItemConfig, creator, parentObj) {
 
 
     this.creator = creator;
@@ -213,7 +245,7 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
 
   setText(textXMLs: XMLElement[]): number {
 
-    debugger;
+
     const _this = this;
     if (textXMLs === null) {
       return Globals.OK;

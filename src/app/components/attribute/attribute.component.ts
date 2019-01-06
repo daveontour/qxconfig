@@ -38,6 +38,10 @@ export class AttributeComponent {
     return this.config.enabled;
   }
 
+  setEnabled(v: boolean) {
+    this.config.enabled = v;
+  }
+
   setAttribute(attribute: ItemConfig, ePath: string) {
 
 

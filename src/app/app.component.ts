@@ -36,6 +36,8 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   private statusSub: Subscription;
   private homeSub: Subscription;
   private dismissSub: Subscription;
+  private saveSub: Subscription;
+  private applySub: Subscription;
   schema = '-';
   prevSchema = '-';
   schemaFile = '-';
@@ -47,6 +49,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   ace: any;
   sess: any;
   editorStatus: string;
+  soText: string;
 
 
   validationMessage = 'Validating...please wait';
@@ -119,6 +122,26 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
         this.schemaFile = this.prevScehmaFile;
         this.type = this.prevType;
         this.status = 'Ready';
+      }
+    );
+
+    const _this = this;
+    this.saveSub = messenger.save$.subscribe(
+      data => {
+        const so = _this.global.root.getSaveObj();
+        _this.soText = JSON.stringify(so);
+
+        console.log(_this.soText);
+        console.log(so);
+      }
+    );
+
+    this.applySub = messenger.apply$.subscribe(
+      data => {
+        const so = JSON.parse(_this.soText);
+        console.log('Applying saved object');
+         _this.global.root.applyConfig(so);
+
       }
     );
 
@@ -195,7 +218,6 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     this.ace = this.global.editor.getEditor();
     this.sess = this.ace.session;
 
- 
     this.editor._editor.keyBinding.addKeyboardHandler(function($data, hashId, keyString, keyCode, e) {
 
       // Clear any status message
@@ -269,8 +291,6 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
     this.editorStatus = '';
     this.cdRef.detectChanges();
-
-    debugger;
 
     if (this.global.lockEditorUpdates) {
       return;

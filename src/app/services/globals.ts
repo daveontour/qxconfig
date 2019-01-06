@@ -1,13 +1,14 @@
 import { GenericAlertComponent } from './../components/utils/genericalert/generic-alert.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { ItemConfig } from '../interfaces/interfaces';
 
 
 @Injectable()
 export class Globals {
 
   public static OK = 1;
-  public static STRUCTURECHANGE  = -1;
+  public static STRUCTURECHANGE = -1;
   public static ATTRIBUTEHANDLED = 2;
   public static VALUEHANDLED = 3;
 
@@ -129,9 +130,9 @@ export class Globals {
       }
       if (fromTo === 'opening->closing') {
         formatted = formatted.substr(0, formatted.length - 1) + ln + '\n'; // substr removes line break (\n) from prev loop
-       } else {
+      } else {
         formatted += padding + ln + '\n';
-       }
+      }
     }
 
     return formatted;
@@ -140,10 +141,10 @@ export class Globals {
 
 export class XMLElement {
   constructor(n: string) {
-      if (n.indexOf(':') !== -1 ) {
-        n = n.substring(n.indexOf(':') + 1 );
-      }
-      this.name = n;
+    if (n.indexOf(':') !== -1) {
+      n = n.substring(n.indexOf(':') + 1);
+    }
+    this.name = n;
   }
   name: string;
   path: string;
@@ -152,17 +153,43 @@ export class XMLElement {
   children: XMLElement[] = [];
   attributes: XMLAttribute[] = [];
   setValue(v: string) {
-      this.value = v;
+    this.value = v;
   }
 }
 
 export class XMLAttribute {
   constructor(n: string) {
-      this.name = n;
+    this.name = n;
   }
   name: string;
   value: string;
   setValue(v: string) {
-      this.value = v;
+    this.value = v;
+  }
+}
+
+export class SaveObj {
+  n: string;
+  v: any;
+  tl: boolean;
+  a: AttItemConfig[] = [];
+  c: SaveObj[] = [];
+  s: SaveObj[] = [];
+  sel: string;
+  choice = false;
+}
+
+export class AttItemConfig {
+  n: string;
+  v: any;
+  e: boolean;
+
+  constructor(
+    name: string, value: any, enabled: boolean
+  ) {
+
+    this.n = name;
+    this.v = value;
+    this.e = enabled;
   }
 }

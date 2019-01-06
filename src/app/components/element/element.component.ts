@@ -1,7 +1,8 @@
-import { XMLElement, Globals } from './../../services/globals';
+import { XMLElement, Globals, SaveObj } from './../../services/globals';
 import { AttributeComponent } from './../attribute/attribute.component';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { Input, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+
 
 export abstract class ElementComponent {
   @ViewChild('container', { read: ViewContainerRef }) container;
@@ -36,6 +37,11 @@ export abstract class ElementComponent {
   abstract setConfig(conf: ItemConfig, parentObject: any, topLevel: boolean): void;
   abstract remove(): void;
   abstract removeChild(childIDtoRemove: string): void;
+  abstract getSaveObj(): SaveObj;
+
+  applyConfig(so: SaveObj) {
+
+  }
 
 
   getAttributeString() {

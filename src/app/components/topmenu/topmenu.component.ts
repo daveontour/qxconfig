@@ -49,6 +49,14 @@ export class TopmenuComponent {
     this.messenger.goHome();
   }
 
+  save() {
+    this.messenger.save();
+  }
+
+  apply() {
+    this.messenger.apply();
+  }
+
   validate() {
 
     if (this.global.selectedType == null) {

@@ -1,4 +1,4 @@
-import { XMLElement } from './../../services/globals';
+import { XMLElement, SaveObj, AttItemConfig } from './../../services/globals';
 import { Messenger } from './../../services/messenger';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { WidgetFactory } from './../../services/widgetfactory';
@@ -137,6 +137,81 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
     }
   }
 
+  getSaveObj(): SaveObj {
+
+    const so = new SaveObj();
+
+    so.tl = this.topLevel;
+    so.n = this.config.name;
+
+    if (this.topLevel) {
+      this.siblings.forEach(sib => {
+        so.s.push(sib.getSaveObj());
+      });
+    } else {
+      so.v = this.config.value;
+      this.attchildren.forEach(att => {
+        so.a.push(new AttItemConfig(att.config.name, att.config.value, att.config.enabled));
+      });
+    }
+
+    return so;
+  }
+
+  applyConfig(so: SaveObj) {
+    if (so == null) {
+      alert("Error");
+      return;
+    }
+    if (this.topLevel) {
+      if (!so.tl) {
+        return;
+      }
+
+      // This is a topLevel instance, so create the correct
+      // number of siblings
+
+      // Remove all existing siblings
+      for (let i = 0; i < this.siblings.length; i++) {
+        this.siblingsPt.remove(i);
+        this.siblings.splice(i, 1);
+        this.siblingCounter--;
+        break;
+      }
+
+      // Add the correct number of siblings
+      for (let i = 0; i < so.s.length; i++) {
+        this.addSibling();
+      }
+
+      for (let i = 0; i < so.s.length; i++) {
+        const soSib = so.s[i];
+        this.siblings[i].applyConfig(soSib);
+      }
+
+
+    } else {
+      if (so.tl) {
+        return;
+      }
+
+      // First set the Attribute of the sequence
+      for (let i = 0; i < so.a.length; i++) {
+        const att = so.a[i];
+        this.attchildren[i].setValue(att.v);
+        this.attchildren[i].setEnabled(att.e);
+        this.attchildren[i].controlRef.instance.tickle();
+
+      }
+      // Now handle the children
+      this.config.value = so.v;
+
+      // It could be an attribute only element
+      if (typeof this.controlRef !== 'undefined') {
+        this.controlRef.instance.tickle();
+      }
+    }
+  }
   setConfig(conf: ItemConfig, parentObject) {
 
     this.topLevel = true;
@@ -217,7 +292,7 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
 
 
 
-    // If this is the top level element, check that there is no changes in the number of 
+    // If this is the top level element, check that there is no changes in the number of
     // elements and then farm out to the individual instantiations
     if (_this.topLevel) {
 
