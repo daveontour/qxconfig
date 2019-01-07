@@ -65,12 +65,12 @@ export class XSStringComponent extends ControlComponent {
 
   public change() {
     this.validate(this.config.value, true);
-    this.global.getString();
+    this.global.controlChange();
   }
 
   getValue() {
     this.validate(this.config.value, true);
-    if (typeof this.config.value == "undefined") {
+    if (typeof this.config.value === 'undefined') {
       if (this.bElement) {
         this.global.elementsUndefined.push(this.parent.elementPath);
       } else {

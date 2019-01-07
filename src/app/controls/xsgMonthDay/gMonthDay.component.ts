@@ -69,15 +69,15 @@ export class XSGMonthDayComponent extends ControlComponent {
 
   }
 
-  public change(){
+  public change() {
 
-    if (typeof this.valueMonths == "undefined" || typeof this.valueDays == "undefined"){
+    if (typeof this.valueMonths === 'undefined' || typeof this.valueDays === 'undefined' ) {
       delete this.config.value;
     } else {
-      this.config.value =  this.valueMonths+this.valueDays.substring(2);
+      this.config.value =  this.valueMonths + this.valueDays.substring(2);
     }
 
-    this.global.getString();
+    this.global.controlChange();
 
   }
 }

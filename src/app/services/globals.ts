@@ -1,7 +1,7 @@
 import { GenericAlertComponent } from './../components/utils/genericalert/generic-alert.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Injectable } from '@angular/core';
-import { ItemConfig } from '../interfaces/interfaces';
+import * as $ from 'jquery';
 
 
 @Injectable()
@@ -42,6 +42,8 @@ export class Globals {
   public lockEditorUpdates = false;
   public undoStack: SaveObj[] = [];
   public root: any;
+  private lockChangeDetection = false;
+  private lockStack = [];
 
   constructor(
     private modalService: NgbModal
@@ -49,19 +51,68 @@ export class Globals {
 
   }
 
+  // THe lock prevents continuous updating of generated XML
+  // It uses a stack of locks, so everyone who calls for a lock is 
+  // also reponsible for
+  lockChangeDet() {
+    this.lockChangeDetection = true;
+    this.lockStack.push(true);
+  }
+  enableChangeDet() {
+    this.lockStack.pop();
+
+    if (this.lockStack.length === 0) {
+      this.lockChangeDetection = false;
+    }
+  }
+  componentChanged() {
+    if (!this.lockChangeDetection) {
+      this.getString();
+    }
+  }
+  formLoaded() {
+    if (!this.lockChangeDetection) {
+      this.getString();
+    }
+  }
+  childRemoved() {
+    if (!this.lockChangeDetection) {
+      this.getString();
+    }
+  }
+  siblingAdded() {
+    if (!this.lockChangeDetection) {
+      this.getString();
+    }
+  }
+  controlChange() {
+    if (!this.lockChangeDetection) {
+      this.getString();
+    }
+  }
+
   getString() {
-    this.lockEditorUpdates = true;
-    this.alerts = '';
-    this.formatErrors = [];
-    this.elementsUndefined = [];
-    this.attributesUndefined = [];
-    this.sampleXMLMessage = this.formatXML(this.root.getElementString(''));
-    this.XMLMessage = this.sampleXMLMessage;
-    this.lockEditorUpdates = false;
 
-    //Put it on the undoSack
+    if (this.lockChangeDetection) {
+      console.log('Rejected Get String Called ', new Date());
+      return;
+    }
 
-   // this.undoStack.push(this.root.getSaveObj());
+    $('body').addClass('waiting');
+    setTimeout(() => {
+      this.lockEditorUpdates = true;
+      this.alerts = '';
+      this.formatErrors = [];
+      this.elementsUndefined = [];
+      this.attributesUndefined = [];
+      this.sampleXMLMessage = this.formatXML(this.root.getElementString(''));
+      this.XMLMessage = this.sampleXMLMessage;
+      this.lockEditorUpdates = false;
+
+      // Put it on the undoSack
+      this.undoStack.push(this.root.getSaveObj());
+      $('body').removeClass('waiting');
+    }, 0 );
   }
 
   public openModalAlert(title: string, message: string, message2: string = '') {

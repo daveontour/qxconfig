@@ -8,8 +8,6 @@ import { ItemConfig } from '../../interfaces/interfaces';
 import { ElementComponent } from '../element/element.component';
 import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import * as $ from 'jquery';
-
-
 @Component({
   selector: 'app-simple',
   templateUrl: './simple.component.html',
@@ -41,7 +39,6 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
 
   }
 
-
   showDeleteAction() {
     if (this.parent.siblings.length > this.config.minOccurs) {
       return true;
@@ -51,10 +48,9 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
   }
 
   change() {
-    this.global.getString();
+    this.global.componentChanged();
     this.cdRef.detectChanges();
   }
-
 
   addSibling(): boolean {
 

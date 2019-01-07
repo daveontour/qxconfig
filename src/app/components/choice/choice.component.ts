@@ -163,7 +163,7 @@ export class ChoiceComponent extends ElementComponent implements AfterViewInit, 
   }
 
   change() {
-    this.global.getString();
+    this.global.componentChanged();
   }
 
   getChildString() {

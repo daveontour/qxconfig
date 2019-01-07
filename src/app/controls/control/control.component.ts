@@ -41,7 +41,7 @@ export abstract class ControlComponent implements AfterViewInit {
     if (this.unionMember) {
       this.parent.memberChange(this);
     } else {
-      this.global.getString();
+      this.global.controlChange();
     }
   }
 
@@ -49,9 +49,6 @@ export abstract class ControlComponent implements AfterViewInit {
     // For signalling to union component when the child id ready
   }
 
-  requireStar() {
-    return (this.config.enabled || this.config.required);
-  }
   setValue(value: any) {
     this.config.value = value;
   }

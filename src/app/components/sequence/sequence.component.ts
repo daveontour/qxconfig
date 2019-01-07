@@ -71,7 +71,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
     if (this.topLevel) {
       this.creator.walkSequenceSibling(this);
       this.siblingCounter++;
-      this.global.getString();
+      this.global.siblingAdded();
       this.cdRef.detectChanges();
       return true;
     }
@@ -143,7 +143,7 @@ export class SequenceComponent extends ElementComponent implements AfterViewInit
         break;
       }
     }
-    this.global.getString();
+    this.global.childRemoved();
   }
 
   getSaveObj(): SaveObj {

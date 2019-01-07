@@ -32,7 +32,7 @@ export class AttributeComponent {
   }
 
   change() {
-    this.global.getString();
+    this.global.componentChanged();
   }
   isEnabled() {
     return this.config.enabled;

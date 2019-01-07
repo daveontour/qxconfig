@@ -66,7 +66,7 @@ export class UnionComponent extends ControlComponent implements AfterViewInit {
 
   public memberChange(member) {
     this.activeMember = member;
-    this.global.getString();
+    this.global.controlChange();
   }
 
   getValue() {

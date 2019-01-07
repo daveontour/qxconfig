@@ -130,8 +130,27 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     );
     messenger.undo$.subscribe(
       data => {
-        console.log('Applying undo', _this.global.undoStack);
-        _this.global.root.applyConfig(_this.global.undoStack.pop());
+        if (_this.global.undoStack.length <= 1) {
+          return;
+        }
+        _this.global.lockChangeDet();
+        // The last one on the stack represents the current state, so discard it. 
+        _this.global.undoStack.pop();
+        $('body').addClass('waiting');
+        _this.global.openModalAlert('Undo', 'Processing. Please Wait.');
+         setTimeout(() => {
+          _this.global.root.applyConfig(_this.global.undoStack.pop());
+          $('body').removeClass('waiting');
+          _this.modalService.dismissAll();
+          setTimeout(() => {
+            _this.global.enableChangeDet();
+            _this.global.getString();
+          });
+        });
+        // setTimeout(() => {
+        //   _this.global.enableChangeDet();
+        //   _this.global.getString();
+        // });
       }
     );
   }
@@ -150,7 +169,7 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
   }
 
   ngAfterContentInit() {
-    // this.global.getString();
+
     const _this = this;
 
     // Set up the keystroke handler for the editor to limit what is editable
@@ -232,6 +251,7 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     this.wait = true;
     this.container.clear();
     this.global.root = null;
+    this.global.undoStack = [];
 
     this.global.openModalAlert('Schema Processing', 'Processing Schema. Please Wait.');
 
@@ -244,12 +264,20 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
         return;
       } else {
         this.status = 'Ready';
-        this.global.openModalAlert('Schema Retrieved', 'Schema interpretted successfully');
+        // this.global.openModalAlert('Schema Retrieved', 'Schema interpretted successfully');
+        this.modalService.dismissAll();
       }
       data.elementPath = data.name;
       data.isRoot = true;
+      this.global.lockChangeDet();
+      console.log('Start Walk Structure');
       this.walkStructure(data, this);
-      this.global.getString();
+      console.log('End Walk Structure');
+      setTimeout(() => {
+        this.global.enableChangeDet();
+        this.global.formLoaded();
+      });
+
 
       // This prevents ExpressionChangedAfterItHasBeenCheckedError
       // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
@@ -271,31 +299,26 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
 
     this.editorStatus = '';
     this.cdRef.detectChanges();
+    this.global.lockChangeDet();
 
-    if (this.global.lockEditorUpdates) {
-      return;
-    }
-
-
-    const ti = new TokenInterpretter(this.global);
-    const textRoot = ti.getRoot();
-
-    const rootArray = [];
-    rootArray.push(textRoot);
-
-    const res = this.global.root.setText(rootArray);
+    const ti = new TokenInterpretter(this.global)
+    const res = this.global.root.setText([ti.getRoot()]);
 
     if (res === Globals.VALUEHANDLED || res === Globals.ATTRIBUTEHANDLED) {
       this.editorStatus = 'Changes Processed';
       this.cdRef.detectChanges();
+      this.global.enableChangeDet();
       return;
     }
 
     if (res === Globals.OK) {
       this.editorStatus = 'No changes made yet';
       this.cdRef.detectChanges();
+      this.global.enableChangeDet();
       return;
     }
+
+    this.global.enableChangeDet();
   }
 
   walkStructure(data, parentObject) {
@@ -379,7 +402,7 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     // Assign the new object as a child of the parent object
     parentObject.children.push(newObjRef);
 
- }
+  }
 
   createChoiceSibling(parentObject) {
 
