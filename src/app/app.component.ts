@@ -467,7 +467,6 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     this.http.request<any>(request)
       .subscribe(
         event => {
-          debugger;
           if (event.type === HttpEventType.Response) {
             console.log('response received...', event.body);
             const soFile = event.body;
