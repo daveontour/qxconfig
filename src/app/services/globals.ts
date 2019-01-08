@@ -20,8 +20,10 @@ export class Globals {
 
   public baseURL = 'http://localhost:8080/XSD2XML/json';
   public baseURLValidate = 'http://localhost:8080/XSD2XML/validate';
-  public baseURLUploadEntered = 'http://localhost:8080/XSD_Forms/upload?uploadType=enteredxsd&sessionID=';
-  public baseURLUploadFiles = 'http://localhost:8080/XSD_Forms/upload?uploadType=files&sessionID=';
+  public baseURLUploadEntered = 'http://localhost:8080/XSD2XML/upload?uploadType=enteredxsd&sessionID=';
+  public baseURLUploadFiles = 'http://localhost:8080/XSD2XML/upload?uploadType=files&sessionID=';
+  public baseURLUploadAndSaveFiles = 'http://localhost:8080/XSD2XML/upload?uploadType=uploadandsave&sessionID=';
+  public baseURLSaveFileReflector = 'http://localhost:8080/XSD2XML/upload?uploadType=savefilereflector&sessionID=';
 
   public buildNumber = 'localbuild';
 
@@ -33,6 +35,7 @@ export class Globals {
   public attributesUndefined: string[] = [];
   public formatErrors: string[] = [];
   public selectedSchema: string;
+  public selectedFile: string;
   public selectedType: string;
   public sessionID = 'new';
   public selectionMethod: string;
@@ -233,6 +236,13 @@ export class SaveObj {
   sel: string;
   p: string;
   choice = false;
+}
+
+export class SaveObjFile {
+  o: SaveObj;
+  c: string;
+  f: string;
+  t: string;
 }
 
 export class AttItemConfig {

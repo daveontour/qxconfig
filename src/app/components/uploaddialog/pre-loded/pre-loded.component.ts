@@ -93,8 +93,10 @@ export class PreLodedComponent implements OnInit {
     this.selectedType = null;
     if (this.selectionMethod === 'enterxsd') {
       this.messenger.setSchemaFile('User Uploaded');
+      this.global.selectedFile = 'User Uploaded';
     } else {
       this.messenger.setSchemaFile(this.selectedFile);
+      this.global.selectedFile = this.selectedFile;
     }
 
     this.http.get<ElementAndTypes>(this.global.baseURL + '?op=getSchemaTypes' +
@@ -136,6 +138,7 @@ export class PreLodedComponent implements OnInit {
       '&sessionID=' + this.global.sessionID +
       '&selectionMethod=' + this.selectionMethod);
   }
+
 
   c(reason) {
     this.modalService.dismissAll();

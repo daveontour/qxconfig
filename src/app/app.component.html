@@ -41,6 +41,16 @@
     <div class="value mr-5" style="float: right">{{global.buildNumber}}</div>
     <div class="title mr-2" style="float: right">XSD2XML Build Number: </div>
   </div>
+
+  <form id="downloadform" method="post" style="display: none;" target="_blank">
+    <input type="hidden" name="saveobject" />
+  </form>
+
+  <form style="display: none;">
+      <input type="file" (change)="onSaveFileSelect($event)" title="Select Files" name="files[]" accept=".json" id = "saveFileDialog"/>
+  </form>
+
+
 </div>
 
 <!-- <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'eclipse'" 

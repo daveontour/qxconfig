@@ -1,17 +1,18 @@
 import { IntroTextComponent } from './components/intro-text/intro-text.component';
 import { Messenger } from './services/messenger';
 import { ChoiceComponent } from './components/choice/choice.component';
-import { Globals, SaveObj } from './services/globals';
+import { Globals, SaveObj, SaveObjFile } from './services/globals';
 import { ItemConfig } from './interfaces/interfaces';
 import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
-import { OnInit, AfterViewInit, AfterContentInit, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, AfterContentInit, ChangeDetectorRef } from '@angular/core';
 import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpRequest, HttpHeaders, HttpEventType } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TokenInterpretter } from './services/token-interpretter';
+import { PostEvent } from './interfaces/interfaces';
+
 
 @Component({
   selector: 'app-root',
@@ -114,18 +115,19 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     );
     messenger.save$.subscribe(
       data => {
-        const so = _this.global.root.getSaveObj();
-        _this.soText = JSON.stringify(so);
-
-        console.log(_this.soText);
-        console.log(so);
+        const so = this.global.root.getSaveObj();
+        const sof = new SaveObjFile();
+        sof.o = so;
+        sof.c = this.global.selectedSchema;
+        sof.f = this.global.selectedType;
+        sof.t = this.global.selectedType;
+        _this.save(JSON.stringify(sof));
       }
     );
     messenger.apply$.subscribe(
       data => {
-        const so = JSON.parse(_this.soText);
-        console.log('Applying saved object');
-        _this.global.root.applyConfig(so);
+        //     _this.global.root.applyConfig(JSON.parse(_this.soText));
+        $('#saveFileDialog').trigger('click');
       }
     );
     messenger.undo$.subscribe(
@@ -134,11 +136,11 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
           return;
         }
         _this.global.lockChangeDet();
-        // The last one on the stack represents the current state, so discard it. 
+        // The last one on the stack represents the current state, so discard it.
         _this.global.undoStack.pop();
         $('body').addClass('waiting');
         _this.global.openModalAlert('Undo', 'Processing. Please Wait.');
-         setTimeout(() => {
+        setTimeout(() => {
           _this.global.root.applyConfig(_this.global.undoStack.pop());
           $('body').removeClass('waiting');
           _this.modalService.dismissAll();
@@ -301,7 +303,7 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     this.cdRef.detectChanges();
     this.global.lockChangeDet();
 
-    const ti = new TokenInterpretter(this.global)
+    const ti = new TokenInterpretter(this.global);
     const res = this.global.root.setText([ti.getRoot()]);
 
     if (res === Globals.VALUEHANDLED || res === Globals.ATTRIBUTEHANDLED) {
@@ -422,6 +424,57 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
 
   createChoiceElement(data, parentObj) {
     this.walkStructure(data, parentObj);
+  }
+
+  save(saveobject: string) {
+    const url = this.global.baseURLUploadAndSaveFiles + this.global.sessionID;
+    $('input[name="saveobject"]').val(saveobject);
+    $('#downloadform').attr('action', url);
+    $('#downloadform').submit();
+  }
+
+  onSaveFileSelect(event) {
+
+    const selectedFiles = [];
+
+    const file = event.target.files || event.srcElement.files;
+    for (let i = 0; i < file.length; i++) {
+      selectedFiles.push(file[i]);
+    }
+    this.uploadSavedFile(selectedFiles);
+  }
+
+  uploadSavedFile(selectedFiles: any[]) {
+
+    const formData: any = new FormData();
+    for (let i = 0; i < selectedFiles.length; i++) {
+      // Add DATA TO BE SENT
+      formData.append('file', selectedFiles[i]);
+    }
+
+    const request = new HttpRequest(
+      'POST',
+      this.global.baseURLSaveFileReflector + this.global.sessionID,
+      formData,
+      {
+        headers: new HttpHeaders({
+          'Access-Control-Allow-Origin': '*'
+        }),
+        reportProgress: false
+      }
+    );
+
+    this.http.request<any>(request)
+      .subscribe(
+        event => {
+          debugger;
+          if (event.type === HttpEventType.Response) {
+            console.log('response received...', event.body);
+            const soFile = event.body;
+            this.global.root.applyConfig(soFile.o);
+          }
+        }
+      );
   }
 }
 
