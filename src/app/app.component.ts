@@ -1,7 +1,8 @@
+
 import { IntroTextComponent } from './components/intro-text/intro-text.component';
 import { Messenger } from './services/messenger';
 import { ChoiceComponent } from './components/choice/choice.component';
-import { Globals, SaveObj, SaveObjFile } from './services/globals';
+import { Globals, SaveObjFile } from './services/globals';
 import { ItemConfig } from './interfaces/interfaces';
 import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
@@ -11,8 +12,7 @@ import { HttpClient, HttpErrorResponse, HttpRequest, HttpHeaders, HttpEventType 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TokenInterpretter } from './services/token-interpretter';
-import { PostEvent } from './interfaces/interfaces';
-
+import { Director } from './services/director';
 
 @Component({
   selector: 'app-root',
@@ -57,7 +57,8 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     public global: Globals,
     private cdRef: ChangeDetectorRef,
     private messenger: Messenger,
-    public config: NgbPopoverConfig) {
+    public config: NgbPopoverConfig,
+    private director: Director) {
 
     config.triggers = 'triggers="mouseenter:mouseleave';
 
@@ -91,68 +92,24 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
         this.status = data;
       }
     );
-    messenger.home$.subscribe(
-      data => {
-        this.global.XMLMessage = '';
-        this.global.elementsUndefined = [];
-        this.global.attributesUndefined = [];
-        this.global.formatErrors = [];
-        this.getContainer().clear();
+
+
+    messenger.reset$.subscribe(
+      date => {
         this.schema = '-';
         this.schemaFile = '-';
         this.type = '-';
         this.status = 'Ready';
+        this.getContainer().clear();
         this.getContainer().createComponent(this.resolver.resolveComponentFactory(IntroTextComponent));
-      }
-    );
+      });
+
     messenger.dismiss$.subscribe(
       data => {
         this.schema = this.prevSchema;
         this.schemaFile = this.prevScehmaFile;
         this.type = this.prevType;
         this.status = 'Ready';
-      }
-    );
-    messenger.save$.subscribe(
-      data => {
-        const so = this.global.root.getSaveObj();
-        const sof = new SaveObjFile();
-        sof.o = so;
-        sof.c = this.global.selectedSchema;
-        sof.f = this.global.selectedType;
-        sof.t = this.global.selectedType;
-        _this.save(JSON.stringify(sof));
-      }
-    );
-    messenger.apply$.subscribe(
-      data => {
-        //     _this.global.root.applyConfig(JSON.parse(_this.soText));
-        $('#saveFileDialog').trigger('click');
-      }
-    );
-    messenger.undo$.subscribe(
-      data => {
-        if (_this.global.undoStack.length <= 1) {
-          return;
-        }
-        _this.global.lockChangeDet();
-        // The last one on the stack represents the current state, so discard it.
-        _this.global.undoStack.pop();
-        $('body').addClass('waiting');
-        _this.global.openModalAlert('Undo', 'Processing. Please Wait.');
-        setTimeout(() => {
-          _this.global.root.applyConfig(_this.global.undoStack.pop());
-          $('body').removeClass('waiting');
-          _this.modalService.dismissAll();
-          setTimeout(() => {
-            _this.global.enableChangeDet();
-            _this.global.getString();
-          });
-        });
-        // setTimeout(() => {
-        //   _this.global.enableChangeDet();
-        //   _this.global.getString();
-        // });
       }
     );
   }
@@ -266,18 +223,17 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
         return;
       } else {
         this.status = 'Ready';
-        // this.global.openModalAlert('Schema Retrieved', 'Schema interpretted successfully');
         this.modalService.dismissAll();
       }
       data.elementPath = data.name;
       data.isRoot = true;
       this.global.lockChangeDet();
-      console.log('Start Walk Structure');
       this.walkStructure(data, this);
-      console.log('End Walk Structure');
       setTimeout(() => {
         this.global.enableChangeDet();
+        this.global.clearLocks();
         this.global.formLoaded();
+        this.global.clean = true;
       });
 
 
@@ -426,54 +382,8 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     this.walkStructure(data, parentObj);
   }
 
-  save(saveobject: string) {
-    const url = this.global.baseURLUploadAndSaveFiles + this.global.sessionID;
-    $('input[name="saveobject"]').val(saveobject);
-    $('#downloadform').attr('action', url);
-    $('#downloadform').submit();
-  }
-
   onSaveFileSelect(event) {
-
-    const selectedFiles = [];
-
-    const file = event.target.files || event.srcElement.files;
-    for (let i = 0; i < file.length; i++) {
-      selectedFiles.push(file[i]);
-    }
-    this.uploadSavedFile(selectedFiles);
-  }
-
-  uploadSavedFile(selectedFiles: any[]) {
-
-    const formData: any = new FormData();
-    for (let i = 0; i < selectedFiles.length; i++) {
-      // Add DATA TO BE SENT
-      formData.append('file', selectedFiles[i]);
-    }
-
-    const request = new HttpRequest(
-      'POST',
-      this.global.baseURLSaveFileReflector + this.global.sessionID,
-      formData,
-      {
-        headers: new HttpHeaders({
-          'Access-Control-Allow-Origin': '*'
-        }),
-        reportProgress: false
-      }
-    );
-
-    this.http.request<any>(request)
-      .subscribe(
-        event => {
-          if (event.type === HttpEventType.Response) {
-            console.log('response received...', event.body);
-            const soFile = event.body;
-            this.global.root.applyConfig(soFile.o);
-          }
-        }
-      );
+    this.messenger.saveFileSelect(event);
   }
 }
 

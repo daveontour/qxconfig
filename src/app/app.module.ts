@@ -48,6 +48,7 @@ import { EnterXSDComponent } from './components/uploaddialog/enter-xsd/enter-xsd
 import { IntroTextComponent } from './components/intro-text/intro-text.component';
 import { SettingsComponent } from './components/utils/settings/settings.component';
 import { ValidateComponent } from './components/utils/validate/validate.component';
+import { Director } from './services/director';
 
 
 
@@ -117,6 +118,7 @@ export const MY_MOMENT_FORMATS = {
     OwlFormFieldModule,
   ],
   providers: [
+    Director,
     Globals,
     Messenger,
     NgbPopoverConfig,

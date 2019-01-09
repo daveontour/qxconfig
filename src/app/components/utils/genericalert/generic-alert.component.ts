@@ -16,14 +16,29 @@ import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
       <p>{{message2}}</p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-outline-dark" (click)="button1Click()">{{button1}}</button>
+    <button type="button" [ngClass]="{'btn':true, 'btn-outline-dark':true, 'd-none': !showButton2}"
+     (click)="button2Click()">{{button2}}</button>
     </div>
   `
 })
 export class GenericAlertComponent {
-  @Input() message;
-  @Input() message2;
-  @Input() title;
-
+  @Input() message: string;
+  @Input() message2: string;
+  @Input() title: string;
+  @Input() buton1: string;
+  @Input() button2: string;
+  @Input() showButton2 = false;
+  @Input() button1Fn = function() {};
+  @Input() button2Fn = function() {};
   constructor(public activeModal: NgbActiveModal) {}
+
+  button1Click() {
+     this.activeModal.close('Close click');
+     this.button1Fn();
+  }
+  button2Click() {
+     this.activeModal.close('Close click');
+     this.button2Fn();
+    }
 }

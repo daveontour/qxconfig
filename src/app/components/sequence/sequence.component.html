@@ -35,7 +35,7 @@
     <owl-expansion-panel [expanded]='true' [ngClass]="{'oddDepth':isOddDepth(),'evenDepth':isEvenDepth(),'mb-1':'true'}">
       <owl-expansion-panel-header style="background: rgba(0,0,0,0.1)">
         <owl-expansion-panel-title class="form-check-label h6 noselect">
-          {{config.name}} {{elementPath}}
+          <div>{{config.name}}</div> <div class="owl-expansion-panel-header-content pull-left">{{elementPath}}</div>
         </owl-expansion-panel-title>
         <owl-expansion-panel-description>
           {{config.description}}

@@ -18,7 +18,11 @@ export class Messenger {
     private announceSave = new Subject<string>();
     private announceApply = new Subject<string>();
     private announceUndo = new Subject<string>();
-
+    private announceMenuSelectSchema = new Subject<string>();
+    private announceValidate = new Subject<string>();
+    private announceSettings = new Subject<string>();
+    private announceReset = new Subject<string>();
+    private announceSaveFileSelect = new Subject<any>();
     // Observable string streams
     missionAnnounced$ = this.missionAnnouncedSource.asObservable();
     missionConfirmed$ = this.missionConfirmedSource.asObservable();
@@ -33,6 +37,11 @@ export class Messenger {
     save$ = this.announceSave.asObservable();
     apply$ = this.announceApply.asObservable();
     undo$ = this.announceUndo.asObservable();
+    selectSchema$ = this.announceMenuSelectSchema.asObservable();
+    validate$ = this.announceValidate.asObservable();
+    settings$ = this.announceSettings.asObservable();
+    reset$ = this.announceReset.asObservable();
+    savefileselected$ = this.announceSaveFileSelect.asObservable();
 
     // Service message commands
     announceMission(mission: string) {
@@ -45,6 +54,10 @@ export class Messenger {
 
     openSchemaSelection(string: string) {
       this.openSchemaDialog.next(string);
+    }
+
+    selectSchema(string: string) {
+      this.announceMenuSelectSchema.next(string);
     }
 
     setSchema(string: string) {
@@ -76,6 +89,18 @@ export class Messenger {
     }
     setPopoverTrigger(trigger) {
       this.announceTrigger.next(trigger);
+    }
+    validate() {
+      this.announceValidate.next();
+    }
+    settings() {
+      this.announceSettings.next();
+    }
+    reset() {
+      this.announceReset.next();
+    }
+    saveFileSelect(event: any) {
+      this.announceSaveFileSelect.next(event);
     }
 
 }

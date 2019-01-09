@@ -47,6 +47,7 @@ export class Globals {
   public root: any;
   private lockChangeDetection = false;
   private lockStack = [];
+  public clean = true;
 
   constructor(
     private modalService: NgbModal
@@ -67,6 +68,10 @@ export class Globals {
     if (this.lockStack.length === 0) {
       this.lockChangeDetection = false;
     }
+  }
+  clearLocks() {
+    this.lockStack = [];
+    this.lockChangeDetection = false;
   }
   componentChanged() {
     if (!this.lockChangeDetection) {
@@ -111,6 +116,7 @@ export class Globals {
       this.sampleXMLMessage = this.formatXML(this.root.getElementString(''));
       this.XMLMessage = this.sampleXMLMessage;
       this.lockEditorUpdates = false;
+      this.clean = false;
 
       // Put it on the undoSack
       this.undoStack.push(this.root.getSaveObj());
@@ -123,8 +129,22 @@ export class Globals {
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.message2 = message2;
+    modalRef.componentInstance.button1 = 'Close';
+    modalRef.componentInstance.showButton2 = false;
   }
 
+  public openModalQuestion(title: string, message: string, message2: string = '', button1: string, button2: string,
+   button1Fn: any, button2Fn: any) {
+    const modalRef = this.modalService.open(GenericAlertComponent);
+    modalRef.componentInstance.title = title;
+    modalRef.componentInstance.message = message;
+    modalRef.componentInstance.message2 = message2;
+    modalRef.componentInstance.button1 = button1;
+    modalRef.componentInstance.button2 = button2;
+    modalRef.componentInstance.button1Fn = button1Fn;
+    modalRef.componentInstance.button2Fn = button2Fn;
+    modalRef.componentInstance.showButton2 = true;
+  }
   public guid() {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)
