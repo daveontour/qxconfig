@@ -15,6 +15,9 @@ import { EnterXSDComponent } from '../components/uploaddialog/enter-xsd/enter-xs
 @Injectable()
 export class Director {
 
+  documentClean = true;
+  method: string;
+
   constructor(
     private modalService: NgbModal,
     private http: HttpClient,
@@ -28,20 +31,24 @@ export class Director {
     // One of the Schema selection options is selected
     messenger.selectSchema$.subscribe(
       method => {
-        try {
-          switch (method) {
-            case 'pre':
-              _this.modalService.open(PreLodedComponent, { centered: true, size: 'lg' });
-              break;
-            case 'user':
-              _this.modalService.open(LoadYourOwnComponent, { centered: true, size: 'lg' });
-              break;
-            case 'enter':
-              _this.modalService.open(EnterXSDComponent, { centered: true, size: 'lg' });
-              break;
-          }
-        } catch (e) {
-          console.log(e);
+
+        _this.method = method;
+
+        if (!_this.documentClean) {
+
+          // Warn the user changes will be lost
+          this.global.openModalQuestion('Warning', 'Any changes will be lost', '', 'Proceed', 'Cancel',
+            // Function to execute id button1 (Proceed) is selected
+            this.selectSchema,
+            // Function to execute id button2 (Cancel) is selected
+            function () { },
+            // Parameter for  function proceed function
+            method,
+             // Parameter for  function cancel function
+            null);
+        } else {
+          // No changes, so just go ahead
+          this.selectSchema(method);
         }
       });
 
@@ -73,7 +80,7 @@ export class Director {
         _this.modalService.open(SettingsComponent, { centered: true, size: 'lg' });
       });
 
-          // Save File selected
+    // Save File selected
     messenger.savefileselected$.subscribe(
       data => {
         _this.saveFileSelect(data);
@@ -89,6 +96,14 @@ export class Director {
         sof.f = this.global.selectedFile;
         sof.t = this.global.selectedType;
         _this.save(JSON.stringify(sof));
+        _this.messenger.setDocumentClean();
+      }
+    );
+
+    messenger.docClean$.subscribe(
+      data => {
+        console.log('Document Status ', data);
+        _this.documentClean = data;
       }
     );
 
@@ -106,14 +121,14 @@ export class Director {
     messenger.home$.subscribe(
       data => {
 
-        if (!_this.global.clean) {
+        if (!_this.documentClean) {
 
-        // Warn the user changes will be lost
-        this.global.openModalQuestion('Warning', 'Any changes will be lost', '', 'Proceed', 'Cancel',
-          // Function to execute id button1 (Proceed) is selected
-          this.cleanDocument,
-          // Function to execute id button1 (Proceed) is selected
-          function () { });
+          // Warn the user changes will be lost
+          this.global.openModalQuestion('Warning', 'Any changes will be lost', '', 'Proceed', 'Cancel',
+            // Function to execute id button1 (Proceed) is selected
+            this.cleanDocument,
+            // Function to execute id button1 (Proceed) is selected
+            function () { }, null, null);
         } else {
           // No changes, so just go ahead
           this.cleanDocument();
@@ -149,15 +164,35 @@ export class Director {
     );
   }
 
-  cleanDocument() {
-      this.modalService.dismissAll();
-      this.global.XMLMessage = '';
-      this.global.elementsUndefined = [];
-      this.global.attributesUndefined = [];
-      this.global.formatErrors = [];
+  selectSchema(method) {
+debugger;
+    try {
+      switch (method) {
+        case 'pre':
+          this.modalService.open(PreLodedComponent, { centered: true, size: 'lg' });
+          break;
+        case 'user':
+          this.modalService.open(LoadYourOwnComponent, { centered: true, size: 'lg' });
+          break;
+        case 'enter':
+          this.modalService.open(EnterXSDComponent, { centered: true, size: 'lg' });
+          break;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
-      // Sends a message to the app.component to reset the page
-      this.messenger.reset();
+  cleanDocument() {
+    this.modalService.dismissAll();
+    this.global.XMLMessage = '';
+    this.global.elementsUndefined = [];
+    this.global.attributesUndefined = [];
+    this.global.formatErrors = [];
+
+    // Sends a message to the app.component to reset the page
+    this.messenger.reset();
+    this.messenger.setDocumentClean();
   }
 
   save(saveobject: string) {
@@ -168,6 +203,7 @@ export class Director {
     $('input[name="saveobject"]').val(saveobject);
     $('#downloadform').attr('action', url);
     $('#downloadform').submit();
+
   }
 
   saveFileSelect(event: any) {
@@ -213,6 +249,7 @@ export class Director {
               this.global.openModalAlert('Incorrect Schema', 'Wrong Schema');
             } else {
               this.global.root.applyConfig(soFile.o);
+              this.messenger.setDocumentClean();
             }
           }
         }

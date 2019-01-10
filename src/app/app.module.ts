@@ -51,7 +51,6 @@ import { ValidateComponent } from './components/utils/validate/validate.componen
 import { Director } from './services/director';
 
 
-
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
 export const MY_MOMENT_FORMATS = {

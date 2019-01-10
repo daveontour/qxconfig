@@ -1,7 +1,9 @@
+import { Messenger } from './messenger';
 import { GenericAlertComponent } from './../components/utils/genericalert/generic-alert.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Injectable } from '@angular/core';
 import * as $ from 'jquery';
+import { NgModuleRef } from '@angular/core/src/render3';
 
 
 @Injectable()
@@ -50,13 +52,14 @@ export class Globals {
   public clean = true;
 
   constructor(
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private messenger: Messenger
   ) {
 
   }
 
   // THe lock prevents continuous updating of generated XML
-  // It uses a stack of locks, so everyone who calls for a lock is 
+  // It uses a stack of locks, so everyone who calls for a lock is
   // also reponsible for
   lockChangeDet() {
     this.lockChangeDetection = true;
@@ -116,10 +119,10 @@ export class Globals {
       this.sampleXMLMessage = this.formatXML(this.root.getElementString(''));
       this.XMLMessage = this.sampleXMLMessage;
       this.lockEditorUpdates = false;
-      this.clean = false;
 
       // Put it on the undoSack
       this.undoStack.push(this.root.getSaveObj());
+      this.messenger.setDocumentDirty();
       $('body').removeClass('waiting');
     }, 0 );
   }
@@ -134,7 +137,7 @@ export class Globals {
   }
 
   public openModalQuestion(title: string, message: string, message2: string = '', button1: string, button2: string,
-   button1Fn: any, button2Fn: any) {
+   button1Fn: any, button2Fn: any, param1: any, param2: any) {
     const modalRef = this.modalService.open(GenericAlertComponent);
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
@@ -144,6 +147,8 @@ export class Globals {
     modalRef.componentInstance.button1Fn = button1Fn;
     modalRef.componentInstance.button2Fn = button2Fn;
     modalRef.componentInstance.showButton2 = true;
+    modalRef.componentInstance.param1 = param1;
+    modalRef.componentInstance.param2 = param2;
   }
   public guid() {
     function s4() {

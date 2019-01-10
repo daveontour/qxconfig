@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input} from '@angular/core';
+import { NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -29,16 +29,19 @@ export class GenericAlertComponent {
   @Input() buton1: string;
   @Input() button2: string;
   @Input() showButton2 = false;
-  @Input() button1Fn = function() {};
-  @Input() button2Fn = function() {};
-  constructor(public activeModal: NgbActiveModal) {}
+  @Input() param1: any;
+  @Input() param2: any;
+  @Input() button1Fn = function(p: any) {};
+  @Input() button2Fn = function(p: any) {};
+
+  constructor(public activeModal: NgbActiveModal, private modalService: NgbModal) {}
 
   button1Click() {
      this.activeModal.close('Close click');
-     this.button1Fn();
+     this.button1Fn(this.param1);
   }
   button2Click() {
      this.activeModal.close('Close click');
-     this.button2Fn();
+     this.button2Fn(this.param2);
     }
 }

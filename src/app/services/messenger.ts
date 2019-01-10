@@ -23,6 +23,7 @@ export class Messenger {
     private announceSettings = new Subject<string>();
     private announceReset = new Subject<string>();
     private announceSaveFileSelect = new Subject<any>();
+    private announceDocumentClean = new Subject<boolean>();
     // Observable string streams
     missionAnnounced$ = this.missionAnnouncedSource.asObservable();
     missionConfirmed$ = this.missionConfirmedSource.asObservable();
@@ -42,6 +43,8 @@ export class Messenger {
     settings$ = this.announceSettings.asObservable();
     reset$ = this.announceReset.asObservable();
     savefileselected$ = this.announceSaveFileSelect.asObservable();
+    docClean$ = this.announceDocumentClean.asObservable();
+
 
     // Service message commands
     announceMission(mission: string) {
@@ -101,6 +104,12 @@ export class Messenger {
     }
     saveFileSelect(event: any) {
       this.announceSaveFileSelect.next(event);
+    }
+    setDocumentClean() {
+      this.announceDocumentClean.next(true);
+    }
+    setDocumentDirty() {
+      this.announceDocumentClean.next(false);
     }
 
 }

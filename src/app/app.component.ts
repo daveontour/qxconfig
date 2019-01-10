@@ -64,36 +64,13 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
 
     const _this = this;
 
+    this.configureStatusBarListeners();
+
     messenger.missionAnnounced$.subscribe(
       mission => {
         this.retrieveData(mission);
       }
     );
-    messenger.schema$.subscribe(
-      data => {
-        this.prevSchema = this.schema;
-        this.schema = data;
-      }
-    );
-    messenger.schemaFile$.subscribe(
-      data => {
-        this.prevScehmaFile = this.schemaFile;
-        this.schemaFile = data;
-      }
-    );
-    messenger.type$.subscribe(
-      data => {
-        this.prevType = this.type;
-        this.type = data;
-      }
-    );
-    messenger.status$.subscribe(
-      data => {
-        this.status = data;
-      }
-    );
-
-
     messenger.reset$.subscribe(
       date => {
         this.schema = '-';
@@ -103,15 +80,6 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
         this.getContainer().clear();
         this.getContainer().createComponent(this.resolver.resolveComponentFactory(IntroTextComponent));
       });
-
-    messenger.dismiss$.subscribe(
-      data => {
-        this.schema = this.prevSchema;
-        this.schemaFile = this.prevScehmaFile;
-        this.type = this.prevType;
-        this.status = 'Ready';
-      }
-    );
   }
 
   public getContainer() {
@@ -385,5 +353,39 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
   onSaveFileSelect(event) {
     this.messenger.saveFileSelect(event);
   }
+
+  configureStatusBarListeners() {
+    this.messenger.schema$.subscribe(
+      data => {
+        this.prevSchema = this.schema;
+        this.schema = data;
+      }
+    );
+    this.messenger.schemaFile$.subscribe(
+      data => {
+        this.prevScehmaFile = this.schemaFile;
+        this.schemaFile = data;
+      }
+    );
+    this.messenger.type$.subscribe(
+      data => {
+        this.prevType = this.type;
+        this.type = data;
+      }
+    );
+    this.messenger.status$.subscribe(
+      data => {
+        this.status = data;
+      }
+    );
+    this.messenger.dismiss$.subscribe(
+      data => {
+        this.schema = this.prevSchema;
+        this.schemaFile = this.prevScehmaFile;
+        this.type = this.prevType;
+        this.status = 'Ready';
+      }
+    );
+   }
 }
 
