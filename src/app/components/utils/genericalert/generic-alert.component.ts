@@ -26,7 +26,7 @@ export class GenericAlertComponent {
   @Input() message: string;
   @Input() message2: string;
   @Input() title: string;
-  @Input() buton1: string;
+  @Input() button1: string;
   @Input() button2: string;
   @Input() showButton2 = false;
   @Input() param1: any;
