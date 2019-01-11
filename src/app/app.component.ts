@@ -2,8 +2,7 @@
 import { IntroTextComponent } from './components/intro-text/intro-text.component';
 import { Messenger } from './services/messenger';
 import { ChoiceComponent } from './components/choice/choice.component';
-import { Globals, SaveObjFile } from './services/globals';
-import { ItemConfig } from './interfaces/interfaces';
+import { Globals } from './services/globals';
 import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
 import { AfterViewInit, AfterContentInit, ChangeDetectorRef } from '@angular/core';
@@ -66,11 +65,6 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
 
     this.configureStatusBarListeners();
 
-    messenger.missionAnnounced$.subscribe(
-      mission => {
-        this.retrieveData(mission);
-      }
-    );
     messenger.reset$.subscribe(
       date => {
         this.schema = '-';
@@ -80,6 +74,20 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
         this.getContainer().clear();
         this.getContainer().createComponent(this.resolver.resolveComponentFactory(IntroTextComponent));
       });
+
+    messenger.newxsd$.subscribe(
+      data => {
+        this.global.lockChangeDet();
+        this.getContainer().clear();
+        this.walkStructure(data, this);
+        setTimeout(() => {
+          this.global.enableChangeDet();
+          this.global.clearLocks();
+          this.global.formLoaded();
+          this.messenger.formReady();
+        });
+      }
+    );
   }
 
   public getContainer() {
@@ -92,159 +100,11 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
 
   ngAfterViewInit(): void {
     const factory = this.resolver.resolveComponentFactory(IntroTextComponent);
-    const newObjRef = this.getContainer().createComponent(factory).instance;
+    this.container.createComponent(factory);
   }
 
   ngAfterContentInit() {
-
-    const _this = this;
-
-    // Set up the keystroke handler for the editor to limit what is editable
-    this.global.editor = this.editor;
-    this.ace = this.global.editor.getEditor();
-    this.sess = this.ace.session;
-
-    this.editor._editor.keyBinding.addKeyboardHandler(function ($data, hashId, keyString, keyCode, e) {
-
-      // Clear any status message
-
-      _this.editorStatus = '';
-      _this.cdRef.detectChanges();
-
-      // Allow cursor movements
-      if (keyString === 'up'
-        || keyString === 'down'
-        || keyString === 'right'
-        || keyString === 'left'
-      ) {
-        return;
-      }
-
-      const pos = _this.editor._editor.selection.getCursor();
-      const token = _this.sess.getTokenAt(pos.row, pos.column);
-      let token2 = _this.sess.getTokenAt(pos.row, pos.column + 1);
-
-      if (token2 == null || token == null) {
-        return { command: 'null' };
-      }
-      if (token.type === 'meta.tag.punctuation.tag-close.xml' && token2.type === 'meta.tag.punctuation.end-tag-open.xml') {
-        if (keyString === 'backspace' || keyString === 'delete') {
-          return { command: 'null' };
-        } else {
-          return;
-        }
-      }
-
-      if (token.type === 'text.xml' && token2.type === 'meta.tag.punctuation.end-tag-open.xml' && keyString === 'delete') {
-        return { command: 'null' };
-      }
-      if (token.type === 'meta.tag.punctuation.tag-close.xml' && token2.type === 'text.xml' && keyString === 'delete') {
-        return;
-      }
-      // Protect agains removing space between tag and first attribute
-      if (token.type === 'text.tag-whitespace.xml' && keyString === 'backspace') {
-        token2 = _this.sess.getTokenAt(pos.row, pos.column - 1);
-        if (token2.type === 'meta.tag.tag-name.xml') {
-          return { command: 'null' };
-        }
-      }
-      // Don't delete the closing tag
-      if ((token.type === 'text.tag-whitespace.xml' || token.type === 'string.attribute-value.xml') && keyString === 'delete') {
-        token2 = _this.sess.getTokenAt(pos.row, pos.column + 1);
-        if (token2.type === 'meta.tag.punctuation.tag-close.xml') {
-          return { command: 'null' };
-        }
-      }
-
-      // Allow editing of these types
-      if (token.type === 'text.xml'
-        || token.type === 'string.attribute-value.xml'
-        || token.type === 'text.tag-whitespace.xml'
-        || token.type === 'entity.other.attribute-name.xml'
-        || token.type === 'keyword.operator.attribute-equals.xml') {
-        return;
-      }
-
-      // Put up a status message and disallow the keystroke
-      _this.editorStatus = 'Warning: You can only edit element values and attributes here';
-      _this.cdRef.detectChanges();
-      return { command: 'null' };
-
-    });
-  }
-
-  retrieveData(url: string) {
-    this.status = 'Retrieving Data';
-    this.wait = true;
-    this.container.clear();
-    this.global.root = null;
-    this.global.undoStack = [];
-
-    this.global.openModalAlert('Schema Processing', 'Processing Schema. Please Wait.');
-
-    this.http.get<ItemConfig>(url).subscribe(data => {
-      this.wait = false;
-      this.modalService.dismissAll();
-      if (data.failed) {
-        this.status = 'Retrival Failure';
-        this.global.openModalAlert('Problem Reading Schema', data.msg);
-        return;
-      } else {
-        this.status = 'Ready';
-        this.modalService.dismissAll();
-      }
-      data.elementPath = data.name;
-      data.isRoot = true;
-      this.global.lockChangeDet();
-      this.walkStructure(data, this);
-      setTimeout(() => {
-        this.global.enableChangeDet();
-        this.global.clearLocks();
-        this.global.formLoaded();
-        this.global.clean = true;
-      });
-
-
-      // This prevents ExpressionChangedAfterItHasBeenCheckedError
-      // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
-      this.cdRef.detectChanges();
-    },
-      (err: HttpErrorResponse) => {
-        this.modalService.dismissAll();
-        this.wait = false;
-        if (err.error instanceof Error) {
-          this.global.openModalAlert('An error occurred:', err.error.message);
-        } else {
-          this.global.openModalAlert('An error occurred:', 'Check Console');
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
-        }
-      });
-  }
-
-  onTextChange(event) {
-
-    this.editorStatus = '';
-    this.cdRef.detectChanges();
-    this.global.lockChangeDet();
-
-    const ti = new TokenInterpretter(this.global);
-    const res = this.global.root.setText([ti.getRoot()]);
-
-    if (res === Globals.VALUEHANDLED || res === Globals.ATTRIBUTEHANDLED) {
-      this.editorStatus = 'Changes Processed';
-      this.cdRef.detectChanges();
-      this.global.enableChangeDet();
-      return;
-    }
-
-    if (res === Globals.OK) {
-      this.editorStatus = 'No changes made yet';
-      this.cdRef.detectChanges();
-      this.global.enableChangeDet();
-      return;
-    }
-
-    this.global.enableChangeDet();
+    this.configEditorKeyStrokeHandler();
   }
 
   walkStructure(data, parentObject) {
@@ -386,6 +246,109 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
         this.status = 'Ready';
       }
     );
-   }
+  }
+
+  configEditorKeyStrokeHandler() {
+
+    const _this = this;
+
+    // Set up the keystroke handler for the editor to limit what is editable
+    this.global.editor = this.editor;
+    this.ace = this.global.editor.getEditor();
+    this.sess = this.ace.session;
+
+    this.editor._editor.keyBinding.addKeyboardHandler(function ($data, hashId, keyString, keyCode, e) {
+
+      // Clear any status message
+
+      _this.editorStatus = '';
+      _this.cdRef.detectChanges();
+
+      // Allow cursor movements
+      if (keyString === 'up'
+        || keyString === 'down'
+        || keyString === 'right'
+        || keyString === 'left'
+      ) {
+        return;
+      }
+
+      const pos = _this.editor._editor.selection.getCursor();
+      const token = _this.sess.getTokenAt(pos.row, pos.column);
+      let token2 = _this.sess.getTokenAt(pos.row, pos.column + 1);
+
+      if (token2 == null || token == null) {
+        return { command: 'null' };
+      }
+      if (token.type === 'meta.tag.punctuation.tag-close.xml' && token2.type === 'meta.tag.punctuation.end-tag-open.xml') {
+        if (keyString === 'backspace' || keyString === 'delete') {
+          return { command: 'null' };
+        } else {
+          return;
+        }
+      }
+
+      if (token.type === 'text.xml' && token2.type === 'meta.tag.punctuation.end-tag-open.xml' && keyString === 'delete') {
+        return { command: 'null' };
+      }
+      if (token.type === 'meta.tag.punctuation.tag-close.xml' && token2.type === 'text.xml' && keyString === 'delete') {
+        return;
+      }
+      // Protect agains removing space between tag and first attribute
+      if (token.type === 'text.tag-whitespace.xml' && keyString === 'backspace') {
+        token2 = _this.sess.getTokenAt(pos.row, pos.column - 1);
+        if (token2.type === 'meta.tag.tag-name.xml') {
+          return { command: 'null' };
+        }
+      }
+      // Don't delete the closing tag
+      if ((token.type === 'text.tag-whitespace.xml' || token.type === 'string.attribute-value.xml') && keyString === 'delete') {
+        token2 = _this.sess.getTokenAt(pos.row, pos.column + 1);
+        if (token2.type === 'meta.tag.punctuation.tag-close.xml') {
+          return { command: 'null' };
+        }
+      }
+
+      // Allow editing of these types
+      if (token.type === 'text.xml'
+        || token.type === 'string.attribute-value.xml'
+        || token.type === 'text.tag-whitespace.xml'
+        || token.type === 'entity.other.attribute-name.xml'
+        || token.type === 'keyword.operator.attribute-equals.xml') {
+        return;
+      }
+
+      // Put up a status message and disallow the keystroke
+      _this.editorStatus = 'Warning: You can only edit element values and attributes here';
+      _this.cdRef.detectChanges();
+      return { command: 'null' };
+
+    });
+  }
+  onTextChange(event) {
+
+    this.editorStatus = '';
+    this.cdRef.detectChanges();
+    this.global.lockChangeDet();
+
+    const ti = new TokenInterpretter(this.global);
+    const res = this.global.root.setText([ti.getRoot()]);
+
+    if (res === Globals.VALUEHANDLED || res === Globals.ATTRIBUTEHANDLED) {
+      this.editorStatus = 'Changes Processed';
+      this.cdRef.detectChanges();
+      this.global.enableChangeDet();
+      return;
+    }
+
+    if (res === Globals.OK) {
+      this.editorStatus = 'No changes made yet';
+      this.cdRef.detectChanges();
+      this.global.enableChangeDet();
+      return;
+    }
+
+    this.global.enableChangeDet();
+  }
 }
 

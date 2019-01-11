@@ -1,5 +1,7 @@
+import { SaveObjFile } from './globals';
 import { Injectable} from '@angular/core';
 import { Subject } from 'rxjs';
+import { ItemConfig } from '../interfaces/interfaces';
 
 @Injectable()
 export class Messenger {
@@ -24,6 +26,11 @@ export class Messenger {
     private announceReset = new Subject<string>();
     private announceSaveFileSelect = new Subject<any>();
     private announceDocumentClean = new Subject<boolean>();
+    private announceFetchAndApply = new Subject<SaveObjFile>();
+    private announceNewXSD = new Subject<ItemConfig>();
+    private announceFormReady = new Subject<string>();
+    private announceUploadXSD = new Subject<string>();
+    private announceXSDUploaded = new Subject<string>();
     // Observable string streams
     missionAnnounced$ = this.missionAnnouncedSource.asObservable();
     missionConfirmed$ = this.missionConfirmedSource.asObservable();
@@ -44,6 +51,11 @@ export class Messenger {
     reset$ = this.announceReset.asObservable();
     savefileselected$ = this.announceSaveFileSelect.asObservable();
     docClean$ = this.announceDocumentClean.asObservable();
+    fetchandapply$ = this.announceFetchAndApply.asObservable();
+    newxsd$ = this.announceNewXSD.asObservable();
+    formready$ = this.announceFormReady.asObservable();
+    uploadXSD$ = this.announceUploadXSD.asObservable();
+    xsduploaded$ = this.announceXSDUploaded.asObservable();
 
 
     // Service message commands
@@ -112,4 +124,20 @@ export class Messenger {
       this.announceDocumentClean.next(false);
     }
 
+    fetchAndApply(soFile: SaveObjFile) {
+      this.announceFetchAndApply.next(soFile);
+    }
+    
+    newXSDReady(xsd: ItemConfig) {
+      this.announceNewXSD.next(xsd);
+    }
+    formReady() {
+      this.announceFormReady.next();
+    }
+    uploadXSD(xsd: string) {
+      this.announceUploadXSD.next(xsd);
+    }
+    xsduploaded() {
+      this.announceXSDUploaded.next();
+    }
 }

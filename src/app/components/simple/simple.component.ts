@@ -1,5 +1,4 @@
 import { XMLElement, SaveObj, AttItemConfig } from './../../services/globals';
-import { Messenger } from './../../services/messenger';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { WidgetFactory } from './../../services/widgetfactory';
 import { Globals } from '../../services/globals';
@@ -40,11 +39,17 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
   }
 
   showDeleteAction() {
+
+    try {
     if (this.parent.siblings.length > this.config.minOccurs) {
       return true;
     } else {
       return false;
     }
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
   }
 
   change() {
@@ -53,6 +58,7 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
   }
 
   addSibling(): boolean {
+
 
     if (this.siblings.length === this.config.maxOccurs) {
       alert('Maximum Number of Occurances Already Reached');
@@ -77,6 +83,7 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
 
   setConfig(conf: ItemConfig, parentObject) {
 
+
     this.topLevel = true;
     this.config = JSON.parse(JSON.stringify(conf));
     this.config.enabled = this.config.required;
@@ -87,14 +94,6 @@ export class SimpleComponent extends ElementComponent implements AfterViewInit {
     if (this.config.typeAnnotation == null) {
       this.config.typeAnnotation = this.config.annotation;
     }
-
-    if (this.config.model != null) {
-      const mfactory = this.widgetFactory.getFactory(this.config.model, this.resolver);
-      this.controlRef = this.control.createComponent(mfactory);
-      this.controlRef.instance.setElementParent(this);
-    }
-
-    this.addAttributes(conf);
 
     for (let i = 0; i < conf.minOccurs; i++) {
       this.addSibling();

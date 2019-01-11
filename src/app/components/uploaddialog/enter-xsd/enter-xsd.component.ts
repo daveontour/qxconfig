@@ -1,17 +1,17 @@
 import { PreLodedComponent } from './../pre-loded/pre-loded.component';
 import { Globals } from './../../../services/globals';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpEvent, HttpEventType, HttpRequest, HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpEventType, HttpRequest } from '@angular/common/http';
+import { Component} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Messenger } from './../../../services/messenger';
-import { PostEvent, UploadStatus } from './../../../interfaces/interfaces';
+import { PostEvent} from './../../../interfaces/interfaces';
 
 @Component({
   selector: 'app-enter-xsd',
   templateUrl: './enter-xsd.component.html',
   styleUrls: ['./enter-xsd.component.scss']
 })
-export class EnterXSDComponent extends PreLodedComponent implements OnInit {
+export class EnterXSDComponent extends PreLodedComponent {
 
   selectionMethod = 'enterxsd';
   enteredXSD = '';
@@ -22,58 +22,19 @@ export class EnterXSDComponent extends PreLodedComponent implements OnInit {
     public modalService: NgbModal,
     public global: Globals) {
     super(messenger, http, modalService, global);
-  }
 
-  ngOnInit() {
+    // Hamdler for after the XSD has been uploaded sucessfully
+    messenger.xsduploaded$.subscribe(
+      data => {
+        this.selectedCollection = this.global.sessionID;
+        this.selectedFile = this.global.sessionID + '.xsd';
+        this.changeFile();
+      });
   }
 
   upload() {
 
-    this.messenger.setSchema('User Uploaded');
-    this.messenger.setSchemaFile('User Uploaded');
-    this.messenger.setType('-');
-    this.messenger.setStatus('Ready');
-
-    this.global.selectionMethod = this.selectionMethod;
-    const request = new HttpRequest(
-      'POST',
-      this.global.baseURLUploadEntered + this.global.sessionID,
-      this.enteredXSD,
-      {
-        headers: new HttpHeaders({
-          'Access-Control-Allow-Origin': '*'
-        }),
-        reportProgress: true
-      }
-    );
-
-    this.http.request<PostEvent>(request)
-      .subscribe(
-        event => {
-
-          if (event.type === HttpEventType.DownloadProgress) {
-            console.log('Download progress event', event);
-          }
-
-          if (event.type === HttpEventType.UploadProgress) {
-            console.log('Upload progress event', event);
-          }
-
-          if (event.type === HttpEventType.Response) {
-            console.log('response received...', event.body);
-            if (event.body.status) {
-              this.global.sessionID = event.body.sessionID;
-
-              // The SessionID is used as the directory name on the server
-              this.selectedCollection = this.global.sessionID;
-              this.selectedFile = this.global.sessionID + '.xsd';
-              this.changeFile();
-            } else {
-              this.messenger.setStatus('XSD Upload failure');
-              this.global.openModalAlert('XSD Save Failure', 'The XSD could not be uploaded to the server for processing');
-            }
-          }
-        }
-      );
+    // The upload is handled by the director
+    this.messenger.uploadXSD(this.enteredXSD);
   }
 }

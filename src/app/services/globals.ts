@@ -3,8 +3,6 @@ import { GenericAlertComponent } from './../components/utils/genericalert/generi
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Injectable } from '@angular/core';
 import * as $ from 'jquery';
-import { NgModuleRef } from '@angular/core/src/render3';
-
 
 @Injectable()
 export class Globals {
@@ -39,6 +37,7 @@ export class Globals {
   public selectedSchema: string;
   public selectedFile: string;
   public selectedType: string;
+  public selectedMethod: string;
   public sessionID = 'new';
   public selectionMethod: string;
   public triggers = 'mouseenter:mouseleave';
@@ -50,13 +49,12 @@ export class Globals {
   private lockChangeDetection = false;
   private lockStack = [];
   public clean = true;
+  public enteredXSD: string;
 
   constructor(
     private modalService: NgbModal,
     private messenger: Messenger
-  ) {
-
-  }
+  ) {}
 
   // THe lock prevents continuous updating of generated XML
   // It uses a stack of locks, so everyone who calls for a lock is
@@ -105,11 +103,11 @@ export class Globals {
   getString() {
 
     if (this.lockChangeDetection) {
-      console.log('Rejected Get String Called ', new Date());
       return;
     }
-
+ 
     $('body').addClass('waiting');
+ 
     setTimeout(() => {
       this.lockEditorUpdates = true;
       this.alerts = '';
@@ -268,6 +266,8 @@ export class SaveObjFile {
   c: string;
   f: string;
   t: string;
+  m: string;
+  e: string;
 }
 
 export class AttItemConfig {
@@ -275,10 +275,7 @@ export class AttItemConfig {
   v: any;
   e: boolean;
 
-  constructor(
-    name: string, value: any, enabled: boolean
-  ) {
-
+  constructor( name: string, value: any, enabled: boolean) {
     this.n = name;
     this.v = value;
     this.e = enabled;

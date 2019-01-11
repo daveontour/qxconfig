@@ -13,7 +13,8 @@
       <div>
         <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
           <div id="GeneratedWindow" style="overflow-y:scroll">
-            <jqxSplitter [resizable] = false [showSplitBar] = false [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min:350, collapsible: true },{ size:20, min: 20, collapsible: false }]">
+            <jqxSplitter [resizable]=false [showSplitBar]=false [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'"
+              [panels]="[{ size: 1000, min:350, collapsible: true },{ size:20, min: 20, collapsible: false }]">
               <div style="height:100%;overflow-y:scroll" class="border border-secondary">
                 <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'eclipse'"
                   [durationBeforeCallback]="1000" (textChanged)="onTextChange($event)" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
@@ -31,24 +32,25 @@
   </div>
 
   <div class="bottom">
-      <div class="title">Schema: </div>
-      <div class="value">{{schema}}</div>
-      <div class="title">Schema File:</div>
-      <div class="value">{{schemaFile}}</div>
-      <div class="title">Type or Element: </div>
-      <div class="value">{{type}}</div>
-      <div class="title">Status: </div>
-      <div [ngClass]="{'value':true,'wait':wait}">{{status}}</div>
-      <div class="value mr-5" style="float: right">{{global.buildNumber}}</div>
-      <div class="title mr-2" style="float: right">XSD2XML Build Number: </div>
-    </div>
+    <form id="downloadform" class="d-none" method="post" target="_self">
+      <input type="hidden" name="saveobject" />
+    </form>
+
+    <form>
+      <input type="file" class="d-none" (change)="onSaveFileSelect($event)" title="Select Files" name="files[]" accept=".json"
+        id="saveFileDialog" />
+    </form>
+    <div class="title">Schema: </div>
+    <div class="value">{{schema}}</div>
+    <div class="title">Schema File:</div>
+    <div class="value">{{schemaFile}}</div>
+    <div class="title">Type or Element: </div>
+    <div class="value">{{type}}</div>
+    <div class="title">Status: </div>
+    <div [ngClass]="{'value':true,'wait':wait}">{{status}}</div>
+    <div class="value mr-5" style="float: right">{{global.buildNumber}}</div>
+    <div class="title mr-2" style="float: right">XSD2XML Build Number: </div>
+  </div>
 
 
-  <form id="downloadform" method="post" style="display: none;" target="_self">
-    <input type="hidden" name="saveobject" />
-  </form>
-
-  <form style="display: none;">
-      <input type="file" (change)="onSaveFileSelect($event)" title="Select Files" name="files[]" accept=".json" id = "saveFileDialog"/>
-  </form>
 </div>

@@ -37,11 +37,11 @@ export class GenericAlertComponent {
   constructor(public activeModal: NgbActiveModal, private modalService: NgbModal) {}
 
   button1Click() {
-     this.activeModal.close('Close click');
+     this.activeModal.close();
      this.button1Fn(this.param1);
   }
   button2Click() {
-     this.activeModal.close('Close click');
+     this.activeModal.close();
      this.button2Fn(this.param2);
     }
 }

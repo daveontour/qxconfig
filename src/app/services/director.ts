@@ -1,22 +1,25 @@
-
+import { Subscription } from 'rxjs';
+import { ItemConfig, PostEvent } from './../interfaces/interfaces';
 import { SettingsComponent } from './../components/utils/settings/settings.component';
 import { ValidateComponent } from './../components/utils/validate/validate.component';
 import { LoadYourOwnComponent } from './../components/uploaddialog/load-your-own/load-your-own.component';
 import { NgbPopoverConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Messenger } from './messenger';
-import { HttpClient, HttpRequest, HttpHeaders, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders, HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { Globals, SaveObjFile } from './globals';
-import { Injectable, ComponentFactoryResolver } from '@angular/core';
-import * as $ from 'jquery';
+import { Injectable } from '@angular/core';
 import { PreLodedComponent } from '../components/uploaddialog/pre-loded/pre-loded.component';
 import { EnterXSDComponent } from '../components/uploaddialog/enter-xsd/enter-xsd.component';
-
+import * as $ from 'jquery';
 
 @Injectable()
 export class Director {
 
-  documentClean = true;
-  method: string;
+  private documentClean = true;
+  private method: string;
+  private oldMethod: string;
+  private tempSub: Subscription;
+  private tempSub2: Subscription;
 
   constructor(
     private modalService: NgbModal,
@@ -28,11 +31,20 @@ export class Director {
 
     const _this = this;
 
+    // Listen for new mission annoucement and act on them.
+    messenger.missionAnnounced$.subscribe(
+      mission => {
+        this.retrieveData(mission);
+      }
+    );
+
     // One of the Schema selection options is selected
     messenger.selectSchema$.subscribe(
       method => {
 
+        _this.oldMethod = _this.method;
         _this.method = method;
+        _this.global.selectionMethod = method;
 
         if (!_this.documentClean) {
 
@@ -41,14 +53,14 @@ export class Director {
             // Function to execute id button1 (Proceed) is selected
             this.selectSchema,
             // Function to execute id button2 (Cancel) is selected
-            function () { },
+            function (th) { th.method = th.oldMethod; th.global.selectionMethod = th.oldMethod; },
             // Parameter for  function proceed function
-            method,
-             // Parameter for  function cancel function
-            null);
+            _this,
+            // Parameter for  function cancel function
+            _this);
         } else {
           // No changes, so just go ahead
-          this.selectSchema(method);
+          this.selectSchema(_this);
         }
       });
 
@@ -86,6 +98,11 @@ export class Director {
         _this.saveFileSelect(data);
       });
 
+    // Upload XSD
+    messenger.uploadXSD$.subscribe(
+      data => {
+        _this.uploadXSD(data);
+      });
     // Save button is selected
     messenger.save$.subscribe(
       data => {
@@ -95,6 +112,10 @@ export class Director {
         sof.c = this.global.selectedSchema;
         sof.f = this.global.selectedFile;
         sof.t = this.global.selectedType;
+        sof.m = this.method;
+        if (this.method === 'enter') {
+          sof.e = this.global.enteredXSD;
+        }
         _this.save(JSON.stringify(sof));
         _this.messenger.setDocumentClean();
       }
@@ -112,7 +133,15 @@ export class Director {
       data => {
         // Hidden form in app.componet.
         // File Input button is trigger.
+        $('#saveFileDialog').val(null);
         $('#saveFileDialog').trigger('click');
+      }
+    );
+
+    // Apply a previously saved object
+    messenger.fetchandapply$.subscribe(
+      sofFile => {
+        _this.fetchAndApply(sofFile);
       }
     );
 
@@ -128,10 +157,10 @@ export class Director {
             // Function to execute id button1 (Proceed) is selected
             this.cleanDocument,
             // Function to execute id button1 (Proceed) is selected
-            function () { }, null, null);
+            function () { }, _this, null);
         } else {
           // No changes, so just go ahead
-          this.cleanDocument();
+          this.cleanDocument(_this);
         }
       }
     );
@@ -164,10 +193,9 @@ export class Director {
     );
   }
 
-  selectSchema(method) {
-debugger;
+  selectSchema(_this: any) {
     try {
-      switch (method) {
+      switch (_this.method) {
         case 'pre':
           this.modalService.open(PreLodedComponent, { centered: true, size: 'lg' });
           break;
@@ -183,16 +211,16 @@ debugger;
     }
   }
 
-  cleanDocument() {
-    this.modalService.dismissAll();
-    this.global.XMLMessage = '';
-    this.global.elementsUndefined = [];
-    this.global.attributesUndefined = [];
-    this.global.formatErrors = [];
+  cleanDocument(_this: any) {
+    _this.modalService.dismissAll();
+    _this.global.XMLMessage = '';
+    _this.global.elementsUndefined = [];
+    _this.global.attributesUndefined = [];
+    _this.global.formatErrors = [];
 
     // Sends a message to the app.component to reset the page
-    this.messenger.reset();
-    this.messenger.setDocumentClean();
+    _this.messenger.reset();
+    _this.messenger.setDocumentClean();
   }
 
   save(saveobject: string) {
@@ -238,21 +266,160 @@ debugger;
       }
     );
 
-    this.http.request<any>(request)
-      .subscribe(
-        event => {
-          if (event.type === HttpEventType.Response) {
-            const soFile = event.body;
-            if (soFile.c !== this.global.selectedSchema
-              || soFile.f !== this.global.selectedFile
-              || soFile.t !== this.global.selectedType) {
-              this.global.openModalAlert('Incorrect Schema', 'Wrong Schema');
+    this.http.request<any>(request).subscribe(
+      event => {
+        if (event.type === HttpEventType.Response) {
+          const soFile = event.body;
+          if (soFile.c !== this.global.selectedSchema
+            || soFile.f !== this.global.selectedFile
+            || soFile.t !== this.global.selectedType) {
+            if (soFile.m === 'pre' || soFile.m === 'enter') {
+              this.messenger.fetchAndApply(soFile);
             } else {
-              this.global.root.applyConfig(soFile.o);
-              this.messenger.setDocumentClean();
+              this.global.openModalAlert('Incorrect Schema', 'Can\'t handle type yet');
             }
+          } else {
+            this.global.root.applyConfig(soFile.o);
+            this.messenger.setDocumentClean();
           }
         }
+      }
+    );
+  }
+
+  fetchAndApply(soFile: SaveObjFile) {
+
+    this.modalService.dismissAll();
+
+    //   this.schemaTypes = [];
+    this.global.selectedType = soFile.t;
+    this.messenger.setType(soFile.t);
+
+    if (soFile.m === 'pre') {
+      // First, set up a listener to listen when the file has been processed
+      // 'formready' is fired by the app.component whene the XSF has been loaded.
+      this.tempSub = this.messenger.formready$.subscribe(
+        data => {
+          this.tempSub.unsubscribe();
+          this.global.root.applyConfig(soFile.o);
+          this.messenger.setSchema(soFile.c);
+          this.messenger.setSchemaFile(soFile.f);
+          this.messenger.setType(soFile.t);
+        }
       );
+
+      // Request the schema to be loaded
+      this.messenger.announceMission(this.global.baseURL + '?op=getType' +
+        '&schema=' + soFile.c +
+        '&file=' + soFile.f +
+        '&type=' + soFile.t +
+        '&sessionID=' + this.global.sessionID +
+        '&selectionMethod=' + 'preload');
+    }
+
+
+    if (soFile.m === 'enter') {
+      // First, set up a listener to listen when the file has been processed
+      // 'formready' is fired by the app.component whene the XSF has been loaded.
+      this.tempSub = this.messenger.xsduploaded$.subscribe(
+        data => {
+          this.tempSub.unsubscribe();
+          this.messenger.setSchema(soFile.c);
+          this.messenger.setSchemaFile(soFile.f);
+          this.messenger.setType(soFile.t);
+
+          this.tempSub2 = this.messenger.formready$.subscribe(
+            data2 => {
+              this.tempSub2.unsubscribe();
+              this.global.root.applyConfig(soFile.o);
+            });
+
+          // Request the schema to be loaded
+          this.messenger.announceMission(this.global.baseURL + '?op=getType' +
+            '&schema=' + soFile.c +
+            '&file=' + soFile.f +
+            '&type=' + soFile.t +
+            '&sessionID=' + this.global.sessionID +
+            '&selectionMethod=' + 'enterxsd');
+        }
+      );
+
+
+      this.uploadXSD(soFile.e);
+    }
+  }
+
+  retrieveData(url: string) {
+    this.messenger.setStatus('Retrieving Data');
+    this.messenger.reset();
+    this.global.root = null;
+    this.global.undoStack = [];
+
+    this.global.openModalAlert('Schema Processing', 'Processing Schema. Please Wait.');
+
+    this.http.get<ItemConfig>(url).subscribe(data => {
+
+      this.modalService.dismissAll();
+
+      if (data.failed) {
+        this.messenger.setStatus('Retrival Failure');
+        this.global.openModalAlert('Problem Reading Schema', data.msg);
+      } else {
+        this.messenger.setStatus('Ready');
+        data.elementPath = data.name;
+        data.isRoot = true;
+        this.messenger.newXSDReady(data);
+
+        // // This prevents ExpressionChangedAfterItHasBeenCheckedError
+        // // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
+        // this.cdRef.detectChanges();
+      }
+    },
+      (err: HttpErrorResponse) => {
+        this.modalService.dismissAll();
+        if (err.error instanceof Error) {
+          this.global.openModalAlert('An error occurred:', err.error.message);
+        } else {
+          this.global.openModalAlert('An error occurred:', 'Check Console');
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+        }
+      });
+  }
+
+  uploadXSD(xsd: string) {
+
+    this.messenger.setSchema('User Uploaded');
+    this.messenger.setSchemaFile('User Uploaded');
+    this.messenger.setType('-');
+    this.messenger.setStatus('Ready');
+
+    this.global.selectionMethod = 'enter';
+    this.global.enteredXSD = xsd;
+
+    const request = new HttpRequest('POST',
+      this.global.baseURLUploadEntered + this.global.sessionID,
+      this.global.enteredXSD,
+      {
+        headers: new HttpHeaders({
+          'Access-Control-Allow-Origin': '*'
+        }),
+        reportProgress: true
+      }
+    );
+
+
+    this.http.request<PostEvent>(request).subscribe(
+      event => {
+        if (event.type === HttpEventType.Response) {
+          if (event.body.status) {
+            this.global.sessionID = event.body.sessionID;
+            this.messenger.xsduploaded();
+          } else {
+            this.messenger.setStatus('XSD Upload failure');
+            this.global.openModalAlert('XSD Save Failure', 'The XSD could not be uploaded to the server for processing');
+          }
+        }
+      }
+    );
   }
 }
