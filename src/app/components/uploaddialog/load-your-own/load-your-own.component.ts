@@ -20,7 +20,7 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
   afterUpload: boolean;
   multiple = true;
   maxSize = 20;
-  selectionMethod = 'loadyourown';
+  selectionMethod = 'user';
   percentComplete = 0;
 
   constructor(

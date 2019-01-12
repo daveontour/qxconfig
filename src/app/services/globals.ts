@@ -268,6 +268,7 @@ export class SaveObjFile {
   t: string;
   m: string;
   e: string;
+  fls: XSDFile[] = [];
 }
 
 export class AttItemConfig {
@@ -280,4 +281,8 @@ export class AttItemConfig {
     this.v = value;
     this.e = enabled;
   }
+}
+export class XSDFile {
+  n: string;
+  c: string;
 }

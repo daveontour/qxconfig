@@ -273,11 +273,9 @@ export class Director {
           if (soFile.c !== this.global.selectedSchema
             || soFile.f !== this.global.selectedFile
             || soFile.t !== this.global.selectedType) {
-            if (soFile.m === 'pre' || soFile.m === 'enter') {
-              this.messenger.fetchAndApply(soFile);
-            } else {
-              this.global.openModalAlert('Incorrect Schema', 'Can\'t handle type yet');
-            }
+
+            this.global.sessionID = soFile.id;
+            this.messenger.fetchAndApply(soFile);
           } else {
             this.global.root.applyConfig(soFile.o);
             this.messenger.setDocumentClean();
@@ -314,9 +312,30 @@ export class Director {
         '&file=' + soFile.f +
         '&type=' + soFile.t +
         '&sessionID=' + this.global.sessionID +
-        '&selectionMethod=' + 'preload');
+        '&selectionMethod=' + 'pre');
     }
 
+    if (soFile.m === 'user') {
+      // First, set up a listener to listen when the file has been processed
+      // 'formready' is fired by the app.component whene the XSF has been loaded.
+      this.tempSub = this.messenger.formready$.subscribe(
+        data => {
+          this.tempSub.unsubscribe();
+          this.global.root.applyConfig(soFile.o);
+          this.messenger.setSchema(soFile.c);
+          this.messenger.setSchemaFile(soFile.f);
+          this.messenger.setType(soFile.t);
+        }
+      );
+
+      // Request the schema to be loaded
+      this.messenger.announceMission(this.global.baseURL + '?op=getType' +
+        '&schema=' + this.global.sessionID +
+        '&file=' + soFile.f +
+        '&type=' + soFile.t +
+        '&sessionID=' + this.global.sessionID +
+        '&selectionMethod=' + 'user');
+    }
 
     if (soFile.m === 'enter') {
       // First, set up a listener to listen when the file has been processed
@@ -340,10 +359,9 @@ export class Director {
             '&file=' + soFile.f +
             '&type=' + soFile.t +
             '&sessionID=' + this.global.sessionID +
-            '&selectionMethod=' + 'enterxsd');
+            '&selectionMethod=' + 'enter');
         }
       );
-
 
       this.uploadXSD(soFile.e);
     }

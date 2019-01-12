@@ -31,6 +31,7 @@ export class Messenger {
     private announceFormReady = new Subject<string>();
     private announceUploadXSD = new Subject<string>();
     private announceXSDUploaded = new Subject<string>();
+
     // Observable string streams
     missionAnnounced$ = this.missionAnnouncedSource.asObservable();
     missionConfirmed$ = this.missionConfirmedSource.asObservable();

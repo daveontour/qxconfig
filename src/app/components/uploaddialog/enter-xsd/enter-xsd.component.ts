@@ -13,7 +13,7 @@ import { PostEvent} from './../../../interfaces/interfaces';
 })
 export class EnterXSDComponent extends PreLodedComponent {
 
-  selectionMethod = 'enterxsd';
+  selectionMethod = 'enter';
   enteredXSD = '';
 
   constructor(

@@ -26,7 +26,7 @@ export class PreLodedComponent implements OnInit {
   selectedCollection: string;
   selectedFile: string;
   selectedType: string;
-  selectionMethod = 'preload';
+  selectionMethod = 'pre';
 
   constructor(
     public messenger: Messenger,
@@ -91,7 +91,7 @@ export class PreLodedComponent implements OnInit {
     this.schemaTypes = [];
     this.schemaElements = [];
     this.selectedType = null;
-    if (this.selectionMethod === 'enterxsd') {
+    if (this.selectionMethod === 'enter') {
       this.messenger.setSchemaFile('User Uploaded');
       this.global.selectedFile = 'User Uploaded';
     } else {
