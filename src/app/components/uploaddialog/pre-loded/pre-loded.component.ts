@@ -49,9 +49,10 @@ export class PreLodedComponent implements OnInit {
     this.selectedType = null;
     this.selectedCollection = null;
 
-    this.http.get<string[]>(this.global.baseURL + '?op=getSchemas').subscribe(data => {
+    this.http.get<any>(this.global.baseURL + '?op=getSchemas&sessionID=' + this.global.sessionID).subscribe(data => {
 
-      this.schemaCollections = data;
+      this.schemaCollections = data.data;
+      this.global.sessionID = data.sessionID;
     },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
@@ -73,10 +74,11 @@ export class PreLodedComponent implements OnInit {
     this.global.selectionMethod = this.selectionMethod;
     this.messenger.setSchema(this.global.selectedSchema);
 
-    this.http.get<string[]>(this.global.baseURL + '?op=getSchemaFiles&schema=' + this.selectedCollection +
-      '&selectionMethod=' + this.selectionMethod).subscribe(data => {
+    this.http.get<any>(this.global.baseURL + '?op=getSchemaFiles&schema=' + this.selectedCollection +
+      '&selectionMethod=' + this.selectionMethod + '&sessionID=' + this.global.sessionID).subscribe(data => {
 
-        this.schemaFiles = data;
+        this.schemaFiles = data.data;
+        this.global.sessionID = data.sessionID;
       },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
