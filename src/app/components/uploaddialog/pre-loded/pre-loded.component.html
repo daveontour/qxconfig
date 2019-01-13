@@ -2,39 +2,38 @@
   <h4 class="modal-title">Select Schema Collection, File and Type</h4>
   <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
 </div>
-<div class="pl-3 pr-3 pt-2" style="height:350px">
+<div class="pl-3 pr-3 pt-2" style="height:15em">
   <form>
     <div class="form-group">
-      <label for="schemaCollection" class="controlEnabled">Step 1: Select Schema Collection</label>
+      <label for="schemaCollection" class="controlEnabled mt-1">Step 1: Select Schema Collection</label>
       <select id="schemaCollection" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedCollection"
-        (change)="this.changeCollection()" [ngClass]="{'form-control':true}">
+        (change)="this.changeCollection()" [ngClass]="{'form-control':true, 'form-control-sm':true}">
         <option [value]="item" *ngFor="let item of this.schemaCollections">{{item}}</option>
       </select>
-    </div>
-    <div class="form-group">
-      <label for="schemaFile" [ngClass]="{'controlEnabled':this.selectedCollection != null, 'controlNotEnabled':this.selectedCollection == null}">Step
+
+      <label for="schemaFile" [ngClass]="{'controlEnabled':this.selectedCollection != null, 'controlNotEnabled':this.selectedCollection == null, 'mt-1':true}">Step
         2: Select Schema File</label>
       <select id="schemaFile" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedFile" (change)="this.changeFile()"
-        [ngClass]="{'form-control':true}">
+        [ngClass]="{'form-control':true, 'form-control-sm':true}">
         <option [value]="item" *ngFor="let item of this.schemaFiles">{{item}}</option>
       </select>
-    </div>
-    <div class="form-row">
-      <div class="col">
-        <label for="schemaTypeA" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null}">Step
-          3a: Select Element</label>
-        <select id="schemaTypeA" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
-          [ngClass]="{'form-control':true}">
-          <option [value]="item" *ngFor="let item of this.schemaElements">{{item}}</option>
-        </select>
-      </div>
-      <div class="col">
-        <label for="schemaTypeB" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null}">Step
-          3b: Select Type</label>
-        <select id="schemaTypeB" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
-          [ngClass]="{'form-control':true}">
-          <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
-        </select>
+      <div class="form-row">
+        <div class="col">
+          <label for="schemaTypeA" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null, 'mt-1':true}">Step
+            3a: Select Element</label>
+          <select id="schemaTypeA" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
+            [ngClass]="{'form-control':true, 'form-control-sm':true}">
+            <option [value]="item" *ngFor="let item of this.schemaElements">{{item}}</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="schemaTypeB" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null, 'mt-1':true}">Step
+            3b: Select Type</label>
+          <select id="schemaTypeB" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
+            [ngClass]="{'form-control':true, 'form-control-sm':true}">
+            <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
+          </select>
+        </div>
       </div>
     </div>
   </form>

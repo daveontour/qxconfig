@@ -2,32 +2,32 @@
   <h4 class="modal-title">Upload Your Schema Files</h4>
   <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
 </div>
-<div class="pl-3 pr-3 pt-2" style="height: 550px">
+<div class="pl-3 pr-3 pt-2" style="height:450px">
   <div style="clear:left">
-    <label class="controlEnabled" style="float:left; margin-top: 5px; margin-right: 10px">Step 1: Select the XSD files:
+    <label class="controlEnabled mt-1" style="float:left; margin-top: 5px; margin-right: 10px">Step 1: Select the XSD files:
     </label>
     <input type="file" (change)="onChange($event)" title="Select Files" name="files[]" accept=".xsd" multiple />
   </div>
-  <div style="height:200px; width:100%; overflow-y: scroll; float:left;clear: left;" class="border border-secondary">
+  <div style="height:10em; width:100%; overflow-y: scroll; float:left;clear: left;" class="border border-secondary">
     <div *ngFor="let item of selectedFiles">
       {{item.name}}&nbsp;&nbsp;
     </div>
   </div>
   <div style="clear:left; float: left;width:100%" class="mt-2">
-    <label [ngClass]="{'controlEnabled':this.selectedFiles.length > 0,'controlNotEnabled':this.selectedFiles.length == 0}"
+    <label [ngClass]="{'controlEnabled':this.selectedFiles.length > 0,'controlNotEnabled':this.selectedFiles.length == 0, ' mt-1':true}"
       style="margin-top: 5px; margin-right: 10px; float: left;">Step 2: Upload the selected files</label>
     <button style="float: left" class="btn btn-outline-primary" [disabled]="this.selectedFiles.length == 0" (click)="upload()">Upload</button>
     <button style="float: right" class="btn btn-outline-primary ml-2" [disabled]="this.selectedFiles.length == 0"
       (click)="clear()">Clear Files</button>
   </div>
-  <div style="float:left; clear: left; width:100%" class="mt-1">
+  <div style="float:left; clear: left; width:100%" class="mt-2">
     <ngb-progressbar type="success" [value]="this.percentComplete"></ngb-progressbar>
   </div>
   <div class="form-group" style="float:left; clear:left; width:100%;">
-    <label for="schemaFile" [ngClass]="{'controlEnabled':this.selectedCollection != null, 'controlNotEnabled':this.selectedCollection == null}">Step
+    <label for="schemaFile" [ngClass]="{'controlEnabled':this.selectedCollection != null, 'controlNotEnabled':this.selectedCollection == null, ' mt-1':true}">Step
       3: Select Schema File</label>
     <select id="schemaFile" style="margin-top: 5px; margin-right: 10px; float: left;" [ngModelOptions]="{standalone: true}"
-      [(ngModel)]="this.selectedFile" (change)="this.changeFile()" [ngClass]="{'form-control':true}">
+      [(ngModel)]="this.selectedFile" (change)="this.changeFile()" class="form-control form-control-sm">
       <option [value]="item" *ngFor="let item of this.schemaFiles">{{item}}</option>
     </select>
   </div>
@@ -36,15 +36,15 @@
       <label for="schemaTypeA" style="margin-top: 5px; margin-right: 10px; float: left;" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null}">Step
         4a: Select Element</label>
       <select id="schemaTypeA" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
-        [ngClass]="{'form-control':true}">
+      class="form-control form-control-sm">
         <option [value]="item" *ngFor="let item of this.schemaElements">{{item}}</option>
       </select>
     </div>
     <div class="col">
-      <label for="schemaTypeB" style="margin-top: 5px; margin-right: 10px; float: left;" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null}">Step
+      <label for="schemaTypeB" style="margin-top: 5px; margin-right: 10px; float: left;" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null, ' mt-1':true}">Step
         4b: Select Type</label>
       <select id="schemaTypeB" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
-        [ngClass]="{'form-control':true}">
+        class="form-control form-control-sm">
         <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
       </select>
     </div>
