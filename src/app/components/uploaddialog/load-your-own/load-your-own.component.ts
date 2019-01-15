@@ -115,10 +115,12 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
               this.selectedCollection = this.global.sessionID;
 
               this.schemaFiles = [];
-              for (let i = 0; i < this.selectedFiles.length; i++) {
-                this.schemaFiles.push(this.selectedFiles[i].name);
+              // for (let i = 0; i < this.selectedFiles.length; i++) {
+              //   this.schemaFiles.push(this.selectedFiles[i].name);
+              // }
+              for (let i = 0; i < event.body.files.length; i++) {
+                this.schemaFiles.push(event.body.files[i]);
               }
-
             } else {
               this.global.openModalAlert('Upload Failure', 'Uploading of selected files failed');
               this.messenger.setStatus('Uploading Files Failed');

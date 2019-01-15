@@ -59,6 +59,7 @@ export interface PostEvent {
     body: UploadStatus;
     sessionID: string;
     status: boolean;
+    files: string[];
   }
 export interface UploadStatus {
     status: boolean;

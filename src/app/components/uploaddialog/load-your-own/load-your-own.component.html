@@ -6,7 +6,7 @@
   <div style="clear:left">
     <label class="controlEnabled mt-1" style="float:left; margin-top: 5px; margin-right: 10px">Step 1: Select the XSD files:
     </label>
-    <input type="file" (change)="onChange($event)" title="Select Files" name="files[]" accept=".xsd" multiple />
+    <input type="file" (change)="onChange($event)" title="Select Files" name="files[]" accept=".xsd, .zip" multiple />
   </div>
   <div style="height:10em; width:100%; overflow-y: scroll; float:left;clear: left;" class="border border-secondary">
     <div *ngFor="let item of selectedFiles">
