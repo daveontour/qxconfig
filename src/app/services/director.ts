@@ -113,9 +113,6 @@ export class Director {
         sof.f = this.global.selectedFile;
         sof.t = this.global.selectedType;
         sof.m = this.method;
-        if (this.method === 'enter') {
-          sof.e = this.global.enteredXSD;
-        }
         _this.save(JSON.stringify(sof));
         _this.messenger.setDocumentClean();
       }
@@ -270,16 +267,22 @@ export class Director {
       event => {
         if (event.type === HttpEventType.Response) {
           const soFile = event.body;
-          if (soFile.c !== this.global.selectedSchema
-            || soFile.f !== this.global.selectedFile
-            || soFile.t !== this.global.selectedType) {
 
-            this.global.sessionID = soFile.id;
-            this.messenger.fetchAndApply(soFile);
-          } else {
-            this.global.root.applyConfig(soFile.o);
-            this.messenger.setDocumentClean();
-          }
+          this.global.selectedSchema = soFile.c;
+          this.global.selectedFile = soFile.f;
+          this.global.selectedType = soFile.t;
+          this.global.sessionID = soFile.id;
+          this.messenger.fetchAndApply(soFile);
+          // if (soFile.c !== this.global.selectedSchema
+          //   || soFile.f !== this.global.selectedFile
+          //   || soFile.t !== this.global.selectedType) {
+
+          //   this.global.sessionID = soFile.id;
+          //   this.messenger.fetchAndApply(soFile);
+          // } else {
+          //   this.global.root.applyConfig(soFile.o);
+          //   this.messenger.setDocumentClean();
+          // }
         }
       }
     );
@@ -288,6 +291,11 @@ export class Director {
   fetchAndApply(soFile: SaveObjFile) {
 
     this.modalService.dismissAll();
+
+    if (soFile.error != null) {
+      this.global.openModalAlert('Save File Error', 'The selected file was not reconised as a valid XSD2XML save file');
+      return;
+    }
 
     //   this.schemaTypes = [];
     this.global.selectedType = soFile.t;
@@ -312,7 +320,7 @@ export class Director {
         '&file=' + soFile.f +
         '&type=' + soFile.t +
         '&sessionID=' + this.global.sessionID +
-        '&selectionMethod=' + 'pre');
+        '&selectionMethod=pre');
     }
 
     if (soFile.m === 'user') {
@@ -334,7 +342,7 @@ export class Director {
         '&file=' + soFile.f +
         '&type=' + soFile.t +
         '&sessionID=' + this.global.sessionID +
-        '&selectionMethod=' + 'user');
+        '&selectionMethod=user');
     }
 
     if (soFile.m === 'enter') {
@@ -359,7 +367,7 @@ export class Director {
             '&file=' + soFile.f +
             '&type=' + soFile.t +
             '&sessionID=' + this.global.sessionID +
-            '&selectionMethod=' + 'enter');
+            '&selectionMethod=enter');
         }
       );
 

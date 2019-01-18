@@ -268,6 +268,7 @@ export class SaveObjFile {
   t: string;
   m: string;
   e: string;
+  error: string;
   fls: XSDFile[] = [];
 }
 
