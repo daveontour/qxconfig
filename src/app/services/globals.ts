@@ -126,7 +126,7 @@ export class Globals {
   }
 
   public openModalAlert(title: string, message: string, message2: string = '') {
-    const modalRef = this.modalService.open(GenericAlertComponent);
+    const modalRef = this.modalService.open(GenericAlertComponent, { centered: true, size: 'lg', backdrop: 'static'});
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.message2 = message2;
@@ -136,7 +136,7 @@ export class Globals {
 
   public openModalQuestion(title: string, message: string, message2: string = '', button1: string, button2: string,
    button1Fn: any, button2Fn: any, param1: any, param2: any) {
-    const modalRef = this.modalService.open(GenericAlertComponent);
+    const modalRef = this.modalService.open(GenericAlertComponent, {backdrop: 'static'});
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.message2 = message2;

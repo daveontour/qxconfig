@@ -1,3 +1,4 @@
+import { SavefileuploadComponent } from './../components/uploaddialog/savefileupload/savefileupload.component';
 import { Subscription } from 'rxjs';
 import { ItemConfig, PostEvent } from './../interfaces/interfaces';
 import { SettingsComponent } from './../components/utils/settings/settings.component';
@@ -83,13 +84,13 @@ export class Director {
         }
 
         // The ValidateComponent takes care of sending the request
-        _this.modalService.open(ValidateComponent, { centered: true });
+        _this.modalService.open(ValidateComponent, { centered: true,  backdrop: 'static'});
       });
 
     // Setting button is selected
     messenger.settings$.subscribe(
       data => {
-        _this.modalService.open(SettingsComponent, { centered: true, size: 'sm' });
+        _this.modalService.open(SettingsComponent, { centered: true, size: 'sm',  backdrop: 'static' });
       });
 
     // Save File selected
@@ -120,7 +121,6 @@ export class Director {
 
     messenger.docClean$.subscribe(
       data => {
-        console.log('Document Status ', data);
         _this.documentClean = data;
       }
     );
@@ -194,13 +194,13 @@ export class Director {
     try {
       switch (_this.method) {
         case 'pre':
-          this.modalService.open(PreLodedComponent, { centered: true, size: 'lg' });
+          this.modalService.open(PreLodedComponent, { centered: true, size: 'lg', backdrop: 'static' });
           break;
         case 'user':
-          this.modalService.open(LoadYourOwnComponent, { centered: true, size: 'lg' });
+          this.modalService.open(LoadYourOwnComponent, { centered: true, size: 'lg', backdrop: 'static' });
           break;
         case 'enter':
-          this.modalService.open(EnterXSDComponent, { centered: true, size: 'lg' });
+          this.modalService.open(EnterXSDComponent, { centered: true, size: 'lg', backdrop: 'static'});
           break;
       }
     } catch (e) {
@@ -246,7 +246,8 @@ export class Director {
     // Send the selected file to the host, which in turn
     // returns the contents as a string
 
-    this.global.openModalAlert('Load Saved File', 'Uploading and Processing the Selected File');
+//    this.global.openModalAlert('Load Saved File', 'Uploading and Processing the Selected File');
+    this.modalService.open(SavefileuploadComponent, { centered: true, size: 'lg', backdrop: 'static' });
     this.messenger.setStatus('Uploading File');
 
     const formData: any = new FormData();
@@ -262,12 +263,13 @@ export class Director {
         headers: new HttpHeaders({
           'Access-Control-Allow-Origin': '*'
         }),
-        reportProgress: false
+        reportProgress: true
       }
     );
 
     this.http.request<any>(request).subscribe(
       event => {
+
         if (event.type === HttpEventType.Response) {
           const soFile = event.body;
 
@@ -277,6 +279,18 @@ export class Director {
           this.global.sessionID = soFile.id;
           this.messenger.fetchAndApply(soFile);
         }
+
+        if (event.type === HttpEventType.UploadProgress) {
+          const percentDone = Math.round(100 * event.loaded / event.total);
+          this.messenger.setStatus( percentDone + '% uploaded');
+          this.messenger.setUploadPercentage(percentDone);
+        }
+
+        if (event.type === 3) {
+          this.modalService.dismissAll();
+          this.global.openModalAlert('Save File Error', 'Error Saving the Selected File. The file size exceeds the configured maximum');
+        }
+
       }
     );
   }
@@ -287,7 +301,7 @@ export class Director {
     this.messenger.setStatus('Ready');
 
     if (soFile.error != null) {
-      this.global.openModalAlert('Save File Error', 'The selected file was not reconised as a valid XSD2XML save file');
+      this.global.openModalAlert('Save File Error', soFile.error);
       return;
     }
 

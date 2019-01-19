@@ -49,6 +49,7 @@ import { IntroTextComponent } from './components/intro-text/intro-text.component
 import { SettingsComponent } from './components/utils/settings/settings.component';
 import { ValidateComponent } from './components/utils/validate/validate.component';
 import { Director } from './services/director';
+import { SavefileuploadComponent } from './components/uploaddialog/savefileupload/savefileupload.component';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -98,7 +99,8 @@ export const MY_MOMENT_FORMATS = {
     GenericAlertComponent,
     IntroTextComponent,
     SettingsComponent,
-    ValidateComponent
+    ValidateComponent,
+    SavefileuploadComponent
   ],
   imports: [
     BrowserModule,
@@ -155,7 +157,8 @@ export const MY_MOMENT_FORMATS = {
     GenericAlertComponent,
     IntroTextComponent,
     SettingsComponent,
-    ValidateComponent
+    ValidateComponent,
+    SavefileuploadComponent
   ]
 })
 export class AppModule { }

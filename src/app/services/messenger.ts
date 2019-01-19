@@ -31,6 +31,7 @@ export class Messenger {
     private announceFormReady = new Subject<string>();
     private announceUploadXSD = new Subject<string>();
     private announceXSDUploaded = new Subject<string>();
+    private announceUploadedPercentage = new Subject<number>();
 
     // Observable string streams
     missionAnnounced$ = this.missionAnnouncedSource.asObservable();
@@ -57,11 +58,16 @@ export class Messenger {
     formready$ = this.announceFormReady.asObservable();
     uploadXSD$ = this.announceUploadXSD.asObservable();
     xsduploaded$ = this.announceXSDUploaded.asObservable();
+    uploadpercentage$ = this.announceUploadedPercentage.asObservable();
 
 
     // Service message commands
     announceMission(mission: string) {
       this.missionAnnouncedSource.next(mission);
+    }
+
+    setUploadPercentage(percent: number ) {
+      this.announceUploadedPercentage.next(percent);
     }
 
     confirmMission(astronaut: string) {
