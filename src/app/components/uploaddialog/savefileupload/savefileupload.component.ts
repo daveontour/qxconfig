@@ -25,7 +25,7 @@ export class SavefileuploadComponent implements OnInit {
     this.messenger.uploadpercentage$.subscribe(
       data => {
         this.percentComplete = data;
-        this.message = 'Uploading File -' + data + '% Complete';
+        this.message = 'Uploading File - ' + data + '% Complete';
         if (this.percentComplete > 99) {
           this.message = 'Extracting and Processing File. Please Wait';
         }
