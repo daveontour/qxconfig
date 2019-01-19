@@ -10,18 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SavefileuploadComponent implements OnInit {
 
-  private percentComplete: number;
-  private message = 'Uploading File';
+  public percentComplete: number;
+  public message = 'Uploading File';
 
   constructor (
   private modalService: NgbModal,
   private messenger: Messenger,
   private global: Globals
 
-  ) {
-
-
-   }
+  ) { }
 
   ngOnInit() {
 
@@ -34,6 +31,15 @@ export class SavefileuploadComponent implements OnInit {
         }
       }
     );
+  }
+
+  c(reason) {
+    this.modalService.dismissAll();
+    this.messenger.dismiss();
+  }
+  d(reason) {
+    this.modalService.dismissAll();
+    this.messenger.dismiss();
   }
 
 }
