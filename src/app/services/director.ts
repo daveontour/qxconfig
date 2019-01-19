@@ -89,7 +89,7 @@ export class Director {
     // Setting button is selected
     messenger.settings$.subscribe(
       data => {
-        _this.modalService.open(SettingsComponent, { centered: true, size: 'lg' });
+        _this.modalService.open(SettingsComponent, { centered: true, size: 'sm' });
       });
 
     // Save File selected
@@ -246,6 +246,9 @@ export class Director {
     // Send the selected file to the host, which in turn
     // returns the contents as a string
 
+    this.global.openModalAlert('Load Saved File', 'Uploading and Processing the Selected File');
+    this.messenger.setStatus('Uploading File');
+
     const formData: any = new FormData();
     for (let i = 0; i < selectedFiles.length; i++) {
       formData.append('file', selectedFiles[i]);
@@ -273,16 +276,6 @@ export class Director {
           this.global.selectedType = soFile.t;
           this.global.sessionID = soFile.id;
           this.messenger.fetchAndApply(soFile);
-          // if (soFile.c !== this.global.selectedSchema
-          //   || soFile.f !== this.global.selectedFile
-          //   || soFile.t !== this.global.selectedType) {
-
-          //   this.global.sessionID = soFile.id;
-          //   this.messenger.fetchAndApply(soFile);
-          // } else {
-          //   this.global.root.applyConfig(soFile.o);
-          //   this.messenger.setDocumentClean();
-          // }
         }
       }
     );
@@ -291,6 +284,7 @@ export class Director {
   fetchAndApply(soFile: SaveObjFile) {
 
     this.modalService.dismissAll();
+    this.messenger.setStatus('Ready');
 
     if (soFile.error != null) {
       this.global.openModalAlert('Save File Error', 'The selected file was not reconised as a valid XSD2XML save file');
