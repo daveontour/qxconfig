@@ -134,7 +134,7 @@ export class Messenger {
     fetchAndApply(soFile: SaveObjFile) {
       this.announceFetchAndApply.next(soFile);
     }
-    
+
     newXSDReady(xsd: ItemConfig) {
       this.announceNewXSD.next(xsd);
     }

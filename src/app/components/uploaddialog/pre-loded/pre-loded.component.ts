@@ -140,16 +140,6 @@ export class PreLodedComponent implements OnInit {
       '&sessionID=' + this.global.sessionID +
       '&selectionMethod=' + this.selectionMethod);
   }
-
-
-  c(reason) {
-    this.modalService.dismissAll();
-    this.messenger.dismiss();
-  }
-  d(reason) {
-    this.modalService.dismissAll();
-    this.messenger.dismiss();
-  }
 }
 
 interface ElementAndTypes {

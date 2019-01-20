@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h4 class="modal-title">Select Schema Collection, File and Type</h4>
+  <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
+</div>
+<owl-tab-view>
+  <owl-tab label="Pre Loaded">
+    <app-pre-loded></app-pre-loded>
+  </owl-tab>
+  <owl-tab label="Load Your Own">
+    <app-load-your-own></app-load-your-own>
+  </owl-tab>
+  <owl-tab label="Enter XSD">
+    <app-enter-xsd></app-enter-xsd>
+  </owl-tab>
+</owl-tab-view>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+</div>

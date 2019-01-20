@@ -1,3 +1,4 @@
+import { SelectschemadialogComponent } from './../components/uploaddialog/selectschemadialog/selectschemadialog.component';
 import { SavefileuploadComponent } from './../components/uploaddialog/savefileupload/savefileupload.component';
 import { Subscription } from 'rxjs';
 import { ItemConfig, PostEvent } from './../interfaces/interfaces';
@@ -35,6 +36,7 @@ export class Director {
     // Listen for new mission annoucement and act on them.
     messenger.missionAnnounced$.subscribe(
       mission => {
+
         this.retrieveData(mission);
       }
     );
@@ -70,7 +72,8 @@ export class Director {
       data => {
 
         if (_this.global.selectedType == null) {
-          _this.global.openModalAlert('Dave Stuffed Up', 'selectedType = null');
+          _this.global.openModalAlert('Validation Error', 'Nothing to Validate. ' +
+          'Please load a schema and select the type before validating');
         }
 
         if (_this.global.selectedType.indexOf('(') !== -1) {
@@ -107,6 +110,10 @@ export class Director {
     // Save button is selected
     messenger.save$.subscribe(
       data => {
+        if ( typeof this.global.root === 'undefined') {
+          _this.global.openModalAlert('Unable to Save', 'No XSD Schema has been selected yet');
+          return;
+        }
         const so = this.global.root.getSaveObj();
         const sof = new SaveObjFile();
         sof.o = so;
@@ -187,21 +194,23 @@ export class Director {
   }
 
   selectSchema(_this: any) {
-    try {
-      switch (_this.method) {
-        case 'pre':
-          this.modalService.open(PreLodedComponent, { centered: true, size: 'lg', backdrop: 'static' });
-          break;
-        case 'user':
-          this.modalService.open(LoadYourOwnComponent, { centered: true, size: 'lg', backdrop: 'static' });
-          break;
-        case 'enter':
-          this.modalService.open(EnterXSDComponent, { centered: true, size: 'lg', backdrop: 'static'});
-          break;
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    this.modalService.open( SelectschemadialogComponent, { centered: true, size: 'lg', backdrop: 'static' });
+
+    // try {
+    //   switch (_this.method) {
+    //     case 'pre':
+    //       this.modalService.open(PreLodedComponent, { centered: true, size: 'lg', backdrop: 'static' });
+    //       break;
+    //     case 'user':
+    //       this.modalService.open(LoadYourOwnComponent, { centered: true, size: 'lg', backdrop: 'static' });
+    //       break;
+    //     case 'enter':
+    //       this.modalService.open(EnterXSDComponent, { centered: true, size: 'lg', backdrop: 'static'});
+    //       break;
+    //   }
+    // } catch (e) {
+    //   console.log(e);
+    // }
   }
 
   cleanDocument(_this: any) {
@@ -381,7 +390,7 @@ export class Director {
 
   retrieveData(url: string) {
     this.messenger.setStatus('Retrieving Data');
-    this.messenger.reset();
+   // this.messenger.reset();
     this.global.root = null;
     this.global.undoStack = [];
 

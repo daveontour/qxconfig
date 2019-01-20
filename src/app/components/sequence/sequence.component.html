@@ -13,7 +13,7 @@
       </svg>
       <span class="add noselect" (click)="this.addSibling()">Add {{config.name}} Sequence</span>
 
-      <!-- Infor onthe number of added siblings-->
+      <!-- Infor on the number of added siblings-->
       <span class="occurs noselect" *ngIf="config.maxOccurs > 100000"> ( Current: {{this.siblingCounter}} instances
         <span class="occurs noselect" *ngIf="this.siblingCounter == config.minOccurs && config.minOccurs != 0">,
           Minimum:{{config.minOccurs}}</span>)</span>
@@ -35,8 +35,8 @@
     <owl-expansion-panel [expanded]='true' [ngClass]="{'oddDepth':isOddDepth(),'evenDepth':isEvenDepth(),'mb-1':'true'}">
       <owl-expansion-panel-header style="background: rgba(0,0,0,0.1)">
         <owl-expansion-panel-title class="form-check-label h6 noselect">
-          <div>{{config.name}}</div> <div class="owl-expansion-panel-header-content pull-left">{{elementPath}}</div>
-        </owl-expansion-panel-title>
+          <div>{{config.name}}<br/><span style="font-size: 8pt; margin-top: 3px; font-weight: 400">{{elementPath}}</span></div>
+         </owl-expansion-panel-title>
         <owl-expansion-panel-description>
           {{config.description}}
         </owl-expansion-panel-description>
