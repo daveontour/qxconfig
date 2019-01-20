@@ -182,10 +182,6 @@ export class Director {
             _this.global.getString();
           });
         });
-        // setTimeout(() => {
-        //   _this.global.enableChangeDet();
-        //   _this.global.getString();
-        // });
       }
     );
   }

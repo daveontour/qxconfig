@@ -2,7 +2,9 @@
   <h4 class="modal-title">Select Schema Collection, File and Type</h4>
   <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
 </div>
-<div class="pl-3 pr-3 pt-2" style="height:15em">
+<owl-tab-view>
+    <owl-tab label="Pre Loaded">
+<div class="pl-3 pr-3 pt-2" style="height:450px">
   <form>
     <div class="form-group">
       <label for="schemaCollection" class="controlEnabled mt-1">Step 1: Select Schema Collection</label>
@@ -38,6 +40,10 @@
     </div>
   </form>
 </div>
+</owl-tab>
+<owl-tab label="Load Your Own"><app-load-your-own></app-load-your-own></owl-tab>
+<owl-tab label="Enter XSD"><app-enter-xsd></app-enter-xsd></owl-tab>
+</owl-tab-view>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
 </div>

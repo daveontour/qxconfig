@@ -50,6 +50,7 @@ import { SettingsComponent } from './components/utils/settings/settings.componen
 import { ValidateComponent } from './components/utils/validate/validate.component';
 import { Director } from './services/director';
 import { SavefileuploadComponent } from './components/uploaddialog/savefileupload/savefileupload.component';
+import { OwlTabsModule } from 'owl-ng';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -117,6 +118,7 @@ export const MY_MOMENT_FORMATS = {
     OwlCheckBoxModule,
     OwlInputModule,
     OwlFormFieldModule,
+    OwlTabsModule
   ],
   providers: [
     Director,

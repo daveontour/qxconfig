@@ -1,29 +1,33 @@
-<div class="modal-header">
+<!-- <div class="modal-header">
   <h4 class="modal-title">Enter and Save Your Schema</h4>
   <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
-</div>
-<div class="pl-3 pr-3 pt-2" style="height: 420px; overflow-y: scroll">
-    <label class = "controlEnabled mt-1">Step 1: Enter the XSD</label>
-    <div style = "height:250px;overflow-y:scroll" class="border border-secondary">
-  <ace-editor #xsdEditor [(text)]="this.enteredXSD" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
-    style="min-height: 250px; width:100%;"></ace-editor>
-    </div>
-  <button type="button" class="btn btn-outline-dark float-right mt-2" [disabled]="this.enteredXSD.length < 10" (click)="upload()">Save</button>
+</div> -->
+<div class="pl-3 pr-3 pt-2" style="height: 450px; overflow-y: scroll">
+  <label class="controlEnabled mt-1">Step 1: Enter the XSD</label>
+  <div style="height:250px;overflow-y:scroll" class="border border-secondary">
+    <ace-editor #xsdEditor [(text)]="this.enteredXSD" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
+      style="min-height: 250px; width:100%;"></ace-editor>
+  </div>
+  <button type="button" class="btn btn-outline-primary float-right mt-2" [disabled]="this.enteredXSD.length < 10" (click)="upload()">Save</button>
   <div class="form-row" style="clear:both">
     <div class="col">
-      <label for="schemaType3A" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null,'mt-1':true}">Step 2a: Select Element</label>
-      <select id="schemaType3A" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()" class="form-control form-control-sm">
+      <label for="schemaType3A" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null,'mt-1':true}">Step
+        2a: Select Element</label>
+      <select id="schemaType3A" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
+        class="form-control form-control-sm">
         <option [value]="item" *ngFor="let item of this.schemaElements">{{item}}</option>
       </select>
-      </div>
-      <div class="col">
-          <label for="schemaType3B" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null,'mt-1':true}">Step 2b: Select Type</label>
-          <select id="schemaType3B" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()" class="form-control form-control-sm">
-            <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
-          </select>
-          </div>
+    </div>
+    <div class="col">
+      <label for="schemaType3B" [ngClass]="{'controlEnabled':this.selectedFile != null,'controlNotEnabled':this.selectedFile == null,'mt-1':true}">Step
+        2b: Select Type</label>
+      <select id="schemaType3B" [ngModelOptions]="{standalone: true}" [(ngModel)]="this.selectedType" (change)="this.changeType()"
+        class="form-control form-control-sm">
+        <option [value]="item" *ngFor="let item of this.schemaTypes">{{item}}</option>
+      </select>
+    </div>
   </div>
 </div>
-<div class="modal-footer" >
+<!-- <div class="modal-footer" >
   <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
-</div>
+</div> -->
