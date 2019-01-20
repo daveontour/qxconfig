@@ -49,12 +49,22 @@ export class PreLodedComponent implements OnInit {
     this.selectedType = null;
     this.selectedCollection = null;
 
+    $('*').addClass('waiting');
+
     this.http.get<any>(this.global.baseURL + '?op=getSchemas&sessionID=' + this.global.sessionID).subscribe(data => {
 
+      $('*').removeClass('waiting');
       this.schemaCollections = data.data;
       this.global.sessionID = data.sessionID;
+
+      if (this.schemaCollections.length === 0) {
+        this.global.openModalAlert('Schema Archive Selection Error',
+          'No Schema Archives Found');
+        return;
+      }
     },
       (err: HttpErrorResponse) => {
+        $('*').removeClass('waiting');
         if (err.error instanceof Error) {
           console.log('An error occurred:', err.error.message);
         } else {
@@ -74,13 +84,24 @@ export class PreLodedComponent implements OnInit {
     this.global.selectionMethod = this.selectionMethod;
     this.messenger.setSchema(this.global.selectedSchema);
 
+    $('*').addClass('waiting');
+
     this.http.get<any>(this.global.baseURL + '?op=getSchemaFiles&schema=' + this.selectedCollection +
       '&selectionMethod=' + this.selectionMethod + '&sessionID=' + this.global.sessionID).subscribe(data => {
 
+        $('*').removeClass('waiting');
         this.schemaFiles = data.data;
         this.global.sessionID = data.sessionID;
+
+        if (this.schemaFiles.length === 0) {
+          this.global.openModalAlert('Schema File Selection Error',
+            'No Schema Files Were Found in the Archive');
+          return;
+        }
+
       },
         (err: HttpErrorResponse) => {
+          $('*').removeClass('waiting');
           if (err.error instanceof Error) {
             console.log('An error occurred:', err.error.message);
           } else {
@@ -101,6 +122,8 @@ export class PreLodedComponent implements OnInit {
       this.global.selectedFile = this.selectedFile;
     }
 
+    $('*').addClass('waiting');
+
     this.http.get<ElementAndTypes>(this.global.baseURL + '?op=getSchemaTypes' +
       '&schema=' + this.selectedCollection +
       '&file=' + this.selectedFile +
@@ -108,16 +131,21 @@ export class PreLodedComponent implements OnInit {
       '&selectionMethod=' + this.selectionMethod
     ).subscribe(data => {
 
+      $('*').removeClass('waiting');
+
       this.schemaTypes = data.types;
       this.schemaElements = data.elements;
-      if (this.schemaTypes.length === 0  && this.schemaElements.length === 0) {
-        alert('No Elements or Types were found');
+      if (this.schemaTypes.length === 0 && this.schemaElements.length === 0) {
+        this.global.openModalAlert('Element and Type Selection Error',
+        'No Elements or Types Were Found');
+      return;
       }
     },
       (err: HttpErrorResponse) => {
+        $('*').removeClass('waiting');
         this.messenger.setStatus('File Selection Failure');
         this.global.openModalAlert('Schema File Selection Error',
-        'There was an error selecting the file. Unable to retrieve types from schema');
+          'There was an error selecting the file. Unable to retrieve types from schema');
         if (err.error instanceof Error) {
           console.log('An error occurred:', err.error.message);
         } else {

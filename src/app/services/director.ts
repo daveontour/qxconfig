@@ -254,6 +254,7 @@ export class Director {
 //    this.global.openModalAlert('Load Saved File', 'Uploading and Processing the Selected File');
     this.modalService.open(SavefileuploadComponent, { centered: true, size: 'lg', backdrop: 'static' });
     this.messenger.setStatus('Uploading File');
+    $('*').addClass('waiting');
 
     const formData: any = new FormData();
     for (let i = 0; i < selectedFiles.length; i++) {
@@ -274,7 +275,7 @@ export class Director {
 
     this.http.request<any>(request).subscribe(
       event => {
-
+        $('*').removeClass('waiting');
         if (event.type === HttpEventType.Response) {
           const soFile = event.body;
 
@@ -395,9 +396,10 @@ export class Director {
     this.global.undoStack = [];
 
     this.global.openModalAlert('Schema Processing', 'Processing Schema. Please Wait.');
+    $('*').addClass('waiting');
 
     this.http.get<ItemConfig>(url).subscribe(data => {
-
+      $('*').removeClass('waiting');
       this.modalService.dismissAll();
 
       if (data.failed) {
@@ -415,6 +417,7 @@ export class Director {
       }
     },
       (err: HttpErrorResponse) => {
+        $('*').removeClass('waiting');
         this.modalService.dismissAll();
         if (err.error instanceof Error) {
           this.global.openModalAlert('An error occurred:', err.error.message);
@@ -446,9 +449,10 @@ export class Director {
       }
     );
 
-
+    $('*').addClass('waiting');
     this.http.request<PostEvent>(request).subscribe(
       event => {
+        $('*').removeClass('waiting');
         if (event.type === HttpEventType.Response) {
           if (event.body.status) {
             this.global.sessionID = event.body.sessionID;

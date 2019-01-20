@@ -122,7 +122,7 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
                 this.schemaFiles.push(event.body.files[i]);
               }
             } else {
-              this.global.openModalAlert('Upload Failure', 'Uploading of selected files failed');
+              this.global.openModalAlert('Upload Failure', 'Uploading of Selected Files Failed');
               this.messenger.setStatus('Uploading Files Failed');
             }
           }
