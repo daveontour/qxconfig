@@ -42,11 +42,11 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
     this.messenger.setSchemaFile('-');
     this.messenger.setType('-');
     this.messenger.setStatus('Ready');
+    $('#loadownfileinput').val();
   }
   onChange(event) {
     this.messenger.setSchema('User Uploaded');
     this.messenger.setStatus('Ready to Upload File');
-    this.global.selectionMethod = this.selectionMethod;
     this.selectedFiles = [];
     this.Caption = [];
 
@@ -69,6 +69,7 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
 
   upload() {
     this.messenger.setStatus('Uploading Files');
+    this.global.selectionMethod = 'user';
     const formData: any = new FormData();
     for (let i = 0; i < this.selectedFiles.length; i++) {
       if (this.Caption[i] === undefined) {

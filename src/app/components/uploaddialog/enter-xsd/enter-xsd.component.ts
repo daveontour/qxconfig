@@ -1,7 +1,7 @@
 import { PreLodedComponent } from './../pre-loded/pre-loded.component';
 import { Globals } from './../../../services/globals';
 import { HttpClient, HttpHeaders, HttpEventType, HttpRequest } from '@angular/common/http';
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Messenger } from './../../../services/messenger';
 import { PostEvent} from './../../../interfaces/interfaces';
@@ -11,7 +11,7 @@ import { PostEvent} from './../../../interfaces/interfaces';
   templateUrl: './enter-xsd.component.html',
   styleUrls: ['./enter-xsd.component.scss']
 })
-export class EnterXSDComponent extends PreLodedComponent {
+export class EnterXSDComponent extends PreLodedComponent implements OnInit {
 
   selectionMethod = 'enter';
   enteredXSD = '';
@@ -23,6 +23,7 @@ export class EnterXSDComponent extends PreLodedComponent {
     public global: Globals) {
     super(messenger, http, modalService, global);
 
+
     // Hamdler for after the XSD has been uploaded sucessfully
     messenger.xsduploaded$.subscribe(
       data => {
@@ -32,9 +33,14 @@ export class EnterXSDComponent extends PreLodedComponent {
       });
   }
 
+  ngOnInit() {
+    this.enteredXSD = this.global.enteredXSD;
+  }
+
   upload() {
 
     // The upload is handled by the director
+    this.global.selectionMethod = 'enter';
     this.messenger.uploadXSD(this.enteredXSD);
   }
 }

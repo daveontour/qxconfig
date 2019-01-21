@@ -2,7 +2,7 @@
   <h4 class="modal-title">Select Schema Collection, File and Type</h4>
   <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
 </div>
-<owl-tab-view>
+<owl-tab-view [selectedIndex] = "this.tabIndex">
   <owl-tab label="Pre Loaded">
     <app-pre-loded></app-pre-loded>
   </owl-tab>

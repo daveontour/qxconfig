@@ -11,6 +11,8 @@ import { Messenger } from './../../../services/messenger';
 })
 export class SelectschemadialogComponent implements OnInit {
 
+  tabIndex = 0;
+
   constructor(
     public messenger: Messenger,
     public http: HttpClient,
@@ -18,7 +20,21 @@ export class SelectschemadialogComponent implements OnInit {
     public global: Globals
   ) { }
 
-  ngOnInit(  ) {
+  ngOnInit() {
+    debugger;
+    switch (this.global.selectionMethod) {
+      case 'pre':
+        this.tabIndex = 0;
+        break;
+      case 'user':
+        this.tabIndex = 1;
+        break;
+      case 'enter':
+        this.tabIndex = 2;
+        break;
+      default:
+        this.tabIndex = 0;
+    }
   }
 
   c(reason: string) {

@@ -37,7 +37,6 @@ export class Globals {
   public selectedSchema: string;
   public selectedFile: string;
   public selectedType: string;
-  public selectedMethod: string;
   public sessionID = 'new';
   public selectionMethod: string;
   public triggers = 'mouseenter:mouseleave';
@@ -49,7 +48,7 @@ export class Globals {
   private lockChangeDetection = false;
   private lockStack = [];
   public clean = true;
-  public enteredXSD: string;
+  public enteredXSD = '';
 
   constructor(
     private modalService: NgbModal,

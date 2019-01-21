@@ -1,9 +1,8 @@
 
 <div class="pl-3 pr-3 pt-2" style="height:450px">
   <div style="clear:left">
-    <label class="controlEnabled mt-1" style="float:left; margin-top: 5px; margin-right: 10px">Step 1: Select the XSD files:
-    </label>
-    <input type="file" (change)="onChange($event)" title="Select Files" name="files[]" accept=".xsd, .zip" multiple />
+    <label class="controlEnabled mt-1" style="float:left; margin-top: 5px; margin-right: 10px">Step 1: Select the XSD files:</label>
+    <input id="loadownfileinput"  type="file" (change)="onChange($event)" title="Select Files" name="files[]" accept=".xsd, .zip" multiple />
   </div>
   <div style="height:10em; width:100%; overflow-y: scroll; float:left;clear: left;" class="border border-secondary">
     <div *ngFor="let item of selectedFiles">

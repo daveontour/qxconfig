@@ -36,7 +36,6 @@ export class Director {
     // Listen for new mission annoucement and act on them.
     messenger.missionAnnounced$.subscribe(
       mission => {
-
         this.retrieveData(mission);
       }
     );
@@ -45,9 +44,9 @@ export class Director {
     messenger.selectSchema$.subscribe(
       method => {
 
+
         _this.oldMethod = _this.method;
         _this.method = method;
-        _this.global.selectionMethod = method;
 
         if (!_this.documentClean) {
 
@@ -296,7 +295,6 @@ export class Director {
           this.modalService.dismissAll();
           this.global.openModalAlert('Save File Error', 'Error Saving the Selected File. The file size exceeds the configured maximum');
         }
-
       }
     );
   }

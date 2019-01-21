@@ -81,7 +81,7 @@ export class PreLodedComponent implements OnInit {
     this.selectedFile = null;
     this.selectedType = null;
 
-    this.global.selectionMethod = this.selectionMethod;
+    this.global.selectionMethod = 'pre';
     this.messenger.setSchema(this.global.selectedSchema);
 
     $('*').addClass('waiting');
@@ -157,6 +157,7 @@ export class PreLodedComponent implements OnInit {
   changeType() {
 
     this.modalService.dismissAll();
+
 
     this.schemaTypes = [];
     this.global.selectedType = this.selectedType;
