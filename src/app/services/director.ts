@@ -169,28 +169,28 @@ export class Director {
     );
 
     // Handle selection of "Undo" button
-    messenger.undo$.subscribe(
-      data => {
-        if (_this.global.undoStack.length <= 1) {
-          return;
-        }
-        _this.global.lockChangeDet();
-        // The last one on the stack represents the current state, so discard it.
-        _this.global.undoStack.pop();
-        $('body').addClass('waiting');
-        _this.global.openModalAlert('Undo', 'Processing. Please Wait.');
-        setTimeout(() => {
-          _this.global.root.applyConfig(_this.global.undoStack.pop());
-          $('body').removeClass('waiting');
-          _this.modalService.dismissAll();
-          setTimeout(() => {
-            _this.global.enableChangeDet();
-            _this.global.getString();
-          });
-        });
-      }
-    );
-  }
+  //   messenger.undo$.subscribe(
+  //     data => {
+  //       if (_this.global.undoStack.length <= 1) {
+  //         return;
+  //       }
+  //       _this.global.lockChangeDet();
+  //       // The last one on the stack represents the current state, so discard it.
+  //       _this.global.undoStack.pop();
+  //       $('body').addClass('waiting');
+  //       _this.global.openModalAlert('Undo', 'Processing. Please Wait.');
+  //       setTimeout(() => {
+  //         _this.global.root.applyConfig(_this.global.undoStack.pop());
+  //         $('body').removeClass('waiting');
+  //         _this.modalService.dismissAll();
+  //         setTimeout(() => {
+  //           _this.global.enableChangeDet();
+  //           _this.global.getString();
+  //         });
+  //       });
+  //     }
+  //   );
+   }
 
   selectSchema(_this: any) {
     this.modalService.open( SelectschemadialogComponent, { centered: true, size: 'lg', backdrop: 'static' });
@@ -391,7 +391,7 @@ export class Director {
     this.messenger.setStatus('Retrieving Data');
    // this.messenger.reset();
     this.global.root = null;
-    this.global.undoStack = [];
+   // this.global.undoStack = [];
 
     this.global.openModalAlert('Schema Processing', 'Processing Schema. Please Wait.');
     $('*').addClass('waiting');

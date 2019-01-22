@@ -350,5 +350,9 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
 
     this.global.enableChangeDet();
   }
+
+  validate() {
+    this.messenger.validate();
+  }
 }
 

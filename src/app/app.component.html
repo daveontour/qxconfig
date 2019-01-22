@@ -14,13 +14,15 @@
         <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
           <div id="GeneratedWindow" style="overflow-y:scroll">
             <jqxSplitter [resizable]=false [showSplitBar]=false [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'"
-              [panels]="[{ size: 1000, min:350, collapsible: true },{ size:20, min: 20, collapsible: false }]">
+              [panels]="[{ size: 1000, min:350, collapsible: true },{ size:40, min: 40, collapsible: false }]">
               <div style="height:100%;overflow-y:scroll" class="border border-secondary">
                 <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'eclipse'"
                   [durationBeforeCallback]="1000" (textChanged)="onTextChange($event)" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
                   style="min-height: 100%; width:100%;"></ace-editor>
               </div>
-              <div class="bottom border border-secondary" style="width:100%; height:20px" id="statusBar">{{editorStatus}}</div>
+              <div class="bottom border border-secondary" style="width:100%; height:40px" id="statusBar">{{editorStatus}}
+                <button style="float: right" class="btn-sm btn-outline-secondary mr-2" (click)="validate()">Validate</button>
+                <button style="float: right" class="btn-sm btn-outline-secondary mr-2" >Copy</button></div>
             </jqxSplitter>
           </div>
           <div id="AlertsWindow" style="overflow-y:scroll;">

@@ -21,7 +21,6 @@ export class SelectschemadialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    debugger;
     switch (this.global.selectionMethod) {
       case 'pre':
         this.tabIndex = 0;
@@ -35,6 +34,10 @@ export class SelectschemadialogComponent implements OnInit {
       default:
         this.tabIndex = 0;
     }
+  }
+
+  indexChange(event) {
+    this.tabIndex = event;
   }
 
   c(reason: string) {

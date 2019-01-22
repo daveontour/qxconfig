@@ -43,7 +43,7 @@ export class Globals {
   public showPopovers = true;
   public editor: any;
   public lockEditorUpdates = false;
-  public undoStack: SaveObj[] = [];
+ // public undoStack: SaveObj[] = [];
   public root: any;
   private lockChangeDetection = false;
   private lockStack = [];
@@ -118,7 +118,7 @@ export class Globals {
       this.lockEditorUpdates = false;
 
       // Put it on the undoSack
-      this.undoStack.push(this.root.getSaveObj());
+   //   this.undoStack.push(this.root.getSaveObj());
       this.messenger.setDocumentDirty();
       $('body').removeClass('waiting');
     }, 0 );
