@@ -12,6 +12,7 @@ import { Messenger } from './../../../services/messenger';
 export class SelectschemadialogComponent implements OnInit {
 
   tabIndex = 0;
+  tabDescription: string;
 
   constructor(
     public messenger: Messenger,
@@ -34,10 +35,27 @@ export class SelectschemadialogComponent implements OnInit {
       default:
         this.tabIndex = 0;
     }
+
+    this.indexChange(this.tabIndex);
   }
 
   indexChange(event) {
     this.tabIndex = event;
+    switch (this.tabIndex) {
+      case 0:
+        this.tabDescription = 'Select of of the sechma sets that have been preloaded';
+        break;
+      case 1:
+        this.tabDescription = 'Choose a set of schema files or a zip file contatining a set of schema files';
+        break;
+      case 2:
+        this.tabDescription = 'Enter the XML Schema Defition directly';
+        break;
+      case 3:
+        this.tabDescription = 'Select a zip file archive of a previously saved session';
+        break;
+
+    }
   }
 
   c(reason: string) {

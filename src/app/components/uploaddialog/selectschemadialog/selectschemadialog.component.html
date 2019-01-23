@@ -1,8 +1,8 @@
 <div class="modal-header">
-  <h4 class="modal-title">Load XSD</h4>
+  <h4 class="modal-title">Load XML Schema Definition</h4>
   <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
 </div>
-<owl-tab-view [selectedIndex] = "this.tabIndex" (selectedIndexChange)="this.indexChange($event)">
+<owl-tab-view [selectedIndex]="this.tabIndex" (selectedIndexChange)="this.indexChange($event)">
   <owl-tab label="Pre Loaded">
     <app-pre-loded></app-pre-loded>
   </owl-tab>
@@ -13,10 +13,14 @@
     <app-enter-xsd></app-enter-xsd>
   </owl-tab>
   <owl-tab label="Restore Session">
-      <app-resotre></app-resotre>
-    </owl-tab>
+    <app-resotre></app-resotre>
+  </owl-tab>
 </owl-tab-view>
-<div class="modal-footer">
-  <span class="pull-left">{{tabIndex}}</span>
-  <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+<div class="modal-footer" style='justify-content: space-between'>
+  <div class="float-left" style='color:#f2f2f2'>
+    {{tabDescription}}
+  </div>
+  <div class="float-right">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
 </div>
