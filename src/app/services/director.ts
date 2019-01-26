@@ -168,6 +168,12 @@ export class Director {
       }
     );
 
+    messenger.downloadxml$.subscribe(
+      data => {
+        this.downloadXML();
+      }
+    );
+
     // Handle selection of "Undo" button
   //   messenger.undo$.subscribe(
   //     data => {
@@ -232,6 +238,18 @@ export class Director {
     $('input[name="saveobject"]').val(saveobject);
     $('#downloadform').attr('action', url);
     $('#downloadform').submit();
+
+  }
+
+  downloadXML() {
+    // Send the data to the host, which in turns
+    // just reflects it back as a file.
+
+    const url = this.global.baseURLSaveXMLFileReflector + this.global.sessionID;
+    const xml = this.global.XMLMessage;
+    $('input[name="xml"]').val(xml);
+    $('#downloadxmlform').attr('action', url);
+    $('#downloadxmlform').submit();
 
   }
 

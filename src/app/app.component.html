@@ -22,7 +22,8 @@
               </div>
               <div class="bottom border border-secondary" style="width:100%; height:40px" id="statusBar">{{editorStatus}}
                 <button style="float: right" class="btn btn-light btn-sm mr-3" (click)="validate()">Validate</button>
-                <button style="float: right" class="btn btn-light btn-sm mr-1" >Copy</button></div>
+                <button style="float: right" class="btn btn-light btn-sm mr-1" (click)="downloadxml()">Download XML</button>
+                <button style="float: right" class="btn btn-light btn-sm mr-1" (click)="copytoclip()">Copy To Clipboard</button></div>
             </jqxSplitter>
           </div>
           <div id="AlertsWindow" style="overflow-y:scroll;">
@@ -37,6 +38,11 @@
     <form id="downloadform" class="d-none" method="post" target="_self">
       <input type="hidden" name="saveobject" />
     </form>
+
+    <form id="downloadxmlform" class="d-none" method="post" target="_self">
+      <input type="hidden" name="xml" />
+    </form>
+
 
     <form>
       <input type="file" class="d-none" (change)="onSaveFileSelect($event)" title="Select Files" name="files[]" accept=".zip"
