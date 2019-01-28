@@ -35,3 +35,24 @@
   background: steelblue;
   color: #f2f2f2;
 }
+
+.btn{
+  display: inline-block;
+  text-decoration: none;
+  color: #668ad8;
+  width: 135px;
+  height: 25px;
+  border-radius: 15px;
+  border: solid 2px #668ad8;
+  text-align: center;
+  vertical-align: middle;
+  overflow: hidden;
+  font-weight: bold;
+  transition: .4s;
+  padding-top: 0px;
+  font-size: 0.8rem;
+}
+
+.btn:hover {
+    background: #b3e1ff;
+}

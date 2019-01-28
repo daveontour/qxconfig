@@ -3,7 +3,7 @@
     <app-topmenu></app-topmenu>
   </div>
   <div class="middle">
-    <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'vertical'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
+    <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'vertical'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:415, min: 415, collapsible: true }]">
       <div style="overflow-y:hidden">
         <div id='FormWindow' style="overflow-y:scroll; height: 100%;">
           <template #container></template>
@@ -20,10 +20,11 @@
                   [durationBeforeCallback]="1000" (textChanged)="onTextChange($event)" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
                   style="min-height: 100%; width:100%;"></ace-editor>
               </div>
-              <div class="bottom border border-secondary" style="width:100%; height:40px" id="statusBar">{{editorStatus}}
-                <button style="float: right" class="btn btn-light btn-sm mr-3" (click)="validate()">Validate</button>
+              <div class="bottom border border-secondary" style="width:100%; height:40px" id="statusBar">
+                <!-- {{editorStatus}} -->
+                <button style="float: right; width:95px" class="btn btn-light btn-sm mr-3" (click)="validate()">Validate</button>
                 <button style="float: right" class="btn btn-light btn-sm mr-1" (click)="downloadxml()">Download XML</button>
-                <button style="float: right" class="btn btn-light btn-sm mr-1" (click)="copytoclip()">Copy To Clipboard</button></div>
+                <button style="float: right; width: 150px;" class="btn btn-light btn-sm mr-1" (click)="copytoclip()">Copy To Clipboard</button></div>
             </jqxSplitter>
           </div>
           <div id="AlertsWindow" style="overflow-y:scroll;">

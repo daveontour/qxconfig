@@ -116,7 +116,7 @@ export class PreLodedComponent implements OnInit {
     this.selectedType = null;
     if (this.selectionMethod === 'enter') {
       this.messenger.setSchemaFile('User Uploaded');
-      this.global.selectedFile = 'User Uploaded';
+      this.global.selectedFile = 'enter';
     } else {
       this.messenger.setSchemaFile(this.selectedFile);
       this.global.selectedFile = this.selectedFile;

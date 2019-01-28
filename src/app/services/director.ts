@@ -4,14 +4,12 @@ import { Subscription } from 'rxjs';
 import { ItemConfig, PostEvent } from './../interfaces/interfaces';
 import { SettingsComponent } from './../components/utils/settings/settings.component';
 import { ValidateComponent } from './../components/utils/validate/validate.component';
-import { LoadYourOwnComponent } from './../components/uploaddialog/load-your-own/load-your-own.component';
 import { NgbPopoverConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Messenger } from './messenger';
 import { HttpClient, HttpRequest, HttpHeaders, HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { Globals, SaveObjFile } from './globals';
 import { Injectable } from '@angular/core';
-import { PreLodedComponent } from '../components/uploaddialog/pre-loded/pre-loded.component';
-import { EnterXSDComponent } from '../components/uploaddialog/enter-xsd/enter-xsd.component';
+
 import * as $ from 'jquery';
 
 @Injectable()
@@ -119,7 +117,7 @@ export class Director {
         sof.c = this.global.selectedSchema;
         sof.f = this.global.selectedFile;
         sof.t = this.global.selectedType;
-        sof.m = this.method;
+        sof.m = this.global.selectionMethod;
         _this.save(JSON.stringify(sof));
         _this.messenger.setDocumentClean();
       }
@@ -200,22 +198,6 @@ export class Director {
 
   selectSchema(_this: any) {
     this.modalService.open( SelectschemadialogComponent, { centered: true, size: 'lg', backdrop: 'static' });
-
-    // try {
-    //   switch (_this.method) {
-    //     case 'pre':
-    //       this.modalService.open(PreLodedComponent, { centered: true, size: 'lg', backdrop: 'static' });
-    //       break;
-    //     case 'user':
-    //       this.modalService.open(LoadYourOwnComponent, { centered: true, size: 'lg', backdrop: 'static' });
-    //       break;
-    //     case 'enter':
-    //       this.modalService.open(EnterXSDComponent, { centered: true, size: 'lg', backdrop: 'static'});
-    //       break;
-    //   }
-    // } catch (e) {
-    //   console.log(e);
-    // }
   }
 
   cleanDocument(_this: any) {
@@ -265,9 +247,6 @@ export class Director {
 
   uploadSavedFile(selectedFiles: any[]) {
 
-    // Send the selected file to the host, which in turn
-    // returns the contents as a string
-
 //    this.global.openModalAlert('Load Saved File', 'Uploading and Processing the Selected File');
     this.modalService.open(SavefileuploadComponent, { centered: true, size: 'lg', backdrop: 'static' });
     this.messenger.setStatus('Uploading File');
@@ -309,10 +288,27 @@ export class Director {
           this.messenger.setUploadPercentage(percentDone);
         }
 
-        if (event.type === 3) {
-          this.modalService.dismissAll();
-          this.global.openModalAlert('Save File Error', 'Error Saving the Selected File. The file size exceeds the configured maximum');
+        if (event.type === HttpEventType.Sent) {
+          console.log('Sent Event');
         }
+
+        if (event.type === HttpEventType.ResponseHeader) {
+          console.log('Response Header Event');
+        }
+
+        if (event.type === HttpEventType.DownloadProgress) {
+          console.log('Download Progress Event');
+        }
+
+        if (event.type === HttpEventType.User) {
+          console.log('User Event');
+        }
+
+        // if (event.type === 3) {
+        //   debugger;
+        //   this.modalService.dismissAll();
+        //   this.global.openModalAlert('Save File Error', 'Error Saving the Selected File. The file size exceeds the configured maximum');
+        // }
       }
     );
   }
@@ -331,78 +327,24 @@ export class Director {
     this.global.selectedType = soFile.t;
     this.messenger.setType(soFile.t);
 
-    if (soFile.m === 'pre') {
-      // First, set up a listener to listen when the file has been processed
-      // 'formready' is fired by the app.component whene the XSF has been loaded.
-      this.tempSub = this.messenger.formready$.subscribe(
-        data => {
-          this.tempSub.unsubscribe();
-          this.global.root.applyConfig(soFile.o);
-          this.messenger.setSchema(soFile.c);
-          this.messenger.setSchemaFile(soFile.f);
-          this.messenger.setType(soFile.t);
-        }
-      );
+    this.tempSub = this.messenger.formready$.subscribe(
+      data => {
+        this.tempSub.unsubscribe();
+        this.global.root.applyConfig(soFile.o);
+        this.messenger.setSchema(soFile.c);
+        this.messenger.setSchemaFile(soFile.f);
+        this.messenger.setType(soFile.t);
+      }
+    );
 
-      // Request the schema to be loaded
-      this.messenger.announceMission(this.global.baseURL + '?op=getType' +
-        '&schema=' + soFile.c +
-        '&file=' + soFile.f +
-        '&type=' + soFile.t +
-        '&sessionID=' + this.global.sessionID +
-        '&selectionMethod=pre');
-    }
+    // Request the schema to be loaded
+    this.messenger.announceMission(this.global.baseURL + '?op=getType' +
+      '&schema=' + soFile.c +
+      '&file=' + soFile.f +
+      '&type=' + soFile.t +
+      '&sessionID=' + this.global.sessionID +
+      '&selectionMethod=' + soFile.m);
 
-    if (soFile.m === 'user') {
-      // First, set up a listener to listen when the file has been processed
-      // 'formready' is fired by the app.component whene the XSF has been loaded.
-      this.tempSub = this.messenger.formready$.subscribe(
-        data => {
-          this.tempSub.unsubscribe();
-          this.global.root.applyConfig(soFile.o);
-          this.messenger.setSchema(soFile.c);
-          this.messenger.setSchemaFile(soFile.f);
-          this.messenger.setType(soFile.t);
-        }
-      );
-
-      // Request the schema to be loaded
-      this.messenger.announceMission(this.global.baseURL + '?op=getType' +
-        '&schema=' + this.global.sessionID +
-        '&file=' + soFile.f +
-        '&type=' + soFile.t +
-        '&sessionID=' + this.global.sessionID +
-        '&selectionMethod=user');
-    }
-
-    if (soFile.m === 'enter') {
-      // First, set up a listener to listen when the file has been processed
-      // 'formready' is fired by the app.component whene the XSF has been loaded.
-      this.tempSub = this.messenger.xsduploaded$.subscribe(
-        data => {
-          this.tempSub.unsubscribe();
-          this.messenger.setSchema(soFile.c);
-          this.messenger.setSchemaFile(soFile.f);
-          this.messenger.setType(soFile.t);
-
-          this.tempSub2 = this.messenger.formready$.subscribe(
-            data2 => {
-              this.tempSub2.unsubscribe();
-              this.global.root.applyConfig(soFile.o);
-            });
-
-          // Request the schema to be loaded
-          this.messenger.announceMission(this.global.baseURL + '?op=getType' +
-            '&schema=' + soFile.c +
-            '&file=' + soFile.f +
-            '&type=' + soFile.t +
-            '&sessionID=' + this.global.sessionID +
-            '&selectionMethod=enter');
-        }
-      );
-
-      this.uploadXSD(soFile.e);
-    }
   }
 
   retrieveData(url: string) {
