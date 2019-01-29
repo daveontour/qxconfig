@@ -53,6 +53,7 @@ import { SavefileuploadComponent } from './components/uploaddialog/savefileuploa
 import { OwlTabsModule } from 'owl-ng';
 import { SelectschemadialogComponent } from './components/uploaddialog/selectschemadialog/selectschemadialog.component';
 import { ResotreComponent } from './components/uploaddialog/resotre/resotre.component';
+import { ShowxsdComponent } from './components/showxsd/showxsd.component';
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -105,7 +106,8 @@ export const MY_MOMENT_FORMATS = {
     ValidateComponent,
     SavefileuploadComponent,
     SelectschemadialogComponent,
-    ResotreComponent
+    ResotreComponent,
+    ShowxsdComponent
   ],
   imports: [
     BrowserModule,
@@ -166,7 +168,8 @@ export const MY_MOMENT_FORMATS = {
     ValidateComponent,
     SavefileuploadComponent,
     SelectschemadialogComponent,
-    ResotreComponent
+    ResotreComponent,
+    ShowxsdComponent
   ]
 })
 export class AppModule { }

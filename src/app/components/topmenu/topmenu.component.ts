@@ -26,6 +26,9 @@ export class TopmenuComponent {
   save() {
     this.messenger.save();
   }
+  showXSD() {
+    this.messenger.showXSD();
+  }
 
   apply() {
     this.messenger.apply();

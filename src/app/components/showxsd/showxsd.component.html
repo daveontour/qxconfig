@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h4 class="modal-title">Loaded XML Schema Definition</h4>
+  <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
+</div>
+
+<div style="height:70vh;overflow-y:scroll" class="border border-secondary">
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label" >Select Schema File:</label>
+
+    <select [ngModelOptions]="{standalone: true}" [(ngModel)]="fileContent" class="form-control form-control-sm col-sm-8">
+      <option [value]="item.content" *ngFor="let item of this.data">{{item.name}}</option>
+    </select>
+
+  </div>
+  <ace-editor [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}" [(text)]="fileContent"
+    style="min-height: 350px; width:100%;"></ace-editor>
+</div>
+
+<div class="modal-footer" style='justify-content: space-between'>
+  <div class="float-right">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</div>
