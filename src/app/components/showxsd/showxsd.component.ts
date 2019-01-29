@@ -12,7 +12,7 @@ import { Messenger } from './../../services/messenger';
 export class ShowxsdComponent implements OnInit {
 
   data: any;
-  fileContent: string;
+  fileContent: string = null;
 
   constructor(
     public messenger: Messenger,
