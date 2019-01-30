@@ -3,15 +3,16 @@
   <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
 </div>
 
-<div style="height:70vh;overflow-y:scroll" class="border border-secondary">
-  <div class="form-group row">
+<div style="overflow-y:visible" class="border border-secondary">
+  <!-- <div style="height:70vh;overflow-y:scroll" class="border border-secondary"> -->
+    <div class="form-group row">
     <select [ngModelOptions]="{standalone: true}" [(ngModel)]="fileContent" class="form-control col-sm-6 mt-2 ml-4">
       <option [ngValue]="null" selected disabled>Select Schema File</option>
       <option [value]="item.content" *ngFor="let item of this.data">{{item.name}}</option>
     </select>
 
   </div>
-  <ace-editor [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}" [(text)]="fileContent"
+  <ace-editor [theme]="'chrome'" [options]="{maxLines: 35, printMargin:false, fontSize:12}" [(text)]="fileContent"
     style="min-height: 350px; width:100%;"></ace-editor>
 </div>
 
