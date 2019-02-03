@@ -2,7 +2,7 @@
   display: grid;
   grid-gap: 0px;
   grid-template-columns: 1fr;
-  grid-template-rows: 40px 1fr 25px;
+  grid-template-rows: minmax(40px, 40px) 1fr minmax(25px, 25px);
 }
 
 main {
@@ -26,7 +26,6 @@ main {
 }
 
 footer {
-  text-align: center;
   color: white;
   display: flex;
   align-items: center;

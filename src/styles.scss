@@ -15,50 +15,53 @@ html {
   height: 100%;
 }
 
-.cursorpointer{
-  cursor:pointer;
+.cursorpointer {
+  cursor: pointer;
 }
 
-.badgeRed{
+.badgeRed {
   background: rgb(161, 46, 46);
 }
 
 .badgeGray {
-  background:  lightsteelblue;
+  background: lightsteelblue;
   color: black;
 }
+
 .attribute-label {
   font-size: 10pt;
   color: black;
 }
 
-.form-control-sm{
-  height:initial !important;
+.form-control-sm {
+  height: initial !important;
 }
 
-.oddDepth{
-  background-color:#179cb84d
+.oddDepth {
+  background-color: #179cb84d
 }
-.evenDepth{
+
+.evenDepth {
   background-color: #e3f5f8;
 }
 
-.choice{
-  background-color:#cfd5dc
+.choice {
+  background-color: #cfd5dc
 }
 
-span.form-check-input:disabled{
-  color:black;
+span.form-check-input:disabled {
+  color: black;
 }
 
-[type = checkbox]{
-  left:initial;
-} 
+[type=checkbox] {
+  left: initial;
+}
 
-.simple-label{
+.simple-label {
   /*To overwrite a BS style*/
   margin-block-start: initial;
 }
+
 [type=checkbox]+label::before {
   background: #ffffff;
   border-radius: initial;
@@ -69,7 +72,7 @@ span.form-check-input:disabled{
   line-height: initial;
   margin-right: initial;
   text-indent: initial;
-  vertical-align:initial;
+  vertical-align: initial;
   width: 1rem;
 }
 
@@ -98,9 +101,9 @@ span.form-check-input:disabled{
   border-radius: 5px;
   transition: border-color .5s ease-out;
   border-left-color: salmon;
- border-right-color: salmon;
- font-size: 9pt;
- padding-left: 5px;
+  border-right-color: salmon;
+  font-size: 9pt;
+  padding-left: 5px;
 }
 
 .inputOK {
@@ -132,12 +135,10 @@ span.form-check-input:disabled{
   height: 20px !important;
   padding-left: 2px;
 }
-.spinnerBtn{
+
+.spinnerBtn {
   height: 20px !important;
 }
-
-
-
 
 span.occurs {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -145,95 +146,21 @@ span.occurs {
 }
 
 .noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
 
-.page-container {
-  margin: 20px;
-}
-
-
-/* horizontal panel*/
-
-.panel-container {
-  display: flex;
-  flex-direction: row;
-  border: 1px solid silver;
-  overflow: hidden;
-}
-
-.panel-left {
-  flex: 0 0 auto;
-  /* only manually resize */
-  padding: 10px;
-  width: 300px;
-  min-height: 200px;
-  min-width: 150px;
-  white-space: nowrap;
-  background: #838383;
-  color: white;
-}
-
-.splitter {
-  flex: 0 0 auto;
-  width: 18px;  
-  background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
-  min-height: 200px;
-  cursor: col-resize;  
-}
-
-.panel-right {
-  flex: 1 1 auto;
-  /* resizable */
-  padding: 10px;
-  width: 100%;
-  min-height: 200px;
-  min-width: 200px;
-  background: #eee;
-}
-
-
-/* vertical panel */
-
-.panel-container-vertical {
-  display: flex;
-  flex-direction: column;
-  height: 500px;
-  border: 1px solid silver;
-  overflow: hidden;
-}
-
-.panel-top {
-  flex: 0 0 auto;
-  /* only manually resize */
-  padding: 10px;
-  height: 150px;
-  width: 100%;
-  white-space: nowrap;
-  background: #838383;
-  color: white;
-}
-
-.splitter-horizontal {
-  flex: 0 0 auto;
-  height: 18px;
-  background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/hsizegrip.png) center center no-repeat #535353;
-  cursor: row-resize;
-}
-
-.panel-bottom {
-  flex: 1 1 auto;
-  /* resizable */
-  padding: 10px;
-  min-height: 200px;
-  background: #eee;
-}
 
 label {
   font-size: 1.0em;
@@ -252,35 +179,46 @@ pre {
 }
 
 .unionMember {
-  margin-bottom:2px
+  margin-bottom: 2px
 }
 
 .modal-header {
   background-color: steelblue;
+  padding: 0.5em;
+  .close {
+    padding: 0.5em;
+    margin-right: -8px;
+    margin-top: -8px;
+  }
+  h4 {
+    color: #f2f2f2;
+  }
 }
 
-.modal-header h4 {
-  color: #f2f2f2;
-}
+
 .modal-footer {
   background-color: steelblue;
-}
-.modal-footer h4 {
-  color: #f2f2f2;
-}
-.modal-footer p {
-  color: #f2f2f2;
-}
-.modal-footer button {
-  background-color: #f2f2f2;
+  padding: 0.5em;
+
+  h4 {
+    color: #f2f2f2;
+  }
+
+  p {
+    color: #f2f2f2;
+  }
+
+  button {
+    background-color: #f2f2f2;
+  }
 }
 
 .bottom span {
-  color:black;
+  color: black;
   margin-top: 4px;
   margin-right: 5px;
 }
 
-.waiting { cursor: wait; }
-
-
+.waiting {
+  cursor: wait;
+}
