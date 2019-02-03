@@ -7,8 +7,8 @@
       <template #container></template>
       <template #siblings></template>
     </div>
-    <div class="right" style="height:100%">
-      <div style="height:100%;overflow-y:scroll" class="border border-secondary">
+    <div class="right" style="height:calc(100vh - 65px)">
+      <div style="overflow-y:scroll" class="border border-secondary">
         <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'eclipse'" [durationBeforeCallback]="1000"
           (textChanged)="onTextChange($event)" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}" style="min-height: 100%; width:100%;"></ace-editor>
       </div>
@@ -18,7 +18,7 @@
         <button style="width: 140px;" class="btn btn-light btn-sm mr-1" (click)="copytoclip()">Copy To
           Clipboard</button>
       </div>
-      <div id="AlertsWindow" style="overflow-y:scroll;">
+      <div style="overflow-y:scroll;">
         <app-alertswindow></app-alertswindow>
       </div>
     </div>

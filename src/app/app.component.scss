@@ -15,7 +15,7 @@ main {
   .right {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 30px 1fr;
+    grid-template-rows: 1fr minmax(30px, 30px) minmax(200px, 1fr);
   }
 }
 
