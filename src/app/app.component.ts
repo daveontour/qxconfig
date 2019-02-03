@@ -2,12 +2,12 @@
 import { IntroTextComponent } from './components/intro-text/intro-text.component';
 import { Messenger } from './services/messenger';
 import { ChoiceComponent } from './components/choice/choice.component';
-import { Globals, XMLAttribute } from './services/globals';
+import { Globals} from './services/globals';
 import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
 import { AfterViewInit, AfterContentInit, ChangeDetectorRef } from '@angular/core';
 import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpRequest, HttpHeaders, HttpEventType } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TokenInterpretter } from './services/token-interpretter';
