@@ -3,6 +3,7 @@ import { Globals } from './../../services/globals';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Messenger } from './../../services/messenger';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-showxsd',

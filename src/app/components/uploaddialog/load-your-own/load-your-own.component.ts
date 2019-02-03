@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Messenger } from './../../../services/messenger';
 import { PostEvent } from './../../../interfaces/interfaces';
+import * as $ from 'jquery';
 
 
 @Component({

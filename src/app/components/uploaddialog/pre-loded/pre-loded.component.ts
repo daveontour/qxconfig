@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Messenger } from './../../../services/messenger';
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-pre-loded',

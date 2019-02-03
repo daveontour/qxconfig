@@ -16,7 +16,7 @@ import { Director } from './services/director';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss' ],
   providers: [NgbPopoverConfig]
 })
 export class AppComponent implements AfterViewInit, AfterContentInit {

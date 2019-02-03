@@ -30,7 +30,7 @@ import { MinMaxLengthComponent } from './controls/minmaxlength/minmaxlength.comp
 import { MinMaxInclusiveComponent } from './controls/minmaxinclusive/minmaxinclusive.component';
 import { XSStringComponent } from './controls/xsstring/xsstring.component';
 import { XSDateComponent } from './controls/xsdate/xsdate.component';
-import { jqxSplitterComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxsplitter';
+// import { jqxSplitterComponent } from 'jqwidgets-scripts/jqwidgets-ts/angular_jqxsplitter';
 import { UnionComponent } from './controls/union/union.component';
 import { AlertswindowComponent } from './alertswindow/alertswindow.component';
 
@@ -89,7 +89,7 @@ export const MY_MOMENT_FORMATS = {
     XSDateTimeComponent,
     XSTimeComponent,
     AttributeComponent,
-    jqxSplitterComponent,
+   // jqxSplitterComponent,
     UnionComponent,
     AlertswindowComponent,
     XSGDayComponent,

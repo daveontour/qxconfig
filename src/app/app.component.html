@@ -1,65 +1,54 @@
-<div class="holder">
-  <div class="top">
+<div class="gridwrapper">
+  <nav>
     <app-topmenu></app-topmenu>
-  </div>
-  <div class="middle">
-    <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'vertical'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:415, min: 415, collapsible: true }]">
-      <div style="overflow-y:hidden">
-        <div id='FormWindow' style="overflow-y:scroll; height: 100%;">
-          <template #container></template>
-          <template #siblings></template>
-        </div>
+  </nav>
+  <main>
+    <div style="overflow-y:scroll; height:calc(100vh - 65px)">
+      <template #container></template>
+      <template #siblings></template>
+    </div>
+    <div class="right" style="height:100%">
+      <div style="height:100%;overflow-y:scroll" class="border border-secondary">
+        <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'eclipse'" [durationBeforeCallback]="1000"
+          (textChanged)="onTextChange($event)" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}" style="min-height: 100%; width:100%;"></ace-editor>
       </div>
-      <div>
-        <jqxSplitter [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'" [panels]="[{ size: 1000, min: 250, collapsible: true },{ size:250, min: 250, collapsible: true }]">
-          <div id="GeneratedWindow" style="overflow-y:scroll">
-            <jqxSplitter [resizable]=false [showSplitBar]=false [width]="'100%'" [height]="'100%'" [orientation]="'horizontal'"
-              [panels]="[{ size: 1000, min:350, collapsible: true },{ size:30, min: 30, collapsible: false }]">
-              <div style="height:100%;overflow-y:scroll" class="border border-secondary">
-                <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'eclipse'"
-                  [durationBeforeCallback]="1000" (textChanged)="onTextChange($event)" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
-                  style="min-height: 100%; width:100%;"></ace-editor>
-              </div>
-              <div class="bottom border border-secondary" style="width:100%; height:30px" id="statusBar">
-                <!-- {{editorStatus}} -->
-                <button style="float: right; width:95px" class="btn btn-light btn-sm mr-3" (click)="validate()">Validate</button>
-                <button style="float: right" class="btn btn-light btn-sm mr-1" (click)="downloadxml()">Download XML</button>
-                <button style="float: right; width: 150px;" class="btn btn-light btn-sm mr-1" (click)="copytoclip()">Copy To Clipboard</button></div>
-            </jqxSplitter>
-          </div>
-          <div id="AlertsWindow" style="overflow-y:scroll;">
-            <app-alertswindow></app-alertswindow>
-          </div>
-        </jqxSplitter>
+      <div style="width:100%" class="quayStatusBar">
+        <button style="width:85px;margin-left: auto" class="btn btn-light btn-sm mr-1" (click)="validate()">Validate</button>
+        <button  class="btn btn-light btn-sm mr-1" (click)="downloadxml()">Download XML</button>
+        <button style="width: 140px;" class="btn btn-light btn-sm mr-1" (click)="copytoclip()">Copy To
+          Clipboard</button>
       </div>
-    </jqxSplitter>
-  </div>
+      <div id="AlertsWindow" style="overflow-y:scroll;">
+        <app-alertswindow></app-alertswindow>
+      </div>
+    </div>
+  </main>
 
-  <div class="bottom">
+  <footer class="quayStatusBar">
+    <!-- Hidden forms form submission and downloading  -->
     <form id="downloadform" class="d-none" method="post" target="_self">
       <input type="hidden" name="saveobject" />
     </form>
-
     <form id="downloadxmlform" class="d-none" method="post" target="_self">
       <input type="hidden" name="xml" />
     </form>
-
-
     <form>
       <input type="file" class="d-none" (change)="onSaveFileSelect($event)" title="Select Files" name="files[]" accept=".zip"
         id="saveFileDialog" />
     </form>
-    <div class="title">Schema: </div>
-    <div class="value">{{schema}}</div>
-    <div class="title">Schema File:</div>
-    <div class="value">{{schemaFile}}</div>
-    <div class="title">Type or Element: </div>
-    <div class="value">{{type}}</div>
-    <div class="title">Status: </div>
-    <div [ngClass]="{'value':true,'wait':wait}">{{status}}</div>
-    <div class="value mr-5" style="float: right">{{global.buildNumber}}</div>
-    <div class="title mr-2" style="float: right">XSD2XML Build Number: </div>
-  </div>
+
+    <!-- Bottom status-->
+    <span>Schema: </span>
+    <span class="value">{{schema}}</span>
+    <span>Schema File:</span>
+    <span class="value">{{schemaFile}}</span>
+    <span>Type or Element: </span>
+    <span class="value">{{type}}</span>
+    <span>Status: </span>
+    <span [ngClass]="{'value':true,'wait':wait}">{{status}}</span>
+    <span style="margin-left: auto">XSD2XML Build Number: </span>
+    <span class="value mr-5 ml-2" >{{global.buildNumber}}</span>
+  </footer>
 
 
 </div>

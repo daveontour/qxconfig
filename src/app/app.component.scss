@@ -1,11 +1,65 @@
-.loading{
-    background-color: yellow
-}
-.invalid{
-    background-color: red
-}
-.valid {
-    background-color: lawngreen
+.gridwrapper {
+  display: grid;
+  grid-gap: 0px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 40px 1fr 25px;
 }
 
-.waiting { cursor: wait; }
+main {
+  display: grid;
+  grid-gap: 0px;
+  width: 100%;
+  grid-template-rows: 1fr;
+  grid-template-columns: 4fr minmax(300px, 2fr);
+
+  .right {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 30px 1fr;
+  }
+}
+
+.quayStatusBar {
+  background-color: steelblue;
+  display: flex;
+  align-items: center;
+}
+
+footer {
+  text-align: center;
+  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 0.8em;
+
+  span {
+    color: #f2f2f2;
+    margin-left: 10px;
+  }
+
+  .value {
+    color: #55e9ea;
+    margin-left: 5px;
+  }
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  color: #668ad8;
+  width: 135px;
+  height: 25px;
+  border-radius: 15px;
+  border: solid 2px #668ad8;
+  text-align: center;
+  vertical-align: middle;
+  overflow: hidden;
+  font-weight: bold;
+  transition: .4s;
+  padding-top: 0px;
+  font-size: 12.8px;
+}
+
+.btn:hover {
+  background: #b3e1ff;
+}
