@@ -2,7 +2,7 @@
 <ng-template #popContent><span style="font-size: 9pt; font-style: italic">{{this.typeConfig.description}}</span><br/></ng-template>
   <input 
   type="text" [(ngModel)]="config.value"  #name="ngModel"
-  style = "width:calc(100% - 25px) !important"
+  style = "width:100% !important"
   (change) = "this.change()"
   (onfocusout) = "this.change()"
   (keyup) = "this.keyUp($event)"

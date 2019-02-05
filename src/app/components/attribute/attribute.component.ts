@@ -5,12 +5,12 @@ import { ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ItemConfig } from '../../interfaces/interfaces';
 import { Messenger } from './../../services/messenger';
-import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-attribute',
   templateUrl: './attribute.component.html',
-  styleUrls: ['./attribute.component.css']
+  styleUrls: ['./attribute.component.scss']
 })
 export class AttributeComponent {
   // Reference to the place in the DOM to place the control

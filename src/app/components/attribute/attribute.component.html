@@ -1,18 +1,12 @@
-<!--The label-->
-<!-- <div class="row attribBorder" [ngClass]="{'attribSelected':config.enabled, 'attribBorderLast':config.last, 'sequenceAttribute':config.sequenceAttribute, 'simpleAttribute':!config.sequenceAttribute}"> -->
-
-  <div class="row" [ngClass]="{'sequenceAttribute':config.sequenceAttribute, 'simpleAttribute':!config.sequenceAttribute}">
-    <div class="col-md-6 pl-4">
-    <input type="checkbox" class="form-check-input" [disabled]="config.required" [attr.id]="this.getID()"
-      [(ngModel)]="config.enabled" (change)="change()">
-
-    <div [ngClass]="{'eclipse':true, 'float-left':true}" placement="right" ngbPopover="{{config.description}}" popoverTitle="{{config.name}}">
+<div class="attributeRow" [ngClass]="{'sequenceAttribute':config.sequenceAttribute, 'simpleAttribute':!config.sequenceAttribute}">
+  <div class="attributeRowLabel">
+    <input type="checkbox" [disabled]="config.required" [attr.id]="this.getID()" [(ngModel)]="config.enabled" (change)="change()">
+    <div class = "attributeLabel" placement="right" ngbPopover="{{config.description}}"
+      popoverTitle="{{config.name}}">
       <span *ngIf="config.required">*</span> {{config.name}}
     </div>
   </div>
-
-
-  <div class="col-md-6">
+  <div>
     <template #control></template>
   </div>
 </div>

@@ -10,7 +10,7 @@ import * as $ from 'jquery';
 @Component({
   selector: 'app-simple',
   templateUrl: './simple.component.html',
-  styleUrls: ['./simple.component.css']
+  styleUrls: ['./simple.component.scss']
 })
 export class SimpleComponent extends ElementComponent implements AfterViewInit {
   // Reference to the place in the DOM to place the control

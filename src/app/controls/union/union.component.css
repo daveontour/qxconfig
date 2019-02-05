@@ -3,6 +3,6 @@
 }
 
 .unionHolder{
-    width: calc(100% - 25px);
+    width:100% !important;
     background-color: rgba(127,127,127,0.25);
 }

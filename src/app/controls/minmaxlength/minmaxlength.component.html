@@ -4,7 +4,7 @@
   <input 
   (change) = "this.change()"
   (onfocusout) = "this.change()"
-  style = "width:calc(100% - 25px) !important"
+  style = "width:100% !important"
   type="text" [(ngModel)]="config.value"  #name="ngModel"
   [attr.disabled]="(this.isEnabled() || (!this.isEnabled() && this.isRequired()))?null:''" 
   [ngClass]="{'inputNotRequired':(!this.isEnabled()), 'inputRequired':(this.isEnabled()),'inputError':(this.isEnabled() && (this.isInvalid() || ( name.invalid))), 'inputOK':(this.isEnabled() && ( name.valid && !this.isInvalid()))}"

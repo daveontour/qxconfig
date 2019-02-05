@@ -1,0 +1,51 @@
+@import "../../../styles_variables.scss";
+
+.attributeLabel{
+    font-family: Verdana, Geneva, Tahoma, sans-serif; 
+    font-size: 12px;
+    margin-left: 5px;
+    margin-top:4px;
+    color: $attributeLabelColor;
+}
+
+.sequenceAttribute{
+    background:rgba(0,0,0,0.1) !important;
+    margin-left: 0px;
+    margin-right:0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    
+}
+
+.simpleAttribute{
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 2px;
+    margin-bottom: 2px;  
+} 
+
+.attributeRow {
+    display:grid;
+    grid-template-rows: 1fr; 
+    grid-template-columns:1fr 1fr;
+    margin-left: -4px;
+    margin-right: -4px;
+    .controlHolder {
+      display:grid;
+      grid-template-rows: 1fr; 
+      grid-template-columns:7fr minmax(25px, 1fr);
+    }
+}
+
+.attributeRowLabel {
+    display:grid;
+    grid-template-rows: 1fr; 
+    grid-template-columns:minmax(25px, 25px) 1fr;
+    margin-left: 0px;
+    margin-right: 0px;
+    input {
+        justify-self: center;
+        align-self: center;
+    }
+}
+        

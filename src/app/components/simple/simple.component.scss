@@ -69,10 +69,24 @@
   border-bottom-width: 0px
 }
 
-.eclipse {
-  color:rgb(25.118,116);
+.simpleLabel {
+  color:black;
   margin-bottom:initial;
   display: initial !important;
   font-weight: 100;
+}
+
+.simpleRow {
+  display:grid;
+  grid-template-rows: 1fr; 
+  grid-template-columns:1fr 1fr;
+  background-color: rgba(230, 235, 241, 0.856);
+  margin-left: 0px;
+  margin-right: 0px;
+  .controlHolder {
+    display:grid;
+    grid-template-rows: 1fr; 
+    grid-template-columns:7fr minmax(25px, 1fr);
+  }
 }
  
