@@ -1,9 +1,9 @@
-<div class="attributeRow" [ngClass]="{'sequenceAttribute':config.sequenceAttribute, 'simpleAttribute':!config.sequenceAttribute}">
+<div [ngClass]="{'attributeRow':true,'sequenceAttribute':config.sequenceAttribute, 'simpleAttribute':!config.sequenceAttribute}">
   <div class="attributeRowLabel">
     <input type="checkbox" [disabled]="config.required" [attr.id]="this.getID()" [(ngModel)]="config.enabled" (change)="change()">
-    <div class = "attributeLabel" placement="right" ngbPopover="{{config.description}}"
+    <div [ngClass]="{'attributeRequired':config.required, 'attributeLabel':true}" placement="right" ngbPopover="{{config.description}}"
       popoverTitle="{{config.name}}">
-      <span *ngIf="config.required">*</span> {{config.name}}
+      {{config.name}}
     </div>
   </div>
   <div>

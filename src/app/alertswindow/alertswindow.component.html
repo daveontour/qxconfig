@@ -4,6 +4,7 @@
   <div *ngIf="hasFormatErrors()">
     <div class="warningLabel">Format Warnings</div>
     <div *ngFor="let err of this.global.formatErrors" class="alertItem">
+      <div></div>
       <span>{{err}}</span>
     </div>
   </div>
@@ -12,6 +13,7 @@
   <div *ngIf="hasElementWarnings()">
     <div class="warningLabel">Undefined Elements</div>
     <div *ngFor="let err of this.global.elementsUndefined" class="alertItem">
+        <div></div>
       <span>{{err}}</span>
     </div>
   </div>
@@ -20,7 +22,8 @@
   <div *ngIf="hasAttributeWarnings()">
     <div class="warningLabel">Undefined Attributes</div>
     <div *ngFor="let err of this.global.attributesUndefined" class="alertItem">
-      <span>{{err}}</span>
+        <div></div>
+        <span>{{err}}</span>
     </div>
   </div>
 

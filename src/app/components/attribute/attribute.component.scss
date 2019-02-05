@@ -35,6 +35,9 @@
       grid-template-rows: 1fr; 
       grid-template-columns:7fr minmax(25px, 1fr);
     }
+    div {
+        padding-right: 15px;
+    }
 }
 
 .attributeRowLabel {
@@ -47,5 +50,8 @@
         justify-self: center;
         align-self: center;
     }
+}
+.attributeRequired::before{
+    content: "*";
 }
         
