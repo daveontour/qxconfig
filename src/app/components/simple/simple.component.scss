@@ -1,16 +1,19 @@
+@import "../../../styles_variables.scss";
+
 .addSibling{
     margin-top: 2px;
     margin-bottom: 2px;
 }
 
 .add{
-  color:#930F80 !important; 
+  color:$simpleLabelAddColor !important; 
+  font-size: $simpleLabelFontSize;
   cursor: pointer;
+  &:hover {
+    text-decoration: underline !important;
+  }
 }
 
-.add:hover{
-  text-decoration: underline !important;
-}
 
 #addSiblingLabel:hover .svg-plus{
   fill:rgb(46, 161, 98);
@@ -19,38 +22,28 @@
   text-decoration: underline;
 }
 
-.svg-minus {
+svg {
   display: inline-block;
   font-size: inherit;
-  height: 1.1em;
-  overflow: visible;
-  /* vertical-align: -.125em; */
-  width: 1.1em;
-  font-size: 1.1em;
-  overflow: visible;
-  fill:grey;
-  cursor: pointer;
-}
-
-.svg-minus:hover{
-  fill:rgb(214, 25, 25);
-}
-
-.svg-plus {
-  display: inline-block;
-  font-size: inherit;
-  height: 1.1em;
+  height: $svgSpriteSize;
   overflow: visible;
   vertical-align: -.125em;
-  width: 1.1em;
-  font-size: 1.1em;
+  width: $svgSpriteSize;
+  font-size:$svgSpriteSize;
   overflow: visible;
   fill:grey;
-  cursor: pointer;
+  cursor: pointer; 
+}
+svg.svg-minus {
+   &:hover{
+    fill:rgb(161, 46, 46);
+  }
 }
 
-.svg-plus:hover{
-  fill:rgb(46, 161, 98);
+svg.svg-plus {
+  &:hover{
+    fill:rgb(46, 161, 98);
+  }
 }
 
 .badgeGrayRight {

@@ -1,4 +1,4 @@
-<div style="overflow-x: scroll; height: calc(100%);" [ngClass]="{'notok':hasWarning()}">
+<div style="overflow-x: scroll; height: calc(100%);" [ngClass]="{'warnings':hasWarning()}">
 
   <!-- Formatting errors -->
   <div *ngIf="hasFormatErrors()">
@@ -27,7 +27,7 @@
     </div>
   </div>
 
-  <div *ngIf="!hasWarning()" class="noWarning">
+  <div *ngIf="!hasWarning()" class="noWarnings">
     <div>No Warnings</div>
   </div>
 </div>

@@ -1,10 +1,13 @@
+@import "../../../styles_variables.scss";
+
 .addSibling {
   margin-top: 2px;
   margin-bottom: 2px;
 }
 
 .add{
-  color:#930F80; 
+  color:$sequenceLabelAddColor;
+  font-size: $sequenceLabelFontSize; 
   cursor: pointer;
 }
 
@@ -14,34 +17,30 @@
 #addSiblingLabel:hover .add{
   text-decoration: underline;
 }
-.svg-minus {
+
+svg {
   display: inline-block;
   font-size: inherit;
-  height: 1.2em;
+  height: $svgSpriteSize;
   overflow: visible;
   vertical-align: -.125em;
-  width: 1.2em;
-  font-size: 1.2em;
+  width: $svgSpriteSize;
+  font-size:$svgSpriteSize;
   overflow: visible;
   fill:grey;
-  cursor: pointer;
+  cursor: pointer; 
+}
+svg.svg-minus {
+   &:hover{
+    fill:rgb(161, 46, 46);
+  }
 }
 
-.svg-minus:hover{
-  fill:rgb(161, 46, 46);
-}
 
-.svg-plus {
-  display: inline-block;
-  font-size: inherit;
-  height: 1.1em;
-  overflow: visible;
-  vertical-align: -.125em;
-  width: 1.1em;
-  font-size: 1.1em;
-  overflow: visible;
-  fill:grey;
-  cursor: pointer;
+svg.svg-plus {
+  &:hover{
+    fill:rgb(46, 161, 98);
+  }
 }
 
 .simpleBorder{

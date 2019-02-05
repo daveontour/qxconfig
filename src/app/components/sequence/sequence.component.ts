@@ -9,7 +9,7 @@ import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-sequence',
   templateUrl: './sequence.component.html',
-  styleUrls: ['./sequence.component.css']
+  styleUrls: ['./sequence.component.scss']
 })
 export class SequenceComponent extends ElementComponent implements AfterViewInit {
   @ViewChild('control', { read: ViewContainerRef }) control;
