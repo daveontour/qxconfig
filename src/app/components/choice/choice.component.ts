@@ -7,7 +7,7 @@ import { ElementComponent } from '../element/element.component';
 @Component({
   selector: 'app-choice',
   templateUrl: './choice.component.html',
-  styleUrls: ['./choice.component.css']
+  styleUrls: ['./choice.component.scss']
 })
 export class ChoiceComponent extends ElementComponent implements AfterViewInit, OnInit {
   @ViewChild('siblings', { read: ViewContainerRef }) siblingsPt;

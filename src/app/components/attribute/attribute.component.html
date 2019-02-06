@@ -1,9 +1,11 @@
 <div [ngClass]="{'attributeRow':true,'sequenceAttribute':config.sequenceAttribute, 'simpleAttribute':!config.sequenceAttribute}">
   <div class="attributeRowLabel">
     <input type="checkbox" [disabled]="config.required" [attr.id]="this.getID()" [(ngModel)]="config.enabled" (change)="change()">
-    <div [ngClass]="{'attributeRequired':config.required, 'attributeLabel':true}" placement="right" ngbPopover="{{config.description}}"
-      popoverTitle="{{config.name}}">
-      {{config.name}}
+    <div>
+      <span [ngClass]="{'attributeRequired':config.required, 'attributeLabel':true}" placement="right" ngbPopover="{{config.description}}"
+        popoverTitle="{{config.name}}">
+        {{config.name}}
+      </span>
     </div>
   </div>
   <div>

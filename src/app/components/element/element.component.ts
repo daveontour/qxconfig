@@ -57,7 +57,10 @@ export abstract class ElementComponent {
   addAttributes(conf) {
 
     if (conf.hA) {
-      this.sortAttributes('DESC');
+
+      /* Sort of attributes disabled to prevent potentially breaking some
+         validators with the order */
+//      this.sortAttributes('DESC');
       this.config.attributes.forEach((att) => {
         if (att.required) {
           this.isCollapsed = false;

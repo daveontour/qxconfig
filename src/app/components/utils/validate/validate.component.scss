@@ -1,9 +1,11 @@
+@import "../../../../styles_variables.scss";
+
 .loading{
-    background-color: yellow
+    background-color: $loadingColor;
 }
 .invalid{
-    background-color: red
+    background-color: $invalidColor;
 }
 .valid {
-    background-color: lawngreen
+    background-color:$validColor;
 }

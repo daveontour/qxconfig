@@ -4,6 +4,7 @@ import { NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-generic-alert',
+  styleUrls: ['./generic-alert.component.scss'],
   template: `
     <div class="modal-header">
       <h4 class="modal-title">{{title}}</h4>

@@ -14,8 +14,15 @@
     margin-right:0px;
     margin-top: 0px;
     margin-bottom: 0px;
+//    &:nth-child(odd) {
+//         background: #ccc;
+//     }
+//    &:nth-child(even) {
+//         background: #ff0;
+//     }
     
 }
+
 
 .simpleAttribute{
     margin-left: 0px;
@@ -40,15 +47,26 @@
     }
 }
 
+// .attributeRow:nth-child(odd) {
+//     background: #ccc;
+// }
+// .attributeRow:nth-child(even) {
+//     background: #ff0;
+// }
+
 .attributeRowLabel {
     display:grid;
     grid-template-rows: 1fr; 
-    grid-template-columns:minmax(25px, 25px) 1fr;
+    grid-template-columns:minmax(25px, 25px) minmax(25px, 25px) 1fr;
     margin-left: 0px;
     margin-right: 0px;
     input {
         justify-self: center;
         align-self: center;
+        grid-column: 2/3;
+    }
+    div {
+        grid-column: 3/4;
     }
 }
 .attributeRequired::before{
