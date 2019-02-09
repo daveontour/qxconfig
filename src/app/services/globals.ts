@@ -24,7 +24,7 @@ export class Globals {
   public baseURLUploadFiles = 'http://localhost:8080/XSD2XML/upload?uploadType=files&sessionID=';
   public baseURLUploadAndSaveFiles = 'http://localhost:8080/XSD2XML/upload?uploadType=uploadandsave&sessionID=';
   public baseURLSaveFileReflector = 'http://localhost:8080/XSD2XML/upload?uploadType=savefilereflector&sessionID=';
-  public baseURLSaveXMLFileReflector = 'http://localhost:8080/XSD2XML/upload?uploadType=savexmlfilereflector&sessionID=';
+  public baseURLSaveXMLFileReflector = 'http://localhost:8080/XSD2XML/saveXML';
 
   public buildNumber = 'localbuild';
 

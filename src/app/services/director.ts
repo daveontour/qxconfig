@@ -240,10 +240,8 @@ export class Director {
     // Send the data to the host, which in turns
     // just reflects it back as a file.
 
-    const url = this.global.baseURLSaveXMLFileReflector + this.global.sessionID;
-    const xml = this.global.XMLMessage;
-    $('input[name="xml"]').val(xml);
-    $('#downloadxmlform').attr('action', url);
+    $('input[name="xml"]').val(this.global.XMLMessage);
+    $('#downloadxmlform').attr('action', this.global.baseURLSaveXMLFileReflector);
     $('#downloadxmlform').submit();
 
   }
