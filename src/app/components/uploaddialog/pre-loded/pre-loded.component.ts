@@ -52,7 +52,7 @@ export class PreLodedComponent implements OnInit {
 
     $('*').addClass('waiting');
 
-    this.http.get<any>(this.global.baseURL + '?op=getSchemas&sessionID=' + this.global.sessionID).subscribe(data => {
+    this.http.get<any>(this.global.rootURL + '/getJsonSchemas?sessionID=' + this.global.sessionID).subscribe(data => {
 
       $('*').removeClass('waiting');
       this.schemaCollections = data.data;
@@ -87,7 +87,7 @@ export class PreLodedComponent implements OnInit {
 
     $('*').addClass('waiting');
 
-    this.http.get<any>(this.global.baseURL + '?op=getSchemaFiles&schema=' + this.selectedCollection +
+    this.http.get<any>(this.global.rootURL + '/getJsonSchemaFiles?schema=' + this.selectedCollection +
       '&selectionMethod=' + this.selectionMethod + '&sessionID=' + this.global.sessionID).subscribe(data => {
 
         $('*').removeClass('waiting');
@@ -125,8 +125,8 @@ export class PreLodedComponent implements OnInit {
 
     $('*').addClass('waiting');
 
-    this.http.get<ElementAndTypes>(this.global.baseURL + '?op=getSchemaTypes' +
-      '&schema=' + this.selectedCollection +
+    this.http.get<ElementAndTypes>(this.global.rootURL + '/getJsonSchemaTypes' +
+      '?schema=' + this.selectedCollection +
       '&file=' + this.selectedFile +
       '&sessionID=' + this.global.sessionID +
       '&selectionMethod=' + this.selectionMethod
@@ -163,8 +163,8 @@ export class PreLodedComponent implements OnInit {
     this.schemaTypes = [];
     this.global.selectedType = this.selectedType;
     this.messenger.setType(this.selectedType);
-    this.messenger.announceMission(this.global.baseURL + '?op=getType' +
-      '&schema=' + this.selectedCollection +
+    this.messenger.announceMission(this.global.rootURL + '/getJsonType' +
+      '?schema=' + this.selectedCollection +
       '&file=' + this.selectedFile +
       '&type=' + this.selectedType +
       '&sessionID=' + this.global.sessionID +

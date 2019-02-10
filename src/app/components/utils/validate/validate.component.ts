@@ -40,7 +40,7 @@ export class ValidateComponent implements AfterViewInit {
     params.append('sessionID', this.global.sessionID);
     params.append('selectionMethod', this.global.selectionMethod);
 
-    this.http.post<ValidationResult>(this.global.baseURLValidate +
+    this.http.post<ValidationResult>(this.global.rootURL + '/validate' +
       '?schema=' + this.global.selectedSchema +
       '&sessionID=' + this.global.sessionID +
       '&selectionMethod=' + this.global.selectionMethod,

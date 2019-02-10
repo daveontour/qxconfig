@@ -241,7 +241,7 @@ export class Director {
     // just reflects it back as a file.
 
     $('input[name="xml"]').val(this.global.XMLMessage);
-    $('#downloadxmlform').attr('action', this.global.baseURLSaveXMLFileReflector);
+    $('#downloadxmlform').attr('action', this.global.rootURL + '/saveXML');
     $('#downloadxmlform').submit();
 
   }
@@ -349,8 +349,8 @@ export class Director {
     );
 
     // Request the schema to be loaded
-    this.messenger.announceMission(this.global.baseURL + '?op=getType' +
-      '&schema=' + soFile.c +
+    this.messenger.announceMission(this.global.rootURL + '/getJsonType' +
+      '?schema=' + soFile.c +
       '&file=' + soFile.f +
       '&type=' + soFile.t +
       '&sessionID=' + this.global.sessionID +

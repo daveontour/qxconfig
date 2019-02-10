@@ -26,7 +26,7 @@ export class ShowxsdComponent implements OnInit {
 
     $('*').addClass('waiting');
 
-    this.http.get<any>(this.global.baseURL + '?op=getXSDFiles&schema=' + this.global.selectedSchema +
+    this.http.get<any>(this.global.rootURL + '/getJsonXSDFiles?schema=' + this.global.selectedSchema +
        '&sessionID=' + this.global.sessionID).subscribe(
         data => {
 

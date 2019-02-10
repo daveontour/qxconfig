@@ -3,7 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  rootURL: 'http://localhost:9000',
+  baseURL: 'http://localhost:8080/XSD2XML/json',
+  baseURLUploadEntered: 'http://localhost:8080/XSD2XML/upload?uploadType=enteredxsd&sessionID=',
+  baseURLUploadFiles: 'http://localhost:8080/XSD2XML/upload?uploadType=files&sessionID=',
+  baseURLUploadAndSaveFiles: 'http://localhost:8080/XSD2XML/upload?uploadType=uploadandsave&sessionID=',
+  baseURLSaveFileReflector: 'http://localhost:8080/XSD2XML/upload?uploadType=savefilereflector&sessionID=',
 };
 
 /*
