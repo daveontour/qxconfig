@@ -184,29 +184,6 @@ export class Director {
         this.downloadXML();
       }
     );
-
-    // Handle selection of "Undo" button
-    //   messenger.undo$.subscribe(
-    //     data => {
-    //       if (_this.global.undoStack.length <= 1) {
-    //         return;
-    //       }
-    //       _this.global.lockChangeDet();
-    //       // The last one on the stack represents the current state, so discard it.
-    //       _this.global.undoStack.pop();
-    //       $('body').addClass('waiting');
-    //       _this.global.openModalAlert('Undo', 'Processing. Please Wait.');
-    //       setTimeout(() => {
-    //         _this.global.root.applyConfig(_this.global.undoStack.pop());
-    //         $('body').removeClass('waiting');
-    //         _this.modalService.dismissAll();
-    //         setTimeout(() => {
-    //           _this.global.enableChangeDet();
-    //           _this.global.getString();
-    //         });
-    //       });
-    //     }
-    //   );
   }
 
   selectSchema(_this: any) {

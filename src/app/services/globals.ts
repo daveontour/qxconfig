@@ -19,17 +19,11 @@ export class Globals {
   *  parameters with relative parameters
   */
 
-  // public baseURL = 'http://localhost:8080/XSD2XML/json';
-  // public baseURLUploadEntered = 'http://localhost:8080/XSD2XML/upload?uploadType=enteredxsd&sessionID=';
-  // public baseURLUploadFiles = 'http://localhost:8080/XSD2XML/upload?uploadType=files&sessionID=';
-  // public baseURLUploadAndSaveFiles = 'http://localhost:8080/XSD2XML/upload?uploadType=uploadandsave&sessionID=';
-  // public baseURLSaveFileReflector = 'http://localhost:8080/XSD2XML/upload?uploadType=savefilereflector&sessionID=';
-
   public rootURL = environment.rootURL;
-  public baseURLUploadEntered = environment.baseURLUploadEntered;
-  public baseURLUploadFiles = environment.baseURLUploadFiles;
-  public baseURLUploadAndSaveFiles = environment.baseURLUploadAndSaveFiles;
-  public baseURLSaveFileReflector = environment.baseURLSaveFileReflector;
+  public baseURLUploadEntered = this.rootURL + '/uploadXSD?sessionID=';
+  public baseURLUploadFiles = this.rootURL + '/uploadFiles?sessionID=';
+  public baseURLUploadAndSaveFiles = this.rootURL + '/uploadAndSave?sessionID=';
+  public baseURLSaveFileReflector = this.rootURL + '/applySavedFiles?sessionID=';
 
   public buildNumber = 'localbuild';
 
