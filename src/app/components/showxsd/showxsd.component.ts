@@ -26,8 +26,7 @@ export class ShowxsdComponent implements OnInit {
 
     $('*').addClass('waiting');
 
-    this.http.get<any>(this.global.rootURL + '/getJsonXSDFiles?schema=' + this.global.selectedSchema +
-       '&sessionID=' + this.global.sessionID).subscribe(
+    this.http.get<any>(this.global.rootURL + '/getJsonXSDFiles?schema=' + this.global.selectedSchema).subscribe(
         data => {
 
           $('*').removeClass('waiting');

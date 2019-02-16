@@ -26,7 +26,6 @@ export class ValidateComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.validateAIDXMessage();
   }
-
   validateAIDXMessage() {
 
     // Indicators for the modal dialog box
@@ -37,16 +36,18 @@ export class ValidateComponent implements AfterViewInit {
 
     const params = new HttpParams();
     params.append('schema', this.global.selectedSchema);
-    params.append('sessionID', this.global.sessionID);
     params.append('selectionMethod', this.global.selectionMethod);
 
-    this.http.post<ValidationResult>(this.global.rootURL + '/validate' +
-      '?schema=' + this.global.selectedSchema +
-      '&sessionID=' + this.global.sessionID +
-      '&selectionMethod=' + this.global.selectionMethod,
-      this.global.XMLMessage, {
+    this.http.post<ValidationResult>(
+      // The URL
+      this.global.rootURL + '/validate',
+      // The Body of the message
+      this.global.XMLMessage,
+      // The options for post method
+      {
         params: params
-      }).subscribe(data => {
+      })
+      .subscribe(data => {
 
         this.validationMessage = data.message;
         this.validationStatus = data.status;

@@ -3,6 +3,11 @@ import { Injectable} from '@angular/core';
 import { Subject } from 'rxjs';
 import { ItemConfig } from '../interfaces/interfaces';
 
+
+/*
+Dispatched messages and events between the different components.
+Mainly used by the Director which listens for events and coordinates actions
+*/
 @Injectable()
 export class Messenger {
 
@@ -69,23 +74,18 @@ export class Messenger {
     announceMission(mission: string) {
       this.missionAnnouncedSource.next(mission);
     }
-
     setUploadPercentage(percent: number ) {
       this.announceUploadedPercentage.next(percent);
     }
-
     confirmMission(astronaut: string) {
       this.missionConfirmedSource.next(astronaut);
     }
-
     openSchemaSelection(string: string) {
       this.openSchemaDialog.next(string);
     }
-
     selectSchema(string: string) {
       this.announceMenuSelectSchema.next(string);
     }
-
     setSchema(string: string) {
       this.announceSchema.next(string);
     }
@@ -137,11 +137,9 @@ export class Messenger {
     setDocumentDirty() {
       this.announceDocumentClean.next(false);
     }
-
     fetchAndApply(soFile: SaveObjFile) {
       this.announceFetchAndApply.next(soFile);
     }
-
     newXSDReady(xsd: ItemConfig) {
       this.announceNewXSD.next(xsd);
     }

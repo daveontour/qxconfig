@@ -20,10 +20,10 @@ export class Globals {
   */
 
   public rootURL = environment.rootURL;
-  public baseURLUploadEntered = this.rootURL + '/uploadXSD?sessionID=';
-  public baseURLUploadFiles = this.rootURL + '/uploadFiles?sessionID=';
-  public baseURLUploadAndSaveFiles = this.rootURL + '/uploadAndSave?sessionID=';
-  public baseURLSaveFileReflector = this.rootURL + '/applySavedFiles?sessionID=';
+  public baseURLUploadEntered = this.rootURL + '/uploadXSD';
+  public baseURLUploadFiles = this.rootURL + '/uploadFiles';
+  public baseURLUploadAndSaveFiles = this.rootURL + '/uploadAndSave';
+  public baseURLSaveFileReflector = this.rootURL + '/applySavedFiles';
 
   public buildNumber = 'localbuild';
 
@@ -104,9 +104,9 @@ export class Globals {
     if (this.lockChangeDetection) {
       return;
     }
- 
+
     $('body').addClass('waiting');
- 
+
     setTimeout(() => {
       this.lockEditorUpdates = true;
       this.alerts = '';

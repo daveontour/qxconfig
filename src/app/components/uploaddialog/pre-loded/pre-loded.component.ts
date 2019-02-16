@@ -52,7 +52,7 @@ export class PreLodedComponent implements OnInit {
 
     $('*').addClass('waiting');
 
-    this.http.get<any>(this.global.rootURL + '/getJsonSchemas?sessionID=' + this.global.sessionID).subscribe(data => {
+    this.http.get<any>(this.global.rootURL + '/getJsonSchemas').subscribe(data => {
 
       $('*').removeClass('waiting');
       this.schemaCollections = data.data;
@@ -88,7 +88,7 @@ export class PreLodedComponent implements OnInit {
     $('*').addClass('waiting');
 
     this.http.get<any>(this.global.rootURL + '/getJsonSchemaFiles?schema=' + this.selectedCollection +
-      '&selectionMethod=' + this.selectionMethod + '&sessionID=' + this.global.sessionID).subscribe(data => {
+      '&selectionMethod=' + this.selectionMethod).subscribe(data => {
 
         $('*').removeClass('waiting');
         this.schemaFiles = data.data;
@@ -128,7 +128,6 @@ export class PreLodedComponent implements OnInit {
     this.http.get<ElementAndTypes>(this.global.rootURL + '/getJsonSchemaTypes' +
       '?schema=' + this.selectedCollection +
       '&file=' + this.selectedFile +
-      '&sessionID=' + this.global.sessionID +
       '&selectionMethod=' + this.selectionMethod
     ).subscribe(data => {
 
@@ -137,8 +136,7 @@ export class PreLodedComponent implements OnInit {
       this.schemaTypes = data.types;
       this.schemaElements = data.elements;
       if (this.schemaTypes.length === 0 && this.schemaElements.length === 0) {
-        this.global.openModalAlert('Element and Type Selection Error',
-        'No Elements or Types Were Found');
+        this.global.openModalAlert('Element and Type Selection Error', 'No Elements or Types Were Found');
       return;
       }
     },
@@ -167,7 +165,6 @@ export class PreLodedComponent implements OnInit {
       '?schema=' + this.selectedCollection +
       '&file=' + this.selectedFile +
       '&type=' + this.selectedType +
-      '&sessionID=' + this.global.sessionID +
       '&selectionMethod=' + this.selectionMethod);
   }
 }

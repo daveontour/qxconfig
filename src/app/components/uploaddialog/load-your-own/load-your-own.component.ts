@@ -82,7 +82,7 @@ export class LoadYourOwnComponent extends PreLodedComponent implements OnInit {
 
     const request = new HttpRequest(
       'POST',
-      this.global.baseURLUploadFiles + this.global.sessionID,
+      this.global.baseURLUploadFiles,
       formData,
       {
         headers: new HttpHeaders({

@@ -22,6 +22,13 @@ export class Director {
   private tempSub: Subscription;
   private tempSub2: Subscription;
 
+  /*
+  The constructor registers listeners for various events that are published by the Messenger.
+  Each of the listeners then handles the event or dispatches it to a function that handles it
+
+
+  */
+
   constructor(
     private modalService: NgbModal,
     private http: HttpClient,
@@ -33,11 +40,7 @@ export class Director {
     const _this = this;
 
     // Listen for new mission annoucement and act on them.
-    messenger.missionAnnounced$.subscribe(
-      mission => {
-        this.retrieveData(mission);
-      }
-    );
+    messenger.missionAnnounced$.subscribe( mission => { this.retrieveData(mission); } );
 
     // One of the Schema selection options is selected
     messenger.selectSchema$.subscribe(
@@ -84,27 +87,21 @@ export class Director {
           return;
         }
 
-        // The ValidateComponent takes care of sending the request
+        // Display a modela dialog box with the ValidateComponent.
+        // The ValidateComponent takes care of sending the request.
         _this.modalService.open(ValidateComponent, { centered: true, backdrop: 'static' });
       });
 
     // Setting button is selected
-    messenger.settings$.subscribe(
-      data => {
-        _this.modalService.open(SettingsComponent, { centered: true, size: 'sm', backdrop: 'static' });
-      });
+    // tslint:disable-next-line:max-line-length
+    messenger.settings$.subscribe( data => { _this.modalService.open(SettingsComponent, { centered: true, size: 'sm', backdrop: 'static' });  });
 
     // Save File selected
-    messenger.savefileselected$.subscribe(
-      data => {
-        _this.saveFileSelect(data);
-      });
+    messenger.savefileselected$.subscribe( data => {  _this.saveFileSelect(data); });
 
     // Upload XSD
-    messenger.uploadXSD$.subscribe(
-      data => {
-        _this.uploadXSD(data);
-      });
+    messenger.uploadXSD$.subscribe( data => { _this.uploadXSD(data); });
+
     // Save button is selected
     messenger.save$.subscribe(
       data => {
@@ -124,7 +121,7 @@ export class Director {
       }
     );
 
-    // Save button is selected
+    // Show XSD button is selected
     messenger.showXSD$.subscribe(
       data => {
         if (typeof this.global.root === 'undefined') {
@@ -136,11 +133,7 @@ export class Director {
     );
 
 
-    messenger.docClean$.subscribe(
-      data => {
-        _this.documentClean = data;
-      }
-    );
+    messenger.docClean$.subscribe(data => { _this.documentClean = data; } );
 
     // Apply a previously saved object
     messenger.apply$.subscribe(
@@ -153,11 +146,7 @@ export class Director {
     );
 
     // Apply a previously saved object
-    messenger.fetchandapply$.subscribe(
-      sofFile => {
-        _this.fetchAndApply(sofFile);
-      }
-    );
+    messenger.fetchandapply$.subscribe( sofFile => { _this.fetchAndApply(sofFile);});
 
 
     // Handle the selection of the "Home" button
@@ -179,11 +168,11 @@ export class Director {
       }
     );
 
-    messenger.downloadxml$.subscribe(
-      data => {
-        this.downloadXML();
-      }
-    );
+    // Download the XML
+    messenger.downloadxml$.subscribe( data => { this.downloadXML(); });
+
+
+    // End of Constructor
   }
 
   selectSchema(_this: any) {
@@ -206,7 +195,7 @@ export class Director {
     // Send the data to the host, which in turns
     // just reflects it back as a file.
 
-    const url = this.global.baseURLUploadAndSaveFiles + this.global.sessionID;
+    const url = this.global.baseURLUploadAndSaveFiles;
     $('input[name="saveobject"]').val(saveobject);
     $('#downloadform').attr('action', url);
     $('#downloadform').submit();
@@ -247,7 +236,7 @@ export class Director {
 
     const request = new HttpRequest(
       'POST',
-      this.global.baseURLSaveFileReflector + this.global.sessionID,
+      this.global.baseURLSaveFileReflector,
       formData,
       {
         headers: new HttpHeaders({
@@ -291,12 +280,6 @@ export class Director {
         if (event.type === HttpEventType.User) {
           console.log('User Event');
         }
-
-        // if (event.type === 3) {
-        //   debugger;
-        //   this.modalService.dismissAll();
-        //   this.global.openModalAlert('Save File Error', 'Error Saving the Selected File. The file size exceeds the configured maximum');
-        // }
       }
     );
   }
@@ -330,7 +313,6 @@ export class Director {
       '?schema=' + soFile.c +
       '&file=' + soFile.f +
       '&type=' + soFile.t +
-      '&sessionID=' + this.global.sessionID +
       '&selectionMethod=' + soFile.m);
 
   }
@@ -385,7 +367,7 @@ export class Director {
     this.global.enteredXSD = xsd;
 
     const request = new HttpRequest('POST',
-      this.global.baseURLUploadEntered + this.global.sessionID,
+      this.global.baseURLUploadEntered,
       this.global.enteredXSD,
       {
         headers: new HttpHeaders({
