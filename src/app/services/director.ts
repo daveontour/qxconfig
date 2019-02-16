@@ -332,7 +332,16 @@ export class Director {
 
       if (data.failed) {
         this.messenger.setStatus('Retrival Failure');
-        this.global.openModalAlert('Problem Reading Schema', data.msg);
+        this.global.openModalQuestion('Problem Interpreting Schema', 'Please select \'Report\' if you believe the XSD is correct',
+         '', 'Report', 'Cancel',
+        // Function to execute id button1 (Proceed) is selected
+        this.reportBadSchema,
+        // Function to execute id button2 (Cancel) is selected
+        function (th) { th.method = th.oldMethod; th.global.selectionMethod = th.oldMethod; },
+        // Parameter for  function report function
+        this,
+        // Parameter for  function cancel function
+        this);
       } else {
         this.messenger.setStatus('Ready');
         data.elementPath = data.name;
@@ -354,6 +363,19 @@ export class Director {
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
         }
       });
+  }
+
+  reportBadSchema(_this: any) {
+
+    _this.http.get(_this.global.rootURL + '/reportBadSchema'
+  ).subscribe(data => {
+      $('*').removeClass('waiting');
+      _this.global.openModalAlert('Report Submitted', 'Your report was submitted. The support team will investigate the problem');
+  },
+    (err: HttpErrorResponse) => {
+      $('*').removeClass('waiting');
+      _this.global.openModalAlert('Report Submital Failure', 'Sorry, there was an error submitting your report');
+    });
   }
 
   uploadXSD(xsd: string) {
