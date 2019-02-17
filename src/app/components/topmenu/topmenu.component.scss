@@ -2,7 +2,7 @@
 
 div {
   overflow: hidden;
-  background-color:$statusBarColor;
+  background-color: $statusBarColor;
   top: 0;
   width: 100%;
   display: flex;
@@ -20,7 +20,7 @@ div {
   font-weight: 600;
 }
 
-.btn{
+.btn {
   display: inline-block;
   text-decoration: none;
   color: #668ad8;
@@ -38,5 +38,96 @@ div {
 }
 
 .btn:hover {
-    background: #b3e1ff;
+  background: #b3e1ff;
 }
+
+.menuBlock {
+  display: none;
+  grid-template-columns: 1fr;
+  position: absolute;
+  transform: translate3d(15px, 30px, 0px);
+  top: 0px;
+  left: 0px;
+  width: fit-content;
+  background-color: aliceblue;
+  border-radius: 15px;
+  border-width: 2px;
+  border:solid gray;
+  span {
+    margin-left: 1em;
+    font-weight: 600;
+  }
+  .first {
+    border-top: solid lightgray;
+  }
+}
+
+
+.qmenuItem {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: 0;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  display: block;
+  line-height: 3em;
+  height: 3em;
+  width: 100%;
+  padding: 0 1em;
+  text-align: left;
+  text-decoration: none;
+  position: relative;
+  font-size: 1em;
+  font-weight: 400;
+  background: 0 0;
+  color: rgba(0, 0, 0, .85)
+}
+
+.qmenuItem.qmenuItem-submenu-trigger {
+  padding-right: 2em
+}
+
+.qmenuItem.qmenuItem-submenu-trigger:after {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-color: transparent transparent transparent currentColor;
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 1em;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: rgba(0, 0, 0, .55)
+}
+
+.qmenuItem.qmenuItem-highlighted:not(.qmenuItem-disabled),
+.qmenuItem:focus:not(.qmenuItem-disabled),
+.qmenuItem:hover:not(.qmenuItem-disabled) {
+  background: rgba(0, 0, 0, .05)
+}
+
+.qmenuItem.qmenuItem-disabled {
+  color: rgba(0, 0, 0, .4)
+}
+
+.qmenuItem .qmenuItem-ripple {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  pointer-events: none
+}
+

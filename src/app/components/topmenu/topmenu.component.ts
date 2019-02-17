@@ -1,5 +1,6 @@
 import { Messenger } from './../../services/messenger';
 import { Component } from '@angular/core';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-topmenu',
@@ -39,5 +40,15 @@ export class TopmenuComponent {
 
   validate() {
     this.messenger.validate();
+  }
+
+  showMenu() {
+    $('.menuBlock').css('display', 'grid');
+    $('.menuBlock').mouseleave(function() {
+      $('.menuBlock').css('display', 'none');
+  });
+  }
+  hideMenu() {
+    $('.menuBlock').css('display', 'none');
   }
 }

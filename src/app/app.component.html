@@ -12,21 +12,13 @@
         <ace-editor #sampleEditor [(text)]="this.global.XMLMessage" [theme]="'eclipse'" [durationBeforeCallback]="1000"
           (textChanged)="onTextChange($event)" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}" style="min-height: 100%; width:100%;"></ace-editor>
       </div>
-      <div style="width:100%" class="quayStatusBar">
-        <!-- <button style="width:85px;margin-left: auto" class="btn btn-light btn-sm mr-1" (click)="validate()">Validate</button>
-        <button  class="btn btn-light btn-sm mr-1" (click)="downloadxml()">Download XML</button>
-        <button style="width: 140px;" class="btn btn-light btn-sm mr-1" (click)="copytoclip()">Copy To Clipboard</button> -->
-
-         <button  style="width:135px;margin-left: auto" class="btn btn-light btn-sm mr-2" [owlMenuTriggerFor]="xmlmenu" 
-         (mouseenter)="trigger.openMenu()"
-          #trigger="owlMenuTrigger">XML Menu</button>
-        <owl-menu  [overlapTrigger]="false" [yPosition]="'above'" #xmlmenu="owlMenu" class="menuPanel">
-          <button owl-menu-item (click)="validate()">Validate Generated XML</button>
-          <button owl-menu-item (click)="downloadxml()">Download Generated XML</button>
-          <button owl-menu-item (click)="copytoclip()">Copy XML To Clipboard</button>
-        </owl-menu>
-
-
+      <div style="width:100%;position:relative" class="quayStatusBar">
+        <button class="btn btn-light btn-sm ml-2" (mouseenter)="showMenu()" (click)="showMenu()" style="width:142px;position:relative">XML Menu</button>
+        <div class="pt-2 pb-2 menuBlock2">
+          <button class="qmenuItem" (click)="validate()">Validate Generated XML</button>
+          <button class="qmenuItem" (click)="downloadxml()">Download Generated XML</button>
+          <button class="qmenuItem" (click)="copytoclip()">Copy XML To Clipboard</button>
+        </div>
       </div>
       <div style="overflow-y:scroll;">
         <app-alertswindow></app-alertswindow>
@@ -36,7 +28,7 @@
 
   <footer class="quayStatusBar">
     <!-- Hidden forms form submission and downloading  -->
-    
+
     <form id="downloadform" class="d-none" method="post" target="_self">
       <input type="hidden" name="saveobject" />
     </form>
@@ -58,6 +50,6 @@
     <span>Status: </span>
     <span [ngClass]="{'value':true,'wait':wait}">{{status}}</span>
     <span style="margin-left: auto">XSD2XML Build Number: </span>
-    <span class="value mr-5 ml-2" >{{global.buildNumber}}</span>
+    <span class="value mr-5 ml-2">{{global.buildNumber}}</span>
   </footer>
 </div>

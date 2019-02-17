@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TokenInterpretter } from './services/token-interpretter';
 import { Director } from './services/director';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-root',
@@ -367,5 +368,15 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     this.global.editor.getEditor().selectAll();
     document.execCommand('copy');
     this.global.openModalAlert('Copy to Clipboard', 'The XML has been copied to the clipboard');
+  }
+
+  showMenu() {
+    $('.menuBlock2').css('display', 'grid');
+    $('.menuBlock2').mouseleave(function() {
+      $('.menuBlock2').css('display', 'none');
+  });
+  }
+  hideMenu() {
+    $('.menuBlock2').css('display', 'none');
   }
 }

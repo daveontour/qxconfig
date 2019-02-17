@@ -1,26 +1,15 @@
 <div class="pt-1 pb-1">
-  <!-- <button class="btn btn-light btn-sm mr-1 ml-2" (click)="selectType('pre')">Load XSD Defintion</button> -->
-  <button class="btn btn-light btn-sm mr-1 ml-2" 
-  (mouseenter)="trigger.openMenu()"
-  [owlMenuTriggerFor]="menu" #trigger="owlMenuTrigger">Menu</button>
 
-  <owl-menu #menu="owlMenu" [overlapTrigger]="false" class="menuPanel">
-    <button owl-menu-item [owlMenuTriggerFor]="load">Select XSD Definition</button>
-    <owl-menu #load="owlMenu"  class="menuPanel">
-      <button owl-menu-item (click)="selectType('pre')">Prelaoded XSD Definition</button>
-      <button owl-menu-item (click)="selectType('user')">Select Your Own XSD Files</button>
-      <button owl-menu-item (click)="selectType('enter')">Directly Enter XSD</button>
-      <button owl-menu-item (click)="selectType('restore')">Load A Saved Session</button>
-    </owl-menu>
-    <button owl-menu-item (click)="showXSD()">Show Selected XSD</button>
-    <button owl-menu-item (click)="save()">Save Current Session</button>
-    <button owl-menu-item (click)="settings()">Settings</button>
-    <hr/>
-    <button owl-menu-item (click)="goHome()">Clear</button>
-
-  </owl-menu>
-  <!-- <button class="btn btn-light btn-sm mr-1" (click)="save()" style="width:142px" >Save Current Session</button>
-  <button class="btn btn-light btn-sm mr-1" (click)="showXSD()">Show XSD</button>
-  <button class="btn btn-light btn-sm mr-1" (click)="settings()">Settings</button> -->
+  <button class="ml-3 btn btn-light btn-sm mr-1" (mouseenter)="showMenu()" (click)="showMenu()" style="width:142px" >Menu</button>
+  <div class="pt-2 pb-2 menuBlock">
+    <span class="menuText">Load XSD Definition</span>
+    <button class="qmenuItem ml-2" (click)="selectType('pre')">Prelaoded XSD Definition</button>
+    <button class="qmenuItem ml-2" (click)="selectType('user')">Select Your Own XSD Files</button>
+    <button class="qmenuItem ml-2" (click)="selectType('enter')">Directly Enter XSD</button>
+    <button class="qmenuItem ml-2" (click)="selectType('restore')">Load A Saved Session</button>
+    <button class="qmenuItem first" (click)="showXSD()">Show XSD</button>
+    <button class="qmenuItem" (click)="settings()">Settings</button>
+    <button class="qmenuItem first" (click)="goHome()">Clear</button>
+  </div>
   <a (click)="goHome()" class="title">XSD2XML - Build XML from XSD Definition</a>
 </div>
