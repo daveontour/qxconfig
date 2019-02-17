@@ -49,6 +49,7 @@ export class Director {
 
         _this.oldMethod = _this.method;
         _this.method = method;
+        _this.global.selectionMethod = method;
 
         if (!_this.documentClean) {
 
@@ -146,7 +147,7 @@ export class Director {
     );
 
     // Apply a previously saved object
-    messenger.fetchandapply$.subscribe( sofFile => { _this.fetchAndApply(sofFile);});
+    messenger.fetchandapply$.subscribe( sofFile => { _this.fetchAndApply(sofFile); });
 
 
     // Handle the selection of the "Home" button

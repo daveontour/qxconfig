@@ -10,7 +10,7 @@ div {
 }
 
 .title {
-  margin-left: auto;
+  margin-left: 0px;
   display: block;
   color: $titleColor !important;
   text-align: center;
@@ -18,7 +18,6 @@ div {
   text-decoration: none;
   font-size: 18px;
   font-weight: 600;
-  cursor: pointer;
 }
 
 .btn{

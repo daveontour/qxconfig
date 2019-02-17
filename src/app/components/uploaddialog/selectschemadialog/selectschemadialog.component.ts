@@ -32,6 +32,9 @@ export class SelectschemadialogComponent implements OnInit {
       case 'enter':
         this.tabIndex = 2;
         break;
+        case 'restore':
+        this.tabIndex = 3;
+        break;
       default:
         this.tabIndex = 0;
     }
