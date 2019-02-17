@@ -19,9 +19,7 @@
 
          <button  style="width:135px;margin-left: auto" class="btn btn-light btn-sm mr-2" [owlMenuTriggerFor]="xmlmenu" 
          (mouseenter)="trigger.openMenu()"
-         (menuOpened)="menuOpened()"
-         (menuClosed)="menuClosed()" 
-         #trigger="owlMenuTrigger">XML Menu</button>
+          #trigger="owlMenuTrigger">XML Menu</button>
         <owl-menu  [overlapTrigger]="false" [yPosition]="'above'" #xmlmenu="owlMenu" class="menuPanel">
           <button owl-menu-item (click)="validate()">Validate Generated XML</button>
           <button owl-menu-item (click)="downloadxml()">Download Generated XML</button>

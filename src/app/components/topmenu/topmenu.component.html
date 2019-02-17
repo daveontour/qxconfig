@@ -2,8 +2,7 @@
   <!-- <button class="btn btn-light btn-sm mr-1 ml-2" (click)="selectType('pre')">Load XSD Defintion</button> -->
   <button class="btn btn-light btn-sm mr-1 ml-2" 
   (mouseenter)="trigger.openMenu()"
-  (menuOpened)="menuOpened()"
-  (menuClosed)="menuClosed()" [owlMenuTriggerFor]="menu" #trigger="owlMenuTrigger">Menu</button>
+  [owlMenuTriggerFor]="menu" #trigger="owlMenuTrigger">Menu</button>
 
   <owl-menu #menu="owlMenu" [overlapTrigger]="false" class="menuPanel">
     <button owl-menu-item [owlMenuTriggerFor]="load">Select XSD Definition</button>
