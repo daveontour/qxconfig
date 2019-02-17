@@ -53,7 +53,7 @@ import { OwlTabsModule } from 'owl-ng';
 import { SelectschemadialogComponent } from './components/uploaddialog/selectschemadialog/selectschemadialog.component';
 import { ResotreComponent } from './components/uploaddialog/resotre/resotre.component';
 import { ShowxsdComponent } from './components/showxsd/showxsd.component';
-import { OwlMenuModule } from 'owl-ng';
+
 
 
 // See the Moment.js docs for the meaning of these formats:
@@ -124,8 +124,7 @@ export const MY_MOMENT_FORMATS = {
     OwlCheckBoxModule,
     OwlInputModule,
     OwlFormFieldModule,
-    OwlTabsModule,
-    OwlMenuModule
+    OwlTabsModule
   ],
   providers: [
     Director,
