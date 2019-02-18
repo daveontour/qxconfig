@@ -109,13 +109,13 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
 
     this.http.get<any>(this.global.rootURL + '/welcome').subscribe(data => {
       this.global.selectedType = 'pre';
+      this.global.intro = true;
       this.messenger.setType('pre');
       this.messenger.announceMission(this.global.rootURL + '/getJsonType' +
         '?schema=' + 'AIDX 16.1 Schema' +
         '&file=' + 'IATA_AIDX_FlightLegNotifRQ.xsd' +
         '&type=' + 'IATA_AIDX_FlightLegNotifRQ' +
         '&selectionMethod=pre');
-
 
     });
 

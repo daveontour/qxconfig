@@ -349,6 +349,12 @@ export class Director {
         data.isRoot = true;
         this.messenger.newXSDReady(data);
 
+        if (this.global.intro) {
+          this.global.openModalAlert('Welcome To XSD2XML',
+          'A sample schema has been loaded. Use the "Menu" button to select or load your own XSD defintion');
+          this.global.intro = false;
+        }
+
         // // This prevents ExpressionChangedAfterItHasBeenCheckedError
         // // reference: https://stackoverflow.com/questions/43375532/expressionchangedafterithasbeencheckederror-explained
         // this.cdRef.detectChanges();

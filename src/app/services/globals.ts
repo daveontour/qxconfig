@@ -49,6 +49,7 @@ export class Globals {
   private lockStack = [];
   public clean = true;
   public enteredXSD = '';
+  public intro = false;
 
   constructor(
     private modalService: NgbModal,
