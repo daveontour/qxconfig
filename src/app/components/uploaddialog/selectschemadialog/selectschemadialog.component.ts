@@ -32,9 +32,6 @@ export class SelectschemadialogComponent implements OnInit {
       case 'enter':
         this.tabIndex = 2;
         break;
-        case 'restore':
-        this.tabIndex = 3;
-        break;
       default:
         this.tabIndex = 0;
     }
@@ -46,7 +43,7 @@ export class SelectschemadialogComponent implements OnInit {
     this.tabIndex = event;
     switch (this.tabIndex) {
       case 0:
-        this.tabDescription = 'Select of of the sechma sets that have been preloaded';
+        this.tabDescription = 'Select from the sechma sets that have been preloaded';
         break;
       case 1:
         this.tabDescription = 'Choose a set of schema files or a zip file contatining a set of schema files';
@@ -54,10 +51,6 @@ export class SelectschemadialogComponent implements OnInit {
       case 2:
         this.tabDescription = 'Enter the XML Schema Defition directly';
         break;
-      case 3:
-        this.tabDescription = 'Select a zip file archive of a previously saved session';
-        break;
-
     }
   }
 

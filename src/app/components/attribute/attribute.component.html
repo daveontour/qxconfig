@@ -2,8 +2,8 @@
   <div class="attributeRowLabel">
     <input type="checkbox" [disabled]="config.required" [attr.id]="this.getID()" [(ngModel)]="config.enabled" (change)="change()">
     <div>
-      <span [ngClass]="{'attributeRequired':config.required, 'attributeLabel':true}" placement="right" ngbPopover="{{config.description}}"
-        popoverTitle="{{config.name}}">
+      <span [ngClass]="{'attributeRequired':config.required, 'attributeLabel':true}" placement="right"  [disablePopover]='!this.global.showPopovers' ngbPopover="{{config.description}}"
+        popoverTitle="{{config.name}}" [disablePopover]='!this.global.showPopovers' >
         {{config.name}}
       </span>
     </div>

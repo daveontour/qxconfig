@@ -53,12 +53,19 @@ div {
   border-radius: 15px;
   border-width: 2px;
   border:solid gray;
+  z-index: 2147483646;
   span {
     margin-left: 1em;
     font-weight: 600;
   }
   .first {
     border-top: solid lightgray;
+  }
+  .compound {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: minmax(1.5em, 1.5em) 1fr;
+    align-content: center;
   }
 }
 
@@ -87,7 +94,7 @@ div {
   font-size: 1em;
   font-weight: 400;
   background: 0 0;
-  color: rgba(0, 0, 0, .85)
+  color: rgba(0, 0, 0, .85);
 }
 
 .qmenuItem.qmenuItem-submenu-trigger {

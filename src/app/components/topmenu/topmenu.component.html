@@ -1,15 +1,25 @@
 <div class="pt-1 pb-1">
-
+  <!-- The Main Menu Button -->
   <button class="ml-3 btn btn-light btn-sm mr-1" (mouseenter)="showMenu()" (click)="showMenu()" style="width:142px" >Menu</button>
+
+  <!-- The Main Menu Defintion Block -->
   <div class="pt-2 pb-2 menuBlock">
     <span class="menuText">Load XSD Definition</span>
-    <button class="qmenuItem ml-2" (click)="selectType('pre')">Prelaoded XSD Definition</button>
+    <button class="qmenuItem ml-2" (click)="selectType('pre')">Prelaoded XSD Definitions</button>
     <button class="qmenuItem ml-2" (click)="selectType('user')">Select Your Own XSD Files</button>
     <button class="qmenuItem ml-2" (click)="selectType('enter')">Directly Enter XSD</button>
-    <button class="qmenuItem ml-2" (click)="selectType('restore')">Load A Saved Session</button>
+    <button class="qmenuItem ml-2" (click)="apply()">Load A Saved Session</button>
     <button class="qmenuItem first" (click)="showXSD()">Show XSD</button>
-    <button class="qmenuItem" (click)="settings()">Settings</button>
+    <!-- <button class="qmenuItem" (click)="settings()">Settings</button> -->
+    <div class="qmenuItem first compound">
+      <input type="checkbox" value=""  [(ngModel)]="global.showPopovers" id="defaultCheck2" [ngModelOptions]="{standalone: true}">
+      <label  style="margin-top: initial !important;margin-bottom: initial !important " for="defaultCheck2">
+        Show ToolTip Popovers
+      </label>
+    </div>
     <button class="qmenuItem first" (click)="goHome()">Clear</button>
   </div>
+
+  <!-- The Main Heading -->
   <a (click)="goHome()" class="title">XSD2XML - Build XML from XSD Definition</a>
 </div>

@@ -2,7 +2,7 @@
 import { IntroTextComponent } from './components/intro-text/intro-text.component';
 import { Messenger } from './services/messenger';
 import { ChoiceComponent } from './components/choice/choice.component';
-import { Globals} from './services/globals';
+import { Globals } from './services/globals';
 import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
 import { AfterViewInit, AfterContentInit, ChangeDetectorRef } from '@angular/core';
@@ -17,7 +17,7 @@ import * as $ from 'jquery';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss' ],
+  styleUrls: ['./app.component.scss'],
   providers: [NgbPopoverConfig]
 })
 export class AppComponent implements AfterViewInit, AfterContentInit {
@@ -106,6 +106,7 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
 
   ngAfterContentInit() {
     this.configEditorKeyStrokeHandler();
+    this.initMenuListeners();
   }
 
   walkStructure(data, parentObject) {
@@ -352,29 +353,45 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     this.global.enableChangeDet();
   }
 
+  // Handle the menu selections under the XML Editor
   validate() {
+    this.hideMenu();
     this.messenger.validate();
   }
   downloadxml() {
+    this.hideMenu();
     this.messenger.downloadXML();
   }
   copytoclip() {
-    //  const dummy = document.createElement('input');
-    //   document.body.appendChild(dummy);
-    //   dummy.setAttribute('value', this.global.formatXML(this.global.XMLMessage));
-    //   dummy.select();
-    //   document.execCommand('copy');
-    //   document.body.removeChild(dummy);
+    this.hideMenu();
     this.global.editor.getEditor().selectAll();
     document.execCommand('copy');
     this.global.openModalAlert('Copy to Clipboard', 'The XML has been copied to the clipboard');
   }
 
+  initMenuListeners() {
+    $(document).mouseup(function (e: any) {
+      const container = $('.menuBlock');
+      const container2 = $('.menuBlock2');
+
+      // if the target of the click isn't the container nor a descendant of the container
+      if (!container.is(e.target) && container.has(e.target).length === 0) {
+        container.hide();
+      }
+      if (!container2.is(e.target) && container2.has(e.target).length === 0) {
+        container2.hide();
+      }
+    });
+    $('.menuBlock2').mouseleave(function () {
+      $('.menuBlock2').css('display', 'none');
+    });
+    $('.menuBlock').mouseleave(function () {
+      $('.menuBlock').css('display', 'none');
+    });
+  }
   showMenu() {
     $('.menuBlock2').css('display', 'grid');
-    $('.menuBlock2').mouseleave(function() {
-      $('.menuBlock2').css('display', 'none');
-  });
+    $('.menuBlock').hide();
   }
   hideMenu() {
     $('.menuBlock2').css('display', 'none');

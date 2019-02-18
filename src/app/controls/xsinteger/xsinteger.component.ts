@@ -14,9 +14,10 @@ export class XSIntegerComponent extends ControlComponent {
   }
 
   setUpCommon(){
-    this.popOverContent = "Length: min("+this.config.minLength+"), max("+this.config.maxLength+"), Pattern: "+this.config.pattern;
-    
-    if (typeof this.config.modelDescription != 'undefined')
-    this.popOverContent = this.config.modelDescription+"\n"+this.popOverContent;
+    this.popOverContent = 'Length: min(' + this.config.minLength + '), max(' + this.config.maxLength + '), Pattern: ' + this.config.pattern;
+
+    if (typeof this.config.modelDescription !== 'undefined') {
+    this.popOverContent = this.config.modelDescription + '\n' + this.popOverContent;
+    }
 }
 }

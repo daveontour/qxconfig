@@ -2,20 +2,17 @@
   <h4 class="modal-title">Load XML Schema Definition</h4>
   <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
 </div>
-<owl-tab-view [selectedIndex]="this.tabIndex" (selectedIndexChange)="this.indexChange($event)">
-  <owl-tab label="Pre Loaded">
+<div>
+  <div label="Pre Loaded" [ngClass]="{'d-none': tabIndex != 0}">
     <app-pre-loded></app-pre-loded>
-  </owl-tab>
-  <owl-tab label="Load Your Own">
+  </div>
+  <div label="Load Your Own" [ngClass]="{'d-none': tabIndex != 1}">
     <app-load-your-own></app-load-your-own>
-  </owl-tab>
-  <owl-tab label="Enter XSD">
+  </div>
+  <div label="Enter XSD" [ngClass]="{'d-none': tabIndex != 2}">
     <app-enter-xsd></app-enter-xsd>
-  </owl-tab>
-  <owl-tab label="Restore Session">
-    <app-resotre></app-resotre>
-  </owl-tab>
-</owl-tab-view>
+  </div>
+</div>
 <div class="modal-footer" style='justify-content: space-between'>
   <div class="float-left" style='color:#f2f2f2'>
     {{tabDescription}}

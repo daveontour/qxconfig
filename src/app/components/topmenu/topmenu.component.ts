@@ -1,5 +1,7 @@
+import { Globals } from './../../services/globals';
 import { Messenger } from './../../services/messenger';
 import { Component } from '@angular/core';
+
 import * as $ from 'jquery';
 
 @Component({
@@ -8,45 +10,46 @@ import * as $ from 'jquery';
   styleUrls: ['./topmenu.component.scss']
 })
 export class TopmenuComponent {
+
+  showPop = false;
+
   constructor(
-    private messenger: Messenger
+    private messenger: Messenger,
+    public global: Globals
   ) { }
 
   selectType(method) {
+    this.hideMenu();
      this.messenger.selectSchema(method);
   }
 
   settings() {
+    this.hideMenu();
     this.messenger.settings();
   }
 
   goHome() {
+    this.hideMenu();
     this.messenger.goHome();
   }
 
   save() {
+    this.hideMenu();
     this.messenger.save();
   }
   showXSD() {
+    this.hideMenu();
     this.messenger.showXSD();
   }
 
   apply() {
+    this.hideMenu();
     this.messenger.apply();
-  }
-  undo() {
-    this.messenger.undo();
-  }
-
-  validate() {
-    this.messenger.validate();
   }
 
   showMenu() {
     $('.menuBlock').css('display', 'grid');
-    $('.menuBlock').mouseleave(function() {
-      $('.menuBlock').css('display', 'none');
-  });
+    $('.menuBlock2').css('display', 'none');
   }
   hideMenu() {
     $('.menuBlock').css('display', 'none');

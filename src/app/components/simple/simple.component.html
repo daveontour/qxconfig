@@ -8,7 +8,7 @@
     <!-- The element's name -->
     <div>
       <label [ngClass]="{'simpleLabel':true,'form-check-label':true, 'simple-label':true, 'noselect':true, 'cursorpointer':this.hasAttributes()}"
-        (click)="isCollapsed = !isCollapsed" placement="right" [ngbPopover]="popContent" popoverTitle="{{config.name}}">{{config.name}}
+        (click)="isCollapsed = !isCollapsed" placement="right"  [disablePopover]='!this.global.showPopovers' [ngbPopover]="popContent" popoverTitle="{{config.name}}">{{config.name}}
 
         <!-- The Attributes Badge-->
         <owl-badge class="badgeGray" *ngIf="hasOptionalAttributes() && !hasRequiredAttributes() && isCollapsed" [size]="'medium'"

@@ -49,10 +49,9 @@ import { SettingsComponent } from './components/utils/settings/settings.componen
 import { ValidateComponent } from './components/utils/validate/validate.component';
 import { Director } from './services/director';
 import { SavefileuploadComponent } from './components/uploaddialog/savefileupload/savefileupload.component';
-import { OwlTabsModule } from 'owl-ng';
 import { SelectschemadialogComponent } from './components/uploaddialog/selectschemadialog/selectschemadialog.component';
-import { ResotreComponent } from './components/uploaddialog/resotre/resotre.component';
 import { ShowxsdComponent } from './components/showxsd/showxsd.component';
+
 
 
 
@@ -106,7 +105,6 @@ export const MY_MOMENT_FORMATS = {
     ValidateComponent,
     SavefileuploadComponent,
     SelectschemadialogComponent,
-    ResotreComponent,
     ShowxsdComponent
   ],
   imports: [
@@ -123,8 +121,7 @@ export const MY_MOMENT_FORMATS = {
     OwlSwitchModule,
     OwlCheckBoxModule,
     OwlInputModule,
-    OwlFormFieldModule,
-    OwlTabsModule
+    OwlFormFieldModule
   ],
   providers: [
     Director,
@@ -168,7 +165,6 @@ export const MY_MOMENT_FORMATS = {
     ValidateComponent,
     SavefileuploadComponent,
     SelectschemadialogComponent,
-    ResotreComponent,
     ShowxsdComponent
   ]
 })
