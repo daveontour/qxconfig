@@ -7,8 +7,6 @@ import { SimpleComponent } from './components/simple/simple.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
 import { AfterViewInit, AfterContentInit, ChangeDetectorRef } from '@angular/core';
 import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TokenInterpretter } from './services/token-interpretter';
 import { Director } from './services/director';
@@ -52,8 +50,6 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
 
   constructor(
     private resolver: ComponentFactoryResolver,
-    private modalService: NgbModal,
-    private http: HttpClient,
     public global: Globals,
     private cdRef: ChangeDetectorRef,
     private messenger: Messenger,
@@ -296,7 +292,7 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
       if (token.type === 'meta.tag.punctuation.tag-close.xml' && token2.type === 'text.xml' && keyString === 'delete') {
         return;
       }
-      // Protect agains removing space between tag and first attribute
+      // Protect against removing space between tag and first attribute
       if (token.type === 'text.tag-whitespace.xml' && keyString === 'backspace') {
         token2 = _this.sess.getTokenAt(pos.row, pos.column - 1);
         if (token2.type === 'meta.tag.tag-name.xml') {

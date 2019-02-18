@@ -5,12 +5,11 @@
   <!-- The Main Menu Defintion Block -->
   <div class="pt-2 pb-2 menuBlock">
     <span class="menuText">Load XSD Definition</span>
-    <button class="qmenuItem ml-2" (click)="selectType('pre')">Prelaoded XSD Definitions</button>
+    <button class="qmenuItem ml-2" (click)="selectType('pre')">Preloaded XSD Definitions</button>
     <button class="qmenuItem ml-2" (click)="selectType('user')">Select Your Own XSD Files</button>
     <button class="qmenuItem ml-2" (click)="selectType('enter')">Directly Enter XSD</button>
     <button class="qmenuItem ml-2" (click)="apply()">Load A Saved Session</button>
     <button class="qmenuItem first" (click)="showXSD()">Show XSD</button>
-    <!-- <button class="qmenuItem" (click)="settings()">Settings</button> -->
     <div class="qmenuItem first compound">
       <input type="checkbox" value=""  [(ngModel)]="global.showPopovers" id="defaultCheck2" [ngModelOptions]="{standalone: true}">
       <label  style="margin-top: initial !important;margin-bottom: initial !important " for="defaultCheck2">

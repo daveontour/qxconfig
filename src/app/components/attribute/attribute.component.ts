@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
 import { ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ItemConfig } from '../../interfaces/interfaces';
-import { Messenger } from './../../services/messenger';
-
 
 @Component({
   selector: 'app-attribute',
@@ -25,10 +23,8 @@ export class AttributeComponent {
     public conf: NgbPopoverConfig,
     public resolver: ComponentFactoryResolver,
     public global: Globals,
-    private messenger: Messenger,
     public widgetFactory: WidgetFactory) {
 
-      conf.triggers = global.triggers;
   }
 
   change() {

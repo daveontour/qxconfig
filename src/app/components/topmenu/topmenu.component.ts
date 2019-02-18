@@ -23,12 +23,7 @@ export class TopmenuComponent {
      this.messenger.selectSchema(method);
   }
 
-  settings() {
-    this.hideMenu();
-    this.messenger.settings();
-  }
-
-  goHome() {
+   goHome() {
     this.hideMenu();
     this.messenger.goHome();
   }

@@ -180,7 +180,9 @@ export abstract class ElementComponent {
         }
 
         if (dName === cName && dValue !== cValue) {
+          if (typeof dValue !== 'undefined' && dValue !== 'undefined') {
           _this.attchildren[c].config.value = dValue;
+          }
           _this.attchildren[c].config.enabled = true;
           _this.attchildren[c].controlRef.instance.tickle();
           cModified = true;

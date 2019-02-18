@@ -50,11 +50,14 @@ export abstract class ControlComponent implements AfterViewInit {
   }
 
   setValue(value: any) {
+    if (typeof value === 'undefined' || value === 'undefined') {
+      return;
+    }
     this.config.value = value;
   }
 
   getValue() {
-    if (typeof this.config.value === 'undefined') {
+    if (typeof this.config.value === 'undefined' || this.config.value === 'undefined') {
       if (this.bElement) {
         this.global.elementsUndefined.push(this.parent.elementPath);
       } else {
