@@ -157,7 +157,6 @@ export class PreLodedComponent implements OnInit {
 
     this.modalService.dismissAll();
 
-
     this.schemaTypes = [];
     this.global.selectedType = this.selectedType;
     this.messenger.setType(this.selectedType);

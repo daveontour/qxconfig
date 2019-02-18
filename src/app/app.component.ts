@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 
 import { IntroTextComponent } from './components/intro-text/intro-text.component';
 import { Messenger } from './services/messenger';
@@ -54,7 +55,9 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     private cdRef: ChangeDetectorRef,
     private messenger: Messenger,
     public config: NgbPopoverConfig,
+    public http: HttpClient,
     private director: Director) {
+
 
     config.triggers = 'triggers="mouseenter:mouseleave';
 
@@ -103,6 +106,19 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
   ngAfterContentInit() {
     this.configEditorKeyStrokeHandler();
     this.initMenuListeners();
+
+    this.http.get<any>(this.global.rootURL + '/welcome').subscribe(data => {
+      this.global.selectedType = 'pre';
+      this.messenger.setType('pre');
+      this.messenger.announceMission(this.global.rootURL + '/getJsonType' +
+        '?schema=' + 'AIDX 16.1 Schema' +
+        '&file=' + 'IATA_AIDX_FlightLegNotifRQ.xsd' +
+        '&type=' + 'IATA_AIDX_FlightLegNotifRQ' +
+        '&selectionMethod=pre');
+
+
+    });
+
   }
 
   walkStructure(data, parentObject) {
