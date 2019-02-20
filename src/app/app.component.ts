@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { IntroTextComponent } from './components/intro-text/intro-text.component';
 import { Messenger } from './services/messenger';
@@ -116,10 +116,13 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
         '&file=' + 'IATA_AIDX_FlightLegNotifRQ.xsd' +
         '&type=' + 'IATA_AIDX_FlightLegNotifRQ' +
         '&selectionMethod=pre');
-
-    });
+    },
+    (err: HttpErrorResponse) => {
+      this.messenger.setStatus('Server Connection Error');
+     });
 
   }
+
 
   walkStructure(data, parentObject) {
 

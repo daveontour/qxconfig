@@ -3,13 +3,13 @@
   <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
 </div>
 <div>
-  <div label="Pre Loaded" [ngClass]="{'d-none': tabIndex != 0}">
+  <div *ngIf="tabIndex==0" label="Pre Loaded">
     <app-pre-loded></app-pre-loded>
   </div>
-  <div label="Load Your Own" [ngClass]="{'d-none': tabIndex != 1}">
+  <div *ngIf="tabIndex==1" label="Load Your Own">
     <app-load-your-own></app-load-your-own>
   </div>
-  <div label="Enter XSD" [ngClass]="{'d-none': tabIndex != 2}">
+  <div *ngIf="tabIndex==2" label="Enter XSD">
     <app-enter-xsd></app-enter-xsd>
   </div>
 </div>

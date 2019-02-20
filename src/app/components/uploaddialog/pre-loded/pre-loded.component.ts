@@ -66,12 +66,10 @@ export class PreLodedComponent implements OnInit {
     },
       (err: HttpErrorResponse) => {
         $('*').removeClass('waiting');
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message);
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
-        }
-      });
+        this.modalService.dismissAll();
+        this.global.openModalAlert('Schema Archive Selection Error', 'No Schema Archives Found. The server may not be online');
+        this.messenger.setStatus('Server Connection Error');
+       });
   }
 
   changeCollection() {
