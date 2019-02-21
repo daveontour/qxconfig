@@ -5,6 +5,8 @@
     <ace-editor #xsdEditor [(text)]="this.enteredXSD" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
       style="min-height: 250px; width:100%;"></ace-editor>
   </div>
+  <button type="button" class="btn btn-outline-primary float-left mt-2" [disabled]="this.enteredXSD.length < 10" (click)="format()">Format</button>
+  <button type="button" class="btn btn-outline-primary float-left mt-2 ml-2"  (click)="this.enteredXSD=''">Clear</button>
   <button type="button" class="btn btn-outline-primary float-right mt-2" [disabled]="this.enteredXSD.length < 10" (click)="upload()">Save</button>
   <div class="form-row" style="clear:both">
     <div class="col">

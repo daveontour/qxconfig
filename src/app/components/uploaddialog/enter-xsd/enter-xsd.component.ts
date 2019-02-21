@@ -42,4 +42,8 @@ export class EnterXSDComponent extends PreLodedComponent implements OnInit {
     this.global.selectionMethod = 'enter';
     this.messenger.uploadXSD(this.enteredXSD);
   }
+
+  format() {
+    this.enteredXSD = this.global.formatXML(this.enteredXSD);
+  }
 }
