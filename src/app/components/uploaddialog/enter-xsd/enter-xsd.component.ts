@@ -15,6 +15,9 @@ export class EnterXSDComponent extends PreLodedComponent implements OnInit {
   selectionMethod = 'enter';
   enteredXSD = '';
 
+  showChrome = true;
+  showEclipse = false;
+
   constructor(
     public messenger: Messenger,
     public http: HttpClient,
@@ -45,5 +48,15 @@ export class EnterXSDComponent extends PreLodedComponent implements OnInit {
 
   format() {
     this.enteredXSD = this.global.formatXML(this.enteredXSD);
+  }
+
+  showChromeTheme() {
+    this.showChrome = true;
+    this.showEclipse = false;
+  }
+
+  showEclipseTheme() {
+    this.showChrome = false;
+    this.showEclipse = true;
   }
 }
