@@ -17,6 +17,7 @@ export class EnterXSDComponent extends PreLodedComponent implements OnInit {
 
   showChrome = true;
   showEclipse = false;
+  theme = 'chrome';
 
   constructor(
     public messenger: Messenger,

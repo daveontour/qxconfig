@@ -2,15 +2,13 @@
 <div class="pl-3 pr-3 pt-2" style="height: 450px; overflow-y: scroll">
   <label class="controlEnabled mt-1">Step 1: Enter the XSD</label>
   <div style="height:250px;overflow-y:scroll" class="border border-secondary">
-    <ace-editor #xsdEditor [(text)]="this.enteredXSD" [theme]="'chrome'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
+    <ace-editor #xsdEditor [(text)]="this.enteredXSD" [theme]="this.theme" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
       style="min-height: 250px; width:100%;" [ngClass]="{'d-none': showEclipse}"></ace-editor>
-    <ace-editor #xsdEditor [(text)]="this.enteredXSD" [theme]="'eclipse'" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
-      style="min-height: 250px; width:100%;" [ngClass]="{'d-none': showChrome}"></ace-editor>
-  </div>
-  <button type="button" class="btn btn-outline-primary float-left mt-2" [disabled]="this.enteredXSD.length < 10" (click)="format()">Format</button>
+      </div>
+   <button type="button" class="btn btn-outline-primary float-left mt-2" [disabled]="this.enteredXSD.length < 10" (click)="format()">Format</button>
   <button type="button" class="btn btn-outline-primary float-left mt-2 ml-2"  (click)="this.enteredXSD=''">Clear</button>
-  <button type="button" class="btn btn-outline-primary float-left mt-2 ml-2" [disabled]="this.showChrome" (click)="this.showChromeTheme()">Theme 1</button>
-  <button type="button" class="btn btn-outline-primary float-left mt-2 ml-2" [disabled]="this.showEclipse" (click)="this.showEclipseTheme()">Theme 2</button>
+  <button type="button" class="btn btn-outline-primary float-left mt-2 ml-2" [disabled]="this.theme === 'chrome'" (click)="this.theme = 'chrome'">Theme 1</button>
+  <button type="button" class="btn btn-outline-primary float-left mt-2 ml-2" [disabled]="this.theme === 'eclipse'" (click)="this.theme = 'eclipse'">Theme 2</button>
   <button type="button" class="btn btn-outline-primary float-right mt-2" [disabled]="this.enteredXSD.length < 10" (click)="upload()">Save</button>
   <div class="form-row" style="clear:both">
     <div class="col">
