@@ -52,6 +52,7 @@ import { SavefileuploadComponent } from './components/uploaddialog/savefileuploa
 import { SelectschemadialogComponent } from './components/uploaddialog/selectschemadialog/selectschemadialog.component';
 import { ShowxsdComponent } from './components/showxsd/showxsd.component';
 import { XmlutilsComponent } from './components/utils/xmlutils/xmlutils.component';
+import { AboutComponent } from './components/utils/about/about.component';
 
 
 
@@ -107,7 +108,8 @@ export const MY_MOMENT_FORMATS = {
     SavefileuploadComponent,
     SelectschemadialogComponent,
     ShowxsdComponent,
-    XmlutilsComponent
+    XmlutilsComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
@@ -168,7 +170,8 @@ export const MY_MOMENT_FORMATS = {
     SavefileuploadComponent,
     SelectschemadialogComponent,
     ShowxsdComponent,
-    XmlutilsComponent
+    XmlutilsComponent,
+    AboutComponent
   ]
 })
 export class AppModule { }

@@ -1,3 +1,5 @@
+import { AboutComponent } from './../utils/about/about.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Globals } from './../../services/globals';
 import { Messenger } from './../../services/messenger';
 import { Component } from '@angular/core';
@@ -15,7 +17,8 @@ export class TopmenuComponent {
 
   constructor(
     private messenger: Messenger,
-    public global: Globals
+    public global: Globals,
+    private modalService: NgbModal
   ) { }
 
   selectType(method) {
@@ -45,6 +48,10 @@ export class TopmenuComponent {
   showXMLUtils() {
     this.hideMenu();
     this.messenger.xmlUtils();
+  }
+
+  about() {
+    this.modalService.open(AboutComponent, { centered: true, backdrop: 'static', size: 'lg' });
   }
 
   showMenu() {
