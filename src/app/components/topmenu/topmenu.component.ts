@@ -42,6 +42,11 @@ export class TopmenuComponent {
     this.messenger.apply();
   }
 
+  showXMLUtils() {
+    this.hideMenu();
+    this.messenger.xmlUtils();
+  }
+
   showMenu() {
     $('.menuBlock').css('display', 'grid');
     $('.menuBlock2').css('display', 'none');

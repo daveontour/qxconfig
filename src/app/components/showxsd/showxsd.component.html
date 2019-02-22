@@ -3,7 +3,7 @@
   <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
 </div>
 
-<div style="overflow-y:visible" class="border border-secondary">
+<div style="overflow-y:visible;height:100%" class="border border-secondary">
   <!-- <div style="height:70vh;overflow-y:scroll" class="border border-secondary"> -->
     <div class="form-group row">
     <select [ngModelOptions]="{standalone: true}" [(ngModel)]="fileContent" class="form-control col-sm-6 mt-2 ml-4">

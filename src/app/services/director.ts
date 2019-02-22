@@ -1,3 +1,4 @@
+import { XmlutilsComponent } from './../components/utils/xmlutils/xmlutils.component';
 import { ShowxsdComponent } from './../components/showxsd/showxsd.component';
 import { SelectschemadialogComponent } from './../components/uploaddialog/selectschemadialog/selectschemadialog.component';
 import { SavefileuploadComponent } from './../components/uploaddialog/savefileupload/savefileupload.component';
@@ -132,6 +133,13 @@ export class Director {
         this.modalService.open(ShowxsdComponent, { centered: true, size: 'lg', backdrop: 'static' });
       }
     );
+
+    messenger.xmlUtils$.subscribe(
+      data => {
+        this.modalService.open(XmlutilsComponent, { centered: true, size: 'lg', backdrop: 'static' });
+      }
+    );
+
 
 
     messenger.docClean$.subscribe(data => { _this.documentClean = data; } );

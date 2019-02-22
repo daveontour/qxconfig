@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h4 class="modal-title">XML Utilities</h4>
+  <button type="button" class="close" (click)="d('Cross click')"> <span aria-hidden="true">&times;</span></button>
+</div>
+
+<div style="display: grid; grid-template-rows: 1fr minmax(50px, 50px); grid-template-columns: 1fr">
+  <div class="pl-3 pr-3 pt-2" style="height: 65vh;">
+    <div style="height:100%;overflow-y: scroll" class="border border-secondary">
+      <ace-editor #xmlEditor [(text)]="this.enteredXML" [theme]="this.theme" [options]="{maxLines: 'Infinity', printMargin:false, fontSize:12}"
+        style="min-height:100%; height:100%; width:100%;"></ace-editor>
+    </div>
+  </div>
+  <div class="pl-3">
+    <button type="button" class="btn btn-outline-primary float-left mt-2" (click)="format()">Format</button>
+    <button type="button" class="btn btn-outline-primary float-left mt-2 ml-2" (click)="this.enteredXML=''">Clear</button>
+    <button type="button" class="btn btn-outline-primary float-left mt-2 ml-2" (click)="this.removeComments()">Remove Comments</button>
+    <button type="button" class="btn btn-outline-primary float-left mt-2 ml-2" (click)="copytoclip()">Copy To Clipboard</button>
+    <button type="button" class="btn btn-outline-primary float-left mt-2 ml-2" [disabled]="this.theme === 'chrome'"
+      (click)="this.theme = 'chrome'">Theme 1</button>
+    <button type="button" class="btn btn-outline-primary float-left mt-2 ml-2" [disabled]="this.theme === 'eclipse'"
+      (click)="this.theme = 'eclipse'">Theme 2</button>
+  </div>
+</div>
+
+  <div class="modal-footer" style='justify-content: space-between'>
+    <div class="float-left" style='color:#f2f2f2'>
+      {{tabDescription}}
+    </div>
+
+
+    <div class="float-right">
+      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+  </div>

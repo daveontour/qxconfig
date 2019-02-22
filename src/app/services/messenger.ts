@@ -39,7 +39,7 @@ export class Messenger {
     private announceUploadedPercentage = new Subject<number>();
     private announceDownloadXML = new Subject();
     private announceShowXSD = new Subject();
-
+    private announceXMLUtils = new Subject();
     // Observable string streams
     missionAnnounced$ = this.missionAnnouncedSource.asObservable();
     missionConfirmed$ = this.missionConfirmedSource.asObservable();
@@ -68,6 +68,7 @@ export class Messenger {
     uploadpercentage$ = this.announceUploadedPercentage.asObservable();
     downloadxml$ = this.announceDownloadXML.asObservable();
     showXSD$ = this.announceShowXSD.asObservable();
+    xmlUtils$ = this.announceXMLUtils.asObservable();
 
 
     // Service message commands
@@ -154,5 +155,8 @@ export class Messenger {
     }
     downloadXML() {
       this.announceDownloadXML.next();
+    }
+    xmlUtils() {
+      this.announceXMLUtils.next();
     }
 }
